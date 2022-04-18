@@ -47,7 +47,6 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button type="primary" @click.native.prevent="handleForgetPass"></el-button>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
