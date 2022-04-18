@@ -1,8 +1,3 @@
-/**
- *   author:Jason
- *   date:2022-04-01 14:27
- *   desc:用户管理模块
- */
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'

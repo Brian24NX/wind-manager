@@ -1,5 +1,24 @@
-/**
- * author:Jason 
- * date:2022-04-01 14:43
- * desc:用户管理
- */
+import request from '@/utils/request'
+
+export function login(data) {
+  return request({
+    url: '/wind-manager/user/login',
+    method: 'post',
+    data
+  })
+}
+
+export function getInfo(token) {
+  return request({
+    url: '/wind-manager/user/info',
+    method: 'get',
+    params: { token }
+  })
+}
+
+export function logout() {
+  return request({
+    url: '/wind-manager/user/logout',
+    method: 'post'
+  })
+}
