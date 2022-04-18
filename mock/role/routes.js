@@ -46,30 +46,72 @@ const constantRoutes = [
     ]
   },
   {
-    path: '/documentation',
-    component: 'layout/Layout',
-    children: [
+    path:'/contentmanagement',
+    component:'layout/Layout',
+    name:'Content Management',
+    meta:{title: 'Content Management', icon: 'document', affix: true},
+    children:[
       {
-        path: 'index',
-        component: 'views/documentation/index',
-        name: 'Documentation',
-        meta: { title: 'documentation', icon: 'documentation', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/guide',
-    component: 'layout/Layout',
-    redirect: '/guide/index',
-    children: [
+        path:'/articlemanagement',
+        component:()=>import('@/views/content/index'),
+        name:'Article Management',
+        meta:{title:'Article Management'},
+        children:[{
+           path:'/addarticle',
+           component:()=>import('@/views/content/add/index'),
+           name:'Create A New Article',
+           meta:{title:'Create A New Article'}
+        },{
+           path:'/addnewscenter',
+           component:()=>import('@/views/content/add/new'),
+           name:'Mini-Program News Center',
+           mata:{title:'Mini-Program News Center'}
+        },{
+           path:'/vas',
+           component:()=>import('@/views/content/add/vas'),
+           name:'Mini-Program Vas',
+           meta:{title:'Mini-Program Vas'}
+        }]
+      },
       {
-        path: 'index',
-        component: 'views/guide/index',
-        name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true }
+        path:'/faq',
+        component:()=>import('@/views/content/faqmanagement'),
+        name:'FAQ Management',
+        meta:{title:'FAQ Management'}
+      },
+      {
+        path:'/contact',
+        component:()=>import('@/views/content/contact'),
+        name:'Contact Information Matrix',
+        meta:{title:'Contact Information Matrix'}
+      },
+      {
+        path:'/buiness',
+        component:()=>import('@/views/content/business'),
+        name:'Business & Operational Update',
+        meta:{title:'Business & Operational Update'}
+      },
+      {
+        path:'/userful',
+        component:()=>import('@/views/content/userful'),
+        name:'Useful Template and Link',
+        meta:{title:'Useful Template and Link'}
+      },
+      {
+        path:'/sanctions',
+        component:()=>import('@/views/content/sanctions'),
+        name:'Sanctions and Commodity List',
+        meta:{title:'Sanctions and Commodity List'}
+      },
+      {
+        path:'/material',
+        component:()=>import('@/views/content/material'),
+        name:'Material Library',
+        meta:{title:'Material Library'}
       }
     ]
   }
+
 ]
 
 const asyncRoutes = [
@@ -125,193 +167,66 @@ const asyncRoutes = [
       }
     ]
   },
-
-  {
-    path: '/components',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    name: 'ComponentDemo',
-    meta: {
-      title: 'components',
-      icon: 'component'
-    },
-    children: [
-      {
-        path: 'tinymce',
-        component: 'views/components-demo/tinymce',
-        name: 'TinymceDemo',
-        meta: { title: 'tinymce' }
-      },
-      {
-        path: 'markdown',
-        component: 'views/components-demo/markdown',
-        name: 'MarkdownDemo',
-        meta: { title: 'markdown' }
-      },
-      {
-        path: 'json-editor',
-        component: 'views/components-demo/json-editor',
-        name: 'JsonEditorDemo',
-        meta: { title: 'jsonEditor' }
-      },
-      {
-        path: 'split-pane',
-        component: 'views/components-demo/split-pane',
-        name: 'SplitpaneDemo',
-        meta: { title: 'splitPane' }
-      },
-      {
-        path: 'avatar-upload',
-        component: 'views/components-demo/avatar-upload',
-        name: 'AvatarUploadDemo',
-        meta: { title: 'avatarUpload' }
-      },
-      {
-        path: 'dropzone',
-        component: 'views/components-demo/dropzone',
-        name: 'DropzoneDemo',
-        meta: { title: 'dropzone' }
-      },
-      {
-        path: 'sticky',
-        component: 'views/components-demo/sticky',
-        name: 'StickyDemo',
-        meta: { title: 'sticky' }
-      },
-      {
-        path: 'count-to',
-        component: 'views/components-demo/count-to',
-        name: 'CountToDemo',
-        meta: { title: 'countTo' }
-      },
-      {
-        path: 'mixin',
-        component: 'views/components-demo/mixin',
-        name: 'ComponentMixinDemo',
-        meta: { title: 'componentMixin' }
-      },
-      {
-        path: 'back-to-top',
-        component: 'views/components-demo/back-to-top',
-        name: 'BackToTopDemo',
-        meta: { title: 'backToTop' }
-      },
-      {
-        path: 'drag-dialog',
-        component: 'views/components-demo/drag-dialog',
-        name: 'DragDialogDemo',
-        meta: { title: 'dragDialog' }
-      },
-      {
-        path: 'drag-select',
-        component: 'views/components-demo/drag-select',
-        name: 'DragSelectDemo',
-        meta: { title: 'dragSelect' }
-      },
-      {
-        path: 'dnd-list',
-        component: 'views/components-demo/dnd-list',
-        name: 'DndListDemo',
-        meta: { title: 'dndList' }
-      },
-      {
-        path: 'drag-kanban',
-        component: 'views/components-demo/drag-kanban',
-        name: 'DragKanbanDemo',
-        meta: { title: 'dragKanban' }
-      }
-    ]
-  },
-  {
-    path: '/charts',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    name: 'Charts',
-    meta: {
-      title: 'charts',
-      icon: 'chart'
-    },
-    children: [
-      {
-        path: 'keyboard',
-        component: 'views/charts/keyboard',
-        name: 'KeyboardChart',
-        meta: { title: 'keyboardChart', noCache: true }
-      },
-      {
-        path: 'line',
-        component: 'views/charts/line',
-        name: 'LineChart',
-        meta: { title: 'lineChart', noCache: true }
-      },
-      {
-        path: 'mixchart',
-        component: 'views/charts/mixChart',
-        name: 'MixChart',
-        meta: { title: 'mixChart', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/nested',
-    component: 'layout/Layout',
-    redirect: '/nested/menu1/menu1-1',
-    name: 'Nested',
-    meta: {
-      title: 'nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: 'views/nested/menu1/index',
-        name: 'Menu1',
-        meta: { title: 'menu1' },
-        redirect: '/nested/menu1/menu1-1',
-        children: [
-          {
-            path: 'menu1-1',
-            component: 'views/nested/menu1/menu1-1',
-            name: 'Menu1-1',
-            meta: { title: 'menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: 'views/nested/menu1/menu1-2',
-            name: 'Menu1-2',
-            redirect: '/nested/menu1/menu1-2/menu1-2-1',
-            meta: { title: 'menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: 'views/nested/menu1/menu1-2/menu1-2-1',
-                name: 'Menu1-2-1',
-                meta: { title: 'menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: 'views/nested/menu1/menu1-2/menu1-2-2',
-                name: 'Menu1-2-2',
-                meta: { title: 'menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: 'views/nested/menu1/menu1-3',
-            name: 'Menu1-3',
-            meta: { title: 'menu1-3' }
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        name: 'Menu2',
-        component: 'views/nested/menu2/index',
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
+  // {
+  //   path: '/nested',
+  //   component: 'layout/Layout',
+  //   redirect: '/nested/menu1/menu1-1',
+  //   name: 'Nested',
+  //   meta: {
+  //     title: 'nested',
+  //     icon: 'nested'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'menu1',
+  //       component: 'views/nested/menu1/index',
+  //       name: 'Menu1',
+  //       meta: { title: 'menu1' },
+  //       redirect: '/nested/menu1/menu1-1',
+  //       children: [
+  //         {
+  //           path: 'menu1-1',
+  //           component: 'views/nested/menu1/menu1-1',
+  //           name: 'Menu1-1',
+  //           meta: { title: 'menu1-1' }
+  //         },
+  //         {
+  //           path: 'menu1-2',
+  //           component: 'views/nested/menu1/menu1-2',
+  //           name: 'Menu1-2',
+  //           redirect: '/nested/menu1/menu1-2/menu1-2-1',
+  //           meta: { title: 'menu1-2' },
+  //           children: [
+  //             {
+  //               path: 'menu1-2-1',
+  //               component: 'views/nested/menu1/menu1-2/menu1-2-1',
+  //               name: 'Menu1-2-1',
+  //               meta: { title: 'menu1-2-1' }
+  //             },
+  //             {
+  //               path: 'menu1-2-2',
+  //               component: 'views/nested/menu1/menu1-2/menu1-2-2',
+  //               name: 'Menu1-2-2',
+  //               meta: { title: 'menu1-2-2' }
+  //             }
+  //           ]
+  //         },
+  //         {
+  //           path: 'menu1-3',
+  //           component: 'views/nested/menu1/menu1-3',
+  //           name: 'Menu1-3',
+  //           meta: { title: 'menu1-3' }
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'menu2',
+  //       name: 'Menu2',
+  //       component: 'views/nested/menu2/index',
+  //       meta: { title: 'menu2' }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/example',
@@ -346,95 +261,6 @@ const asyncRoutes = [
   },
 
   {
-    path: '/tab',
-    component: 'layout/Layout',
-    children: [
-      {
-        path: 'index',
-        component: 'views/tab/index',
-        name: 'Tab',
-        meta: { title: 'tab', icon: 'tab' }
-      }
-    ]
-  },
-
-  {
-    path: '/error',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    name: 'ErrorPages',
-    meta: {
-      title: 'errorPages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: 'views/error-page/401',
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
-      },
-      {
-        path: '404',
-        component: 'views/error-page/404',
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
-      }
-    ]
-  },
-
-  {
-    path: '/error-log',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'log',
-        component: 'views/error-log/index',
-        name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' }
-      }
-    ]
-  },
-
-  {
-    path: '/excel',
-    component: 'layout/Layout',
-    redirect: '/excel/export-excel',
-    name: 'Excel',
-    meta: {
-      title: 'excel',
-      icon: 'excel'
-    },
-    children: [
-      {
-        path: 'export-excel',
-        component: 'views/excel/export-excel',
-        name: 'ExportExcel',
-        meta: { title: 'exportExcel' }
-      },
-      {
-        path: 'export-selected-excel',
-        component: 'views/excel/select-excel',
-        name: 'SelectExcel',
-        meta: { title: 'selectExcel' }
-      },
-      {
-        path: 'export-merge-header',
-        component: 'views/excel/merge-header',
-        name: 'MergeHeader',
-        meta: { title: 'mergeHeader' }
-      },
-      {
-        path: 'upload-excel',
-        component: 'views/excel/upload-excel',
-        name: 'UploadExcel',
-        meta: { title: 'uploadExcel' }
-      }
-    ]
-  },
-
-  {
     path: '/zip',
     component: 'layout/Layout',
     redirect: '/zip/download',
@@ -446,77 +272,6 @@ const asyncRoutes = [
         component: 'views/zip/index',
         name: 'ExportZip',
         meta: { title: 'exportZip' }
-      }
-    ]
-  },
-
-  {
-    path: '/pdf',
-    component: 'layout/Layout',
-    redirect: '/pdf/index',
-    children: [
-      {
-        path: 'index',
-        component: 'views/pdf/index',
-        name: 'PDF',
-        meta: { title: 'pdf', icon: 'pdf' }
-      }
-    ]
-  },
-  {
-    path: '/pdf/download',
-    component: 'views/pdf/download',
-    hidden: true
-  },
-
-  {
-    path: '/theme',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'index',
-        component: 'views/theme/index',
-        name: 'Theme',
-        meta: { title: 'theme', icon: 'theme' }
-      }
-    ]
-  },
-
-  {
-    path: '/clipboard',
-    component: 'layout/Layout',
-    redirect: 'noRedirect',
-    children: [
-      {
-        path: 'index',
-        component: 'views/clipboard/index',
-        name: 'ClipboardDemo',
-        meta: { title: 'clipboardDemo', icon: 'clipboard' }
-      }
-    ]
-  },
-
-  {
-    path: '/i18n',
-    component: 'layout/Layout',
-    children: [
-      {
-        path: 'index',
-        component: 'views/i18n-demo/index',
-        name: 'I18n',
-        meta: { title: 'i18n', icon: 'international' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: 'layout/Layout',
-    children: [
-      {
-        path: 'https://github.com/PanJiaChen/wind-manager',
-        meta: { title: 'externalLink', icon: 'link' }
       }
     ]
   },

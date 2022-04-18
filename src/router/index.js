@@ -66,11 +66,6 @@ export const constantRoutes = [
     component:()=>import('@/views/forget/topassword'),
     hidden:true
   },
-  // {
-  //   path: '/auth-redirect',
-  //   component: () => import('@/views/login/auth-redirect'),
-  //   hidden: true
-  // },
   {
     path: '/404',
     component: () => import('@/views/error-page/404'),
@@ -122,7 +117,7 @@ export const constantRoutes = [
        },
        {
          path:'/faq',
-         component:()=>import('@/views/content/faq'),
+         component:()=>import('@/views/content/faqmanagement'),
          name:'FAQ Management',
          meta:{title:'FAQ Management'}
        },
@@ -134,7 +129,7 @@ export const constantRoutes = [
        },
        {
          path:'/buiness',
-         component:()=>import('@/views/content/buiness'),
+         component:()=>import('@/views/content/business'),
          name:'Business & Operational Update',
          meta:{title:'Business & Operational Update'}
        },
@@ -158,45 +153,6 @@ export const constantRoutes = [
        }
      ]
   }
-  // {
-  //   path: '/documentation',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/documentation/index'),
-  //       name: 'Documentation',
-  //       meta: { title: 'documentation', icon: 'documentation', affix: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/guide',
-  //   component: Layout,
-  //   redirect: '/guide/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/guide/index'),
-  //       name: 'Guide',
-  //       meta: { title: 'guide', icon: 'guide', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/profile',
-  //   component: Layout,
-  //   redirect: '/profile/index',
-  //   hidden: true,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/profile/index'),
-  //       name: 'Profile',
-  //       meta: { title: 'profile', icon: 'user', noCache: true }
-  //     }
-  //   ]
-  // }
 ]
 
 /**
@@ -252,10 +208,10 @@ export const asyncRoutes = [
   // },
 
   /** when your routing map is too long, you can split it into small modules **/
-  componentsRouter,
-  chartsRouter,
-  nestedRouter,
-  tableRouter,
+  // componentsRouter,
+  // chartsRouter,
+  // nestedRouter,
+  // tableRouter,
 
   // {
   //   path: '/example',
@@ -301,44 +257,6 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
-
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'ErrorPages',
-    meta: {
-      title: 'errorPages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/error-page/401'),
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/error-page/404'),
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
-      }
-    ]
-  },
-
-  {
-    path: '/error-log',
-    component: Layout,
-    children: [
-      {
-        path: 'log',
-        component: () => import('@/views/error-log/index'),
-        name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' }
-      }
-    ]
-  },
 
   // {
   //   path: '/excel',
