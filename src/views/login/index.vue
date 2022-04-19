@@ -47,7 +47,8 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+      <router-link class="link" to="/forget/toemail">Forgotten Password?</router-link>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;margin-top:20px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
     </el-form>
@@ -225,6 +226,11 @@ $cursor: #fff;
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+  }
+  .link{
+     background-color:transparent;
+     color:#2563d9;
+     margin-bottom:20px;
   }
 }
 </style>

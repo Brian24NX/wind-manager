@@ -1,7 +1,7 @@
 <template>
   <div class="passwordcontainer">
     <div class="passwordheader">
-      <image src="../../assets/logo.png"></image>
+      <el-image :src="src"></el-image>
       <lang-select class="set-language" />
     </div>
     <hr />
@@ -9,6 +9,7 @@
       <h1>忘记密码</h1>
       <div class="content">
         <div class="clearleft">
+          <div class="leftcontent">
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
             <el-form-item prop="verifycode">
             <el-input
@@ -52,7 +53,26 @@
               @blur="capsTooltip = false"
             />
             </el-form-item>
-          </el-form>
+            </el-form>
+          </div>
+          <hr class="contentSeparqtor">
+          <div class="rightcontent">
+              <h2>安全</h2>
+              <ul class="checklist">
+                <li>
+                  <i class="icon left" aria-hidden="true">✅</i>
+                  <span class="item">为了安全起见,请在十分钟有效期内填写收到的验证码.</span>
+                </li>
+                <li>
+                  <i class="icon left" aria-hidden="true">✅</i>
+                  <span class="item">验证通过后,将会直接转到修改密码页面.</span>
+                </li>
+                <li>
+                   <i class="icon left" aria-hidden="true">✅</i></i>
+                   <span class="item">重设您的密码并确认即可完成!</span>
+                </li>
+              </ul>
+          </div>
         </div>
         <div class="clearright">
           <el-button type="info" @click="cancel" plain>取消</el-button>
@@ -67,6 +87,7 @@
 </template>
 <script>
 import LangSelect from '@/components/LangSelect'
+import logo from '../../assets/logo.png'
 export default {
   name: 'topassword',
   components: { LangSelect },
@@ -76,12 +97,20 @@ export default {
         verifycode:'',
         password:'',
         confirmpassword:'',
-      }
+      },
+      src:logo
     }
   },
+  methods:{
+    submit(){},
+    cancel(){}
+  }
 }
 </script>
 <style scoped>
+.set-language{
+  float:right;
+}
 .passwordcontainer {
   min-height: 100%;
   width: 1200px;
@@ -96,7 +125,7 @@ export default {
   }
 }
 .passwordfooter {
-  margin-top: 50px;
+  margin-top: 70px;
   color: #656565;
 }
 .inner {
@@ -117,6 +146,64 @@ export default {
 .clearleft {
   background: #f5f5f5 none repeat scroll 0 0;
   padding: 15px;
+}
+.leftcontent{
+  display:table-cell;
+  padding-left:25px;
+  padding-bottom:10px;
+  border-right:1px solid #dfdfdf;
+  width:463px;
+  padding-top:10px;
+}
+.rightcontent{
+   display:table-cell;
+   width:606px;
+   padding-left:20px;
+}
+.contentSeparqtor{
+  display:none;
+}
+hr{
+  top:10px;
+  margin:auto;
+  clear:both;
+  height:1px;
+  padding:0;
+  border:0;
+  color:#cecece;
+  background-color:#cecece;
+  line-height:1;
+}
+h2{
+  font-size:1.818em;
+  font-weight:normal;
+}
+.checklist{
+   padding-left:0;
+}
+i{
+  font-style:normal;
+}
+ul{
+  list-style:none;
+}
+.checklist li{
+  margin-top:7px;
+  line-height:1.5;
+}
+.checklist .icon{
+  width:15px;
+  margin-right:5px;
+  position:relative;
+  font-size:0.8em;
+  color:#000;
+}
+.icon{
+  font-family:'MustIcons';
+}
+
+.login-form{
+  width:360px;
 }
 </style>
 <style lang="scss" scoped>
