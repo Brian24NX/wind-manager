@@ -93,7 +93,7 @@ export const constantRoutes = [
      path:'/contentmanagement',
      component:Layout,
      name:"content",
-     meta:{title:'content',icon:'document',affix:true},
+     meta:{title:'content',icon:'documentation',affix:true},
      children:[
        {
          path:'/articlemanagement',

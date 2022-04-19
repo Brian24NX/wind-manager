@@ -49,7 +49,7 @@ const constantRoutes = [
     path:'/contentmanagement',
     component:'layout/Layout',
     name:"content",
-    meta:{title:'content',icon:'dashboard',affix:true},
+    meta:{title:'content',icon:'documentation',affix:true},
     children:[
       {
         path:'/articlemanagement',
