@@ -48,66 +48,66 @@ const constantRoutes = [
   {
     path:'/contentmanagement',
     component:'layout/Layout',
-    name:'Content Management',
-    meta:{title: 'Content Management', icon: 'document', affix: true},
+    name:"content",
+    meta:{title:'content',icon:'dashboard',affix:true},
     children:[
       {
         path:'/articlemanagement',
-        component:()=>import('@/views/content/index'),
+        component:'views/content/index',
         name:'Article Management',
-        meta:{title:'Article Management'},
+        meta:{title:'article'},
         children:[{
            path:'/addarticle',
-           component:()=>import('@/views/content/add/index'),
+           component:'views/content/add/index',
            name:'Create A New Article',
-           meta:{title:'Create A New Article'}
+           meta:{title:'createarticle'}
         },{
-           path:'/addnewscenter',
-           component:()=>import('@/views/content/add/new'),
+           path:'/newscenter',
+           component:'views/content/add/new',
            name:'Mini-Program News Center',
-           mata:{title:'Mini-Program News Center'}
+           meta:{title:'newcenter'}
         },{
            path:'/vas',
-           component:()=>import('@/views/content/add/vas'),
+           component:'views/content/add/vas',
            name:'Mini-Program Vas',
-           meta:{title:'Mini-Program Vas'}
+           meta:{title:'vas'}
         }]
       },
       {
         path:'/faq',
-        component:()=>import('@/views/content/faqmanagement'),
+        component:'views/content/faqmanagement',
         name:'FAQ Management',
-        meta:{title:'FAQ Management'}
+        meta:{title:'faq'}
       },
       {
         path:'/contact',
-        component:()=>import('@/views/content/contact'),
+        component:'views/content/contact',
         name:'Contact Information Matrix',
-        meta:{title:'Contact Information Matrix'}
+        meta:{title:'contactinformation'}
       },
       {
         path:'/buiness',
-        component:()=>import('@/views/content/business'),
+        component:'views/content/business',
         name:'Business & Operational Update',
-        meta:{title:'Business & Operational Update'}
+        meta:{title:'buiness'}
       },
       {
         path:'/userful',
-        component:()=>import('@/views/content/userful'),
+        component:'views/content/userful',
         name:'Useful Template and Link',
-        meta:{title:'Useful Template and Link'}
+        meta:{title:'useful'}
       },
       {
         path:'/sanctions',
-        component:()=>import('@/views/content/sanctions'),
+        component:'views/content/sanctions',
         name:'Sanctions and Commodity List',
-        meta:{title:'Sanctions and Commodity List'}
+        meta:{title:'Sanctions'}
       },
       {
         path:'/material',
-        component:()=>import('@/views/content/material'),
+        component:'views/content/material',
         name:'Material Library',
-        meta:{title:'Material Library'}
+        meta:{title:'material'}
       }
     ]
   }
@@ -129,26 +129,18 @@ const asyncRoutes = [
       {
         path: 'page',
         component: 'views/permission/page',
-        name: 'PagePermission',
+        name: 'Permission',
         meta: {
-          title: 'pagePermission',
+          title: 'Permission',
           roles: ['admin']
-        }
-      },
-      {
-        path: 'directive',
-        component: 'views/permission/directive',
-        name: 'DirectivePermission',
-        meta: {
-          title: 'directivePermission'
         }
       },
       {
         path: 'role',
         component: 'views/permission/role',
-        name: 'RolePermission',
+        name: 'roleManager',
         meta: {
-          title: 'rolePermission',
+          title: 'roleManager',
           roles: ['admin']
         }
       }
@@ -245,7 +237,7 @@ const asyncRoutes = [
         meta: { title: 'createArticle', icon: 'edit' }
       },
       {
-        path: 'edit/:id(\\d+)',
+        path: 'edit/:id(\\d+',
         component: 'views/example/edit',
         name: 'EditArticle',
         meta: { title: 'editArticle', noCache: true },
