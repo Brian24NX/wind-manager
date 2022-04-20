@@ -209,5 +209,26 @@ export default {
     delete: '删除',
     publish: '发布',
     unPublish: '下架'
+  },
+  addArticle: {
+    pageTitle: '新增文章',
+    title: '标题',
+    creator: '作者',
+    forntCover: '封面',
+    description: '描述',
+    content: '内容',
+    orginalArticleLink: '原文链接',
+    publishTo: '发布到',
+    category: '分类',
+    schedulePublish: '是否定时发布',
+    scheduleTime: '定时发布时间',
+    sendTo: '发送到',
+    submit: '保存',
+    reset: '重置'
+  },
+  publishTo: {
+    newsCenter: '新闻中心',
+    CMACGM: 'CMACGM',
+    weChatAccount: '微信公众号'
   }
 }

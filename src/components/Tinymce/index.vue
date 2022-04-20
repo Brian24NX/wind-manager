@@ -43,7 +43,7 @@ export default {
     },
     menubar: {
       type: String,
-      default: 'file edit insert view format table'
+      default: ''
     },
     height: {
       type: [Number, String],
@@ -122,6 +122,7 @@ export default {
     initTinymce() {
       const _this = this
       window.tinymce.init({
+        statusbar: false,
         language: this.language,
         selector: `#${this.tinymceId}`,
         height: this.height,
