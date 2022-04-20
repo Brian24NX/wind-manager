@@ -1,12 +1,16 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+    <div class="loginheader">
+      <el-image :src="src"></el-image>
+      <lang-select class="set-language" />
+    </div>
+    <div class="loginmid">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
         <h3 class="title">
           {{ $t('login.title') }}
         </h3>
-        <lang-select class="set-language" />
       </div>
 
       <el-form-item prop="username">
@@ -52,14 +56,18 @@
         {{ $t('login.logIn') }}
       </el-button>
     </el-form>
-
+    </div>
+    
+    <div class="loginfooter">
+        <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">法律条款</a>| <span>4.3.3-4</span></p>
+    </div>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
-
+import logo from '../../assets/logo.png'
 export default {
   name: 'Login',
   components: { LangSelect },
@@ -83,6 +91,7 @@ export default {
         username: 'admin',
         password: '111111'
       },
+      src:logo,
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
@@ -199,6 +208,8 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+   width:1200px;
+   margin:auto;
   .el-input {
     display: inline-block;
     height: 47px;
