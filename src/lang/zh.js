@@ -83,15 +83,15 @@ export default {
     theme: '换肤',
     size: '布局大小'
   },
-  forgetForm:{
-      forgotpassword:'忘记密码',
-      identi:'验证',
-      tip:'忘记密码了?',
-      tips:'请填写邮件以获得您新的密码',
-      safe:'安全',
-      safedetailone:'填写您的邮箱地址并点击"收到验证安全码"',
-      safedetailtwo:'为了保护您的账号安全，我们将会发送验证码至您的邮箱中。',
-      safedetailthree:'在此页填入验证码并重设您的新密码。',
+  forgetForm: {
+    forgotpassword: '忘记密码',
+    identi: '验证',
+    tip: '忘记密码了?',
+    tips: '请填写邮件以获得您新的密码',
+    safe: '安全',
+    safedetailone: '填写您的邮箱地址并点击"收到验证安全码"',
+    safedetailtwo: '为了保护您的账号安全，我们将会发送验证码至您的邮箱中。',
+    safedetailthree: '在此页填入验证码并重设您的新密码。'
   },
   login: {
     title: '系统登录',
