@@ -6,24 +6,24 @@
     </div>
     <hr />
     <div class="passwordcontent">
-      <h1>忘记密码</h1>
+      <h1> {{ $t('forgetForm.forgotpassword') }}</h1>
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
-            <h2>验证</h2>
+            <h2>{{ $t('forgetForm.identi') }}</h2>
             <p>
-              <span>忘记密码了?</span><br/>
-              <span>请填写邮件以获得您新的密码</span>
+              <span>{{ $t('forgetForm.tip') }}</span><br/>
+              <span>{{ $t('forgetForm.tips') }}</span>
             </p>
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
-            <el-form-item prop="verifycode">
+            <el-form-item prop="email">
             <el-input
-              :key="verifyType"
-              ref="verifycode"
-              v-model="forgetForm.verifycode"
+              :key="email"
+              ref="email"
+              v-model="forgetForm.email"
               :type="text"
-              :placeholder="$t('forgetForm.verifycode')"
-              name="verifycode"
+              :placeholder="$t('forgetForm.email')"
+              name="email"
               tabindex="2"
               autocomplete="on"
               @keyup.native="checkCapslock"
@@ -34,26 +34,25 @@
           </div>
           <hr class="contentSeparqtor">
           <div class="rightcontent">
-              <h2>安全</h2>
+              <h2>{{ $t('forgetForm.safe') }}</h2>
               <ul class="checklist">
                 <li>
                   <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">填写您的邮箱地址并点击“收到验证安全码”</span>
+                  <span class="item">{{ $t('forgetForm.safedetailone') }}</span>
                 </li>
                 <li>
                   <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">为了保护您的账号安全，我们将会发送验证码至您的邮箱中。</span>
+                  <span class="item">{{ $t('forgetForm.safedetailtwo') }}</span>
                 </li>
                 <li>
-                   <i class="icon left" aria-hidden="true">✅</i></i>
-                   <span class="item">在此页填入验证码并重设您的新密码</span>
+                   <i class="icon left"{{ $t('forgetForm.safedetailthree') }}</span>
                 </li>
               </ul>
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" @click="cancel" plain>取消</el-button>
-          <el-button @click="submit" plain>收到安全验证码</el-button>
+          <el-button type="info" @click="cancel" plain> {{ $t('forgetForm.cancel') }}</el-button>
+          <el-button @click="submit" plain>{{ $t('forgetForm.sendcode') }}</el-button>
         </div>
       </div>
     </div>

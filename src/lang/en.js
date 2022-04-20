@@ -84,6 +84,7 @@ export default {
     size: 'Global Size'
   },
   forgetForm: {
+    email: 'Login (Email)',
     forgotpassword: 'Forgotten password',
     identi: 'Identification',
     tip: 'Forgot your password?',
@@ -102,7 +103,8 @@ export default {
     confirmpassword: 'New Password Confirmation',
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
-    passwordconsistent:'Password must be consistent'
+    passwordconsistent:'Password must be consistent',
+    terms: 'Legal Terms'
   },
   login: {
     title: 'Login Form',
