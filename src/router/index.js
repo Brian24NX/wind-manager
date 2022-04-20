@@ -7,10 +7,7 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+import articleRouter from './modules/article'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -55,16 +52,16 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-   //forgetToEmail  desc:忘记密码
+  // forgetToEmail  desc:忘记密码
   {
-    path:'/forget/toemail',
-    component:()=>import('@/views/forget/toemail'),
-    hidden:true
+    path: '/forget/toemail',
+    component: () => import('@/views/forget/toemail'),
+    hidden: true
   },
   {
-    path:'/forget/topassword',
-    component:()=>import('@/views/forget/topassword'),
-    hidden:true
+    path: '/forget/topassword',
+    component: () => import('@/views/forget/topassword'),
+    hidden: true
   },
   {
     path: '/404',
@@ -89,72 +86,78 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-     path:'/contentmanagement',
-     component:Layout,
-     name:"content",
-     meta:{title:'content',icon:'documentation',affix:true},
-     children:[
-       {
-         path:'/articlemanagement',
-         component:()=>import('@/views/content/index'),
-         name:'Article Management',
-         meta:{title:'article'},
-         children:[{
-            path:'/addarticle',
-            component:()=>import('@/views/content/add/index'),
-            name:'Create A New Article',
-            meta:{title:'createarticle'}
-         },{
-            path:'/addnewscenter',
-            component:()=>import('@/views/content/add/new'),
-            name:'Mini-Program News Center',
-            meta:{title:'newcenter'}
-         },{
-            path:'/vas',
-            component:()=>import('@/views/content/add/vas'),
-            name:'Mini-Program Vas',
-            meta:{title:'vas'}
-         }]
-       },
-       {
-         path:'/faq',
-         component:()=>import('@/views/content/faqmanagement'),
-         name:'FAQ Management',
-         meta:{title:'faq'}
-       },
-       {
-         path:'/contact',
-         component:()=>import('@/views/content/contact'),
-         name:'Contact Information Matrix',
-         meta:{title:'contactinformation'}
-       },
-       {
-         path:'/buiness',
-         component:()=>import('@/views/content/business'),
-         name:'Business & Operational Update',
-         meta:{title:'buiness'}
-       },
-       {
-         path:'/userful',
-         component:()=>import('@/views/content/userful'),
-         name:'Useful Template and Link',
-         meta:{title:'useful'}
-       },
-       {
-         path:'/sanctions',
-         component:()=>import('@/views/content/sanctions'),
-         name:'Sanctions and Commodity List',
-         meta:{title:'Sanctions'}
-       },
-       {
-         path:'/material',
-         component:()=>import('@/views/content/material'),
-         name:'Material Library',
-         meta:{title:'material'}
-       }
-     ]
-  }
+  articleRouter
+  // {
+  //   path: '/contentmanagement',
+  //   component: Layout,
+  //   name: 'content',
+  //   meta: { title: 'content', icon: 'documentation', affix: true },
+  //   children: [
+  //     {
+  //       path: '/articlemanagement',
+  //       // component: () => import('@/views/content/index'),
+  //       name: 'Article Management',
+  //       meta: { title: 'article' },
+  //       children: [{
+  //         path: '/article',
+  //         component: () => import('@/views/content/index'),
+  //         name: 'Article Management',
+  //         meta: { title: 'article' }
+  //       }, {
+  //         path: '/addarticle',
+  //         component: () => import('@/views/content/add/index'),
+  //         name: 'Create A New Article',
+  //         meta: { title: 'createarticle' }
+  //       }, {
+  //         path: '/newscenter',
+  //         component: () => import('@/views/content/add/new'),
+  //         name: 'Mini-Program News Center',
+  //         meta: { title: 'newcenter' }
+  //       }, {
+  //         path: '/vas',
+  //         component: () => import('@/views/content/add/vas'),
+  //         name: 'Mini-Program Vas',
+  //         meta: { title: 'vas' }
+  //       }]
+  //     },
+  //     {
+  //       path: '/faq',
+  //       component: () => import('@/views/content/faqmanagement'),
+  //       name: 'FAQ Management',
+  //       meta: { title: 'faq' }
+  //     },
+  //     {
+  //       path: '/contact',
+  //       component: () => import('@/views/content/contact'),
+  //       name: 'Contact Information Matrix',
+  //       meta: { title: 'contactinformation' }
+  //     },
+  //     {
+  //       path: '/buiness',
+  //       component: () => import('@/views/content/business'),
+  //       name: 'Business & Operational Update',
+  //       meta: { title: 'buiness' }
+  //     },
+  //     {
+  //       path: '/userful',
+  //       component: () => import('@/views/content/userful'),
+  //       name: 'Useful Template and Link',
+  //       meta: { title: 'useful' }
+  //     },
+  //     {
+  //       path: '/sanctions',
+  //       component: () => import('@/views/content/sanctions'),
+  //       name: 'Sanctions and Commodity List',
+  //       meta: { title: 'Sanctions' }
+  //     },
+  //     {
+  //       path: '/material',
+  //       component: () => import('@/views/content/material'),
+  //       name: 'Material Library',
+  //       meta: { title: 'material' }
+  //     }
+  //   ]
+  // }
 ]
 
 /**

@@ -1,13 +1,14 @@
 <template>
-  <div>FAQ管理</div>
+  <div>CMA CGM</div>
 </template>
 <script>
 export default {
-  name: 'FaqManagement',
+  name: 'CmaCgm',
   data() {
     return {}
   }
 }
 </script>
 <style lang="scss" scoped>
+
 </style>
