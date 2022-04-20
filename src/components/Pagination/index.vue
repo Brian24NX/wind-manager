@@ -60,17 +60,20 @@ export default {
     // 请求参数
     requestParams: {
       type: Object,
-      required: false
+      required: false,
+      default: () => ({})
     },
     // 每页记录数
     pageSize: {
       type: Number,
-      required: false
+      required: false,
+      default: 10
     },
     // 页码
     page: {
       type: Number,
-      required: false
+      required: false,
+      default: 1
     },
     selectionChange: {
       type: Function,
@@ -86,8 +89,8 @@ export default {
       isLoading: true,
       // 分页参数
       pagination: {
-        page: this.page || 1,
-        size: this.pageSize || 10,
+        page: this.page,
+        size: this.pageSize,
         total: null
       },
       pageSizes: [],
@@ -149,8 +152,6 @@ export default {
      * 当前页码
      */
     handleCurrentChange(currentPage) {
-      console.info('页码' + currentPage)
-      // this.$router.push({ path: this.$route.path, query: { page: currentPage - 1 }})
       this.$route.query.page = currentPage
       this.pagination.page = currentPage
       this.pageRequest()
