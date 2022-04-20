@@ -182,5 +182,22 @@ export default {
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
+  },
+  // 文章相关
+  article: {
+    thumb: '缩略图',
+    title: '标题',
+    date: '日期',
+    category: '分类',
+    platform: '平台',
+    status: '状态',
+    actions: '操作'
+  },
+  message: {
+    detail: '查看',
+    edit: '编辑',
+    delete: '删除',
+    publish: '发布',
+    unPublish: '下架'
   }
 }
