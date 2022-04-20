@@ -39,13 +39,13 @@
               @blur="capsTooltip = false"
             />
             </el-form-item>
-            <el-form-item prop="verifycode">
+            <el-form-item prop="confirmpassword">
             <el-input
               :key="passwordType"
               ref="confirmpassword"
               v-model="forgetForm.confirmpassword"
               :type="passwordType"
-              :placeholder="$t('forgetForm.password')"
+              :placeholder="$t('forgetForm.confirmpassword')"
               name="confirmpassword"
               tabindex="2"
               autocomplete="on"

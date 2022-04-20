@@ -83,6 +83,27 @@ export default {
     theme: 'Theme',
     size: 'Global Size'
   },
+  forgetForm: {
+    forgotpassword: 'Forgotten password',
+    identi: 'Identification',
+    tip: 'Forgot your password?',
+    tips: 'Please ask for a new one using your email address.',
+    safe: 'Security',
+    safedetailone: 'Fill the e-mail field and click "Receive a verification code".',
+    safedetailtwo: 'An activation code will be sent to you by email.',
+    safedetailthree: 'You will be able to change your password with this one.',
+    sendcode: 'Receive a verification code.',
+    cancel: 'Cancel',
+    require: 'All fields must be filled in.',
+    requiresix: 'Please enter at least 6 characters.',
+    requirerule: 'Password should contain at least 1 number, 1 capital letter and 1 lower case letter.',
+    verifycode: 'Validation Code',
+    password: 'New Password',
+    confirmpassword: 'New Password Confirmation',
+    resetpasssuccess: 'Password reset successful',
+    verifyerror: 'Validation code error',
+    passwordconsistent:'Password must be consistent'
+  },
   login: {
     title: 'Login Form',
     logIn: 'Login',

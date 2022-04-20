@@ -91,7 +91,18 @@ export default {
     safe: '安全',
     safedetailone: '填写您的邮箱地址并点击"收到验证安全码"',
     safedetailtwo: '为了保护您的账号安全，我们将会发送验证码至您的邮箱中。',
-    safedetailthree: '在此页填入验证码并重设您的新密码。'
+    safedetailthree: '在此页填入验证码并重设您的新密码。',
+    sendcode: '发送验证码',
+    cancel: '取消',
+    require: '请填写所有信息',
+    requiresix: '请填写至少6个字符',
+    requirerule: '密码必须包含至少1个数字，1个大写字母和1个小写字母。',
+    verifycode: '验证码',
+    password: '新密码',
+    confirmpassword: '确认新密码',
+    resetpasssuccess: '重置密码成功',
+    verifyerror: '验证码错误',
+    passwordconsistent:'密码不一致'
   },
   login: {
     title: '系统登录',
