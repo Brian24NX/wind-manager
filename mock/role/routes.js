@@ -46,72 +46,102 @@ const constantRoutes = [
     ]
   },
   {
-    path:'/contentmanagement',
-    component:'layout/Layout',
-    name:"content",
-    meta:{title:'content',icon:'documentation',affix:true},
-    children:[
-      {
-        path:'/articlemanagement',
-        component:'views/content/index',
-        name:'Article Management',
-        meta:{title:'article'},
-        children:[{
-           path:'/addarticle',
-           component:'views/content/add/index',
-           name:'Create A New Article',
-           meta:{title:'createarticle'}
-        },{
-           path:'/newscenter',
-           component:'views/content/add/new',
-           name:'Mini-Program News Center',
-           meta:{title:'newcenter'}
-        },{
-           path:'/vas',
-           component:'views/content/add/vas',
-           name:'Mini-Program Vas',
-           meta:{title:'vas'}
-        }]
+    path: '/content',
+    component: 'layout/Layout',
+    redirect: '/content/articlemanagement/articlelist',
+    name: 'content',
+    meta: {
+      title: 'content',
+      icon: 'documentation',
+      affix: true
+    },
+    children: [{
+      path: 'articlemanagement',
+      component: () => import('@/views/content/article/index'),
+      name: 'Article Management',
+      meta: {
+        title: 'article'
       },
-      {
-        path:'/faq',
-        component:'views/content/faqmanagement',
-        name:'FAQ Management',
-        meta:{title:'faq'}
-      },
-      {
-        path:'/contact',
-        component:'views/content/contact',
-        name:'Contact Information Matrix',
-        meta:{title:'contactinformation'}
-      },
-      {
-        path:'/buiness',
-        component:'views/content/business',
-        name:'Business & Operational Update',
-        meta:{title:'buiness'}
-      },
-      {
-        path:'/userful',
-        component:'views/content/userful',
-        name:'Useful Template and Link',
-        meta:{title:'useful'}
-      },
-      {
-        path:'/sanctions',
-        component:'views/content/sanctions',
-        name:'Sanctions and Commodity List',
-        meta:{title:'Sanctions'}
-      },
-      {
-        path:'/material',
-        component:'views/content/material',
-        name:'Material Library',
-        meta:{title:'material'}
+      redirect: '/content/articlemanagement/articlelist',
+      children: [{
+        path: 'articlelist',
+        component: () => import('@/views/content/article/index'),
+        name: 'Article Management',
+        meta: {
+          title: 'article'
+        }
+      }, {
+        path: 'addarticle',
+        component: () => import('@/views/content/article/add'),
+        name: 'Create A New Article',
+        meta: {
+          title: 'createarticle'
+        }
+      }, {
+        path: 'newscenter',
+        component: () => import('@/views/content/article/new'),
+        name: 'Mini-Program News Center',
+        meta: {
+          title: 'newcenter'
+        }
+      }, {
+        path: 'vas',
+        component: () => import('@/views/content/article/vas'),
+        name: 'Mini-Program Vas',
+        meta: {
+          title: 'vas'
+        }
+      }]
+    },
+    {
+      path: 'faq',
+      component: () => import('@/views/content/faqmanagement'),
+      name: 'FAQ Management',
+      meta: {
+        title: 'faq'
       }
-    ]
+    },
+    {
+      path: 'contact',
+      component: () => import('@/views/content/contact'),
+      name: 'Contact Information Matrix',
+      meta: {
+        title: 'contactinformation'
+      }
+    },
+    {
+      path: 'buiness',
+      component: () => import('@/views/content/business'),
+      name: 'Business & Operational Update',
+      meta: {
+        title: 'buiness'
+      }
+    },
+    {
+      path: 'userful',
+      component: () => import('@/views/content/userful'),
+      name: 'Useful Template and Link',
+      meta: {
+        title: 'useful'
+      }
+    },
+    {
+      path: 'sanctions',
+      component: () => import('@/views/content/sanctions'),
+      name: 'Sanctions and Commodity List',
+      meta: {
+        title: 'Sanctions'
+      }
+    },
+    {
+      path: 'material',
+      component: () => import('@/views/content/material'),
+      name: 'Material Library',
+      meta: {
+        title: 'material'
+      }
+    }]
   }
-
 ]
 
 const asyncRoutes = [

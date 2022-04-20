@@ -1,13 +1,14 @@
 <template>
-  <div>FAQ管理</div>
+  <div>添加文章</div>
 </template>
-<script>
+<script >
 export default {
-  name: 'FaqManagement',
+  name: 'AddArticle',
   data() {
     return {}
   }
 }
 </script>
 <style lang="scss" scoped>
+
 </style>
