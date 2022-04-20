@@ -9,7 +9,7 @@ export default {
   name: 'App'
 }
 </script>
-<style>
+<style lang="scss">
  body{
    height:100%;
    -webkit-font-smoothing:antialiased;
@@ -18,4 +18,25 @@ export default {
    margin:0;
    color: #4c4c4c;
  }
+ .el-button--text {
+   color: #E10202;
+ }
+
+ .searchContainer {
+    margin-bottom: 20px;
+    padding: 24px;
+    background-color: #fff;
+  }
+
+  .tableContainer {
+    background: #ffffff;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
+    padding: 20px;
+
+    .operations {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 28px;
+    }
+  }
 </style>

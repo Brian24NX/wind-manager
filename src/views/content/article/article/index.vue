@@ -1,21 +1,25 @@
 <template>
   <div>
     <div class="searchContainer">
-      <el-row type="flex" class="row-bg" justify="space-between" style="width: 100%">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-select v-model="queryParams.categoryId" size="small" style="width: 100%" clearable placeholder="请选择">
-              <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
-          </el-col>
-          <el-col :span="12">
-            <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-button type="danger" size="small">search</el-button>
-          <el-button type="danger" size="small" plain>reset</el-button>
-        </el-row>
+      <el-row style="width: 100%">
+        <el-col :span="18">
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-select v-model="queryParams.categoryId" size="small" style="width: 100%" clearable placeholder="请选择">
+                <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-col>
+            <el-col :span="8">
+              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="6">
+          <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small">search</el-button>
+            <el-button type="danger" size="small" plain>reset</el-button>
+          </el-row>
+        </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
@@ -69,24 +73,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.searchContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 24px;
-  background-color: #fff;
-}
 
-.tableContainer {
-  background: #ffffff;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
-  padding: 20px;
-
-  .operations {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 28px;
-  }
-}
 </style>

@@ -1,7 +1,18 @@
 <template>
   <div class="table-pagination-container">
     <!-- 数据列表 -->
-    <el-table v-loading="isLoading" :data="data" current-row-key="aaa" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 100%" :show-header="showHeader" @selection-change="selectionChange">
+    <el-table
+      v-loading="isLoading"
+      :data="data"
+      current-row-key="aaa"
+      element-loading-text="给我一点时间"
+      fit
+      highlight-current-row
+      class="tables"
+      :show-header="showHeader"
+      :header-cell-style="{backgroundColor: '#FBFCFF'}"
+      @selection-change="selectionChange"
+    >
       <el-table-column v-if="showCheck" type="selection" width="55" />
       <el-table-column v-if="getShowIndex" align="center" :label="$t('message.index')" width="80">
         <template scope="scope">
@@ -14,7 +25,8 @@
     <!-- 分页信息 -->
     <div v-show="!isLoading" class="pagination-container">
       <el-pagination
-        :current-page="pagination.page + 1"
+        background
+        :current-page="pagination.page"
         :page-sizes="pageSizes"
         :page-size="pagination.size"
         layout="total, sizes, prev, pager, next, jumper"
@@ -94,10 +106,9 @@ export default {
     this.pageRequest()
     this.pageSizes = [
       this.pagination.size,
+      this.pagination.size * 2,
       this.pagination.size * 5,
-      this.pagination.size * 10,
-      this.pagination.size * 30,
-      this.pagination.size * 50
+      this.pagination.size * 10
     ]
   },
 
@@ -154,3 +165,28 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.tables {
+  width: 100%;
+  border: 1px solid #EBEBEB;
+  border-bottom: none;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+
+  .el-pagination.is-background .el-pager li {
+    background-color: transparent;
+  }
+
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #FFF8F8;
+    color: #E10202;
+  }
+
+  .el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #E10202;
+  }
+}
+</style>
