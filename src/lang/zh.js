@@ -132,11 +132,11 @@ export default {
   },
   // 文章相关
   article: {
-    thumb: '缩略图',
+    thumb: '封面图',
     title: '标题',
     date: '日期',
     category: '分类',
-    platform: '平台',
+    platform: '发布平台',
     status: '状态',
     actions: '操作'
   },
@@ -145,13 +145,13 @@ export default {
     edit: '编辑',
     delete: '删除',
     publish: '发布',
-    unPublish: '下架'
+    unPublish: '撤回'
   },
   addArticle: {
-    pageTitle: '新增文章',
+    pageTitle: '添加新推文',
     title: '标题',
     creator: '作者',
-    forntCover: '封面',
+    forntCover: '封面图',
     description: '描述',
     content: '内容',
     orginalArticleLink: '原文链接',
@@ -164,8 +164,18 @@ export default {
     reset: '重置'
   },
   publishTo: {
-    newsCenter: '新闻中心',
-    CMACGM: 'CMACGM',
+    newsCenter: '小程序新闻中心',
+    CMACGM: '小程序 CMA CGM+',
     weChatAccount: '微信公众号'
+  },
+  // 资源库页面翻译
+  library:{
+    title: '素材库',
+    allselect: '全选',
+    category: '更改类别',
+    delete: '删除',
+    upload: '上传',
+    categorysetting: '分类设置',
+    addcategory: '添加新闻类别'
   }
 }
