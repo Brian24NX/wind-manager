@@ -177,5 +177,17 @@ export default {
     upload: '上传',
     categorysetting: '分类设置',
     addcategory: '添加新闻类别'
+  },
+  // 管制品
+  sanctions:{
+    commodityzh: '商品（中文）',
+    commodityen:  '商品（英文）',
+    referencenumber: '参考编号',
+    remarkszh: '中文备注',
+    remarksen: '英文备注',
+    type: '类型',
+    import: '导入',
+    export: '导出',
+    newitem: '添加新管制品'
   }
 }

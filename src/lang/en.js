@@ -163,6 +163,7 @@ export default {
     submit: 'Save and Publish',
     reset: 'Reset'
   },
+  // 素材库
   library:{
     title: 'Materials Library',
     allselect: 'Select All',
@@ -171,5 +172,17 @@ export default {
     upload: 'Upload',
     categorysetting: 'Category Setting',
     addcategory: 'Add A New Category'
+  },
+  // 管制品
+  sanctions:{
+    commodityzh: 'Commodity (Chinese)',
+    commodityen:  'Commodity (English)',
+    referencenumber: 'Reference Number',
+    remarkszh: 'Remark(s) Chinese',
+    remarksen: 'Remark(s) English',
+    type: 'Type',
+    import: 'Import',
+    export: 'Export',
+    newitem: 'Add A New Item'
   }
 }
