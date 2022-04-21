@@ -103,7 +103,7 @@ export default {
     confirmpassword: '确认新密码',
     resetpasssuccess: '重置密码成功',
     verifyerror: '验证码错误',
-    passwordconsistent:'密码不一致',
+    passwordconsistent: '密码不一致',
     terms: '法律条款'
   },
   login: {

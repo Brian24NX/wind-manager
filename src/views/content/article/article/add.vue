@@ -8,13 +8,13 @@
         <el-row :gutter="80">
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.title')" prop="title">
-              <el-input v-model="articleForm.title" />
+              <el-input v-model="articleForm.title" size="small" />
             </el-form-item>
             <el-form-item :label="$t('addArticle.creator')" prop="creator">
-              <el-input v-model="articleForm.creator" />
+              <el-input v-model="articleForm.creator" size="small" />
             </el-form-item>
             <el-form-item :label="$t('addArticle.description')" prop="description">
-              <el-input v-model="articleForm.description" type="textarea" :rows="4" />
+              <el-input v-model="articleForm.description" type="textarea" :rows="4" size="small" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -35,7 +35,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item :label="$t('addArticle.content')" prop="content">
-              <tinymce v-model="articleForm.content" :height="400" />
+              <tinymce v-model="articleForm.content" :height="350" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -44,7 +44,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('addArticle.publishTo')" prop="publishTo">
-                  <el-select v-model="articleForm.publishTo" multiple placeholder="请选择活动区域" style="width: 85%">
+                  <el-select v-model="articleForm.publishTo" multiple placeholder="请选择活动区域" style="width: 85%" size="small">
                     <el-option :label="$t('publishTo.newsCenter')" value="1" />
                     <el-option :label="$t('publishTo.CMACGM')" value="2" />
                     <el-option :label="$t('publishTo.weChatAccount')" value="3" />
@@ -53,7 +53,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('addArticle.category')">
-                  <el-select v-model="articleForm.region" placeholder="请选择活动区域" style="width: 85%">
+                  <el-select v-model="articleForm.region" placeholder="请选择活动区域" style="width: 85%" size="small">
                     <el-option label="区域一" value="shanghai" />
                     <el-option label="区域二" value="beijing" />
                   </el-select>
@@ -63,19 +63,19 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.orginalArticleLink')">
-              <el-input v-model="articleForm.name" />
+              <el-input v-model="articleForm.name" size="small" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="2">
             <el-form-item :label="$t('addArticle.schedulePublish')" prop="schedulePublish">
-              <el-switch v-model="articleForm.schedulePublish" />
+              <el-switch v-model="articleForm.schedulePublish" size="small" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item :label="$t('addArticle.scheduleTime')" prop="delivery">
-              <el-date-picker v-model="articleForm.date1" type="date" placeholder="选择日期" style="width: 100%;" />
+              <el-date-picker v-model="articleForm.date1" type="date" placeholder="选择日期" style="width: 100%;" size="small" />
             </el-form-item>
           </el-col>
         </el-row>
