@@ -33,7 +33,7 @@ module.exports = [
     url: '/wind-manager/article/list',
     type: 'get',
     response: config => {
-      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+      const { importance, type, title, page = 1, size = 20, sort } = config.query
 
       let mockList = List.filter(item => {
         if (importance && item.importance !== +importance) return false
@@ -46,7 +46,7 @@ module.exports = [
         mockList = mockList.reverse()
       }
 
-      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+      const pageList = mockList.filter((item, index) => index < size * page && index >= size * (page - 1))
 
       return {
         code: 20000,
