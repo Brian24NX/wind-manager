@@ -6,7 +6,7 @@
     </div>
     <hr />
     <div class="passwordcontent">
-      <h1>忘记密码</h1>
+      <h1>{{ $t('forgetForm.forgotpassword') }}</h1>
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
@@ -57,19 +57,19 @@
           </div>
           <hr class="contentSeparqtor">
           <div class="rightcontent">
-              <h2>安全</h2>
+              <h2>{{ $t('forgetForm.safe') }}</h2>
               <ul class="checklist">
                 <li>
                   <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">为了安全起见,请在十分钟有效期内填写收到的验证码.</span>
+                  <span class="item">{{$t('forgetForm.require')}}</span>
                 </li>
                 <li>
                   <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">验证通过后,将会直接转到修改密码页面.</span>
+                  <span class="item">{{$t('forgetForm.requiresix')}}</span>
                 </li>
                 <li>
                    <i class="icon left" aria-hidden="true">✅</i></i>
-                   <span class="item">重设您的密码并确认即可完成!</span>
+                   <span class="item">{{$t('forgetForm.requirerule')}}</span>
                 </li>
               </ul>
           </div>
@@ -81,7 +81,7 @@
       </div>
     </div>
     <div class="passwordfooter">
-      <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">法律条款</a>| <span>4.3.3-4</span></p>
+      <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span></p>
     </div>
   </div>
 </template>
@@ -102,8 +102,12 @@ export default {
     }
   },
   methods:{
-    submit(){},
-    cancel(){}
+    submit(){
+      this.$router.push('/login')
+    },
+    cancel(){
+      this.$router.go(-1);
+    }
   }
 }
 </script>

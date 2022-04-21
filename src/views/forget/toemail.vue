@@ -45,7 +45,8 @@
                   <span class="item">{{ $t('forgetForm.safedetailtwo') }}</span>
                 </li>
                 <li>
-                   <i class="icon left"{{ $t('forgetForm.safedetailthree') }}</span>
+                    <i class="icon left" aria-hidden="true">✅</i>
+                   <span class="item">{{ $t('forgetForm.safedetailthree') }}</span>
                 </li>
               </ul>
           </div>
@@ -57,7 +58,7 @@
       </div>
     </div>
     <div class="passwordfooter">
-      <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">法律条款</a>| <span>4.3.3-4</span></p>
+      <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span></p>
     </div>
   </div>
 </template>
@@ -70,14 +71,18 @@ export default {
   data() {
     return {
       forgetForm:{
-        verifycode:'',
+        email:'',
       },
       src:logo
     }
   },
   methods:{
-    submit(){},
-    cancel(){}
+    submit(){
+        this.$router.push(`/forget/topassword`)
+    },
+    cancel(){
+        this.$router.go(-1)
+    }
   }
 }
 </script>
