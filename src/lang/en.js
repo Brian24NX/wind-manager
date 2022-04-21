@@ -130,4 +130,37 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
+   // 文章相关
+   article: {
+    thumb: 'Front Cover',
+    title: 'Title',
+    date: 'Date',
+    category: 'Category',
+    platform: 'Platform',
+    status: 'Status',
+    actions: 'Actions'
+  },
+  message: {
+    detail: 'Details',
+    edit: 'Edit',
+    delete: 'Delete',
+    publish: 'Published',
+    unPublish: 'Unpublish'
+  },
+  addArticle: {
+    pageTitle: 'Create A New Article',
+    title: 'Title',
+    creator: 'Creator',
+    forntCover: 'Front Cover',
+    description: 'Description',
+    content: 'Content',
+    orginalArticleLink: 'Original Article Link',
+    publishTo: 'Publish to',
+    category: 'News Category',
+    schedulePublish: 'Schedule Publish Date',
+    scheduleTime: 'Schedule Publish Date',
+    sendTo: 'Send to',
+    submit: 'Save and Publish',
+    reset: 'Reset'
+  },
 }
