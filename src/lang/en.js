@@ -163,4 +163,13 @@ export default {
     submit: 'Save and Publish',
     reset: 'Reset'
   },
+  library:{
+    title: 'Materials Library',
+    allselect: 'Select All',
+    category: 'Change Category',
+    delete: 'Delete',
+    upload: 'Upload',
+    categorysetting: 'Category Setting',
+    addcategory: 'Add A New Category'
+  }
 }

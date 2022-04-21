@@ -167,5 +167,15 @@ export default {
     newsCenter: '小程序新闻中心',
     CMACGM: '小程序 CMA CGM+',
     weChatAccount: '微信公众号'
+  },
+  // 资源库页面翻译
+  library:{
+    title: '素材库',
+    allselect: '全选',
+    category: '更改类别',
+    delete: '删除',
+    upload: '上传',
+    categorysetting: '分类设置',
+    addcategory: '添加新闻类别'
   }
 }
