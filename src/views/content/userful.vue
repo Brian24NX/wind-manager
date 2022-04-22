@@ -1,5 +1,5 @@
 <template>
-      <div>
+  <div>
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
