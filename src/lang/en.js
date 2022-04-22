@@ -184,5 +184,18 @@ export default {
     import: 'Import',
     export: 'Export',
     newitem: 'Add A New Item'
+  },
+  // 用户模版
+  userful:{
+    name: 'Name for Document or Link',
+    category: 'Category',
+    document: 'Document/Link',
+    reference: 'Internal Reference',
+    edit: 'Edit',
+    delete: 'Delete',
+    categoryset: 'Category Setting',
+    import: 'Import',
+    additem:  'Add A New Item',
+    download: 'Download',
   }
 }

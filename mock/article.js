@@ -2,6 +2,7 @@ const Mock = require('mockjs')
 
 const List = []
 const SanctionList = []
+const UseList=[]
 const count = 100
 
 const baseContent = '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
@@ -40,6 +41,16 @@ for(let i=0;i<count;i++){
     'status|1': ['Active', 'Deactive']
   }))
 }
+for(let i=0;i<count;i++){
+  UseList.push(Mock.mock({
+    id: '@increment',
+    nameoflink: '@title(5, 10)',
+    category: '@pick(["react", "vue", "angular"])',
+    updatetime: '@datetime',
+    file: '1.txt',
+    reference: '@title(5, 10)',
+  }))
+}
 module.exports = [
   {
     url: '/wind-manager/article/list',
@@ -71,6 +82,60 @@ module.exports = [
   },
   {
     url: '/wind-manager/sanctions/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = SanctionList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/user/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = UseList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/user/list',
     type: 'get',
     response: config => {
       const { importance, type, title, page = 1, limit = 20, sort } = config.query

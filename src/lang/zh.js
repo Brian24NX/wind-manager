@@ -189,5 +189,18 @@ export default {
     import: '导入',
     export: '导出',
     newitem: '添加新管制品'
+  },
+  // 用户模版
+  userful:{
+    name: '文档或链接名',
+    category: '类别',
+    document: '文档/链接',
+    reference: '内部参考',
+    edit: '编辑',
+    delete: '删除',
+    categoryset: '类别设置',
+    import: '导入',
+    additem:  '添加',
+    download: '下载',
   }
 }
