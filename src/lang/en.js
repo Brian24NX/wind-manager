@@ -197,5 +197,17 @@ export default {
     import: 'Import',
     additem:  'Add A New Item',
     download: 'Download',
+  },
+  // 业务和运营
+  business:{
+    id: 'No.',
+    title: 'Notification Title',
+    category: 'Category',
+    creator: 'Creator',
+    updatetime: 'Updated Time',
+    status: 'Status',
+    buinessupdate: 'Business Update',
+    categoryset: 'Category Setting',
+    sendnotification: 'Send A Notification'
   }
 }

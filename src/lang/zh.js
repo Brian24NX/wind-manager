@@ -202,5 +202,17 @@ export default {
     import: '导入',
     additem:  '添加',
     download: '下载',
+  },
+  // 业务和运营
+  business:{
+    id: '序号',
+    title: '通知标题',
+    category: '类别',
+    creator: '作者',
+    updatetime: '更新时间',
+    status: '状态',
+    buinessupdate: '业务更新',
+    categoryset: '类别设置',
+    sendnotification: '添加通知'
   }
 }
