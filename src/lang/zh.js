@@ -214,5 +214,39 @@ export default {
     buinessupdate: '业务更新',
     categoryset: '类别设置',
     sendnotification: '添加通知'
+  },
+  // 联系信息
+  contact:{
+    id: '序号',
+    region: '区域',
+    office: '办事处',
+    dept: '部门',
+    buinessscope: '业务范围',
+    trade: '航线',
+    accountname: '客户名称',
+    contactperson: '联系人',
+    dutydate: '值班日期',
+    dutytime: '值班时间',
+    phone: '电话',
+    email: '邮箱',
+    import: '导入',
+    createinfo: '新建值班信息',
+    deactive: '禁用',
+    active: '启用'
+  },
+  // FAQ管理
+  faq:{
+    id: '序号',
+    question: '问题',
+    keyword: '关键词',
+    relatedquestion: '关联问题',
+    answer: '答案',
+    creator: '作者',
+    updatetime: '更新时间',
+    status: '状态',
+    import: '导入',
+    createinfo: '添加FAQ',
+    deactive: '禁用',
+    active: '启用'
   }
 }

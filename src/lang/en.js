@@ -209,5 +209,37 @@ export default {
     buinessupdate: 'Business Update',
     categoryset: 'Category Setting',
     sendnotification: 'Send A Notification'
+  },
+  contact:{
+    id: 'No.',
+    region: 'Region',
+    office: 'Office',
+    dept: 'Dept.',
+    buinessscope: 'Business Scope',
+    trade: 'Trade',
+    accountname: 'Account Name',
+    contactperson: 'Contact Person',
+    dutydate: 'On Duty Date',
+    dutytime: 'On Duty Time',
+    phone: 'Phone No.',
+    email: 'Email Address',
+    import: 'Import',
+    createinfo:'Create New Duty Info',
+    deactive: 'Deactive',
+    active: 'Active'
+  },
+  faq:{
+    id: 'No.',
+    question: 'Question',
+    keyword: 'Keyword(s)',
+    relatedquestion: 'Related Question(s)',
+    answer: 'Answer',
+    creator: 'Creator',
+    updatetime: 'Updated Time',
+    status: 'Status',
+    import: 'Import',
+    createinfo: 'Create A New FAQ',
+    deactive: 'Deactive',
+    active: 'Active'
   }
 }
