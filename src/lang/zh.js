@@ -177,5 +177,76 @@ export default {
     upload: '上传',
     categorysetting: '分类设置',
     addcategory: '添加新闻类别'
+  },
+  // 管制品
+  sanctions:{
+    commodityzh: '商品（中文）',
+    commodityen:  '商品（英文）',
+    referencenumber: '参考编号',
+    remarkszh: '中文备注',
+    remarksen: '英文备注',
+    type: '类型',
+    import: '导入',
+    export: '导出',
+    newitem: '添加新管制品'
+  },
+  // 用户模版
+  userful:{
+    name: '文档或链接名',
+    category: '类别',
+    document: '文档/链接',
+    reference: '内部参考',
+    edit: '编辑',
+    delete: '删除',
+    categoryset: '类别设置',
+    import: '导入',
+    additem:  '添加',
+    download: '下载',
+  },
+  // 业务和运营
+  business:{
+    id: '序号',
+    title: '通知标题',
+    category: '类别',
+    creator: '作者',
+    updatetime: '更新时间',
+    status: '状态',
+    buinessupdate: '业务更新',
+    categoryset: '类别设置',
+    sendnotification: '添加通知'
+  },
+  // 联系信息
+  contact:{
+    id: '序号',
+    region: '区域',
+    office: '办事处',
+    dept: '部门',
+    buinessscope: '业务范围',
+    trade: '航线',
+    accountname: '客户名称',
+    contactperson: '联系人',
+    dutydate: '值班日期',
+    dutytime: '值班时间',
+    phone: '电话',
+    email: '邮箱',
+    import: '导入',
+    createinfo: '新建值班信息',
+    deactive: '禁用',
+    active: '启用'
+  },
+  // FAQ管理
+  faq:{
+    id: '序号',
+    question: '问题',
+    keyword: '关键词',
+    relatedquestion: '关联问题',
+    answer: '答案',
+    creator: '作者',
+    updatetime: '更新时间',
+    status: '状态',
+    import: '导入',
+    createinfo: '添加FAQ',
+    deactive: '禁用',
+    active: '启用'
   }
 }

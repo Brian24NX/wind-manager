@@ -1,6 +1,11 @@
 const Mock = require('mockjs')
 
 const List = []
+const SanctionList = []
+const UseList=[]
+const BusinessList=[]
+const ContactList=[]
+const FaqList=[]
 const count = 100
 
 const baseContent = '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
@@ -26,8 +31,58 @@ for (let i = 0; i < count; i++) {
     thumb,
     platforms: ['a-platform']
   }))
+  SanctionList.push(Mock.mock({
+    id: '@increment',
+    commodityen: '@title(5, 10)',
+    commodityzh: '@title(5, 10)',
+    referencenumber: '@integer(1, 3)',
+    type: 'Prohibited',
+    remarkszh: 'mock data',
+    remarksen: 'mock',
+    'status|1': ['Active', 'Deactive']
+  }))
+  UseList.push(Mock.mock({
+    id: '@increment',
+    nameoflink: '@title(5, 10)',
+    category: '@pick(["react", "vue", "angular"])',
+    updatetime: '@datetime',
+    file: '1.txt',
+    reference: '@title(5, 10)',
+  }))
+  BusinessList.push(Mock.mock({
+    id: '@increment',
+    title: '@title(5, 10)',
+    category: '@pick(["react", "vue", "angular"])',
+    creator: 'Linda Wang',
+    updatetime: '@datetime',
+    'status|1': ['Published', 'Draft'],
+  }))
+  ContactList.push(Mock.mock({
+    id: '@increment',
+    region: 'Central China',
+    office: 'Shanghai',
+    dept: 'Customer Service',
+    buinessscope: '进口/Import',
+    trade: 'All Trade',
+    accountname: 'DHL',
+    contactperson: 'Linda WANG',
+    dutydate: 'Monday, Tuesday, Wednesday, Thursday, Friday',
+    dutytime: '09:00-18:00',
+    phone: '021-82272458',
+    email: 'shg,linwang@cma-cgm.com',
+    'status|1': ['Deactive', 'Undeactive'],
+  }))
+  FaqList.push(Mock.mock({
+    id: '@increment',
+    question: 'How old are you?',
+    keyword: 'How ,old',
+    relatedquestion: '2,3',
+    answer: 'Schedule Link',
+    creator: 'Linda Wang',
+    updatetime: '2022.03.07',
+    'status|1': ['Deactive', 'Undeactive'],
+  }))
 }
-
 module.exports = [
   {
     url: '/wind-manager/article/list',
@@ -57,7 +112,168 @@ module.exports = [
       }
     }
   },
+  {
+    url: '/wind-manager/sanctions/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
 
+      let mockList = SanctionList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/user/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = UseList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/business/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = BusinessList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/contact/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = ContactList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/faqmanager/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = FaqList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/user/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = SanctionList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
   {
     url: '/wind-manager/article/detail',
     type: 'get',

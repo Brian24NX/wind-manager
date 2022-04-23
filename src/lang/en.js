@@ -163,6 +163,7 @@ export default {
     submit: 'Save and Publish',
     reset: 'Reset'
   },
+  // 素材库
   library:{
     title: 'Materials Library',
     allselect: 'Select All',
@@ -171,5 +172,74 @@ export default {
     upload: 'Upload',
     categorysetting: 'Category Setting',
     addcategory: 'Add A New Category'
+  },
+  // 管制品
+  sanctions:{
+    commodityzh: 'Commodity (Chinese)',
+    commodityen:  'Commodity (English)',
+    referencenumber: 'Reference Number',
+    remarkszh: 'Remark(s) Chinese',
+    remarksen: 'Remark(s) English',
+    type: 'Type',
+    import: 'Import',
+    export: 'Export',
+    newitem: 'Add A New Item'
+  },
+  // 用户模版
+  userful:{
+    name: 'Name for Document or Link',
+    category: 'Category',
+    document: 'Document/Link',
+    reference: 'Internal Reference',
+    edit: 'Edit',
+    delete: 'Delete',
+    categoryset: 'Category Setting',
+    import: 'Import',
+    additem:  'Add A New Item',
+    download: 'Download',
+  },
+  // 业务和运营
+  business:{
+    id: 'No.',
+    title: 'Notification Title',
+    category: 'Category',
+    creator: 'Creator',
+    updatetime: 'Updated Time',
+    status: 'Status',
+    buinessupdate: 'Business Update',
+    categoryset: 'Category Setting',
+    sendnotification: 'Send A Notification'
+  },
+  contact:{
+    id: 'No.',
+    region: 'Region',
+    office: 'Office',
+    dept: 'Dept.',
+    buinessscope: 'Business Scope',
+    trade: 'Trade',
+    accountname: 'Account Name',
+    contactperson: 'Contact Person',
+    dutydate: 'On Duty Date',
+    dutytime: 'On Duty Time',
+    phone: 'Phone No.',
+    email: 'Email Address',
+    import: 'Import',
+    createinfo:'Create New Duty Info',
+    deactive: 'Deactive',
+    active: 'Active'
+  },
+  faq:{
+    id: 'No.',
+    question: 'Question',
+    keyword: 'Keyword(s)',
+    relatedquestion: 'Related Question(s)',
+    answer: 'Answer',
+    creator: 'Creator',
+    updatetime: 'Updated Time',
+    status: 'Status',
+    import: 'Import',
+    createinfo: 'Create A New FAQ',
+    deactive: 'Deactive',
+    active: 'Active'
   }
 }
