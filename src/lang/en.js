@@ -209,7 +209,8 @@ export default {
     status: 'Status',
     buinessupdate: 'Business Update',
     categoryset: 'Category Setting',
-    sendnotification: 'Send A Notification'
+    sendnotification: 'Send A Notification',
+    deltitle: 'Please confirm if you want to delete this notification?'
   },
   contact:{
     id: 'No.',

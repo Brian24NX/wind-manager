@@ -214,7 +214,8 @@ export default {
     status: '状态',
     buinessupdate: '业务更新',
     categoryset: '类别设置',
-    sendnotification: '添加通知'
+    sendnotification: '添加通知',
+    deltitle: '是否确认删除该通知？'
   },
   // 联系信息
   contact:{
