@@ -107,7 +107,8 @@ export default {
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
     passwordconsistent:'Password must be consistent',
-    terms: 'Legal Terms'
+    terms: 'Legal Terms',
+    yes: 'Yes'
   },
   // 登陆页面翻译
   login: {
@@ -240,7 +241,9 @@ export default {
     import: 'Import',
     createinfo: 'Create A New FAQ',
     deactive: 'Deactive',
-    active: 'Active'
+    active: 'Active',
+    export: 'Export',
+    deltitle: 'Please confirm if you want to delete this FAQ?'
   },
     //  新闻中心
     newscenter:{
@@ -253,6 +256,10 @@ export default {
       publishdate: 'Published Date',
       link: 'Link',
       status: 'Status',
+      addtitle: 'Add A Historical News',
+      deltitle: 'Please confirm if you want to delete this article?',
+      del:'Delete',
+      addcategorysetting: ''
    },
    //  vas
    vas:{
@@ -261,5 +268,7 @@ export default {
     publishdate: 'Published Date',
     link: 'Link',
     status: 'Status',
+    deltitle: 'Please confirm if you want to delete this article?',
+    addtitle: 'Add A CMA CGM+ Intro by Link'
    }
 }

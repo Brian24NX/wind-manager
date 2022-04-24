@@ -107,7 +107,8 @@ export default {
     resetpasssuccess: '重置密码成功',
     verifyerror: '验证码错误',
     passwordconsistent: '密码不一致',
-    terms: '法律条款'
+    terms: '法律条款',
+    yes: '确定'
   },
   // 登陆翻译
   login: {
@@ -247,7 +248,9 @@ export default {
     import: '导入',
     createinfo: '添加FAQ',
     deactive: '禁用',
-    active: '启用'
+    active: '启用',
+    export: '导出',
+    deltitle: '是否确认删除该 FAQ ？',
   },
   //  新闻中心
   newscenter:{
@@ -260,6 +263,9 @@ export default {
      publishdate: '发布日期',
      link: '链接',
      status: '状态',
+     addtitle: '添加历史新闻',
+     deltitle: '是否确认删除该文章？',
+     del:'删除'
   },
   // CMA CGM
   vas:{
@@ -268,5 +274,7 @@ export default {
      publishdate: '发布日期',
      link: '链接',
      status: '状态',
+     deltitle: '是否确认删除该文章？',
+     addtitle: '以链接形式添加增值服务介绍'
   }
 }

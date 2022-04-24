@@ -4,34 +4,60 @@
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-            <el-col :span="8">
-              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+             <el-col :span="8">
+              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain>{{$t('vas.addarticlelink')}}</el-button>
+            <el-button type="danger" size="small" @click="adddialog=true" plain>{{$t('vas.addarticlelink')}}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <Pagination ref="pagination" uri="/wind-manager/vas/list" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('newscenter.title')" prop="title"  />
-        <el-table-column :label="$t('newscenter.publishdate')" prop="publishdate"  />
-        <el-table-column :label="$t('newscenter.link')" prop="link" align="center" />
-        <el-table-column align="center" :label="$t('newscenter.status')"  prop="status" />
+        <el-table-column align="center" :label="$t('vas.title')" prop="title"  />
+        <el-table-column :label="$t('vas.publishdate')" prop="publishdate"  />
+        <el-table-column :label="$t('vas.link')" prop="link" align="center" />
+        <el-table-column align="center" :label="$t('vas.status')"  prop="status" />
         <el-table-column :label="$t('article.actions')" align="center"  fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status === 'Unpublished'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.unPublish') }}</el-button>
             <!-- <el-button v-if="scope.row.status ==='Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>-->
-            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row)">{{ $t('message.delete') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="deldialog = true">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
     </div>
+    <!--删除弹窗-->
+    <el-dialog :title="$t('newscenter.del')" :visible.sync="deldialog" center>
+      <span>{{ $t('vas.deltitle') }}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitdel">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="centerDialogVisible = false">{{ $t('forgetForm.cancel') }}</el-button>
+      </span>
+    </el-dialog>
+    <!--添加vas弹窗-->
+    <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center>
+      <el-form :model="addform" :rules="rules" ref="addform">
+        <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
+          <el-input v-model="addform.title" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('vas.link')" :label-width="formLabelWidth" prop="link">
+          <el-input v-model="addform.link" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('vas.publishdate')" :label-width="formLabelWidth" prop="publishdate">
+          <el-date-picker type="date" placeholder="" v-model="addform.publishdate" style="width: 100%"></el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submithistory">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </div> 
 </template>
 <script>
@@ -44,11 +70,25 @@ export default {
   data() {
     return {
       queryParams: {},
-      categoryList: []
+      categoryList: [],
+      addform:{
+        title:'',
+        link:'',
+        publishdate:''
+      },
+      formLabelWidth: "130px",
+      //删除弹窗
+      deldialog:false,
+      //添加弹窗
+      adddialog:false,
+       rules: {
+        title: { required: true, message: '请输入标题', trigger: 'blur' },
+        link: { required: true, message: '请输入链接', trigger: 'blur' },
+        publishdate: { required: true, message: '请选择发布时间', trigger: 'change' },
+      },
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-
 </style>
