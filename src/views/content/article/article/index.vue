@@ -33,19 +33,19 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('article.title')" prop="title" width="300" />
+        <el-table-column :label="$t('article.title')" prop="title"  />
 
-        <el-table-column :label="$t('article.date')" prop="display_time" align="center" width="200" />
+        <el-table-column :label="$t('article.date')" prop="display_time" align="center"  />
 
-        <el-table-column align="center" :label="$t('article.category')" width="200" prop="category" />
+        <el-table-column align="center" :label="$t('article.category')"  prop="category" />
 
-        <el-table-column align="center" :label="$t('article.platform')" width="200">
+        <el-table-column align="center" :label="$t('article.platform')" >
           <template scope="scope">
             <el-tag v-for="(item, index) in scope.row.platforms" :key="index" type="default">{{ item }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('article.status')" width="180" prop="status" />
-        <el-table-column :label="$t('article.actions')" align="center" width="150" fixed="right">
+        <el-table-column align="center" :label="$t('article.status')"  prop="status" />
+        <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'published'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.status === 'unPublished'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>

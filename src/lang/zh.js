@@ -248,5 +248,25 @@ export default {
     createinfo: '添加FAQ',
     deactive: '禁用',
     active: '启用'
+  },
+  //  新闻中心
+  newscenter:{
+     categorysetting: '新闻分类配置',
+     export: '导出',
+     import: '导入',
+     addhistoynews:'添加历史新闻',
+     title: '新闻标题',
+     category: '类别名称',
+     publishdate: '发布日期',
+     link: '链接',
+     status: '状态',
+  },
+  // CMA CGM
+  vas:{
+     addarticlelink: '以链接形式添加文章',
+     title: '标题',
+     publishdate: '发布日期',
+     link: '链接',
+     status: '状态',
   }
 }

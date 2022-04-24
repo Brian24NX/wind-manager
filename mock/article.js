@@ -6,6 +6,8 @@ const UseList=[]
 const BusinessList=[]
 const ContactList=[]
 const FaqList=[]
+const NewsCenterList=[]
+const VasList=[]
 const count = 100
 
 const baseContent = '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
@@ -81,6 +83,21 @@ for (let i = 0; i < count; i++) {
     creator: 'Linda Wang',
     updatetime: '2022.03.07',
     'status|1': ['Deactive', 'Undeactive'],
+  }))
+  NewsCenterList.push(Mock.mock({
+    id: '@increment',
+    title: '@title(5, 10)',
+    category: '@pick(["Business", "CSR", "Corporate Information"])',
+    publishdate: '@datetime',
+    link: 'https://www.baidu.com',
+    'status|1': ['Published', 'Unpublished']
+  }))
+  VasList.push(Mock.mock({
+     id: '@increment',
+     title: '@title(5, 10)',
+     publishdate: '@datetime',
+     link: 'https://www.baidu.com',
+     'status|1': ['Published', 'Unpublished']
   }))
 }
 module.exports = [
@@ -227,6 +244,60 @@ module.exports = [
       const { importance, type, title, page = 1, limit = 20, sort } = config.query
 
       let mockList = FaqList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/newscenter/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = NewsCenterList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/vas/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = VasList.filter(item => {
         if (type && item.type !== type) return false
         if (title && item.title.indexOf(title) < 0) return false
         return true

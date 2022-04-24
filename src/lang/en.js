@@ -241,5 +241,25 @@ export default {
     createinfo: 'Create A New FAQ',
     deactive: 'Deactive',
     active: 'Active'
-  }
+  },
+    //  新闻中心
+    newscenter:{
+      categorysetting: 'News Category Setting',
+      export: 'Export',
+      import: 'Import',
+      addhistoynews:'Add A Historical News',
+      title: 'News Title',
+      category: 'Category',
+      publishdate: 'Published Date',
+      link: 'Link',
+      status: 'Status',
+   },
+   //  vas
+   vas:{
+    addarticlelink: 'Add An Article by Link',
+    title: 'Title',
+    publishdate: 'Published Date',
+    link: 'Link',
+    status: 'Status',
+   }
 }
