@@ -112,13 +112,14 @@ export default {
   },
   // 登陆翻译
   login: {
-    title: '系统登录',
+    title: '登录',
     logIn: '登录',
-    username: '账号',
+    username: '邮箱',
     password: '密码',
     any: '随便填',
     thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
+    forgetpassword: '忘记密码？'
   },
   // 权限页面翻译
   permission: {

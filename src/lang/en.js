@@ -112,13 +112,14 @@ export default {
   },
   // 登陆页面翻译
   login: {
-    title: 'Login Form',
+    title: 'Sign In',
     logIn: 'Login',
-    username: 'Username',
+    username: 'Login (Email)',
     password: 'Password',
     any: 'any',
     thirdparty: 'Or connect with',
-    thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
+    thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !',
+    forgetpassword: 'Forgotten Password?'
   },
   //  权限页面翻译
   permission: {
