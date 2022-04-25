@@ -215,7 +215,9 @@ export default {
     buinessupdate: '业务更新',
     categoryset: '类别设置',
     sendnotification: '添加通知',
-    deltitle: '是否确认删除该通知？'
+    deltitle: '是否确认删除该通知？',
+    content: '文章',
+    uploadfile: '上传文件'
   },
   // 联系信息
   contact:{
@@ -266,7 +268,10 @@ export default {
      status: '状态',
      addtitle: '添加历史新闻',
      deltitle: '是否确认删除该文章？',
-     del:'删除'
+     del:'删除',
+     categoryen: '种类英文',
+     categoryzh:  '种类中文',
+     creator: '作者'
   },
   // CMA CGM
   vas:{

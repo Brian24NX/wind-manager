@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain>{{$t('business.categoryset')}}</el-button>
+            <el-button type="danger" size="small" @click="setdialog=true" plain>{{$t('business.categoryset')}}</el-button>
             <el-button type="danger" size="small" @click="adddialog=true">{{$t('business.sendnotification')}}</el-button>
           </el-row>
         </el-col>
@@ -55,6 +55,19 @@
       </span>
     </el-dialog>
     <!--类别设置-->
+    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
+        <el-button size="small" type="primary">{{$t('library.addcategory')}}</el-button>
+        <el-table :data="tabledata" style="width:80%">
+            <el-table-column :label="$t('business.category')" prop="category"/>
+            <el-table-column :label="$t('business.creator')" prop="creator" align="center"/>
+            <el-table-column :label="$t('article.actions')" align="center"  fixed="right">
+              <template scope="scope">
+                  <el-button size="small" type="text" @click="Edit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+                  <el-button size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
+              </template>
+            </el-table-column>
+        </el-table>
+    </el-dialog>
     <!--添加通告-->
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center>
        <el-form :model="addform" :rules="rules" ref="addform">
@@ -65,16 +78,18 @@
           <el-input v-model="addform.creator" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
-          <el-select v-model="historyform.category" placeholder="请选择">
-            <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
-          </el-select>
+              <tinymce v-model="addform.content" :height="250" />
         </el-form-item>
-        <el-form-item :label="$t('newscenter.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
-          <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>
+        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
+          <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
+          <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :on-preview="handPreview"
+          :on-remove="handRemove" :file-list="fileList" :auto-upload="false" :limit="1">
+            <el-button slot="trigger" size="small" type="primary">{{$t('business.uploadfile')}}</el-button>
+          </el-upload>
         </el-form-item>
-        <el-form-item :label="$t('newscenter.category')" :label-width="formLabelWidth" prop="category">
+        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="category">
               <el-select v-model="queryParams.category" placeholder="请选择">
-                <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
         </el-form-item>
       </el-form>
@@ -87,10 +102,12 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+import Tinymce from '@/components/Tinymce'
 export default {
   name: 'Business',
   components: {
-    Pagination
+    Pagination,
+    Tinymce
   },
   data() {
     return {
@@ -98,9 +115,23 @@ export default {
       categoryList: [],
       adddialog: false,
       deldialog: false,
+      setdialog: false,
       categoryList:[
         {value:0,label:'Business Update'},
         {value:1,label:'Operational Update'}
+      ],
+      fileList:'',
+      formLabelWidth:'130px',
+      addform:{
+          title:'',
+          creator:'',
+          content:'',
+          uploadfile:'',
+          category:'',
+      },
+      tabledata:[
+        {category:'Business Update',creator:'Kelly'},
+        {category:'Operational Update',creator:'Kelly'}
       ]
     }
   }

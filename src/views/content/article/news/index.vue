@@ -16,7 +16,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain>{{ $t('newscenter.categorysetting') }}</el-button>
+            <el-button type="danger" size="small" @click="setdialog=true" plain>{{ $t('newscenter.categorysetting') }}</el-button>
             <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
             <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
             <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
@@ -79,10 +79,21 @@
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
     </el-dialog>
-    <!--文章类型新增-->
-   <!-- <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="" center>
-       <el-button @class="addnewcategory">{{ $t('library.addcategory') }}</el-button>
-    </el-dialog>-->
+    <!--文章类型修改-->
+    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center>
+       <el-button size="small" type="primary">{{$t('library.addcategory')}}</el-button>
+        <el-table :data="tabledata" style="width:80%">
+           <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen"/>
+            <el-table-column :label="$t('newscenter.categoryzh')" prop="categoryzh" align="center"/>
+              <el-table-column :label="$t('newscenter.creator')" prop="creator" align="center"/>
+            <el-table-column :label="$t('article.actions')" align="center"  fixed="right">
+              <template scope="scope">
+                  <el-button size="small" type="text" @click="Edit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+                  <el-button size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
+              </template>
+            </el-table-column>
+        </el-table>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -106,6 +117,8 @@ export default {
       deldialog: false,
       // 导入
       importdialog: false,
+      // 类别修改
+      setdialog: false,
       formLabelWidth: '130px',
       historyform: {
         title: '',
@@ -118,6 +131,10 @@ export default {
         link: { required: true, message: '请输入活动名称', trigger: 'blur' },
         publishdate: { required: true, message: '请选择活动区域', trigger: 'change' },
       },
+      tabledata: [
+        {categoryen:'Business',categoryzh:'业务咨询',creator:'Alina Huang'},
+        {categoryen:'CSR',categoryzh:'社会责任',creator:'Alina Huang'}
+      ]
     }
   },
   methods: {

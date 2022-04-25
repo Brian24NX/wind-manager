@@ -210,7 +210,9 @@ export default {
     buinessupdate: 'Business Update',
     categoryset: 'Category Setting',
     sendnotification: 'Send A Notification',
-    deltitle: 'Please confirm if you want to delete this notification?'
+    deltitle: 'Please confirm if you want to delete this notification?',
+    content: 'Content',
+    uploadfile: 'UploadFile'
   },
   contact:{
     id: 'No.',
@@ -260,7 +262,9 @@ export default {
       addtitle: 'Add A Historical News',
       deltitle: 'Please confirm if you want to delete this article?',
       del:'Delete',
-      addcategorysetting: ''
+      categoryen: 'Category-EN',
+      categoryzh:  'Category-ZH',
+      creator: 'Creator'
    },
    //  vas
    vas:{
