@@ -301,6 +301,8 @@ export default {
     viewuser: '查看已启用用户',
     editpremission: '编辑权限',
     addemployee: '添加员工',
-    addnewfunction: '创建新角色'
+    addnewfunction: '创建新角色',
+    remove: '移除',
+    deltitle: '请确认是否要删除该角色？'
   }
 }

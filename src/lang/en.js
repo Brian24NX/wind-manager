@@ -294,6 +294,8 @@ export default {
     viewuser: 'View Active User',
     editpremission: 'Edit Permission',
     addemployee: 'Add An Employee',
-    addnewfunction: 'Add A New Function'
+    addnewfunction: 'Add A New Function',
+    remove: 'Remove',
+    deltitle: 'Please confirm if you want to delete this function?'
   }
 }
