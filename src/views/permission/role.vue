@@ -1,5 +1,42 @@
 <template>
-  <div>角色管理</div>
+  <!--<div>用户管理</div>-->
+  <div>
+     <div class="searchContainer">
+      <el-row style="width: 100%">
+        <el-col :span="16">
+          <el-row :gutter="20">
+             <el-col :span="8">
+              <el-input v-model="queryParams.creator" size="small" style="width: 100%" placeholder="Creator" suffix-icon="el-icon-search" clearable />
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="8">
+          <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" @click="setdialog=true" plain>{{$t('userrole.import')}}</el-button>
+            <el-button type="danger" size="small" @click="setdialog=true" plain>{{$t('userrole.export')}}</el-button>
+            <el-button type="danger" size="small" @click="adddialog=true">{{$t('userrole.newuser')}}</el-button>
+          </el-row>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="tableContainer">
+      <Pagination ref="pagination" uri="/wind-manager/userlist/list" :request-params="queryParams" :show-index="false">
+        <el-table-column align="center" :label="$t('userrole.name')" prop="name"  />
+        <el-table-column align="center" :label="$t('userrole.email')" prop="email"  />
+
+        <el-table-column :label="$t('userrole.function')" prop="function"  />
+
+        <el-table-column :label="$t('userrole.status')" prop="status" align="center" />
+        <el-table-column :label="$t('article.actions')" align="center"  fixed="right">
+          <template scope="scope">
+            <el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('userrole.active') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row)">{{$t('userrole.viewedit')}}</el-button>
+          </template>
+        </el-table-column>
+      </Pagination>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -7,7 +44,7 @@ import path from 'path'
 import { deepClone } from '@/utils'
 import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/role'
 import i18n from '@/lang'
-
+import Pagination from '@/components/Pagination'
 const defaultRole = {
   key: '',
   name: '',
@@ -16,8 +53,13 @@ const defaultRole = {
 }
 
 export default {
+  name:'role',
+ components: {
+    Pagination
+  },
   data() {
     return {
+      queryParams: {},
       role: Object.assign({}, defaultRole),
       routes: [],
       rolesList: [],

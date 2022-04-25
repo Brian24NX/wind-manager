@@ -5,8 +5,8 @@ export default {
     documentation: 'Documentation',
     guide: 'Guide',
     permission: 'Role and Permission Management',
-    Permission: 'Permission',
-    roleManager: 'Role Management',
+    Permission: 'Role and Permission',
+    roleManager: 'User Management',
     content: 'Content Manager',
     article: 'Article Management',
     createarticle: 'Create A New Article',
@@ -276,5 +276,18 @@ export default {
     status: 'Status',
     deltitle: 'Please confirm if you want to delete this article?',
     addtitle: 'Add A CMA CGM+ Intro by Link'
-   }
+   },
+   // 用户角色和权限
+   userrole:{
+    name: 'Name',
+    email: 'Email Address',
+    function: 'Function',
+    status: 'Status',
+    viewedit: 'View and Edit Functions',
+    active: 'Active',
+    deactive: 'Deactive',
+    import: 'Import',
+    export: 'Export',
+    newuser: 'Add a new user'
+  }
 }

@@ -5,8 +5,8 @@ export default {
     documentation: '文档',
     guide: '引导页',
     permission: '角色和权限管理',
-    roleManager: '角色管理',
-    Permission: '权限管理',
+    roleManager: '用户管理',
+    Permission: '角色和权限管理',
     content: '内容管理',
     article: '文章管理',
     createarticle: '创建文章',
@@ -283,5 +283,18 @@ export default {
      status: '状态',
      deltitle: '是否确认删除该文章？',
      addtitle: '以链接形式添加增值服务介绍'
+  },
+  // 角色和权限
+  userrole:{
+    name: '姓名',
+    email: '邮箱地址',
+    function: '角色与部门',
+    status: '状态',
+    viewedit: '查看并编辑角色',
+    active: '启用',
+    deactive: '禁用',
+    import: '导入',
+    export: '导出',
+    newuser: '添加新用户'
   }
 }

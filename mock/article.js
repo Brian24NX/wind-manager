@@ -8,6 +8,7 @@ const ContactList=[]
 const FaqList=[]
 const NewsCenterList=[]
 const VasList=[]
+const userList=[]
 const count = 100
 
 const baseContent = '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
@@ -99,6 +100,13 @@ for (let i = 0; i < count; i++) {
      link: 'https://www.baidu.com',
      'status|1': ['Published', 'Unpublished']
   }))
+  userList.push(Mock.mock({
+    id: '@increment',
+    name: '@title(2, 5)',
+    email: 'test@cma-cgm.com',
+    function: 'Administrator (Customer Service)',
+    'status|1': ['Active', 'Deactive'],
+  }))
 }
 module.exports = [
   {
@@ -109,6 +117,33 @@ module.exports = [
 
       let mockList = List.filter(item => {
         if (importance && item.importance !== +importance) return false
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/userlist/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = userList.filter(item => {
         if (type && item.type !== type) return false
         if (title && item.title.indexOf(title) < 0) return false
         return true
