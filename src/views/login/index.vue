@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
-    <div class="loginheader">
-      <el-image :src="src"></el-image>
-      <lang-select class="set-language" />
+  <div class="login">
+    <div class="loginleft">
+     <img :src="src" class="left25" />
     </div>
-    <div class="loginmid">
+    <div class="loginright">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-
+      <lang-select class="set-language" />
       <div class="title-container">
         <h3 class="title">
           {{ $t('login.title') }}
@@ -15,7 +15,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="email" />
         </span>
         <el-input
           ref="username"
@@ -51,15 +51,13 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <router-link class="link" to="/forget/toemail">Forgotten Password?</router-link>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;margin-top:20px;" @click.native.prevent="handleLogin">
+      
+      <el-button :loading="loading" type="danger" style="width:100%;margin-bottom:30px;margin-top:20px;" @click.native.prevent="handleLogin">
         {{ $t('login.logIn') }}
       </el-button>
+      <router-link class="link" to="/forget/toemail">{{$t('login.forgetpassword')}}</router-link>
     </el-form>
     </div>
-    
-    <div class="loginfooter">
-        <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">法律条款</a>| <span>4.3.3-4</span></p>
     </div>
   </div>
 </template>
@@ -67,7 +65,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
-import logo from '../../assets/logo.png'
+import logo from '../../assets/header.png'
 export default {
   name: 'Login',
   components: { LangSelect },
@@ -193,8 +191,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
 $light_gray:#fff;
@@ -208,7 +204,7 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
-   width:1200px;
+   min-width:1200px;
    margin:auto;
   .el-input {
     display: inline-block;
@@ -242,6 +238,7 @@ $cursor: #fff;
      background-color:transparent;
      color:#2563d9;
      margin-bottom:20px;
+     float:right;
   }
 }
 </style>
@@ -253,19 +250,46 @@ $light_gray:#eee;
 
 .login-container {
   min-height: 100%;
-  width: 100%;
-  background-color: $bg;
+  min-width: 100%;
+  background-color: #eef0f3;
   overflow: hidden;
-
+  .login{
+    width:1300px;
+    margin:0 auto
+  }
+  .loginleft{
+      width:630px;
+      height:712px;
+      display:table-cell;
+      background:url('../../assets/bg.png') no-repeat;
+      .left25{
+        position:relative;
+        left:25px;
+        top:-100px;
+      }
+  }
+  .loginright{
+      width:570px;
+      height:712px;
+      display:table-cell;
+      background-color:#04246A;
+  }
   .login-form {
     position: relative;
-    width: 520px;
+    width: 400px;
     max-width: 100%;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
   }
-
+    .set-language {
+      color: #fff;
+      position: absolute;
+      top: 13px;
+      font-size: 18px;
+      right: 0px;
+      cursor: pointer;
+    }
   .tips {
     font-size: 14px;
     color: #fff;
@@ -297,14 +321,7 @@ $light_gray:#eee;
       font-weight: bold;
     }
 
-    .set-language {
-      color: #fff;
-      position: absolute;
-      top: 3px;
-      font-size: 18px;
-      right: 0px;
-      cursor: pointer;
-    }
+ 
   }
 
   .show-pwd {

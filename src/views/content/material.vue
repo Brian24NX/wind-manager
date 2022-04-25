@@ -42,17 +42,17 @@ export default {
       librarylist: [
         {
           src: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-          name: '4a731a90594a4af544c0c25941171jpeg.jpeg',
+          name: '1.jpeg',
           checked: false,
         },
         {
           src: " https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-          name: '4a731a90594a4af544c0c25941171jpeg.jpeg',
+          name: '2.jpeg',
           checked: false,
         },
         {
           src: " https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-          name: '4a731a90594a4af544c0c25941171jpeg.jpeg',
+          name: '3.jpeg',
           checked: false,
         },
       ],

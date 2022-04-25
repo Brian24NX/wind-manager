@@ -57,7 +57,7 @@ const constantRoutes = [
     },
     children: [{
       path: 'articlemanagement',
-      component: () => import('@/views/content/article/index'),
+      component: 'views/content/article/index',
       name: 'Article Management',
       meta: {
         title: 'article'
@@ -65,28 +65,28 @@ const constantRoutes = [
       redirect: '/content/articlemanagement/articlelist',
       children: [{
         path: 'articlelist',
-        component: () => import('@/views/content/article/index'),
+        component: 'views/content/article/index',
         name: 'Article Management',
         meta: {
           title: 'article'
         }
       }, {
         path: 'addarticle',
-        component: () => import('@/views/content/article/add'),
+        component: 'views/content/article/add',
         name: 'Create A New Article',
         meta: {
           title: 'createarticle'
         }
       }, {
         path: 'newscenter',
-        component: () => import('@/views/content/article/new'),
+        component: 'views/content/article/new',
         name: 'Mini-Program News Center',
         meta: {
           title: 'newcenter'
         }
       }, {
         path: 'vas',
-        component: () => import('@/views/content/article/vas'),
+        component: 'views/content/article/vas',
         name: 'Mini-Program Vas',
         meta: {
           title: 'vas'
@@ -95,7 +95,7 @@ const constantRoutes = [
     },
     {
       path: 'faq',
-      component: () => import('@/views/content/faqmanagement'),
+      component:'views/content/faqmanagement',
       name: 'FAQ Management',
       meta: {
         title: 'faq'
@@ -103,7 +103,7 @@ const constantRoutes = [
     },
     {
       path: 'contact',
-      component: () => import('@/views/content/contact'),
+      component: 'views/content/contact',
       name: 'Contact Information Matrix',
       meta: {
         title: 'contactinformation'
@@ -111,7 +111,7 @@ const constantRoutes = [
     },
     {
       path: 'buiness',
-      component: () => import('@/views/content/business'),
+      component: 'views/content/business',
       name: 'Business & Operational Update',
       meta: {
         title: 'buiness'
@@ -119,7 +119,7 @@ const constantRoutes = [
     },
     {
       path: 'userful',
-      component: () => import('@/views/content/userful'),
+      component: 'views/content/userful',
       name: 'Useful Template and Link',
       meta: {
         title: 'useful'
@@ -127,7 +127,7 @@ const constantRoutes = [
     },
     {
       path: 'sanctions',
-      component: () => import('@/views/content/sanctions'),
+      component: 'views/content/sanctions',
       name: 'Sanctions and Commodity List',
       meta: {
         title: 'Sanctions'
@@ -135,7 +135,7 @@ const constantRoutes = [
     },
     {
       path: 'material',
-      component: () => import('@/views/content/material'),
+      component: 'views/content/material',
       name: 'Material Library',
       meta: {
         title: 'material'

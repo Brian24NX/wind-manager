@@ -5,8 +5,8 @@ export default {
     documentation: '文档',
     guide: '引导页',
     permission: '角色和权限管理',
-    roleManager: '角色管理',
-    Permission: '权限管理',
+    roleManager: '用户管理',
+    Permission: '角色和权限管理',
     content: '内容管理',
     article: '文章管理',
     createarticle: '创建文章',
@@ -107,17 +107,19 @@ export default {
     resetpasssuccess: '重置密码成功',
     verifyerror: '验证码错误',
     passwordconsistent: '密码不一致',
-    terms: '法律条款'
+    terms: '法律条款',
+    yes: '确定'
   },
   // 登陆翻译
   login: {
-    title: '系统登录',
+    title: '登录',
     logIn: '登录',
-    username: '账号',
+    username: '邮箱',
     password: '密码',
     any: '随便填',
     thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
+    forgetpassword: '忘记密码？'
   },
   // 权限页面翻译
   permission: {
@@ -213,7 +215,10 @@ export default {
     status: '状态',
     buinessupdate: '业务更新',
     categoryset: '类别设置',
-    sendnotification: '添加通知'
+    sendnotification: '添加通知',
+    deltitle: '是否确认删除该通知？',
+    content: '文章',
+    uploadfile: '上传文件'
   },
   // 联系信息
   contact:{
@@ -247,6 +252,57 @@ export default {
     import: '导入',
     createinfo: '添加FAQ',
     deactive: '禁用',
-    active: '启用'
+    active: '启用',
+    export: '导出',
+    deltitle: '是否确认删除该 FAQ ？',
+  },
+  //  新闻中心
+  newscenter:{
+     categorysetting: '新闻分类配置',
+     export: '导出',
+     import: '导入',
+     addhistoynews:'添加历史新闻',
+     title: '新闻标题',
+     category: '类别名称',
+     publishdate: '发布日期',
+     link: '链接',
+     status: '状态',
+     addtitle: '添加历史新闻',
+     deltitle: '是否确认删除该文章？',
+     del:'删除',
+     categoryen: '种类英文',
+     categoryzh:  '种类中文',
+     creator: '作者'
+  },
+  // CMA CGM
+  vas:{
+     addarticlelink: '以链接形式添加文章',
+     title: '标题',
+     publishdate: '发布日期',
+     link: '链接',
+     status: '状态',
+     deltitle: '是否确认删除该文章？',
+     addtitle: '以链接形式添加增值服务介绍'
+  },
+  // 角色和权限
+  userrole:{
+    name: '姓名',
+    email: '邮箱地址',
+    function: '角色与部门',
+    status: '状态',
+    viewedit: '查看并编辑角色',
+    active: '启用',
+    deactive: '禁用',
+    import: '导入',
+    export: '导出',
+    newuser: '添加新用户',
+    id: '序号',
+    description: '描述',
+    viewuser: '查看已启用用户',
+    editpremission: '编辑权限',
+    addemployee: '添加员工',
+    addnewfunction: '创建新角色',
+    remove: '移除',
+    deltitle: '请确认是否要删除该角色？'
   }
 }
