@@ -64,16 +64,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/404',
-    component: () => import('@/views/error-page/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true
-  },
-  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -86,7 +76,7 @@ export const constantRoutes = [
       }
     ]
   },
-  articleRouter
+ 
 ]
 
 /**
@@ -95,6 +85,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+   articleRouter,
   {
     path: '/permission',
     component: Layout,
@@ -127,7 +118,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
