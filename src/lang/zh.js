@@ -295,6 +295,12 @@ export default {
     deactive: '禁用',
     import: '导入',
     export: '导出',
-    newuser: '添加新用户'
+    newuser: '添加新用户',
+    id: '序号',
+    description: '描述',
+    viewuser: '查看已启用用户',
+    editpremission: '编辑权限',
+    addemployee: '添加员工',
+    addnewfunction: '创建新角色'
   }
 }

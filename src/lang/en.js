@@ -288,6 +288,12 @@ export default {
     deactive: 'Deactive',
     import: 'Import',
     export: 'Export',
-    newuser: 'Add a new user'
+    newuser: 'Add a new user',
+    id: 'No.',
+    description: 'Description',
+    viewuser: 'View Active User',
+    editpremission: 'Edit Permission',
+    addemployee: 'Add An Employee',
+    addnewfunction: 'Add A New Function'
   }
 }

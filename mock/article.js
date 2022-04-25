@@ -9,6 +9,7 @@ const FaqList=[]
 const NewsCenterList=[]
 const VasList=[]
 const userList=[]
+const rolepremissionList=[]
 const count = 100
 
 const baseContent = '<p>I am testing data, I am testing data.</p><p><img src="https://wpimg.wallstcn.com/4c69009c-0fd4-4153-b112-6cb53d1cf943"></p>'
@@ -107,6 +108,12 @@ for (let i = 0; i < count; i++) {
     function: 'Administrator (Customer Service)',
     'status|1': ['Active', 'Deactive'],
   }))
+  rolepremissionList.push(Mock.mock({
+     id: '@increment',
+     function: 'Administrator (Customer Service)',
+     description: 'Chase',
+     status: 'Active',
+  }))
 }
 module.exports = [
   {
@@ -144,6 +151,33 @@ module.exports = [
       const { importance, type, title, page = 1, limit = 20, sort } = config.query
 
       let mockList = userList.filter(item => {
+        if (type && item.type !== type) return false
+        if (title && item.title.indexOf(title) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: {
+          total: mockList.length,
+          list: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/wind-manager/rolepermission/list',
+    type: 'get',
+    response: config => {
+      const { importance, type, title, page = 1, limit = 20, sort } = config.query
+
+      let mockList = rolepremissionList.filter(item => {
         if (type && item.type !== type) return false
         if (title && item.title.indexOf(title) < 0) return false
         return true
