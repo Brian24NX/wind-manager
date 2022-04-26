@@ -36,3 +36,12 @@ export function deleteRole(id) {
     method: 'delete'
   })
 }
+
+//远端导出
+export function roleExport(data){
+   return request({
+      url: '/api/admin/roleExport',
+      method: 'get',
+      data
+   })
+}
