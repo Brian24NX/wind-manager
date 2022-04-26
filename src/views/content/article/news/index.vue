@@ -4,9 +4,10 @@
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="6">
               <el-select v-model="queryParams.category" placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <el-button icon="el-icon-search">11</el-button>
               </el-select>
             </el-col>
             <el-col :span="8">

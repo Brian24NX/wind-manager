@@ -48,14 +48,14 @@ const constantRoutes = [
 ]
 
 const asyncRoutes = [
- 
+  //文章管理
   {
     path: '/content',
     component: 'layout/Layout',
     redirect: '/content/articlemanagement/articlelist',
-    name: 'content',
+    name: 'contentManager',
     meta: {
-      title: 'content',
+      title: 'contentManager',
       icon: 'documentation',
       affix: true
     },
@@ -64,7 +64,7 @@ const asyncRoutes = [
       component: 'views/content/article/index',
       name: 'Article Management',
       meta: {
-        title: 'article'
+        title: 'articleManager'
       },
       redirect: '/content/articlemanagement/articlelist',
       children: [{
@@ -72,28 +72,28 @@ const asyncRoutes = [
         component: 'views/content/article/index',
         name: 'Article Management',
         meta: {
-          title: 'article'
+          title: 'articleManager'
         }
       }, {
         path: 'addarticle',
         component: 'views/content/article/add',
         name: 'Create A New Article',
         meta: {
-          title: 'createarticle'
+          title: 'createArticle'
         }
       }, {
         path: 'newscenter',
         component: 'views/content/article/new',
         name: 'Mini-Program News Center',
         meta: {
-          title: 'newcenter'
+          title: 'newsCenter'
         }
       }, {
         path: 'vas',
         component: 'views/content/article/vas',
         name: 'Mini-Program Vas',
         meta: {
-          title: 'vas'
+          title: 'cmaCgm'
         }
       }]
     },
@@ -102,7 +102,7 @@ const asyncRoutes = [
       component:'views/content/faqmanagement',
       name: 'FAQ Management',
       meta: {
-        title: 'faq'
+        title: 'faqManagement'
       }
     },
     {
@@ -110,7 +110,7 @@ const asyncRoutes = [
       component: 'views/content/contact',
       name: 'Contact Information Matrix',
       meta: {
-        title: 'contactinformation'
+        title: 'contactInformation'
       }
     },
     {
@@ -118,7 +118,7 @@ const asyncRoutes = [
       component: 'views/content/business',
       name: 'Business & Operational Update',
       meta: {
-        title: 'buiness'
+        title: 'businessOperationalUpdate'
       }
     },
     {
@@ -126,7 +126,7 @@ const asyncRoutes = [
       component: 'views/content/userful',
       name: 'Useful Template and Link',
       meta: {
-        title: 'useful'
+        title: 'usefulTemplateAndLink'
       }
     },
     {
@@ -134,7 +134,7 @@ const asyncRoutes = [
       component: 'views/content/sanctions',
       name: 'Sanctions and Commodity List',
       meta: {
-        title: 'Sanctions'
+        title: 'sanctionsAndCommodityList'
       }
     },
     {
@@ -142,10 +142,11 @@ const asyncRoutes = [
       component: 'views/content/material',
       name: 'Material Library',
       meta: {
-        title: 'material'
+        title: 'materialLibrary'
       }
     }]
   },
+  //权限管理
   {
     path: '/permission',
     component: 'layout/Layout',
@@ -157,22 +158,22 @@ const asyncRoutes = [
     },
     children: [
       {
-        path: 'page',
+        path: 'UserManagement',
         component: 'views/permission/page',
-        name: 'Permission',
+        name: 'UserManagement',
         meta: {
-          title: 'Permission'
+          title: 'userManagement'
         }
       },
       {
-        path: 'role',
+        path: 'RolePermission',
         component: 'views/permission/role',
-        name: 'roleManager',
+        name: 'Role & Permission',
         meta: {
-          title: 'roleManager'
+          title: 'rolePermission'
         }
       }
-    ]
+     ]
   },
 
 

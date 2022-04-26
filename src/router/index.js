@@ -95,25 +95,22 @@ export const asyncRoutes = [
     meta: {
       title: 'permission',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [
       {
-        path: 'RoleManagement',
+        path: 'UserManagement',
         component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
+        name: 'UserManagement',
         meta: {
-          title: 'roleManager',
-          roles: ['admin']
+          title: 'userManagement',
         }
       },
       {
-        path: 'PagePermission',
+        path: 'RolePermission',
         component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        name: 'Role & Permission',
         meta: {
-          title: 'Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: 'rolePermission',
         }
       }
     ]
