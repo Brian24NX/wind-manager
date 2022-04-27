@@ -88,7 +88,8 @@ export default {
     edit: '编辑',
     delete: '删除',
     publish: '发布',
-    unPublish: '撤回'
+    unPublish: '撤回',
+    download: '下载模版'
   },
   addArticle: {
     pageTitle: '添加新推文',

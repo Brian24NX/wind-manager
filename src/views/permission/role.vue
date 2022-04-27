@@ -12,8 +12,9 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" @click="downloadfile" plain>{{$t('message.download')}}</el-button>
             <el-button type="danger" size="small" @click="importdialog = true" plain>{{ $t('userrole.import') }}</el-button>
-            <el-button type="danger" size="small" @click="downloadtemplate" plain>{{ $t('userrole.export') }}</el-button>
+            <el-button type="danger" size="small" @click="exportlist" plain>{{ $t('userrole.export') }}</el-button>
             <el-button type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
           </el-row>
         </el-col>
@@ -221,6 +222,9 @@ export default {
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },
+    downloadfile(){
+       window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx";
+    }
   },
 }
 </script>

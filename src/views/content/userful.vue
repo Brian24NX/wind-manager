@@ -12,6 +12,7 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small">{{ $t('userful.categoryset') }}</el-button>
+           <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small">{{ $t('userful.import') }}</el-button>
             <el-button type="danger" size="small" plain>{{ $t('userful.additem') }}</el-button>
             <el-button type="danger" size="small" >{{ $t('userful.download') }}</el-button>
@@ -54,6 +55,11 @@ export default {
       queryParams: {},
       categoryList: []
     }
+  },
+  methods:{
+      downloadfile(){
+        window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx"
+      }
   }
 }
 </script>

@@ -19,6 +19,7 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="exporttemplate" plain>{{ $t('faq.export') }}</el-button>
+            <el-button type="danger" size="small" @click="downloadfile">{{$t('message.download')}}</el-button>
             <el-button type="danger" size="small" @click="importdialog = true" plain>{{ $t('contact.import') }}</el-button>
             <el-button type="danger" size="small" @click="adddialog = true">{{ $t('contact.createinfo') }}</el-button>
           </el-row>
@@ -214,6 +215,11 @@ export default {
       }
     }
   },
+  methods:{
+    downloadfile(){
+         window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx"
+    }
+  }
 }
 </script>
 <style lang="scss" scoped></style>

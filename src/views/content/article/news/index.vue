@@ -19,6 +19,7 @@
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="setdialog=true" plain>{{ $t('newscenter.categorysetting') }}</el-button>
             <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
+            <el-button type="danger" size="small" @click="downloadfile">{{$t('message.download')}}</el-button>
             <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
             <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
           </el-row>
@@ -143,9 +144,12 @@ export default {
     submithistory() {},
     // 删除一行数据
     submitdel() {},
-    // 下载模版
+    // 导出
     exporttemplate() {},
-    //
+    // 下载模版
+    downloadfile(){
+      window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx"
+    }
   },
 }
 </script>
