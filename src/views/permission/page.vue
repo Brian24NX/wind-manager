@@ -27,7 +27,7 @@
             <el-button size="small" type="text" class="primary" @click="viewdialog = true">{{ $t('userrole.viewuser') }}</el-button>
             <el-button size="small" type="text" class="primary" @click="handleDelete(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
             <el-button size="small" type="text" class="primary" @click="handleDelete(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="deldialog=true">{{ $t('message.delete') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="deldialog = true">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -54,28 +54,102 @@
         <el-button @click="centerDialogVisible = false">{{ $t('forgetForm.cancel') }}</el-button>
       </span>
     </el-dialog>
+    <!--新增角色和权限-->
+    <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="adddialog" center>
+      <el-form :model="premissionform" :rules="premissionrules" ref="premissionform">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
+          <el-input v-model="premissionform.function" autocomplete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('userrole.description')" :label-width="formLabelWidth" prop="description">
+          <el-input type="textarea" :row="2" v-model="premissionform.description" autocomplete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('userrole.permission')" :label-width="formLabelWidth" prop="permission">
+          <multi-check-list :dataList="dataList" :default-checked-keys="premissionform.permission" :invert="false" :isCheckAll="false" @change="handlerDataCheck"></multi-check-list>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import SwitchRoles from './components/SwitchRoles'
 import Pagination from '@/components/Pagination'
+import MultiCheckList from '@/components/MultiCheckList'
 export default {
   name: 'PagePermission',
-  components: { SwitchRoles, Pagination },
+  components: { SwitchRoles, Pagination, MultiCheckList },
   data() {
     return {
+      dataList: [
+        {
+          code: 1001,
+          label: '电商',
+          value: 'a001',
+          children: [
+            {
+              code: 1002,
+              label: '淘宝',
+              value: 'a002',
+            },
+            {
+              code: 1003,
+              label: '京东',
+              value: 'a003',
+            },
+            {
+              code: 1004,
+              label: '亚马逊',
+              value: 'a002',
+            },
+          ],
+        },
+        {
+          code: 1005,
+          label: '生活服务',
+          value: 'a005',
+          children: [
+            {
+              code: 1006,
+              label: '美团',
+              value: 'a006',
+            },
+            {
+              code: 1007,
+              label: '大众点评',
+              value: 'a007',
+            },
+            {
+              code: 1008,
+              label: '滴滴',
+              value: 'a008',
+            },
+            {
+              code: 1009,
+              label: '饿了么',
+              value: 'a009',
+            },
+          ],
+        },
+      ],
+      premissionform: {
+        permission: ['a001', 'a003', 'a005', 'a009'],
+        description: '',
+        function: '',
+      },
       queryParams: {},
       viewdialog: false,
       deldialog: false,
-      tabledata:[
-        {id:'1',name:'kelly',email:'kelly@163.com'},
-        {id:'2',name:'kelly',email:'kelly@163.com'},
-        {id:'3',name:'kelly',email:'kelly@163.com'}
-      ]
+      tabledata: [
+        { id: '1', name: 'kelly', email: 'kelly@163.com' },
+        { id: '2', name: 'kelly', email: 'kelly@163.com' },
+        { id: '3', name: 'kelly', email: 'kelly@163.com' },
+      ],
     }
   },
   methods: {
+    handlerDataCheck(parent, child) {
+      console.log(parent, child)
+    },
     // handleRolesChange() {
     //   this.$router.push({ path: '/permission/index?' + +new Date() })
     // },

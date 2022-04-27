@@ -244,6 +244,7 @@ export default {
     addemployee: '添加员工',
     addnewfunction: '创建新角色',
     remove: '移除',
-    deltitle: '请确认是否要删除该角色？'
+    deltitle: '请确认是否要删除该角色？',
+    permission: '权限'
   }
 }

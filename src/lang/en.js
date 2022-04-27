@@ -237,6 +237,7 @@ export default {
     addemployee: 'Add An Employee',
     addnewfunction: 'Add A New Function',
     remove: 'Remove',
-    deltitle: 'Please confirm if you want to delete this function?'
+    deltitle: 'Please confirm if you want to delete this function?',
+    permission: 'Permission'
   }
 }
