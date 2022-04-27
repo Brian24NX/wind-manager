@@ -53,11 +53,27 @@ export function logout() {
 //       params:{email}
 //    })
 // }
-//后端重置密码
+//远端重置密码
 // export function resetPwd(data){
 //    return request({
 //       url: '/api/admin/resetPwd',
 //       method: 'post',
 //       data
 //    })
+// }
+//远端用户添加
+// export function userAdd(data){
+//     return request({
+//       url: '/api/admin/userAdd',
+//       method: 'post',
+//       data
+//     })
+// }
+// //远端用户修改
+// export function userEdit(data){
+//      return request({
+//        url: '/api/admin/userEdit',
+//        method: 'post',
+//        data
+//      })
 // }
