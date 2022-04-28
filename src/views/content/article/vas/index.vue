@@ -1,33 +1,33 @@
 <template>
-    <div>
+  <div>
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-             <el-col :span="8">
+            <el-col :span="8">
               <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="adddialog=true" plain>{{$t('vas.addarticlelink')}}</el-button>
+            <el-button type="danger" size="small" plain @click="adddialog = true">{{ $t('vas.addarticlelink') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <Pagination ref="pagination" uri="/wind-manager/vas/list" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('vas.title')" prop="title"  />
-        <el-table-column :label="$t('vas.publishdate')" prop="publishdate"  />
+        <el-table-column align="center" :label="$t('vas.title')" prop="title" />
+        <el-table-column :label="$t('vas.publishdate')" prop="publishdate" />
         <el-table-column :label="$t('vas.link')" prop="link" align="center" />
-        <el-table-column align="center" :label="$t('vas.status')"  prop="status" />
-        <el-table-column :label="$t('article.actions')" align="center"  fixed="right">
+        <el-table-column align="center" :label="$t('vas.status')" prop="status" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status === 'Unpublished'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.unPublish') }}</el-button>
             <!-- <el-button v-if="scope.row.status ==='Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>-->
-            <el-button size="small" type="text" class="danger" @click="deldialog = true">{{ $t('message.delete') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -42,15 +42,15 @@
     </el-dialog>
     <!--添加vas弹窗-->
     <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center>
-      <el-form :model="addform" :rules="rules" ref="addform">
+      <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="addform.title" autocomplete="off"></el-input>
+          <el-input v-model="addform.title" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('vas.link')" :label-width="formLabelWidth" prop="link">
-          <el-input v-model="addform.link" autocomplete="off"></el-input>
+          <el-input v-model="addform.link" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('vas.publishdate')" :label-width="formLabelWidth" prop="publishdate">
-          <el-date-picker type="date" placeholder="" v-model="addform.publishdate" style="width: 100%"></el-date-picker>
+          <el-date-picker v-model="addform.publishdate" type="date" placeholder="" style="width: 100%" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -58,10 +58,12 @@
         <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
-  </div> 
+  </div>
 </template>
 <script>
-  import Pagination from '@/components/Pagination'
+import Pagination from '@/components/Pagination'
+// eslint-disable-next-line no-unused-vars
+import { cmaDel } from '../../../../api/cmacmg.js'
 export default {
   name: 'CmaCgm',
   components: {
@@ -71,24 +73,43 @@ export default {
     return {
       queryParams: {},
       categoryList: [],
-      addform:{
-        title:'',
-        link:'',
-        publishdate:''
+      addform: {
+        title: '',
+        link: '',
+        publishdate: ''
       },
-      formLabelWidth: "130px",
-      //删除弹窗
-      deldialog:false,
-      //添加弹窗
-      adddialog:false,
-       rules: {
+      formLabelWidth: '130px',
+      // 删除弹窗
+      deldialog: false,
+      // 添加弹窗
+      adddialog: false,
+      rules: {
         title: { required: true, message: '请输入标题', trigger: 'blur' },
         link: { required: true, message: '请输入链接', trigger: 'blur' },
-        publishdate: { required: true, message: '请选择发布时间', trigger: 'change' },
-      },
+        publishdate: { required: true, message: '请选择发布时间', trigger: 'change' }
+      }
+    }
+  },
+  methods: {
+    handleDel(id) {
+      this.$confirm(this.$t('vas.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(() => {
+          this.newsDel(id).then((res) => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$message.success(res.message)
+            }
+          })
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

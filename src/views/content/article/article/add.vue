@@ -130,6 +130,11 @@ export default {
       }
     }
   },
+  created() {
+    // 通过id判断是新增还是编辑
+    // eslint-disable-next-line no-unused-vars
+    const id = this.$route.params.id
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

@@ -48,14 +48,6 @@
         </el-table-column>
       </el-table>
     </el-dialog>
-    <!--删除角色-->
-    <el-dialog :title="$t('message.delete')" :visible.sync="deldialog" center>
-      <span>{{ $t('userrole.deltitle') }}</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitdel">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="centerDialogVisible = false">{{ $t('forgetForm.cancel') }}</el-button>
-      </span>
-    </el-dialog>
     <!--新增角色和权限-->
     <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="adddialog" center>
       <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
@@ -141,7 +133,6 @@ export default {
       },
       queryParams: {},
       viewdialog: false,
-      deldialog: false,
       tabledata: [
         { id: '1', name: 'kelly', email: 'kelly@163.com' },
         { id: '2', name: 'kelly', email: 'kelly@163.com' },

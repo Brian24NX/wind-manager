@@ -24,7 +24,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small"> <i class="el-icon-plus" /> Add A New Article </el-button>
+        <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> Add A New Article </el-button>
       </div>
       <Pagination ref="pagination" uri="/wind-manager/article/list" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
@@ -88,7 +88,7 @@ export default {
         }
       })
     },
-    // 删除元素
+    // 删除历史信息
     handleDelete(index) {
       this.$confirm(this.$t('article.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
@@ -106,6 +106,14 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
+    },
+    // 编辑历史信息
+    handleEdit(id) {
+      this.$route.push({ name: '/addarticle', params: { id: id }})
+    },
+    // 新增历史信息
+    addarticle() {
+      this.$route.push('/addarticle')
     }
   }
 }
