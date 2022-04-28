@@ -15,7 +15,7 @@ export default {
     businessOperationalUpdate: 'Business & Operational Update',
     usefulTemplateAndLink: 'Useful Template and Link',
     sanctionsAndCommodityList: 'Sanctions and Commodity List',
-    materialLibrary: 'Material Library',
+    materialLibrary: 'Material Library'
   },
   // navbar翻译
   navbar: {
@@ -47,7 +47,7 @@ export default {
     confirmpassword: 'New Password Confirmation',
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
-    passwordconsistent:'Password must be consistent',
+    passwordconsistent: 'Password must be consistent',
     terms: 'Legal Terms',
     yes: 'Yes'
   },
@@ -73,8 +73,8 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
-   // 文章相关
-   article: {
+  // 文章相关
+  article: {
     thumb: 'Front Cover',
     title: 'Title',
     date: 'Date',
@@ -108,7 +108,7 @@ export default {
     reset: 'Reset'
   },
   // 素材库
-  library:{
+  library: {
     title: 'Materials Library',
     allselect: 'Select All',
     category: 'Change Category',
@@ -118,9 +118,9 @@ export default {
     addcategory: 'Add A New Category'
   },
   // 管制品
-  sanctions:{
+  sanctions: {
     commodityzh: 'Commodity (Chinese)',
-    commodityen:  'Commodity (English)',
+    commodityen: 'Commodity (English)',
     referencenumber: 'Reference Number',
     remarkszh: 'Remark(s) Chinese',
     remarksen: 'Remark(s) English',
@@ -130,7 +130,7 @@ export default {
     newitem: 'Add A New Item'
   },
   // 用户模版
-  userful:{
+  userful: {
     name: 'Name for Document or Link',
     category: 'Category',
     document: 'Document/Link',
@@ -139,11 +139,11 @@ export default {
     delete: 'Delete',
     categoryset: 'Category Setting',
     import: 'Import',
-    additem:  'Add A New Item',
-    download: 'Download',
+    additem: 'Add A New Item',
+    download: 'Download'
   },
   // 业务和运营
-  business:{
+  business: {
     id: 'No.',
     title: 'Notification Title',
     category: 'Category',
@@ -157,7 +157,7 @@ export default {
     content: 'Content',
     uploadfile: 'UploadFile'
   },
-  contact:{
+  contact: {
     id: 'No.',
     region: 'Region',
     office: 'Office',
@@ -171,11 +171,11 @@ export default {
     phone: 'Phone No.',
     email: 'Email Address',
     import: 'Import',
-    createinfo:'Create New Duty Info',
+    createinfo: 'Create New Duty Info',
     deactive: 'Deactive',
     active: 'Active'
   },
-  faq:{
+  faq: {
     id: 'No.',
     question: 'Question',
     keyword: 'Keyword(s)',
@@ -191,26 +191,26 @@ export default {
     export: 'Export',
     deltitle: 'Please confirm if you want to delete this FAQ?'
   },
-    //  新闻中心
-    newscenter:{
-      categorysetting: 'News Category Setting',
-      export: 'Export',
-      import: 'Import',
-      addhistoynews:'Add A Historical News',
-      title: 'News Title',
-      category: 'Category',
-      publishdate: 'Published Date',
-      link: 'Link',
-      status: 'Status',
-      addtitle: 'Add A Historical News',
-      deltitle: 'Please confirm if you want to delete this article?',
-      del:'Delete',
-      categoryen: 'Category-EN',
-      categoryzh:  'Category-ZH',
-      creator: 'Creator'
-   },
-   //  vas
-   vas:{
+  //  新闻中心
+  newscenter: {
+    categorysetting: 'News Category Setting',
+    export: 'Export',
+    import: 'Import',
+    addhistoynews: 'Add A Historical News',
+    title: 'News Title',
+    category: 'Category',
+    publishdate: 'Published Date',
+    link: 'Link',
+    status: 'Status',
+    addtitle: 'Add A Historical News',
+    deltitle: 'Please confirm if you want to delete this article?',
+    del: 'Delete',
+    categoryen: 'Category-EN',
+    categoryzh: 'Category-ZH',
+    creator: 'Creator'
+  },
+  //  vas
+  vas: {
     addarticlelink: 'Add An Article by Link',
     title: 'Title',
     publishdate: 'Published Date',
@@ -218,9 +218,9 @@ export default {
     status: 'Status',
     deltitle: 'Please confirm if you want to delete this article?',
     addtitle: 'Add A CMA CGM+ Intro by Link'
-   },
-   // 用户角色和权限
-   userrole:{
+  },
+  // 用户角色和权限
+  userrole: {
     name: 'Name',
     email: 'Email Address',
     function: 'Function',

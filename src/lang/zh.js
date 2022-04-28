@@ -15,7 +15,7 @@ export default {
     businessOperationalUpdate: '服务信息',
     usefulTemplateAndLink: '模版链接',
     sanctionsAndCommodityList: '管制品',
-    materialLibrary: '素材库',
+    materialLibrary: '素材库'
   },
   // navbar翻译
   navbar: {
@@ -113,7 +113,7 @@ export default {
     weChatAccount: '微信公众号'
   },
   // 资源库页面翻译
-  library:{
+  library: {
     title: '素材库',
     allselect: '全选',
     category: '更改类别',
@@ -123,9 +123,9 @@ export default {
     addcategory: '添加新闻类别'
   },
   // 管制品
-  sanctions:{
+  sanctions: {
     commodityzh: '商品（中文）',
-    commodityen:  '商品（英文）',
+    commodityen: '商品（英文）',
     referencenumber: '参考编号',
     remarkszh: '中文备注',
     remarksen: '英文备注',
@@ -135,7 +135,7 @@ export default {
     newitem: '添加新管制品'
   },
   // 用户模版
-  userful:{
+  userful: {
     name: '文档或链接名',
     category: '类别',
     document: '文档/链接',
@@ -144,11 +144,11 @@ export default {
     delete: '删除',
     categoryset: '类别设置',
     import: '导入',
-    additem:  '添加',
-    download: '下载',
+    additem: '添加',
+    download: '下载'
   },
   // 业务和运营
-  business:{
+  business: {
     id: '序号',
     title: '通知标题',
     category: '类别',
@@ -163,7 +163,7 @@ export default {
     uploadfile: '上传文件'
   },
   // 联系信息
-  contact:{
+  contact: {
     id: '序号',
     region: '区域',
     office: '办事处',
@@ -182,7 +182,7 @@ export default {
     active: '启用'
   },
   // FAQ管理
-  faq:{
+  faq: {
     id: '序号',
     question: '问题',
     keyword: '关键词',
@@ -196,38 +196,38 @@ export default {
     deactive: '禁用',
     active: '启用',
     export: '导出',
-    deltitle: '是否确认删除该 FAQ ？',
+    deltitle: '是否确认删除该 FAQ ？'
   },
   //  新闻中心
-  newscenter:{
-     categorysetting: '新闻分类配置',
-     export: '导出',
-     import: '导入',
-     addhistoynews:'添加历史新闻',
-     title: '新闻标题',
-     category: '类别名称',
-     publishdate: '发布日期',
-     link: '链接',
-     status: '状态',
-     addtitle: '添加历史新闻',
-     deltitle: '是否确认删除该文章？',
-     del:'删除',
-     categoryen: '种类英文',
-     categoryzh:  '种类中文',
-     creator: '作者'
+  newscenter: {
+    categorysetting: '新闻分类配置',
+    export: '导出',
+    import: '导入',
+    addhistoynews: '添加历史新闻',
+    title: '新闻标题',
+    category: '类别名称',
+    publishdate: '发布日期',
+    link: '链接',
+    status: '状态',
+    addtitle: '添加历史新闻',
+    deltitle: '是否确认删除该文章？',
+    del: '删除',
+    categoryen: '种类英文',
+    categoryzh: '种类中文',
+    creator: '作者'
   },
   // CMA CGM
-  vas:{
-     addarticlelink: '以链接形式添加文章',
-     title: '标题',
-     publishdate: '发布日期',
-     link: '链接',
-     status: '状态',
-     deltitle: '是否确认删除该文章？',
-     addtitle: '以链接形式添加增值服务介绍'
+  vas: {
+    addarticlelink: '以链接形式添加文章',
+    title: '标题',
+    publishdate: '发布日期',
+    link: '链接',
+    status: '状态',
+    deltitle: '是否确认删除该文章？',
+    addtitle: '以链接形式添加增值服务介绍'
   },
   // 角色和权限
-  userrole:{
+  userrole: {
     name: '姓名',
     email: '邮箱地址',
     function: '角色与部门',

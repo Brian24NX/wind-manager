@@ -1,119 +1,161 @@
 <template>
   <div class="passwordcontainer">
     <div class="passwordheader">
-      <el-image :src="src"></el-image>
+      <el-image :src="src" />
       <lang-select class="set-language" />
     </div>
-    <hr />
+    <hr>
     <div class="passwordcontent">
       <h1>{{ $t('forgetForm.forgotpassword') }}</h1>
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
-            <el-form-item prop="verifycode">
-            <el-input
-              :key="verifyType"
-              ref="verifycode"
-              v-model="forgetForm.verifycode"
-              :type="text"
-              :placeholder="$t('forgetForm.verifycode')"
-              name="verifycode"
-              tabindex="2"
-              autocomplete="on"
-              @keyup.native="checkCapslock"
-              @blur="capsTooltip = false"
-            />
-            </el-form-item>
-            <el-form-item prop="password">
-            <el-input
-              :key="passwordType"
-              ref="password"
-              v-model="forgetForm.password"
-              :type="passwordType"
-              :placeholder="$t('forgetForm.password')"
-              name="password"
-              tabindex="2"
-              autocomplete="on"
-              @keyup.native="checkCapslock"
-              @blur="capsTooltip = false"
-            />
-            </el-form-item>
-            <el-form-item prop="confirmpassword">
-            <el-input
-              :key="passwordType"
-              ref="confirmpassword"
-              v-model="forgetForm.confirmpassword"
-              :type="passwordType"
-              :placeholder="$t('forgetForm.confirmpassword')"
-              name="confirmpassword"
-              tabindex="2"
-              autocomplete="on"
-              @keyup.native="checkCapslock"
-              @blur="capsTooltip = false"
-            />
-            </el-form-item>
+              <el-form-item prop="verifycode">
+                <el-input
+                  :key="verifyType"
+                  ref="verifycode"
+                  v-model="forgetForm.verifycode"
+                  :type="text"
+                  :placeholder="$t('forgetForm.verifycode')"
+                  name="verifycode"
+                  tabindex="2"
+                  autocomplete="on"
+                  @keyup.native="checkCapslock"
+                  @blur="capsTooltip = false"
+                />
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input
+                  :key="passwordType"
+                  ref="password"
+                  v-model="forgetForm.password"
+                  :type="passwordType"
+                  :placeholder="$t('forgetForm.password')"
+                  name="password"
+                  tabindex="2"
+                  autocomplete="on"
+                  @keyup.native="checkCapslock"
+                  @blur="capsTooltip = false"
+                />
+              </el-form-item>
+              <el-form-item prop="confirmpassword">
+                <el-input
+                  :key="passwordType"
+                  ref="confirmpassword"
+                  v-model="forgetForm.confirmpassword"
+                  :type="passwordType"
+                  :placeholder="$t('forgetForm.confirmpassword')"
+                  name="confirmpassword"
+                  tabindex="2"
+                  autocomplete="on"
+                  @keyup.native="checkCapslock"
+                  @blur="capsTooltip = false"
+                />
+              </el-form-item>
             </el-form>
           </div>
           <hr class="contentSeparqtor">
           <div class="rightcontent">
-              <h2>{{ $t('forgetForm.safe') }}</h2>
-              <ul class="checklist">
-                <li>
-                  <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">{{$t('forgetForm.require')}}</span>
-                </li>
-                <li>
-                  <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">{{$t('forgetForm.requiresix')}}</span>
-                </li>
-                <li>
-                   <i class="icon left" aria-hidden="true">✅</i></i>
-                   <span class="item">{{$t('forgetForm.requirerule')}}</span>
-                </li>
-              </ul>
+            <h2>{{ $t('forgetForm.safe') }}</h2>
+            <ul class="checklist">
+              <li>
+                <i class="icon left" aria-hidden="true">✅</i>
+                <span class="item">{{ $t('forgetForm.require') }}</span>
+              </li>
+              <li>
+                <i class="icon left" aria-hidden="true">✅</i>
+                <span class="item">{{ $t('forgetForm.requiresix') }}</span>
+              </li>
+              <li>
+                <i class="icon left" aria-hidden="true">✅</i>
+                <span class="item">{{ $t('forgetForm.requirerule') }}</span>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" @click="cancel" plain>取消</el-button>
-          <el-button @click="submit" plain>提交</el-button>
+          <el-button type="info" plain @click="cancel">取消</el-button>
+          <el-button plain @click="submit">提交</el-button>
         </div>
       </div>
     </div>
     <div class="passwordfooter">
-      <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span></p>
+      <p class="inner">
+        © 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span>
+      </p>
     </div>
   </div>
 </template>
 <script>
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
+// eslint-disable-next-line no-unused-vars
+import { resetPwd } from '../../api/user.js'
+const validatePass2 = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请再次输入密码'))
+    // password 是表单上绑定的字段
+  } else if (value !== this.forgetForm.password) {
+    callback(new Error('两次输入密码不一致!'))
+  } else {
+    callback()
+  }
+}
 export default {
-  name: 'topassword',
+  name: 'Topassword',
   components: { LangSelect },
   data() {
     return {
-      forgetForm:{
-        verifycode:'',
-        password:'',
-        confirmpassword:'',
+      forgetForm: {
+        verifycode: '',
+        password: '',
+        confirmpassword: '',
+        email: ''
       },
-      src:logo
+      src: logo,
+      forgetRules: {
+        verifycode: { required: true, message: 'verifycode is required' },
+        password: { required: true, message: 'password is required' },
+        confirmpassword: [{ validator: validatePass2, trigger: 'blur' }]
+      }
     }
   },
-  methods:{
-    submit(){
-      this.$router.push('/login')
+  created() {
+    this.forgetForm.email = this.$route.params.email
+  },
+  methods: {
+    // 提交表单
+    submit() {
+      this.$refs['forgetForm'].validator((valid) => {
+        if (valid) {
+          const data = {
+            email: this.forgetForm.email,
+            newPwd: this.forgetForm.password,
+            veriCode: this.forgetForm.verifycode
+          }
+          this.resetPwd(data).then(res => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$router.push('/login')
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        } else {
+          return false
+        }
+      })
     },
-    cancel(){
-      this.$router.go(-1);
+    cancel() {
+      this.$router.go(-1)
     }
   }
 }
 </script>
 <style scoped>
-.set-language{
-  float:right;
+.set-language {
+  float: right;
 }
 .passwordcontainer {
   min-height: 100%;
@@ -151,63 +193,63 @@ export default {
   background: #f5f5f5 none repeat scroll 0 0;
   padding: 15px;
 }
-.leftcontent{
-  display:table-cell;
-  padding-left:25px;
-  padding-bottom:10px;
-  border-right:1px solid #dfdfdf;
-  width:463px;
-  padding-top:10px;
+.leftcontent {
+  display: table-cell;
+  padding-left: 25px;
+  padding-bottom: 10px;
+  border-right: 1px solid #dfdfdf;
+  width: 463px;
+  padding-top: 10px;
 }
-.rightcontent{
-   display:table-cell;
-   width:606px;
-   padding-left:20px;
+.rightcontent {
+  display: table-cell;
+  width: 606px;
+  padding-left: 20px;
 }
-.contentSeparqtor{
-  display:none;
+.contentSeparqtor {
+  display: none;
 }
-hr{
-  top:10px;
-  margin:auto;
-  clear:both;
-  height:1px;
-  padding:0;
-  border:0;
-  color:#cecece;
-  background-color:#cecece;
-  line-height:1;
+hr {
+  top: 10px;
+  margin: auto;
+  clear: both;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  color: #cecece;
+  background-color: #cecece;
+  line-height: 1;
 }
-h2{
-  font-size:1.818em;
-  font-weight:normal;
+h2 {
+  font-size: 1.818em;
+  font-weight: normal;
 }
-.checklist{
-   padding-left:0;
+.checklist {
+  padding-left: 0;
 }
-i{
-  font-style:normal;
+i {
+  font-style: normal;
 }
-ul{
-  list-style:none;
+ul {
+  list-style: none;
 }
-.checklist li{
-  margin-top:7px;
-  line-height:1.5;
+.checklist li {
+  margin-top: 7px;
+  line-height: 1.5;
 }
-.checklist .icon{
-  width:15px;
-  margin-right:5px;
-  position:relative;
-  font-size:0.8em;
-  color:#000;
+.checklist .icon {
+  width: 15px;
+  margin-right: 5px;
+  position: relative;
+  font-size: 0.8em;
+  color: #000;
 }
-.icon{
-  font-family:'MustIcons';
+.icon {
+  font-family: 'MustIcons';
 }
 
-.login-form{
-  width:360px;
+.login-form {
+  width: 360px;
 }
 </style>
 <style lang="scss" scoped>

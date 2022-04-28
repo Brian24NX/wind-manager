@@ -59,7 +59,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/forget/topassword',
+    path: '/forget/topassword:email',
     component: () => import('@/views/forget/topassword'),
     hidden: true
   },
@@ -75,8 +75,8 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
- 
+  }
+
 ]
 
 /**
@@ -85,7 +85,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-   articleRouter,
+  articleRouter,
   {
     path: '/permission',
     component: Layout,
@@ -94,7 +94,7 @@ export const asyncRoutes = [
     name: 'Permission',
     meta: {
       title: 'permission',
-      icon: 'lock',
+      icon: 'lock'
     },
     children: [
       {
@@ -102,7 +102,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'UserManagement',
         meta: {
-          title: 'userManagement',
+          title: 'userManagement'
         }
       },
       {
@@ -110,11 +110,11 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/page'),
         name: 'Role & Permission',
         meta: {
-          title: 'rolePermission',
+          title: 'rolePermission'
         }
       }
     ]
-  },
+  }
   // { path: '*', redirect: '/404', hidden: true }
 ]
 
