@@ -81,7 +81,8 @@ export default {
     category: 'Category',
     platform: 'Platform',
     status: 'Status',
-    actions: 'Actions'
+    actions: 'Actions',
+    deltitle: 'Please confirm if you want to delete this article?'
   },
   message: {
     detail: 'Details',

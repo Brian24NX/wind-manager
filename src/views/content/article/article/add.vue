@@ -19,12 +19,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
-              <el-upload
-                class="upload-demo"
-                drag
-                action="https://jsonplaceholder.typicode.com/posts/"
-                multiple
-              >
+              <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
                 <i class="el-icon-upload" />
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -75,7 +70,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item :label="$t('addArticle.scheduleTime')" prop="delivery">
-              <el-date-picker v-model="articleForm.date1" type="date" placeholder="选择日期" style="width: 100%;" size="small" />
+              <el-date-picker v-model="articleForm.date1" type="date" placeholder="选择日期" style="width: 100%" size="small" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -103,6 +98,8 @@
 </template>
 <script>
 import Tinymce from '@/components/Tinymce'
+// eslint-disable-next-line no-unused-vars
+import { articleAdd } from '../../../../api/article.js'
 export default {
   name: 'AddArticle',
   components: { Tinymce },
@@ -124,12 +121,8 @@ export default {
           { required: true, message: '请输入作者', trigger: 'blur' },
           { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
         ],
-        frontCover: [
-          { required: true, message: '请上传封面图', trigger: 'change' }
-        ],
-        content: [
-          { required: true, message: '请输入内容', trigger: 'blur' }
-        ],
+        frontCover: [{ required: true, message: '请上传封面图', trigger: 'change' }],
+        content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
         publishTo: [{ required: true, message: '请选择发布范围', trigger: 'change' }]
         // sendTo: [
         //   { type: 'array', required: true, message: '请选择发送群组', trigger: 'change' }
@@ -141,7 +134,26 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          const data = {
+            title: this.articleForm.title,
+            creator: this.articleForm.creator,
+            frontCover: this.articleForm.frontCover,
+            description: this.articleForm.description,
+            content: this.articleForm.content,
+            originalLink: this.articleForm.name,
+            publishIds: this.articleForm.publishTo,
+            categoryId: this.articleForm.region,
+            publishDate: this.articleForm
+          }
+          this.articleAdd(data).then(res => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$message.success(res.message)
+              // this.$router.push('/login')
+            } else {
+              this.$message.error(res.message)
+            }
+          })
         } else {
           console.log('error submit!!')
           return false

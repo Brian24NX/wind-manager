@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-unused-vars */
 <template>
   <div>
     <div class="searchContainer">
@@ -27,19 +28,20 @@
             <el-button size="small" type="text" class="primary" @click="viewdialog = true">{{ $t('userrole.viewuser') }}</el-button>
             <el-button size="small" type="text" class="primary" @click="handleDelete(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
             <el-button size="small" type="text" class="primary" @click="handleDelete(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="deldialog = true">{{ $t('message.delete') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
     </div>
     <!--启用用户查看和移除-->
     <el-dialog :title="$t('userrole.viewuser')" :visible.sync="viewdialog" center>
-      <el-input></el-input><el-button>{{ $t('sanctions.export') }}</el-button>
+      <el-input /><el-button>{{ $t('sanctions.export') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+          // eslint-disable-next-line vue/no-unused-vars
           <template scope="scope">
             <el-button size="small" type="text" class="danger" @click="remove">{{ $t('userrole.remove') }}</el-button>
           </template>
@@ -56,15 +58,15 @@
     </el-dialog>
     <!--新增角色和权限-->
     <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="adddialog" center>
-      <el-form :model="premissionform" :rules="premissionrules" ref="premissionform">
+      <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-input v-model="premissionform.function" autocomplete="off" disabled></el-input>
+          <el-input v-model="premissionform.function" autocomplete="off" disabled />
         </el-form-item>
         <el-form-item :label="$t('userrole.description')" :label-width="formLabelWidth" prop="description">
-          <el-input type="textarea" :row="2" v-model="premissionform.description" autocomplete="off" disabled></el-input>
+          <el-input v-model="premissionform.description" type="textarea" :row="2" autocomplete="off" disabled />
         </el-form-item>
         <el-form-item :label="$t('userrole.permission')" :label-width="formLabelWidth" prop="permission">
-          <multi-check-list :dataList="dataList" :default-checked-keys="premissionform.permission" :invert="false" :isCheckAll="false" @change="handlerDataCheck"></multi-check-list>
+          <multi-check-list :data-list="dataList" :default-checked-keys="premissionform.permission" :invert="false" :is-check-all="false" @change="handlerDataCheck" />
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -72,12 +74,13 @@
 </template>
 
 <script>
-import SwitchRoles from './components/SwitchRoles'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
+// eslint-disable-next-line no-unused-vars
+import { roleDel } from '../../api/role.js'
 export default {
   name: 'PagePermission',
-  components: { SwitchRoles, Pagination, MultiCheckList },
+  components: { Pagination, MultiCheckList },
   data() {
     return {
       dataList: [
@@ -89,19 +92,19 @@ export default {
             {
               code: 1002,
               label: '淘宝',
-              value: 'a002',
+              value: 'a002'
             },
             {
               code: 1003,
               label: '京东',
-              value: 'a003',
+              value: 'a003'
             },
             {
               code: 1004,
               label: '亚马逊',
-              value: 'a002',
-            },
-          ],
+              value: 'a002'
+            }
+          ]
         },
         {
           code: 1005,
@@ -111,30 +114,30 @@ export default {
             {
               code: 1006,
               label: '美团',
-              value: 'a006',
+              value: 'a006'
             },
             {
               code: 1007,
               label: '大众点评',
-              value: 'a007',
+              value: 'a007'
             },
             {
               code: 1008,
               label: '滴滴',
-              value: 'a008',
+              value: 'a008'
             },
             {
               code: 1009,
               label: '饿了么',
-              value: 'a009',
-            },
-          ],
-        },
+              value: 'a009'
+            }
+          ]
+        }
       ],
       premissionform: {
         permission: ['a001', 'a003', 'a005', 'a009'],
         description: '',
-        function: '',
+        function: ''
       },
       queryParams: {},
       viewdialog: false,
@@ -142,17 +145,36 @@ export default {
       tabledata: [
         { id: '1', name: 'kelly', email: 'kelly@163.com' },
         { id: '2', name: 'kelly', email: 'kelly@163.com' },
-        { id: '3', name: 'kelly', email: 'kelly@163.com' },
-      ],
+        { id: '3', name: 'kelly', email: 'kelly@163.com' }
+      ]
     }
   },
   methods: {
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },
+    // 删除角色
+    delFunction(index) {
+      this.$confirm(this.$t('userrole.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(() => {
+          this.roleDel(index).then((res) => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$message.success(res.message)
+            }
+          })
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
+    }
     // handleRolesChange() {
     //   this.$router.push({ path: '/permission/index?' + +new Date() })
     // },
-  },
+  }
 }
 </script>

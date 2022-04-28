@@ -62,7 +62,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="addhistorynewsdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--查看和编辑角色-->
@@ -85,7 +85,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitview">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="addhistorynewsdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="editdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--新增定制化权限-->
@@ -113,7 +113,7 @@ import { deepClone } from '@/utils'
 // eslint-disable-next-line no-unused-vars
 import i18n from '@/lang'
 // eslint-disable-next-line no-unused-vars
-import { userActive, userExport } from '../../api/user.js'
+import { userActive, userExport, userAdd, userEdit } from '../../api/user.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
@@ -224,6 +224,8 @@ export default {
   computed: {},
   created() {},
   methods: {
+    // 导入列表
+    import() {},
     // 导出列表
     exportlist() {
       // eslint-disable-next-line no-unused-vars
@@ -254,7 +256,58 @@ export default {
       })
     },
     // 提交add
-    submitadd() {},
+    submitadd() {
+      this.$refs['addform'].validator((valid) => {
+        if (valid) {
+          const role = {
+            id: this.addform.function
+          }
+          const data = {
+            email: this.addform.email,
+            newPwd: this.addform.password,
+            name: this.addform.name,
+            roles: role
+          }
+          this.userAdd(data).then((res) => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.adddialog = false
+              // 页面刷新
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    // 提交edit
+    submitview() {
+      this.$refs['editform'].validator((valid) => {
+        if (valid) {
+          const role = {
+            id: this.editform.function
+          }
+          const data = {
+            email: this.editform.email,
+            name: this.editform.name,
+            roles: role
+          }
+          this.userEdit(data).then((res) => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.editdialog = false
+              // 页面刷新
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        } else {
+          return false
+        }
+      })
+    },
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },

@@ -81,7 +81,8 @@ export default {
     category: '分类',
     platform: '发布平台',
     status: '状态',
-    actions: '操作'
+    actions: '操作',
+    deltitle: '请确认是否要删除该文章？'
   },
   message: {
     detail: '查看',
