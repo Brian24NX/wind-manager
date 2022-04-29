@@ -10,7 +10,7 @@
       highlight-current-row
       class="tables"
       :show-header="showHeader"
-      :header-cell-style="{backgroundColor: '#FBFCFF'}"
+      :header-cell-style="{ backgroundColor: '#FBFCFF' }"
       @selection-change="selectionChange"
     >
       <el-table-column v-if="showCheck" type="selection" width="55" />
@@ -30,7 +30,7 @@
         :page-sizes="pageSizes"
         :page-size="pagination.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="pagination.total"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -77,7 +77,7 @@ export default {
     },
     selectionChange: {
       type: Function,
-      default: function() { }
+      default: function() {}
     },
     showCheck: {
       type: Boolean,
@@ -90,9 +90,9 @@ export default {
       // 分页参数
       pagination: {
         pageNum: this.page,
-        pageSize: this.pageSize,
-        total: null
+        pageSize: this.pageSize
       },
+      total: 0,
       pageSizes: [],
       data: undefined
     }
@@ -107,15 +107,14 @@ export default {
       this.pagination.pageNum = this.$route.query.page
     }
     this.pageRequest()
-    this.pageSizes = [
-      this.pagination.size,
-      this.pagination.pageSize * 2,
-      this.pagination.pageSize * 5,
-      this.pagination.pageSize * 10
-    ]
+    this.pageSizes = [this.pagination.pageSize, this.pagination.pageSize * 2, this.pagination.pageSize * 5, this.pagination.pageSize * 10]
   },
 
   methods: {
+    refreshRequest() {
+      this.pagination.pageNum = 1
+      this.pageRequest()
+    },
     /**
      * 分页请求
      */
@@ -125,19 +124,22 @@ export default {
         url: this.uri,
         method: 'get',
         params: Object.assign(this.pagination, this.requestParams)
-      }).then(response => {
-        console.log(response)
-        this.pagination.total = response.data.total
-        this.data = response.data.list
-        this.isLoading = false
-      }).catch(error => {
-        Message({
-          message: error.message,
-          type: 'error'
-        })
-      }).finally(() => {
-        this.isLoading = false
       })
+        .then((response) => {
+          console.log(response)
+          this.total = response.data.total
+          this.data = response.data.list
+          this.isLoading = false
+        })
+        .catch((error) => {
+          Message({
+            message: error.message,
+            type: 'error'
+          })
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
     },
 
     /**
@@ -169,7 +171,7 @@ export default {
 <style lang="scss">
 .tables {
   width: 100%;
-  border: 1px solid #EBEBEB;
+  border: 1px solid #ebebeb;
   border-bottom: none;
 }
 
@@ -182,12 +184,12 @@ export default {
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled).active {
-    background-color: #FFF8F8;
-    color: #E10202;
+    background-color: #fff8f8;
+    color: #e10202;
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled):hover {
-    color: #E10202;
+    color: #e10202;
   }
 }
 </style>

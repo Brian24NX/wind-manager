@@ -5,13 +5,13 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-select v-model="queryParams.category" placeholder="请选择">
+              <el-select v-model="queryParams.categoryIds" placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
                 <el-button icon="el-icon-search">11</el-button>
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -27,11 +27,11 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/newscenter/list" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
-        <el-table-column :label="$t('newscenter.publishdate')" prop="publishdate" />
-        <el-table-column :label="$t('newscenter.link')" prop="link" align="center" />
+        <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" />
+        <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('newscenter.status')" prop="status" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
@@ -111,7 +111,10 @@ export default {
   },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        categoryIds: 4,
+        keyword: ''
+      },
       categoryList: [],
       // 新增历史新闻
       addhistorynewsdialog: false,

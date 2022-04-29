@@ -5,18 +5,18 @@
         <el-col :span="18">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryId" size="small" style="width: 100%" clearable placeholder="请选择">
+              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="6">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small">search</el-button>
+            <el-button type="danger" size="small" @click="submit">search</el-button>
             <el-button type="danger" size="small" plain>reset</el-button>
           </el-row>
         </el-col>
@@ -59,7 +59,10 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { articlePublish, articleDel } from '../../../../api/article.js'
+import { articlePublish, articleDel } from '@/api/article.js'
+// eslint-disable-next-line no-unused-vars
+import { categoryList } from '@/api/article.js'
+import { transList } from '@/utils'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'ArticleManagement',
@@ -75,7 +78,19 @@ export default {
       categoryList: []
     }
   },
+  created() {
+    this.getcategoryList()
+  },
   methods: {
+    async getcategoryList() {
+      const type = 1
+      const res = await categoryList(type)
+      this.categoryList = transList(res.data)
+    },
+    // 搜索
+    submit() {
+      this.$refs.pagination.refreshRequest()
+    },
     // 状态改变
     handleUpdateStatus(row) {
       const data = {
@@ -98,13 +113,9 @@ export default {
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
       })
-        .then(() => {
-          this.articleDel(index).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$message.success(res.message)
-            }
-          })
+        .then(async() => {
+          await articleDel(index)
+          this.getcategoryList()
         })
         .catch(() => {
           this.$message.info('已取消删除')
