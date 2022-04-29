@@ -108,7 +108,7 @@ export default {
     }
     this.pageRequest()
     this.pageSizes = [
-      this.pagination.size,
+      this.pagination.pageSize,
       this.pagination.pageSize * 2,
       this.pagination.pageSize * 5,
       this.pagination.pageSize * 10
