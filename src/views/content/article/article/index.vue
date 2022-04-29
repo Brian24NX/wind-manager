@@ -82,6 +82,7 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    // 获取种类列表
     async getcategoryList() {
       const type = 1
       const res = await categoryList(type)

@@ -7,7 +7,6 @@
             <el-col :span="6">
               <el-select v-model="queryParams.categoryIds" placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
-                <el-button icon="el-icon-search">11</el-button>
               </el-select>
             </el-col>
             <el-col :span="8">
@@ -67,13 +66,6 @@
       </div>
     </el-dialog>
     <!--文章删除-->
-    <el-dialog :title="$t('newscenter.del')" :visible.sync="deldialog" center>
-      <span>{{ $t('newscenter.deltitle') }}</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitdel">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="centerDialogVisible = false">{{ $t('forgetForm.cancel') }}</el-button>
-      </span>
-    </el-dialog>
     <!--文章导入-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
       <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" :limit="1">
@@ -101,9 +93,10 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { newsDel, newsAdd } from '../../../../api/newcenter.js'
+import { newsDel, newsAdd } from '@/api/newcenter.js'
 // eslint-disable-next-line no-unused-vars
-import { categoryList } from '../../../../api/article.js'
+import { categoryList } from '@/api/article.js'
+import { transList } from '@/utils'
 export default {
   name: 'News',
   components: {
@@ -143,43 +136,26 @@ export default {
     }
   },
   created() {
-    const type = 1
-    this.categoryList(type).then((res) => {
-      // eslint-disable-next-line eqeqeq
-      if (res.code == 200) {
-        const arr = []
-        // eslint-disable-next-line no-unused-vars
-        const list = res.data
-        for (let i = 0; i < list.length; i++) {
-          const obj = {
-            value: list[i].id,
-            label: list[i].category
-          }
-          arr.push(obj)
-        }
-        this.categoryList = arr
-      } else {
-        this.$message.error(res.message)
-      }
-    })
+    this.getcategoryList()
   },
   methods: {
+    // 获取种类列表
+    async getcategoryList() {
+      const type = 1
+      const res = await categoryList(type)
+      this.categoryList = transList(res.data)
+    },
     // 提交历史信息
-    submithistory() {
+    async submithistory() {
       const data = {
         title: this.historyform.title,
         originalLink: this.historyform.link,
         categoryId: this.historyform.category,
         publishdate: this.historyform.publishDate
       }
-      this.newsAdd(data).then((res) => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      const res = await newsAdd(data)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
     },
     // 删除一行数据
     handleDel(id) {
@@ -188,13 +164,9 @@ export default {
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
       })
-        .then(() => {
-          this.newsDel(id).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$message.success(res.message)
-            }
-          })
+        .then(async() => {
+          await newsDel(id)
+          this.getcategoryList()
         })
         .catch(() => {
           this.$message.info('已取消删除')

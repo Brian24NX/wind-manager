@@ -1,11 +1,11 @@
 <template>
-      <div>
+  <div>
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="18">
           <el-row :gutter="20">
             <el-col :span="8">
-                <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
             </el-col>
             <el-col :span="8">
               <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
@@ -14,27 +14,27 @@
         </el-col>
         <el-col :span="6">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="downloadfile">{{$t('message.download')}}</el-button>
-            <el-button type="danger" size="small">{{$t('sanctions.import')}}</el-button>
-            <el-button type="danger" size="small" plain>{{$t('sanctions.export')}}</el-button>
-            <el-button type="danger" size="small" >{{$t('sanctions.newitem')}}</el-button>
+            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+            <el-button type="danger" size="small">{{ $t('sanctions.import') }}</el-button>
+            <el-button type="danger" size="small" plain>{{ $t('sanctions.export') }}</el-button>
+            <el-button type="danger" size="small">{{ $t('sanctions.newitem') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/sanctions/list" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityen"  />
+      <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams" :show-index="false">
+        <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityen" />
 
-        <el-table-column :label="$t('sanctions.commodityen')" prop="commodityzh"  />
+        <el-table-column :label="$t('sanctions.commodityen')" prop="commodityzh" />
 
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referencenumber" align="center" />
 
-        <el-table-column align="center" :label="$t('sanctions.type')"  prop="type" />
+        <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
 
-        <el-table-column align="center" :label="$t('sanctions.remarkszh')"  prop="remarkszh" />
-        <el-table-column align="center" :label="$t('sanctions.remarksen')"  prop="remarksen" />
-        <el-table-column :label="$t('article.actions')" align="center"  fixed="right">
+        <el-table-column align="center" :label="$t('sanctions.remarkszh')" prop="remarkszh" />
+        <el-table-column align="center" :label="$t('sanctions.remarksen')" prop="remarksen" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
@@ -44,12 +44,16 @@
         </el-table-column>
       </Pagination>
     </div>
-  </div> 
+  </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+// eslint-disable-next-line no-unused-vars
+import { categoryList } from '@/api/article.js'
+// eslint-disable-next-line no-unused-vars
+import { transList } from '@/utils'
 export default {
-  name: 'senctions',
+  name: 'Senctions',
   components: {
     Pagination
   },
@@ -59,9 +63,18 @@ export default {
       categoryList: []
     }
   },
-  methods:{
-    downloadfile(){
-      window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx"
+  created() {
+    this.getcategoryList()
+  },
+  methods: {
+    // 获取种类列表
+    async getcategoryList() {
+      const type = 1
+      const res = await categoryList(type)
+      this.categoryList = transList(res.data)
+    },
+    downloadfile() {
+      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
     }
   }
 }
