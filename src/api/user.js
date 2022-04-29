@@ -1,24 +1,102 @@
 import request from '@/utils/request'
 
+// export function login(data) {
+//   return request({
+//     url: '/wind-manager/user/login',
+//     method: 'post',
+//     data
+//   })
+// }
+
+// export function getInfo(token) {
+//   return request({
+//     url: '/wind-manager/user/info',
+//     method: 'get',
+//     params: { token }
+//   })
+// }
+
+// export function logout() {
+//   return request({
+//     url: '/wind-manager/user/logout',
+//     method: 'post'
+//   })
+// }
+// 远端登陆
 export function login(data) {
   return request({
-    url: '/wind-manager/user/login',
+    url: '/api/admin/login',
     method: 'post',
     data
   })
 }
-
-export function getInfo(token) {
+// 远端获取用户信息
+export function getInfo(id) {
   return request({
-    url: '/wind-manager/user/info',
+    url: '/api/admin/userDetail',
     method: 'get',
-    params: { token }
+    params: {
+      id
+    }
   })
 }
-
+// 远端退出登陆
 export function logout() {
   return request({
-    url: '/wind-manager/user/logout',
-    method: 'post'
+    url: '/api/admin/logout',
+    method: 'get'
   })
 }
+// 远端发送邮箱验证码
+export function sendEmail(email) {
+  return request({
+    url: '/api/admin/sendEmail',
+    method: 'post',
+    params: {
+      email
+    }
+  })
+}
+// 远端重置密码
+export function resetPwd(data) {
+  return request({
+    url: '/api/admin/resetPwd',
+    method: 'post',
+    data
+  })
+}
+// 远端用户添加
+export function userAdd(data) {
+  return request({
+    url: '/api/admin/userAdd',
+    method: 'post',
+    data
+  })
+}
+// 远端用户修改
+export function userEdit(data) {
+  return request({
+    url: '/api/admin/userEdit',
+    method: 'post',
+    data
+  })
+}
+// 远端用户激活
+export function userActive(data) {
+  return request({
+    url: '/api/admin/userActive',
+    method: 'get',
+    data
+  })
+}
+// 远端用户导出
+export function userExport(nameOrFunction) {
+  return request({
+    url: '/api/admin/userExport',
+    method: 'get',
+    params: {
+      nameOrFunction
+    }
+  })
+}
+

@@ -14,6 +14,7 @@
         </el-col>
         <el-col :span="6">
           <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" @click="downloadfile">{{$t('message.download')}}</el-button>
             <el-button type="danger" size="small">{{$t('sanctions.import')}}</el-button>
             <el-button type="danger" size="small" plain>{{$t('sanctions.export')}}</el-button>
             <el-button type="danger" size="small" >{{$t('sanctions.newitem')}}</el-button>
@@ -56,6 +57,11 @@ export default {
     return {
       queryParams: {},
       categoryList: []
+    }
+  },
+  methods:{
+    downloadfile(){
+      window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx"
     }
   }
 }

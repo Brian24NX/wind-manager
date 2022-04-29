@@ -1,10 +1,12 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
 <template>
   <div class="passwordcontainer">
     <div class="passwordheader">
-      <el-image :src="src"></el-image>
+      <el-image :src="src" />
       <lang-select class="set-language" />
     </div>
-    <hr />
+    <hr>
     <div class="passwordcontent">
       <h1> {{ $t('forgetForm.forgotpassword') }}</h1>
       <div class="content">
@@ -12,48 +14,48 @@
           <div class="leftcontent">
             <h2>{{ $t('forgetForm.identi') }}</h2>
             <p>
-              <span>{{ $t('forgetForm.tip') }}</span><br/>
+              <span>{{ $t('forgetForm.tip') }}</span><br>
               <span>{{ $t('forgetForm.tips') }}</span>
             </p>
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
-            <el-form-item prop="email">
-            <el-input
-              :key="email"
-              ref="email"
-              v-model="forgetForm.email"
-              :type="text"
-              :placeholder="$t('forgetForm.email')"
-              name="email"
-              tabindex="2"
-              autocomplete="on"
-              @keyup.native="checkCapslock"
-              @blur="capsTooltip = false"
-            />
-            </el-form-item>
+              <el-form-item prop="email">
+                <el-input
+                  :key="email"
+                  ref="email"
+                  v-model="forgetForm.email"
+                  :type="text"
+                  :placeholder="$t('forgetForm.email')"
+                  name="email"
+                  tabindex="2"
+                  autocomplete="on"
+                  @keyup.native="checkCapslock"
+                  @blur="capsTooltip = false"
+                />
+              </el-form-item>
             </el-form>
           </div>
           <hr class="contentSeparqtor">
           <div class="rightcontent">
-              <h2>{{ $t('forgetForm.safe') }}</h2>
-              <ul class="checklist">
-                <li>
-                  <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">{{ $t('forgetForm.safedetailone') }}</span>
-                </li>
-                <li>
-                  <i class="icon left" aria-hidden="true">✅</i>
-                  <span class="item">{{ $t('forgetForm.safedetailtwo') }}</span>
-                </li>
-                <li>
-                    <i class="icon left" aria-hidden="true">✅</i>
-                   <span class="item">{{ $t('forgetForm.safedetailthree') }}</span>
-                </li>
-              </ul>
+            <h2>{{ $t('forgetForm.safe') }}</h2>
+            <ul class="checklist">
+              <li>
+                <i class="icon left" aria-hidden="true">✅</i>
+                <span class="item">{{ $t('forgetForm.safedetailone') }}</span>
+              </li>
+              <li>
+                <i class="icon left" aria-hidden="true">✅</i>
+                <span class="item">{{ $t('forgetForm.safedetailtwo') }}</span>
+              </li>
+              <li>
+                <i class="icon left" aria-hidden="true">✅</i>
+                <span class="item">{{ $t('forgetForm.safedetailthree') }}</span>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" @click="cancel" plain> {{ $t('forgetForm.cancel') }}</el-button>
-          <el-button @click="submit" plain>{{ $t('forgetForm.sendcode') }}</el-button>
+          <el-button type="info" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
+          <el-button plain @click="submit">{{ $t('forgetForm.sendcode') }}</el-button>
         </div>
       </div>
     </div>
@@ -65,23 +67,52 @@
 <script>
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
+// eslint-disable-next-line no-unused-vars
+import { sendEmail } from '../../api/user.js'
+// eslint-disable-next-line no-unused-vars
+const checkemail = (rule, value, callback) => {
+  // eslint-disable-next-line no-unused-vars
+  const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  if (!email.test(value)) {
+    callback(new Error('email is Incorrect'))
+  } else {
+    callback()
+  }
+}
 export default {
-  name: 'toemail',
+  name: 'Toemail',
   components: { LangSelect },
   data() {
     return {
-      forgetForm:{
-        email:'',
+      forgetForm: {
+        email: ''
       },
-      src:logo
+      src: logo,
+      forgetRules: {
+        email: [{ required: true, message: 'email is required' }, { validator: checkemail, trigger: ['blur', 'change'] }]
+      }
     }
   },
-  methods:{
-    submit(){
-        this.$router.push(`/forget/topassword`)
+  methods: {
+    // 提交表单
+    submit() {
+      this.$refs['forgetForm'].validator((valid) => {
+        if (valid) {
+          this.sendEmail(this.forgetForm.email).then(res => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$router.push({ name: '/forget/topassword', params: { email: this.forgetForm.email }})
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        } else {
+          return false
+        }
+      })
     },
-    cancel(){
-        this.$router.go(-1)
+    cancel() {
+      this.$router.go(-1)
     }
   }
 }

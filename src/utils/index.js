@@ -45,7 +45,9 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -354,4 +356,20 @@ export function removeClass(ele, cls) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
   }
+}
+/**
+ *  DownLoadFile
+ *  @param {string}url
+ *  @param {string}filename
+ */
+export function downLoad(url, filename) {
+  const a = document.createElement('a') // 创建a标签
+  if ('download' in a) {
+    a.download = filename
+  }
+  (document.body || document.documentElement).appendChild(a)
+  a.href = url
+  a.target = '_parent'
+  a.click()
+  a.remove()
 }

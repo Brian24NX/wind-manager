@@ -4,9 +4,10 @@
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="6">
               <el-select v-model="queryParams.category" placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+                <el-button icon="el-icon-search">11</el-button>
               </el-select>
             </el-col>
             <el-col :span="8">
@@ -16,8 +17,9 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="setdialog=true">{{ $t('newscenter.categorysetting') }}</el-button>
+            <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
             <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
+            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
             <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
           </el-row>
@@ -36,7 +38,7 @@
             <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status === 'Unpublished'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.unPublish') }}</el-button>
             <!-- <el-button v-if="scope.row.status ==='Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>-->
-            <el-button size="small" type="text" class="danger" @click="deldialog = true">{{ $t('message.delete') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -82,7 +84,7 @@
     <!--文章类型修改-->
     <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center>
       <el-button size="small" type="primary">{{ $t('library.addcategory') }}</el-button>
-      <el-table :data="tabledata" style="width:80%">
+      <el-table :data="tabledata" style="width: 80%">
         <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen" />
         <el-table-column :label="$t('newscenter.categoryzh')" prop="categoryzh" align="center" />
         <el-table-column :label="$t('newscenter.creator')" prop="creator" align="center" />
@@ -98,6 +100,10 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+// eslint-disable-next-line no-unused-vars
+import { newsDel, newsAdd } from '../../../../api/newcenter.js'
+// eslint-disable-next-line no-unused-vars
+import { categoryList } from '../../../../api/article.js'
 export default {
   name: 'News',
   components: {
@@ -106,11 +112,7 @@ export default {
   data() {
     return {
       queryParams: {},
-      categoryList: [
-        { value: 0, label: 'Corporate Information 公司新闻' },
-        { value: 1, label: 'CSR 社会责任' },
-        { value: 2, label: 'Events 会展活动' }
-      ],
+      categoryList: [],
       // 新增历史新闻
       addhistorynewsdialog: false,
       // 删除新闻
@@ -137,14 +139,70 @@ export default {
       ]
     }
   },
+  created() {
+    const type = 1
+    this.categoryList(type).then((res) => {
+      // eslint-disable-next-line eqeqeq
+      if (res.code == 200) {
+        const arr = []
+        // eslint-disable-next-line no-unused-vars
+        const list = res.data
+        for (let i = 0; i < list.length; i++) {
+          const obj = {
+            value: list[i].id,
+            label: list[i].category
+          }
+          arr.push(obj)
+        }
+        this.categoryList = arr
+      } else {
+        this.$message.error(res.message)
+      }
+    })
+  },
   methods: {
     // 提交历史信息
-    submithistory() {},
+    submithistory() {
+      const data = {
+        title: this.historyform.title,
+        originalLink: this.historyform.link,
+        categoryId: this.historyform.category,
+        publishdate: this.historyform.publishDate
+      }
+      this.newsAdd(data).then((res) => {
+        // eslint-disable-next-line eqeqeq
+        if (res.code == 200) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
     // 删除一行数据
-    submitdel() {},
+    handleDel(id) {
+      this.$confirm(this.$t('newscenter.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(() => {
+          this.newsDel(id).then((res) => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$message.success(res.message)
+            }
+          })
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
+    },
+    // 导出
+    exporttemplate() {},
     // 下载模版
-    exporttemplate() {}
-    //
+    downloadfile() {
+      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+    }
   }
 }
 </script>

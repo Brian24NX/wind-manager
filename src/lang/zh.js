@@ -2,79 +2,20 @@ export default {
   // 路由翻译
   route: {
     dashboard: '首页',
-    documentation: '文档',
-    guide: '引导页',
     permission: '角色和权限管理',
-    roleManager: '用户管理',
-    Permission: '角色和权限管理',
-    content: '内容管理',
-    article: '文章管理',
-    createarticle: '创建文章',
-    newcenter: '新闻中心',
-    vas: 'CMA CGM',
-    faq: 'FAQ管理',
-    contactinformation: '联系信息',
-    buiness: '服务信息',
-    useful: '模版链接',
-    Sanctions: '管制品',
-    material: '素材库',
-    directivePermission: '指令权限',
-    icons: '图标',
-    components: '组件',
-    tinymce: '富文本编辑器',
-    markdown: 'Markdown',
-    jsonEditor: 'JSON 编辑器',
-    dndList: '列表拖拽',
-    splitPane: 'Splitpane',
-    avatarUpload: '头像上传',
-    dropzone: 'Dropzone',
-    sticky: 'Sticky',
-    countTo: 'Count To',
-    componentMixin: '小组件',
-    backToTop: '返回顶部',
-    dragDialog: '拖拽 Dialog',
-    dragSelect: '拖拽 Select',
-    dragKanban: '可拖拽看板',
-    charts: '图表',
-    keyboardChart: '键盘图表',
-    lineChart: '折线图',
-    mixChart: '混合图表',
-    example: '综合实例',
-    nested: '路由嵌套',
-    menu1: '菜单1',
-    'menu1-1': '菜单 1-1',
-    'menu1-2': '菜单 1-2',
-    'menu1-2-1': '菜单 1-2-1',
-    'menu1-2-2': '菜单 1-2-2',
-    'menu1-3': '菜单 1-3',
-    menu2: '菜单 2',
-    Table: 'Table',
-    dynamicTable: '动态 Table',
-    dragTable: '拖拽 Table',
-    inlineEditTable: 'Table 内编辑',
-    complexTable: '综合 Table',
-    tab: 'Tab',
-    form: '表单',
+    userManagement: '用户管理',
+    rolePermission: '角色和权限管理',
+    contentManager: '内容管理',
+    articleManager: '文章管理',
     createArticle: '创建文章',
-    editArticle: '编辑文章',
-    articleList: '文章列表',
-    errorPages: '错误页面',
-    page401: '401',
-    page404: '404',
-    errorLog: '错误日志',
-    excel: 'Excel',
-    exportExcel: '导出 Excel',
-    selectExcel: '导出 已选择项',
-    mergeHeader: '导出 多级表头',
-    uploadExcel: '上传 Excel',
-    zip: 'Zip',
-    pdf: 'PDF',
-    exportZip: 'Export Zip',
-    theme: '换肤',
-    clipboardDemo: 'Clipboard',
-    i18n: '国际化',
-    externalLink: '外链',
-    profile: '个人中心'
+    newsCenter: '新闻中心',
+    cmaCgm: 'CMA CGM+',
+    faqManagement: 'FAQ管理',
+    contactInformation: '联系信息',
+    businessOperationalUpdate: '服务信息',
+    usefulTemplateAndLink: '模版链接',
+    sanctionsAndCommodityList: '管制品',
+    materialLibrary: '素材库'
   },
   // navbar翻译
   navbar: {
@@ -140,14 +81,16 @@ export default {
     category: '分类',
     platform: '发布平台',
     status: '状态',
-    actions: '操作'
+    actions: '操作',
+    deltitle: '请确认是否要删除该文章？'
   },
   message: {
     detail: '查看',
     edit: '编辑',
     delete: '删除',
     publish: '发布',
-    unPublish: '撤回'
+    unPublish: '撤回',
+    download: '下载模版'
   },
   addArticle: {
     pageTitle: '添加新推文',
@@ -171,7 +114,7 @@ export default {
     weChatAccount: '微信公众号'
   },
   // 资源库页面翻译
-  library:{
+  library: {
     title: '素材库',
     allselect: '全选',
     category: '更改类别',
@@ -181,9 +124,9 @@ export default {
     addcategory: '添加新闻类别'
   },
   // 管制品
-  sanctions:{
+  sanctions: {
     commodityzh: '商品（中文）',
-    commodityen:  '商品（英文）',
+    commodityen: '商品（英文）',
     referencenumber: '参考编号',
     remarkszh: '中文备注',
     remarksen: '英文备注',
@@ -193,7 +136,7 @@ export default {
     newitem: '添加新管制品'
   },
   // 用户模版
-  userful:{
+  userful: {
     name: '文档或链接名',
     category: '类别',
     document: '文档/链接',
@@ -202,11 +145,11 @@ export default {
     delete: '删除',
     categoryset: '类别设置',
     import: '导入',
-    additem:  '添加',
-    download: '下载',
+    additem: '添加',
+    download: '下载'
   },
   // 业务和运营
-  business:{
+  business: {
     id: '序号',
     title: '通知标题',
     category: '类别',
@@ -221,7 +164,7 @@ export default {
     uploadfile: '上传文件'
   },
   // 联系信息
-  contact:{
+  contact: {
     id: '序号',
     region: '区域',
     office: '办事处',
@@ -240,7 +183,7 @@ export default {
     active: '启用'
   },
   // FAQ管理
-  faq:{
+  faq: {
     id: '序号',
     question: '问题',
     keyword: '关键词',
@@ -254,38 +197,38 @@ export default {
     deactive: '禁用',
     active: '启用',
     export: '导出',
-    deltitle: '是否确认删除该 FAQ ？',
+    deltitle: '是否确认删除该 FAQ ？'
   },
   //  新闻中心
-  newscenter:{
-     categorysetting: '新闻分类配置',
-     export: '导出',
-     import: '导入',
-     addhistoynews:'添加历史新闻',
-     title: '新闻标题',
-     category: '类别名称',
-     publishdate: '发布日期',
-     link: '链接',
-     status: '状态',
-     addtitle: '添加历史新闻',
-     deltitle: '是否确认删除该文章？',
-     del:'删除',
-     categoryen: '种类英文',
-     categoryzh:  '种类中文',
-     creator: '作者'
+  newscenter: {
+    categorysetting: '新闻分类配置',
+    export: '导出',
+    import: '导入',
+    addhistoynews: '添加历史新闻',
+    title: '新闻标题',
+    category: '类别名称',
+    publishdate: '发布日期',
+    link: '链接',
+    status: '状态',
+    addtitle: '添加历史新闻',
+    deltitle: '是否确认删除该文章？',
+    del: '删除',
+    categoryen: '种类英文',
+    categoryzh: '种类中文',
+    creator: '作者'
   },
   // CMA CGM
-  vas:{
-     addarticlelink: '以链接形式添加文章',
-     title: '标题',
-     publishdate: '发布日期',
-     link: '链接',
-     status: '状态',
-     deltitle: '是否确认删除该文章？',
-     addtitle: '以链接形式添加增值服务介绍'
+  vas: {
+    addarticlelink: '以链接形式添加文章',
+    title: '标题',
+    publishdate: '发布日期',
+    link: '链接',
+    status: '状态',
+    deltitle: '是否确认删除该文章？',
+    addtitle: '以链接形式添加增值服务介绍'
   },
   // 角色和权限
-  userrole:{
+  userrole: {
     name: '姓名',
     email: '邮箱地址',
     function: '角色与部门',
@@ -303,6 +246,7 @@ export default {
     addemployee: '添加员工',
     addnewfunction: '创建新角色',
     remove: '移除',
-    deltitle: '请确认是否要删除该角色？'
+    deltitle: '请确认是否要删除该角色？',
+    permission: '权限'
   }
 }

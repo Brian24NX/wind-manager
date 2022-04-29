@@ -59,18 +59,8 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/forget/topassword',
+    path: '/forget/topassword:email',
     component: () => import('@/views/forget/topassword'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error-page/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
     hidden: true
   },
   {
@@ -85,8 +75,8 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
-  articleRouter
+  }
+
 ]
 
 /**
@@ -95,6 +85,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  articleRouter,
   {
     path: '/permission',
     component: Layout,
@@ -103,31 +94,28 @@ export const asyncRoutes = [
     name: 'Permission',
     meta: {
       title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      icon: 'lock'
     },
     children: [
       {
-        path: 'RoleManagement',
+        path: 'UserManagement',
         component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
+        name: 'UserManagement',
         meta: {
-          title: 'roleManager',
-          roles: ['admin']
+          title: 'userManagement'
         }
       },
       {
-        path: 'PagePermission',
+        path: 'RolePermission',
         component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        name: 'Role & Permission',
         meta: {
-          title: 'Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: 'rolePermission'
         }
       }
     ]
-  },
-  { path: '*', redirect: '/404', hidden: true }
+  }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

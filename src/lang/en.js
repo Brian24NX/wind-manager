@@ -2,79 +2,20 @@ export default {
   // 路由翻译
   route: {
     dashboard: 'Dashboard',
-    documentation: 'Documentation',
-    guide: 'Guide',
     permission: 'Role and Permission Management',
-    Permission: 'Role and Permission',
-    roleManager: 'User Management',
-    content: 'Content Manager',
-    article: 'Article Management',
-    createarticle: 'Create A New Article',
-    newcenter: 'Mini-Program News Center',
-    vas: 'Mini-Program Vas',
-    faq: 'FAQ Management',
-    contactinformation: 'Contact Information Matrix',
-    buiness: 'Business & Operational Update',
-    useful: 'Useful Template and Link',
-    Sanctions: 'Sanctions and Commodity List',
-    material: 'Material Library',
-    directivePermission: 'Directive Permission',
-    icons: 'Icons',
-    components: 'Components',
-    tinymce: 'Tinymce',
-    markdown: 'Markdown',
-    jsonEditor: 'JSON Editor',
-    dndList: 'Dnd List',
-    splitPane: 'SplitPane',
-    avatarUpload: 'Avatar Upload',
-    dropzone: 'Dropzone',
-    sticky: 'Sticky',
-    countTo: 'Count To',
-    componentMixin: 'Mixin',
-    backToTop: 'Back To Top',
-    dragDialog: 'Drag Dialog',
-    dragSelect: 'Drag Select',
-    dragKanban: 'Drag Kanban',
-    charts: 'Charts',
-    keyboardChart: 'Keyboard Chart',
-    lineChart: 'Line Chart',
-    mixChart: 'Mix Chart',
-    example: 'Example',
-    nested: 'Nested Routes',
-    menu1: 'Menu 1',
-    'menu1-1': 'Menu 1-1',
-    'menu1-2': 'Menu 1-2',
-    'menu1-2-1': 'Menu 1-2-1',
-    'menu1-2-2': 'Menu 1-2-2',
-    'menu1-3': 'Menu 1-3',
-    menu2: 'Menu 2',
-    Table: 'Table',
-    dynamicTable: 'Dynamic Table',
-    dragTable: 'Drag Table',
-    inlineEditTable: 'Inline Edit',
-    complexTable: 'Complex Table',
-    tab: 'Tab',
-    form: 'Form',
-    createArticle: 'Create Article',
-    editArticle: 'Edit Article',
-    articleList: 'Article List',
-    errorPages: 'Error Pages',
-    page401: '401',
-    page404: '404',
-    errorLog: 'Error Log',
-    excel: 'Excel',
-    exportExcel: 'Export Excel',
-    selectExcel: 'Export Selected',
-    mergeHeader: 'Merge Header',
-    uploadExcel: 'Upload Excel',
-    zip: 'Zip',
-    pdf: 'PDF',
-    exportZip: 'Export Zip',
-    theme: 'Theme',
-    clipboardDemo: 'Clipboard',
-    i18n: 'I18n',
-    externalLink: 'External Link',
-    profile: 'Profile'
+    rolePermission: 'Role & Permission',
+    userManagement: 'User Management',
+    contentManager: 'Content Manager',
+    articleManager: 'Article Management',
+    createArticle: 'Create A New Article',
+    newsCenter: 'Mini-Program News Center',
+    cmaCgm: 'Mini-Program CMA CGM+',
+    faqManagement: 'FAQ Management',
+    contactInformation: 'Contact Information Matrix',
+    businessOperationalUpdate: 'Business & Operational Update',
+    usefulTemplateAndLink: 'Useful Template and Link',
+    sanctionsAndCommodityList: 'Sanctions and Commodity List',
+    materialLibrary: 'Material Library'
   },
   // navbar翻译
   navbar: {
@@ -106,7 +47,7 @@ export default {
     confirmpassword: 'New Password Confirmation',
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
-    passwordconsistent:'Password must be consistent',
+    passwordconsistent: 'Password must be consistent',
     terms: 'Legal Terms',
     yes: 'Yes'
   },
@@ -132,22 +73,24 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
-   // 文章相关
-   article: {
+  // 文章相关
+  article: {
     thumb: 'Front Cover',
     title: 'Title',
     date: 'Date',
     category: 'Category',
     platform: 'Platform',
     status: 'Status',
-    actions: 'Actions'
+    actions: 'Actions',
+    deltitle: 'Please confirm if you want to delete this article?'
   },
   message: {
     detail: 'Details',
     edit: 'Edit',
     delete: 'Delete',
     publish: 'Published',
-    unPublish: 'Unpublish'
+    unPublish: 'Unpublish',
+    download: 'Template'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
@@ -166,7 +109,7 @@ export default {
     reset: 'Reset'
   },
   // 素材库
-  library:{
+  library: {
     title: 'Materials Library',
     allselect: 'Select All',
     category: 'Change Category',
@@ -176,9 +119,9 @@ export default {
     addcategory: 'Add A New Category'
   },
   // 管制品
-  sanctions:{
+  sanctions: {
     commodityzh: 'Commodity (Chinese)',
-    commodityen:  'Commodity (English)',
+    commodityen: 'Commodity (English)',
     referencenumber: 'Reference Number',
     remarkszh: 'Remark(s) Chinese',
     remarksen: 'Remark(s) English',
@@ -188,7 +131,7 @@ export default {
     newitem: 'Add A New Item'
   },
   // 用户模版
-  userful:{
+  userful: {
     name: 'Name for Document or Link',
     category: 'Category',
     document: 'Document/Link',
@@ -197,11 +140,11 @@ export default {
     delete: 'Delete',
     categoryset: 'Category Setting',
     import: 'Import',
-    additem:  'Add A New Item',
-    download: 'Download',
+    additem: 'Add A New Item',
+    download: 'Download'
   },
   // 业务和运营
-  business:{
+  business: {
     id: 'No.',
     title: 'Notification Title',
     category: 'Category',
@@ -215,7 +158,7 @@ export default {
     content: 'Content',
     uploadfile: 'UploadFile'
   },
-  contact:{
+  contact: {
     id: 'No.',
     region: 'Region',
     office: 'Office',
@@ -229,11 +172,11 @@ export default {
     phone: 'Phone No.',
     email: 'Email Address',
     import: 'Import',
-    createinfo:'Create New Duty Info',
+    createinfo: 'Create New Duty Info',
     deactive: 'Deactive',
     active: 'Active'
   },
-  faq:{
+  faq: {
     id: 'No.',
     question: 'Question',
     keyword: 'Keyword(s)',
@@ -249,26 +192,26 @@ export default {
     export: 'Export',
     deltitle: 'Please confirm if you want to delete this FAQ?'
   },
-    //  新闻中心
-    newscenter:{
-      categorysetting: 'News Category Setting',
-      export: 'Export',
-      import: 'Import',
-      addhistoynews:'Add A Historical News',
-      title: 'News Title',
-      category: 'Category',
-      publishdate: 'Published Date',
-      link: 'Link',
-      status: 'Status',
-      addtitle: 'Add A Historical News',
-      deltitle: 'Please confirm if you want to delete this article?',
-      del:'Delete',
-      categoryen: 'Category-EN',
-      categoryzh:  'Category-ZH',
-      creator: 'Creator'
-   },
-   //  vas
-   vas:{
+  //  新闻中心
+  newscenter: {
+    categorysetting: 'News Category Setting',
+    export: 'Export',
+    import: 'Import',
+    addhistoynews: 'Add A Historical News',
+    title: 'News Title',
+    category: 'Category',
+    publishdate: 'Published Date',
+    link: 'Link',
+    status: 'Status',
+    addtitle: 'Add A Historical News',
+    deltitle: 'Please confirm if you want to delete this article?',
+    del: 'Delete',
+    categoryen: 'Category-EN',
+    categoryzh: 'Category-ZH',
+    creator: 'Creator'
+  },
+  //  vas
+  vas: {
     addarticlelink: 'Add An Article by Link',
     title: 'Title',
     publishdate: 'Published Date',
@@ -276,9 +219,9 @@ export default {
     status: 'Status',
     deltitle: 'Please confirm if you want to delete this article?',
     addtitle: 'Add A CMA CGM+ Intro by Link'
-   },
-   // 用户角色和权限
-   userrole:{
+  },
+  // 用户角色和权限
+  userrole: {
     name: 'Name',
     email: 'Email Address',
     function: 'Function',
@@ -296,6 +239,7 @@ export default {
     addemployee: 'Add An Employee',
     addnewfunction: 'Add A New Function',
     remove: 'Remove',
-    deltitle: 'Please confirm if you want to delete this function?'
+    deltitle: 'Please confirm if you want to delete this function?',
+    permission: 'Permission'
   }
 }
