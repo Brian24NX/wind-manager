@@ -41,7 +41,7 @@
             <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.status === 'Draft'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status ==='Draft'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row)">{{ $t('message.delete') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -111,7 +111,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
-import { businessAdd } from '@/api/business.js'
+import { businessAdd, businessDel } from '@/api/business.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
@@ -162,7 +162,7 @@ export default {
       this.categoryList = transList(res.data)
     },
     // 提交新增数据
-    submitbusiness() {
+    async submitbusiness() {
       const businiessOpentional = {
         title: this.addform.title,
         creator: this.addform.creator,
@@ -171,12 +171,27 @@ export default {
         categoryId: this.addform.category,
         publish: '1'
       }
-      businessAdd(businiessOpentional).then(res => {
-        console.log(res.data)
+      // businessAdd(businiessOpentional).then(res => {
+      //   console.log(res.data)
+      // })
+      const res = await businessAdd(businiessOpentional)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
+    },
+    // 删除数据
+    handleDelete(id) {
+      this.$confirm(this.$t('business.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
       })
-      // const res = await businessAdd(businiessOpentional)
-      // this.$message.info(res.message)
-      // this.$refs.pagination.refreshRequest()
+        .then(async() => {
+          await businessDel(id)
+          this.$refs.pagination.refreshRequest()
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
     }
   }
 }
