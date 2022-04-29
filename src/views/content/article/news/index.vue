@@ -68,7 +68,7 @@
     <!--文章删除-->
     <!--文章导入-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" :limit="1">
+      <el-upload class="upload-demo" drag action="/api/admin/uploadFile" :limit="1">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
