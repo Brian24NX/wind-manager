@@ -28,7 +28,7 @@
         background
         :current-page="pagination.page"
         :page-sizes="pageSizes"
-        :page-size="pagination.size"
+        :page-size="pagination.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="pagination.total"
         @size-change="handleSizeChange"
@@ -89,8 +89,8 @@ export default {
       isLoading: true,
       // 分页参数
       pagination: {
-        page: this.page,
-        size: this.pageSize,
+        pageNum: this.page,
+        pageSize: this.pageSize,
         total: null
       },
       pageSizes: [],
@@ -104,14 +104,14 @@ export default {
   },
   created() {
     if (this.$route.query.page) {
-      this.pagination.page = this.$route.query.page
+      this.pagination.pageNum = this.$route.query.page
     }
     this.pageRequest()
     this.pageSizes = [
       this.pagination.size,
-      this.pagination.size * 2,
-      this.pagination.size * 5,
-      this.pagination.size * 10
+      this.pagination.pageSize * 2,
+      this.pagination.pageSize * 5,
+      this.pagination.pageSize * 10
     ]
   },
 
@@ -144,7 +144,7 @@ export default {
      * 切换页面
      */
     handleSizeChange(size) {
-      this.pagination.size = size
+      this.pagination.pageSize = size
       this.pageRequest()
     },
 
@@ -153,7 +153,7 @@ export default {
      */
     handleCurrentChange(currentPage) {
       this.$route.query.page = currentPage
-      this.pagination.page = currentPage
+      this.pagination.pageNum = currentPage
       this.pageRequest()
     },
 

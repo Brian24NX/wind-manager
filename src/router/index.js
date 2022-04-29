@@ -75,16 +75,7 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  }
-
-]
-
-/**
- * 权限页面
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [
+  },
   articleRouter,
   {
     path: '/permission',
@@ -98,7 +89,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'UserManagement',
+        path: '/UserManagement',
         component: () => import('@/views/permission/role'),
         name: 'UserManagement',
         meta: {
@@ -106,7 +97,7 @@ export const asyncRoutes = [
         }
       },
       {
-        path: 'RolePermission',
+        path: '/RolePermission',
         component: () => import('@/views/permission/page'),
         name: 'Role & Permission',
         meta: {
@@ -115,6 +106,15 @@ export const asyncRoutes = [
       }
     ]
   }
+
+]
+
+/**
+ * 权限页面
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
   // { path: '*', redirect: '/404', hidden: true }
 ]
 

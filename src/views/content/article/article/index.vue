@@ -26,7 +26,7 @@
       <div class="operations">
         <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> Add A New Article </el-button>
       </div>
-      <Pagination ref="pagination" uri="/wind-manager/article/list" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
           <template scope="scope">
             <el-image :src="scope.row.thumb" mode="aspectFit" />
@@ -68,7 +68,10 @@ export default {
   },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        categoryIds: '',
+        keyword: ''
+      },
       categoryList: []
     }
   },
