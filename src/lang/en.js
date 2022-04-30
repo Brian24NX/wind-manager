@@ -90,7 +90,8 @@ export default {
     delete: 'Delete',
     publish: 'Published',
     unPublish: 'Unpublish',
-    download: 'Template'
+    download: 'Template',
+    save: 'Save'
   },
   addArticle: {
     pageTitle: 'Create A New Article',

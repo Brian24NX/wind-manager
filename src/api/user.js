@@ -99,4 +99,15 @@ export function userExport(nameOrFunction) {
     }
   })
 }
-
+// 文件上传
+export function fileExport(file) {
+  return request({
+    url: '/api/admin/uploadFile',
+    data: {
+      file
+    },
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}

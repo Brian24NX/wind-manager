@@ -89,11 +89,11 @@ export function categoryAdd(data) {
   })
 }
 // 删除类别
-export function categoryDel(data) {
+export function categoryDel(id) {
   return request({
     url: '/api/admin/categoryDelete',
     method: 'get',
-    data
+    params: { id }
   })
 }
 // 修改类别
