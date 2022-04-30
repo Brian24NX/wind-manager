@@ -203,11 +203,13 @@ export default {
       if (this.isAdd == true) {
         const res = await businessAdd(businiessOpentional)
         this.$message.info(res.message)
+        this.adddialog = false
         this.$refs.pagination.refreshRequest()
         this.isAdd = false
       } else {
         const res = await businessEdit(businiessOpentional)
         this.$message.info(res.message)
+        this.adddialog = false
         this.$refs.pagination.refreshRequest()
         this.isEdit = false
       }

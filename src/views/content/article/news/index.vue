@@ -180,6 +180,7 @@ export default {
       }
       const res = await newsAdd(data)
       this.$message.info(res.message)
+      this.addhistorynewsdialog = false
       this.$refs.pagination.refreshRequest()
     },
     // 删除一行数据
