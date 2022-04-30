@@ -11,9 +11,9 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="exporttemplate" plain>{{ $t('faq.export') }}</el-button>
-            <el-button type="danger" size="small" @click="downloadfile">{{$t('message.download')}}</el-button>
-            <el-button type="danger" size="small" @click="importdialog = true" plain>{{ $t('faq.import') }}</el-button>
+            <el-button type="danger" size="small" plain @click="exporttemplate">{{ $t('faq.export') }}</el-button>
+            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+            <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('faq.import') }}</el-button>
             <el-button type="danger" size="small" @click="adddialog = true">{{ $t('faq.createinfo') }}</el-button>
           </el-row>
         </el-col>
@@ -49,24 +49,24 @@
     </el-dialog>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" :limit="1">
-        <i class="el-icon-upload"></i>
+      <el-upload class="upload-demo" drag action="/api/admin/uploadFile" :limit="1">
+        <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
     </el-dialog>
     <!--创建新的faq-->
     <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center>
-      <el-form :model="addform" :rules="rules" ref="addform">
+      <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
           <!--<el-input v-model="addform.question" autocomplete="off"></el-input>-->
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"  v-model="addform.question"> </el-input>
+          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" />
         </el-form-item>
         <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
           <!-- <el-input v-model="addform.answer" autocomplete="off"></el-input>-->
           <tinymce v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="keyword">
-          <el-input v-model="addform.keyword" autocomplete="off"></el-input>
+          <el-input v-model="addform.keyword" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -90,24 +90,24 @@ export default {
       queryParams: {},
       categoryList: [],
       adddialog: false,
-      importdialog:false,
-      adddialog:false,
-      formLabelWidth:'120px',
-      addform:{
-       question: '',
-       answer: '',
-       keyword: ''
+      importdialog: false,
+      adddialog: false,
+      formLabelWidth: '120px',
+      addform: {
+        question: '',
+        answer: '',
+        keyword: ''
       },
-      rules:{
+      rules: {
         question: { required: true, message: '请输入question', trigger: 'blur' },
         answer: { required: true, message: '请输入answer', trigger: 'blur' },
-        keyword: { required: true, message: 'To add more key words, please enter key words or phrases separated by a comma', trigger: 'blur' },
+        keyword: { required: true, message: 'To add more key words, please enter key words or phrases separated by a comma', trigger: 'blur' }
       }
     }
   },
-  methods:{
-    downloadfile(){
-      window.location.href="https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx"
+  methods: {
+    downloadfile() {
+      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
     }
   }
 }

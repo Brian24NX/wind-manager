@@ -92,7 +92,7 @@
           <el-upload
             ref="upload"
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="/api/admin/uploadFile"
             :on-preview="handPreview"
             :on-remove="handRemove"
             :file-list="fileList"

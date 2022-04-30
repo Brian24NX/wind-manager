@@ -19,7 +19,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
-              <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+              <el-upload class="upload-demo" drag action="/api/admin/uploadFile" multiple>
                 <i class="el-icon-upload" />
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
