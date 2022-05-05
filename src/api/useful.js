@@ -10,7 +10,7 @@ export function templateAdd(data) {
 // 修改模版
 export function templateEdit(data) {
   return request({
-    url: '/api/admin/templateAdd',
+    url: '/api/admin/templateEdit',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function templateEdit(data) {
 // 删除模版
 export function templateDelete(id) {
   return request({
-    url: '/api/admin/templateAdd',
+    url: '/api/admin/templateDelete',
     method: 'GET',
     params: { id }
   })

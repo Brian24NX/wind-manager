@@ -27,7 +27,7 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/contact/list" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('contact.id')" prop="id" />
         <el-table-column align="center" :label="$t('contact.region')" prop="region" />
         <el-table-column :label="$t('contact.office')" prop="office" />

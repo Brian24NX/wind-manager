@@ -27,7 +27,7 @@
         <el-table-column type="selectction" width="55" />
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
 
-        <el-table-column :label="$t('userful.category')" prop="category" />
+        <el-table-column :label="$t('userful.category')" prop="categoryId" />
 
         <el-table-column :label="$t('userful.document')" prop="document" align="center" />
 
@@ -79,7 +79,7 @@
           <el-input v-model="addform.name" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userful.category')" :label-width="formLabelWidth" prop="category">
-          <el-select v-model="addform.category" placeholder="请选择">
+          <el-select v-model="addform.categoryId" placeholder="请选择">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -93,7 +93,7 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="addform.type=='1'" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
+        <el-form-item v-show="addform.type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
@@ -108,7 +108,7 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-show="addform.type=='2'" :label="$t('userful.link')" :label-width="formLabelWidth" prop="category">
+        <el-form-item v-show="addform.type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="category">
           <el-input v-model="addform.link" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
@@ -144,11 +144,12 @@ export default {
       categoryedit: false,
       addform: {
         name: '',
-        category: '',
+        categoryId: '',
         file: [],
-        type: '1',
+        type: 1,
         link: '',
-        internalReference: ''
+        internalReference: '',
+        id: ''
       },
       isAdd: false,
       isEdit: false,
@@ -162,7 +163,7 @@ export default {
       formLabelWidth: '180px',
       rules: {
         name: { required: true, message: 'name is required', trigger: 'blur' },
-        category: { required: true, message: 'email is required', trigger: 'blur' },
+        categoryId: { required: true, message: 'email is required', trigger: 'blur' },
         type: { required: true, message: 'function is required', trigger: 'change' },
         file: { required: true, message: 'file is required', trigger: 'change' },
         link: { required: true, message: 'link is required', trigger: 'blur' }
@@ -184,20 +185,23 @@ export default {
       this.tabledata = res.data
     },
     handleAdd() {
+      this.addform = []
       this.isAdd = true
       this.adddialog = true
     },
     handleEdit(row) {
+      this.addform = row
       this.isEdit = true
       this.adddialog = true
     },
     async save() {
       const data = {
         name: this.addform.name,
-        type: this.addform.type,
-        category: this.addform.category,
+        type: parseInt(this.addform.type),
+        categoryId: this.addform.categoryId,
         internalReference: this.addform.internalReference,
-        document: this.addform.link || this.addform.file
+        document: this.addform.link || this.addform.file,
+        id: this.addform.id
       }
       // eslint-disable-next-line eqeqeq
       if (this.isAdd == true) {
@@ -206,12 +210,14 @@ export default {
         this.adddialog = false
         this.$refs.pagination.refreshRequest()
         this.isAdd = false
+        this.addform = []
       } else {
         const res = await templateEdit(data)
         this.$message.info(res.message)
         this.adddialog = false
         this.$refs.pagination.refreshRequest()
         this.isEdit = false
+        this.addform = []
       }
     },
     // 删除数据
