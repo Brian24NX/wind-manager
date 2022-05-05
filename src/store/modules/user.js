@@ -1,13 +1,14 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
-
+import router, { resetRouter, asyncRoutes, constantRoutes } from '@/router'
 const state = {
   token: getToken(),
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  routes: [],
+  addRoutes: []
 }
 
 const mutations = {
@@ -25,7 +26,43 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_ROUTES: (state, routes) => {
+    state.addRoutes = routes
+    state.routes = constantRoutes.concat(routes)
   }
+}
+/**
+ * Use meta.role to determine if the current user has permission
+ * @param roles
+ * @param route
+ */
+function hasPermission(roles, route) {
+  if (route.meta && route.meta.roles) {
+    return roles.some(role => route.meta.roles.includes(role))
+  } else {
+    return true
+  }
+}
+/**
+ * Filter asynchronous routing tables by recursion
+ * @param routes asyncRoutes
+ * @param roles
+ */
+export function filterAsyncRoutes(routes, roles) {
+  const res = []
+
+  routes.forEach(route => {
+    const tmp = { ...route }
+    if (hasPermission(roles, tmp)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      }
+      res.push(tmp)
+    }
+  })
+
+  return res
 }
 
 const actions = {
@@ -33,10 +70,13 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ email: username.trim(), password: password }).then(response => {
         const { data } = response
+        // 先按照超级管理员来写
+        commit('SET_ROUTES', asyncRoutes)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
+        commit('SET_ROLES', data.roles)
         resolve()
       }).catch(error => {
         reject(error)
@@ -45,32 +85,32 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+  // getInfo({ commit, state }) {
+  //   return new Promise((resolve, reject) => {
+  //     getInfo(state.token).then(response => {
+  //       const { data } = response
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+  //       if (!data) {
+  //         reject('Verification failed, please Login again.')
+  //       }
 
-        const { roles, name, avatar, introduction } = data
+  //       const { roles, name, avatar, introduction } = data
 
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
+  //       // roles must be a non-empty array
+  //       if (!roles || roles.length <= 0) {
+  //         reject('getInfo: roles must be a non-null array!')
+  //       }
 
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
+  //       commit('SET_ROLES', roles)
+  //       commit('SET_NAME', name)
+  //       commit('SET_AVATAR', avatar)
+  //       commit('SET_INTRODUCTION', introduction)
+  //       resolve(data)
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // },
 
   // user logout
   logout({ commit, state, dispatch }) {

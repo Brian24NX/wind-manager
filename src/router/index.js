@@ -75,7 +75,16 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
+  }
+
+]
+
+/**
+ * 权限页面
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
   articleRouter,
   {
     path: '/permission',
@@ -106,16 +115,6 @@ export const constantRoutes = [
       }
     ]
   }
-
-]
-
-/**
- * 权限页面
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [
-  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

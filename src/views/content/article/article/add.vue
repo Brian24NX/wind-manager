@@ -112,6 +112,8 @@ export default {
         publishTo: [],
         schedulePublish: false
       },
+      isEdit: false,
+      isAdd: false,
       articleRules: {
         title: [
           { required: true, message: '请输入文章名称', trigger: 'blur' },
@@ -134,6 +136,11 @@ export default {
     // 通过id判断是新增还是编辑
     // eslint-disable-next-line no-unused-vars
     const id = this.$route.params.id
+    if (id) {
+      this.isEdit = true
+    } else {
+      this.isAdd = false
+    }
   },
   methods: {
     submitForm(formName) {
@@ -150,15 +157,20 @@ export default {
             categoryId: this.articleForm.region,
             publishDate: this.articleForm
           }
-          this.articleAdd(data).then(res => {
+          // eslint-disable-next-line no-undef
+          if (isAdd) {
+            this.articleAdd(data).then(res => {
             // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$message.success(res.message)
+              if (res.code == 200) {
+                this.$message.success(res.message)
               // this.$router.push('/login')
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+              } else {
+                this.$message.error(res.message)
+              }
+            })
+          } else {
+
+          }
         } else {
           console.log('error submit!!')
           return false

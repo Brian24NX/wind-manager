@@ -80,7 +80,7 @@ module.exports = [
         data: 'success'
       }
     }
-  },
+  }
   // userlist
 
 ]

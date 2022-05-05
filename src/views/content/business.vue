@@ -48,7 +48,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
-      <el-button v-if="categoryadd" size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
+      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
       <el-table :data="tabledata" style="width: 80%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -197,7 +197,7 @@ export default {
         content: this.addform.content,
         file: this.addform.uploadfile,
         categoryId: this.addform.category,
-        publish: '0'
+        publish: 0
       }
       // eslint-disable-next-line eqeqeq
       if (this.isAdd == true) {

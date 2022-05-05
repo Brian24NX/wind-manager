@@ -1,84 +1,84 @@
 <template>
   <div class="login-container">
-  <div class="login">
-    <div class="loginleft">
-     <img :src="src" class="left25" />
-    </div>
-    <div class="loginright">
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-      <lang-select class="set-language" />
-      <div class="title-container">
-        <h3 class="title">
-          {{ $t('login.title') }}
-        </h3>
+    <div class="login">
+      <div class="loginleft">
+        <img :src="src" class="left25">
       </div>
+      <div class="loginright">
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+          <lang-select class="set-language" />
+          <div class="title-container">
+            <h3 class="title">
+              {{ $t('login.title') }}
+            </h3>
+          </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="email" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          :placeholder="$t('login.username')"
-          name="username(Email)"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
+          <el-form-item prop="username">
+            <span class="svg-container">
+              <svg-icon icon-class="email" />
+            </span>
+            <el-input
+              ref="username"
+              v-model="loginForm.username"
+              :placeholder="$t('login.username')"
+              name="username(Email)"
+              type="text"
+              tabindex="1"
+              autocomplete="on"
+            />
+          </el-form-item>
 
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            :placeholder="$t('login.password')"
-            name="password"
-            tabindex="2"
-            autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
-      </el-tooltip>
-      
-      <el-button :loading="loading" type="danger" style="width:100%;margin-bottom:30px;margin-top:20px;" @click.native.prevent="handleLogin">
-        {{ $t('login.logIn') }}
-      </el-button>
-      <router-link class="link" to="/forget/toemail">{{$t('login.forgetpassword')}}</router-link>
-    </el-form>
-    </div>
+          <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+            <el-form-item prop="password">
+              <span class="svg-container">
+                <svg-icon icon-class="password" />
+              </span>
+              <el-input
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
+                :placeholder="$t('login.password')"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+                @keyup.native="checkCapslock"
+                @blur="capsTooltip = false"
+                @keyup.enter.native="handleLogin"
+              />
+              <span class="show-pwd" @click="showPwd">
+                <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+              </span>
+            </el-form-item>
+          </el-tooltip>
+
+          <el-button :loading="loading" type="danger" style="width:100%;margin-bottom:30px;margin-top:20px;" @click.native.prevent="handleLogin">
+            {{ $t('login.logIn') }}
+          </el-button>
+          <router-link class="link" to="/forget/toemail">{{ $t('login.forgetpassword') }}</router-link>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/header.png'
 export default {
   name: 'Login',
   components: { LangSelect },
   data() {
+    const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!email.test(value)) {
         callback(new Error('Please enter the correct user name'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
+      if (value.length < 4) {
         callback(new Error('The password can not be less than 6 digits'))
       } else {
         callback()
@@ -86,10 +86,10 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: 'admin@163.com',
+        password: 'admin'
       },
-      src:logo,
+      src: logo,
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
@@ -321,7 +321,6 @@ $light_gray:#eee;
       font-weight: bold;
     }
 
- 
   }
 
   .show-pwd {
