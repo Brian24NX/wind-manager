@@ -143,7 +143,10 @@ export default {
     categoryset: 'Category Setting',
     import: 'Import',
     additem: 'Add A New Item',
-    export: 'Export'
+    export: 'Export',
+    link: 'Link',
+    uploadfile: 'Uploadfile',
+    type: 'Type'
   },
   // 业务和运营
   business: {

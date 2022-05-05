@@ -148,7 +148,10 @@ export default {
     categoryset: '类别设置',
     import: '导入',
     additem: '添加',
-    export: '导出'
+    export: '导出',
+    link: '链接',
+    uploadfile: '选择文件',
+    type: '类型'
   },
   // 业务和运营
   business: {
