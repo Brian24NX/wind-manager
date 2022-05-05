@@ -5,10 +5,10 @@
         <el-col :span="18">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" placeholder="请输入内容" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -23,7 +23,7 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityen" />
 
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityzh" />
@@ -59,7 +59,10 @@ export default {
   },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        referenceNo: '',
+        keyword: ''
+      },
       categoryList: []
     }
   },

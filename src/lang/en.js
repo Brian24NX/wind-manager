@@ -91,7 +91,8 @@ export default {
     publish: 'Published',
     unPublish: 'Unpublish',
     download: 'Template',
-    save: 'Save'
+    save: 'Save',
+    search: 'Search'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
@@ -142,7 +143,7 @@ export default {
     categoryset: 'Category Setting',
     import: 'Import',
     additem: 'Add A New Item',
-    download: 'Download'
+    export: 'Export'
   },
   // 业务和运营
   business: {

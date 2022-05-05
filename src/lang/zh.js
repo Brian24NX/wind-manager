@@ -91,7 +91,8 @@ export default {
     publish: '发布',
     unPublish: '撤回',
     download: '下载模版',
-    save: '保存'
+    save: '保存',
+    search: '搜索'
   },
   addArticle: {
     pageTitle: '添加新推文',
@@ -147,7 +148,7 @@ export default {
     categoryset: '类别设置',
     import: '导入',
     additem: '添加',
-    download: '下载'
+    export: '导出'
   },
   // 业务和运营
   business: {

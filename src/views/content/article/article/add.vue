@@ -99,7 +99,7 @@
 <script>
 import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
-import { articleAdd } from '../../../../api/article.js'
+import { articleAdd } from '@/api/article.js'
 export default {
   name: 'AddArticle',
   components: { Tinymce },
@@ -168,8 +168,6 @@ export default {
                 this.$message.error(res.message)
               }
             })
-          } else {
-
           }
         } else {
           console.log('error submit!!')

@@ -20,14 +20,14 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/faqmanager/list" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('faq.id')" prop="id" />
         <el-table-column align="center" :label="$t('faq.question')" prop="question" />
-        <el-table-column :label="$t('faq.keyword')" prop="keyword" />
-        <el-table-column :label="$t('faq.relatedquestion')" prop="relatedquestion" align="center" />
+        <el-table-column :label="$t('faq.keyword')" prop="faqKeywords" />
+        <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center" />
         <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />
-        <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
-        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updatetime" />
+        <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
+        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" />
         <el-table-column align="center" :label="$t('faq.status')" prop="status" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
@@ -91,7 +91,6 @@ export default {
       categoryList: [],
       adddialog: false,
       importdialog: false,
-      adddialog: false,
       formLabelWidth: '120px',
       addform: {
         question: '',
