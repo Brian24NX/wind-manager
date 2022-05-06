@@ -130,7 +130,8 @@ export default {
     type: 'Type',
     import: 'Import',
     export: 'Export',
-    newitem: 'Add A New Item'
+    newitem: 'Add A New Item',
+    deltitle: 'Please confirm if you want to delete this commodity list?'
   },
   // 用户模版
   userful: {

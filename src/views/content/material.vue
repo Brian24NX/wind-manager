@@ -76,8 +76,8 @@ export default {
       },
       setdialog: false,
       tabledata: [],
-      librarylist: [
-      ],
+      librarylist: [],
+      categoryList: [],
       total: 0,
       pageNum: 1,
       pageSize: 10
@@ -105,8 +105,7 @@ export default {
       }
       const res = await materialList(data)
       this.total = res.data.total
-      this.librarylist = res.data
-      console.log(res.data)
+      this.librarylist = res.data.list
     },
     // 添加种类
     createcategory() {

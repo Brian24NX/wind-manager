@@ -21,15 +21,15 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/userlist/list" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
-        <el-table-column :label="$t('userrole.function')" prop="function" />
-        <el-table-column :label="$t('userrole.status')" prop="status" align="center" />
+        <el-table-column :label="$t('userrole.function')" prop="functions" />
+        <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.deactive') }}</el-button>
-            <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.active') }}</el-button>
+            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.active') }}</el-button>
             <el-button size="small" type="text" class="danger" @click="editdialog = true">{{ $t('userrole.viewedit') }}</el-button>
           </template>
         </el-table-column>
@@ -183,7 +183,9 @@ export default {
           ]
         }
       ],
-      queryParams: {},
+      queryParams: {
+        nameOrFunction: ''
+      },
       addform: {
         name: '',
         email: '',

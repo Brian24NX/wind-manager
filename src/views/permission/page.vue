@@ -18,11 +18,11 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/rolepermission/list" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/roleList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
-        <el-table-column align="center" :label="$t('userrole.function')" prop="function" />
-        <el-table-column :label="$t('userrole.description')" prop="description" />
-        <el-table-column :label="$t('userrole.status')" prop="status" align="center" />
+        <el-table-column align="center" :label="$t('userrole.function')" prop="functname" />
+        <el-table-column :label="$t('userrole.description')" prop="descri" />
+        <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" class="primary" @click="viewdialog = true">{{ $t('userrole.viewuser') }}</el-button>
@@ -131,7 +131,7 @@ export default {
         description: '',
         function: ''
       },
-      queryParams: {},
+      queryParams: { function: '' },
       viewdialog: false,
       tabledata: [
         { id: '1', name: 'kelly', email: 'kelly@163.com' },
