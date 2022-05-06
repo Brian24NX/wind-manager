@@ -25,7 +25,7 @@
         <el-table-column align="center" :label="$t('faq.question')" prop="question" />
         <el-table-column :label="$t('faq.keyword')" prop="faqKeywords" />
         <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center" />
-        <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />
+        <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" /> -->
         <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
         <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" />

@@ -32,18 +32,10 @@
             <el-image :src="scope.row.originalLink" mode="aspectFit" />
           </template>
         </el-table-column>
-
         <el-table-column :label="$t('article.title')" prop="title" />
-
         <el-table-column :label="$t('article.date')" prop="publishDate" align="center" />
-
         <el-table-column align="center" :label="$t('article.category')" prop="category" />
-
-        <el-table-column align="center" :label="$t('article.platform')">
-          <template scope="scope">
-            <el-tag v-for="(item, index) in scope.row.publishTos" :key="index" type="default">{{ item }}</el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" :label="$t('article.platform')" prop="publishTos" />
         <el-table-column align="center" :label="$t('article.status')" prop="status" />
         <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
