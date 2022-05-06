@@ -124,11 +124,11 @@ export default {
     },
     // 编辑历史信息
     handleEdit(id) {
-      this.$route.push({ name: '/addarticle', params: { id: id }})
+      this.$router.push({ name: '/addarticle', params: { id: id }})
     },
     // 新增历史信息
     addarticle() {
-      this.$route.push('/addarticle')
+      this.$router.push('/addarticle')
     }
   }
 }
