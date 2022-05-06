@@ -101,7 +101,7 @@
             action="/api/admin/uploadFile"
             :on-preview="handPreview"
             :on-remove="handRemove"
-            :file-list="addform.file"
+            :file-list="addform.document"
             :auto-upload="false"
             :limit="1"
           >
@@ -109,7 +109,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item v-show="addform.type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="category">
-          <el-input v-model="addform.link" autocomplete="off" />
+          <el-input v-model="addform.document" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
           <el-input v-model="addform.internalReference" autocomplete="off" />
@@ -145,9 +145,8 @@ export default {
       addform: {
         name: '',
         categoryId: '',
-        file: [],
         type: 1,
-        link: '',
+        document: '',
         internalReference: '',
         id: ''
       },
@@ -156,9 +155,9 @@ export default {
       adddialog: false,
       setdialog: false,
       typelist: [{
-        label: 'Document', value: '1'
+        label: 'Document', value: 1
       }, {
-        label: 'Link', value: '2'
+        label: 'Link', value: 2
       }],
       formLabelWidth: '180px',
       rules: {
@@ -263,6 +262,7 @@ export default {
     // 添加种类
     async Save(row) {
       const data = {
+        id: row.id,
         category: row.category,
         creator: row.creator,
         type: 3,
