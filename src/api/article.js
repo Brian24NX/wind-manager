@@ -49,7 +49,7 @@ export function articleImport() {
 // 文章信息删除
 export function articleDel(id) {
   return request({
-    url: '/api/admin/miniNewsDelete',
+    url: '/api/admin/newsDelete',
     method: 'get',
     params: {
       id
@@ -67,7 +67,15 @@ export function articleExport(data) {
 // 文章信息添加
 export function articleAdd(data) {
   return request({
-    url: '/api/admin/miniNewsHisAdd',
+    url: '/api/admin/newsAdd',
+    method: 'post',
+    data
+  })
+}
+// 文章修改
+export function articleEdit(data) {
+  return request({
+    url: '/api/admin/newsEdit',
     method: 'post',
     data
   })
@@ -75,7 +83,7 @@ export function articleAdd(data) {
 // 文章信息发布
 export function articlePublish(data) {
   return request({
-    url: '/api/admin/miniNewsPublish',
+    url: '/api/admin/newsPublish',
     method: 'get',
     data
   })

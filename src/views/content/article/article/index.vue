@@ -84,7 +84,7 @@ export default {
   methods: {
     // 获取种类列表
     async getcategoryList() {
-      const type = 1
+      const type = 5
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
     },
@@ -116,7 +116,7 @@ export default {
       })
         .then(async() => {
           await articleDel(index)
-          this.getcategoryList()
+          this.submit()
         })
         .catch(() => {
           this.$message.info('已取消删除')

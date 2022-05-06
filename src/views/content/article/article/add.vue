@@ -19,7 +19,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
-              <el-upload class="upload-demo" drag action="/api/admin/uploadFile" multiple>
+              <el-upload class="upload-demo" drag action="/api/admin/uploadFile" multiple :limit="1" :file-list="fileList">
                 <i class="el-icon-upload" />
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -48,9 +48,8 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('addArticle.category')">
-                  <el-select v-model="articleForm.region" placeholder="请选择活动区域" style="width: 85%" size="small">
-                    <el-option label="区域一" value="shanghai" />
-                    <el-option label="区域二" value="beijing" />
+                  <el-select v-model="articleForm.category" placeholder="请选择">
+                    <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -74,18 +73,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="24">
-            <el-form-item :label="$t('addArticle.sendTo')" prop="sendTo">
-              <el-checkbox-group v-model="articleForm.sendTo">
-                <el-checkbox label="美食/餐厅线上活动" name="type" />
-                <el-checkbox label="地推活动" name="type" />
-                <el-checkbox label="线下主题活动" name="type" />
-                <el-checkbox label="单纯品牌曝光" name="type" />
-              </el-checkbox-group>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
         <el-row type="flex" justify="end">
           <el-form-item>
             <el-button type="danger" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
@@ -99,7 +86,10 @@
 <script>
 import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
-import { articleAdd } from '@/api/article.js'
+import { articleAdd, articleEdit } from '@/api/article.js'
+// eslint-disable-next-line no-unused-vars
+import { categoryList } from '@/api/article.js'
+import { transList } from '@/utils'
 export default {
   name: 'AddArticle',
   components: { Tinymce },
@@ -110,8 +100,11 @@ export default {
         region: '',
         type: '',
         publishTo: [],
-        schedulePublish: false
+        schedulePublish: false,
+        frontCover: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
       },
+      categoryList: [],
+      fileList: [],
       isEdit: false,
       isAdd: false,
       articleRules: {
@@ -133,18 +126,25 @@ export default {
     }
   },
   created() {
+    this.getcategoryList()
     // 通过id判断是新增还是编辑
     // eslint-disable-next-line no-unused-vars
     const id = this.$route.params.id
+    console.log(id)
     if (id) {
       this.isEdit = true
     } else {
-      this.isAdd = false
+      this.isAdd = true
     }
   },
   methods: {
+    async getcategoryList() {
+      const type = 5
+      const res = await categoryList(type)
+      this.categoryList = transList(res.data)
+    },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const data = {
             title: this.articleForm.title,
@@ -154,24 +154,19 @@ export default {
             content: this.articleForm.content,
             originalLink: this.articleForm.name,
             publishIds: this.articleForm.publishTo,
-            categoryId: this.articleForm.region,
-            publishDate: this.articleForm
+            categoryId: this.articleForm.category,
+            publishDate: this.articleForm.date1,
+            publish: 1
           }
-          // eslint-disable-next-line no-undef
-          if (isAdd) {
-            this.articleAdd(data).then(res => {
-            // eslint-disable-next-line eqeqeq
-              if (res.code == 200) {
-                this.$message.success(res.message)
-              // this.$router.push('/login')
-              } else {
-                this.$message.error(res.message)
-              }
-            })
+          if (this.isAdd) {
+            const res = await articleAdd(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          } else {
+            const res = await articleEdit(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
           }
-        } else {
-          console.log('error submit!!')
-          return false
         }
       })
     },

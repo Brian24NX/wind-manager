@@ -58,12 +58,12 @@
           <tinymce v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="keyword">
-          <el-input v-model="addform.keyword" autocomplete="off" />
+          <el-input v-model="addform.faqKeywords" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitfaq">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="addhistorynewsdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -90,14 +90,14 @@ export default {
         id: '',
         question: '',
         answer: '',
-        keyword: ''
+        faqKeywords: ''
       },
       isEdit: false,
       isAdd: false,
       rules: {
         question: { required: true, message: '请输入question', trigger: 'blur' },
         answer: { required: true, message: '请输入answer', trigger: 'blur' },
-        keyword: { required: true, message: 'To add more key words, please enter key words or phrases separated by a comma', trigger: 'blur' }
+        faqKeywords: { required: true, message: 'To add more key words, please enter key words or phrases separated by a comma', trigger: 'blur' }
       }
     }
   },
@@ -115,17 +115,20 @@ export default {
         this.$message.info(res.message)
         this.isAdd = false
         this.adddialog = false
+        this.addform = {}
         this.$refs.pagination.refreshRequest()
       } else {
         const res = await faqEdit(data)
         this.$message.info(res.message)
         this.isEdit = false
         this.adddialog = false
+        this.addform = {}
         this.$refs.pagination.refreshRequest()
       }
     },
     // 删除数据
-    handleDelete(id) {
+    handleDel(id) {
+      console.log(id)
       this.$confirm(this.$t('faq.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
@@ -159,6 +162,14 @@ export default {
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
+      this.addform = {}
+    },
+    // 取消
+    Cancle() {
+      this.isAdd = false
+      this.isEdit = false
+      this.addform = {}
+      this.adddialog = false
     },
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
