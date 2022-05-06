@@ -26,7 +26,7 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" />
@@ -74,22 +74,22 @@
     </el-dialog>
     <!--文章类型修改-->
     <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center>
-      <el-button v-if="categoryadd" size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
+      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
       <el-table :data="tabledata" style="width: 80%">
         <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input v-model="scope.row.categoryen" size="mini" />
+              <el-input v-model="scope.row.category" size="mini" />
             </span>
-            <span v-else>{{ scope.row.categoryen }}</span>
+            <span v-else>{{ scope.row.category }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('newscenter.categoryzh')" prop="categoryzh" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input v-model="scope.row.categoryzh" size="mini" />
+              <el-input v-model="scope.row.categoryCn" size="mini" />
             </span>
-            <span v-else>{{ scope.row.categoryzh }}</span>
+            <span v-else>{{ scope.row.categoryCn }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('newscenter.creator')" prop="creator" align="center">
@@ -103,7 +103,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -126,7 +126,7 @@ export default {
   data() {
     return {
       queryParams: {
-        categoryIds: 4,
+        categoryIds: [],
         keyword: ''
       },
       categoryedit: false,
@@ -222,7 +222,8 @@ export default {
     // 添加种类
     createcategory() {
       const data = {
-        categoryen: '',
+        id: '',
+        category: '',
         categoryCn: '',
         creator: '',
         isSet: true
@@ -233,8 +234,9 @@ export default {
     // 添加种类
     async Save(row) {
       const data = {
-        categoryen: row.categoryen,
-        categoryCn: row.categoryzh,
+        id: row.id,
+        category: row.category,
+        categoryCn: row.categoryCn,
         creator: row.creator,
         type: 1,
         isSet: false

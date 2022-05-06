@@ -4,7 +4,7 @@
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="5">
               <el-select v-model="queryParams.category" placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -19,6 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
             <el-button type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
           </el-row>
@@ -34,7 +35,7 @@
 
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
 
-        <el-table-column align="center" :label="$t('business.updatetime')" prop="publishDate" />
+        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" />
         <el-table-column align="center" :label="$t('business.status')" prop="publish" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
@@ -103,7 +104,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="category">
-          <el-select v-model="queryParams.category" placeholder="请选择">
+          <el-select v-model="addform.category" placeholder="请选择">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -167,13 +168,17 @@ export default {
   methods: {
     // 获取种类列表
     async getcategoryList() {
-      const type = 1
+      const type = 2
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
       res.data.map(i => {
         i.isSet = false
       })
       this.tabledata = res.data
+    },
+    // 搜索
+    search() {
+      this.$refs.pagination.refreshRequest()
     },
     // 提交新增数据
     async submitbusiness() {
@@ -183,7 +188,7 @@ export default {
         content: this.addform.content,
         file: this.addform.uploadfile,
         categoryId: this.addform.category,
-        publish: '1'
+        publish: 1
       }
       const res = await businessAdd(businiessOpentional)
       this.$message.info(res.message)
@@ -192,6 +197,7 @@ export default {
     // 保存新增数据
     async savebusiness() {
       const businiessOpentional = {
+        id: this.addform.id,
         title: this.addform.title,
         creator: this.addform.creator,
         content: this.addform.content,
@@ -270,9 +276,10 @@ export default {
     // 添加种类
     async Save(row) {
       const data = {
+        id: row.id,
         category: row.category,
         creator: row.creator,
-        type: 1,
+        type: 2,
         isSet: false
       }
       // eslint-disable-next-line eqeqeq

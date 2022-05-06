@@ -26,22 +26,22 @@
       <div class="operations">
         <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> Add A New Article </el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
           <template scope="scope">
-            <el-image :src="scope.row.thumb" mode="aspectFit" />
+            <el-image :src="scope.row.originalLink" mode="aspectFit" />
           </template>
         </el-table-column>
 
         <el-table-column :label="$t('article.title')" prop="title" />
 
-        <el-table-column :label="$t('article.date')" prop="display_time" align="center" />
+        <el-table-column :label="$t('article.date')" prop="publishDate" align="center" />
 
         <el-table-column align="center" :label="$t('article.category')" prop="category" />
 
         <el-table-column align="center" :label="$t('article.platform')">
           <template scope="scope">
-            <el-tag v-for="(item, index) in scope.row.platforms" :key="index" type="default">{{ item }}</el-tag>
+            <el-tag v-for="(item, index) in scope.row.publishTos" :key="index" type="default">{{ item }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column align="center" :label="$t('article.status')" prop="status" />
@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       queryParams: {
-        categoryIds: '',
+        categoryIds: [],
         keyword: ''
       },
       categoryList: []
