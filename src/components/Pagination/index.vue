@@ -5,7 +5,7 @@
       v-loading="isLoading"
       :data="data"
       current-row-key="aaa"
-      element-loading-text="给我一点时间"
+      element-loading-text="loading"
       fit
       highlight-current-row
       class="tables"
