@@ -35,7 +35,7 @@
 
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
 
-        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" />
+        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" />
         <el-table-column align="center" :label="$t('business.status')" prop="publish" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
@@ -166,6 +166,9 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    formatDate(date) {
+      return this.$moment(date).format('YYYY-MM-DD')
+    },
     // 获取种类列表
     async getcategoryList() {
       const type = 2

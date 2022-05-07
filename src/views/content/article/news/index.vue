@@ -29,7 +29,7 @@
       <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
-        <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" />
+        <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('newscenter.status')" prop="status" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
@@ -159,6 +159,9 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    formatDate(date) {
+      return this.$moment(date).format('YYYY-MM-DD')
+    },
     // 获取种类列表
     async getcategoryList() {
       const type = 1

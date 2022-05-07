@@ -19,7 +19,7 @@
     <div class="tableContainer">
       <Pagination ref="pagination" uri="/api/admin/cmaNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('vas.title')" prop="title" />
-        <el-table-column :label="$t('vas.publishdate')" prop="publishDate" />
+        <el-table-column :label="$t('vas.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('vas.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('vas.status')" prop="status" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
@@ -83,6 +83,9 @@ export default {
     }
   },
   methods: {
+    formatDate(date) {
+      return this.$moment(date).format('YYYY-MM-DD')
+    },
     // 删除
     handleDel(id) {
       this.$confirm(this.$t('vas.deltitle'), this.$t('message.delete'), {

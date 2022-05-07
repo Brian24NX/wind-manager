@@ -35,7 +35,7 @@
 
         <el-table-column :label="$t('article.title')" prop="title" />
 
-        <el-table-column :label="$t('article.date')" prop="publishDate" align="center" />
+        <el-table-column :label="$t('article.date')" prop="publishDate" align="center" :formatter="formatDate" />
 
         <el-table-column align="center" :label="$t('article.category')" prop="category" />
 
@@ -82,6 +82,9 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    formatDate(date) {
+      return this.$moment(date).format('YYYY-MM-DD')
+    },
     // 获取种类列表
     async getcategoryList() {
       const type = 5
