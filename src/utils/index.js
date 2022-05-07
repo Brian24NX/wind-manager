@@ -388,3 +388,18 @@ export function transList(list) {
   }
   return arr
 }
+/**
+ *  list转化为value-label
+ *  @param {string}list
+ */
+export function transroleList(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].id,
+      label: list[i].funct
+    }
+    arr.push(obj)
+  }
+  return arr
+}

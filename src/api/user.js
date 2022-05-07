@@ -64,7 +64,7 @@ export function userActive(data) {
   return request({
     url: '/api/admin/userActive',
     method: 'get',
-    data
+    params: data
   })
 }
 // 远端用户导出

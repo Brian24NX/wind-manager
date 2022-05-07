@@ -28,9 +28,9 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.active') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="editdialog = true">{{ $t('userrole.viewedit') }}</el-button>
+            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -52,7 +52,7 @@
           <el-input v-model="addform.email" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="addform.function" multiple placeholder="请选择">
+          <el-select v-model="addform.function" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -62,7 +62,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--查看和编辑角色-->
@@ -75,7 +75,7 @@
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="editform.function" multiple placeholder="请选择">
+          <el-select v-model="editform.function" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -107,22 +107,14 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import path from 'path'
-// eslint-disable-next-line no-unused-vars
-import { deepClone } from '@/utils'
-// eslint-disable-next-line no-unused-vars
 import i18n from '@/lang'
 // eslint-disable-next-line no-unused-vars
-import { userActive, userExport, userAdd, userEdit } from '../../api/user.js'
+import { userActive, userExport, userAdd, userEdit } from '@/api/user.js'
+import { roleDict } from '@/api/role.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
-const defaultRole = {
-  key: '',
-  name: '',
-  description: '',
-  routes: []
-}
+import { transroleList } from '@/utils/index'
 
 export default {
   name: 'Role',
@@ -202,11 +194,7 @@ export default {
         email: '',
         function: ''
       },
-      options: [
-        { value: '1', label: 'Normal User' },
-        { value: '2', label: 'sales' },
-        { value: '3', label: 'Communiication' }
-      ],
+      options: [],
       adddialog: false,
       importdialog: false,
       editdialog: false,
@@ -224,8 +212,15 @@ export default {
     }
   },
   computed: {},
-  created() {},
+  created() {
+    this.roleList()
+  },
   methods: {
+    async roleList() {
+      const res = await roleDict()
+      this.options = transroleList(res.data)
+      console.log(this.options)
+    },
     // 导入列表
     import() {},
     // 导出列表
@@ -242,73 +237,55 @@ export default {
       })
     },
     // 状态改变
-    handleUpdateStatus(row) {
+    async handleUpdateStatus(row, active) {
       // eslint-disable-next-line no-unused-vars
       const data = {
-        active: row.active,
+        active: active,
         id: row.id
       }
-      this.userActive(data).then((res) => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      const res = await userActive(data)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
     },
-    // 提交add
-    submitadd() {
-      this.$refs['addform'].validator((valid) => {
-        if (valid) {
-          const role = {
-            id: this.addform.function
-          }
-          const data = {
-            email: this.addform.email,
-            newPwd: this.addform.password,
-            name: this.addform.name,
-            roles: role
-          }
-          this.userAdd(data).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.adddialog = false
-              // 页面刷新
-            } else {
-              this.$message.error(res.message)
-            }
-          })
-        } else {
-          return false
-        }
-      })
+    // 新增操作
+    async submitadd() {
+      console.log(this.addform.function)
+      const role = [{
+        id: this.addform.function
+      }]
+      const data = {
+        email: this.addform.email,
+        password: this.addform.password,
+        name: this.addform.name,
+        active: 1,
+        roles: role
+      }
+      const res = await userAdd(data)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
+      this.addform = {}
     },
-    // 提交edit
-    submitview() {
-      this.$refs['editform'].validator((valid) => {
-        if (valid) {
-          const role = {
-            id: this.editform.function
-          }
-          const data = {
-            email: this.editform.email,
-            name: this.editform.name,
-            roles: role
-          }
-          this.userEdit(data).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.editdialog = false
-              // 页面刷新
-            } else {
-              this.$message.error(res.message)
-            }
-          })
-        } else {
-          return false
-        }
-      })
+    // 提交操作
+    async submitview() {
+      const role = [{
+        id: this.editform.function
+      }]
+      const data = {
+        id: this.editform.id,
+        email: this.editform.email,
+        name: this.editform.name,
+        active: 1,
+        roles: role
+      }
+      const res = await userEdit(data)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
+      this.editform = {}
+    },
+    //
+    Edit(row) {
+      this.editdialog = true
+      this.editform = row
     },
     handlerDataCheck(parent, child) {
       console.log(parent, child)
