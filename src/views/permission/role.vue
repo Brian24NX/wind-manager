@@ -262,6 +262,7 @@ export default {
       }
       const res = await userAdd(data)
       this.$message.info(res.message)
+      this.adddialog = false
       this.$refs.pagination.refreshRequest()
       this.addform = {}
     },
@@ -279,6 +280,7 @@ export default {
       }
       const res = await userEdit(data)
       this.$message.info(res.message)
+      this.editdialog = false
       this.$refs.pagination.refreshRequest()
       this.editform = {}
     },
