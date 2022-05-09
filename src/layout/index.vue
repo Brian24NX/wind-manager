@@ -8,7 +8,7 @@
         <tags-view v-if="needTagsView" />
       </div>
       <app-main />
-     <!-- <right-panel v-if="showSettings">
+      <!-- <right-panel v-if="showSettings">
         <settings />
       </right-panel>-->
     </div>
@@ -27,7 +27,7 @@ export default {
     AppMain,
     Navbar,
     // RightPanel,
-    Settings,
+    // Settings,
     Sidebar,
     TagsView
   },

@@ -1,7 +1,7 @@
 // Just a mock data
 
 const constantRoutes = [
- 
+
   {
     path: '/login',
     component: 'views/login/index',
@@ -43,12 +43,12 @@ const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
- 
+  }
+
 ]
 
 const asyncRoutes = [
-  //文章管理
+  // 文章管理
   {
     path: '/content',
     component: 'layout/Layout',
@@ -99,7 +99,7 @@ const asyncRoutes = [
     },
     {
       path: 'faq',
-      component:'views/content/faqmanagement',
+      component: 'views/content/faqmanagement',
       name: 'FAQ Management',
       meta: {
         title: 'faqManagement'
@@ -146,7 +146,7 @@ const asyncRoutes = [
       }
     }]
   },
-  //权限管理
+  // 权限管理
   {
     path: '/permission',
     component: 'layout/Layout',
@@ -154,7 +154,7 @@ const asyncRoutes = [
     alwaysShow: true,
     meta: {
       title: 'permission',
-      icon: 'lock',
+      icon: 'lock'
     },
     children: [
       {
@@ -173,9 +173,8 @@ const asyncRoutes = [
           title: 'rolePermission'
         }
       }
-     ]
+    ]
   },
-
 
   { path: '*', redirect: '/404', hidden: true }
 ]
