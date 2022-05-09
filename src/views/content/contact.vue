@@ -29,23 +29,23 @@
     <div class="tableContainer">
       <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('contact.id')" prop="id" />
-        <el-table-column align="center" :label="$t('contact.region')" prop="region" />
-        <el-table-column :label="$t('contact.office')" prop="office" />
-        <el-table-column :label="$t('contact.dept')" prop="dept" align="center" />
-        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="buinessscope" />
-        <el-table-column align="center" :label="$t('contact.trade')" prop="trade" />
-        <el-table-column align="center" :label="$t('contact.accountname')" prop="accountname" />
-        <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactperson" />
-        <el-table-column align="center" :label="$t('contact.dutydate')" prop="dutydate" />
-        <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutytime" />
+        <el-table-column align="center" :label="$t('contact.region')" prop="regionName" />
+        <el-table-column :label="$t('contact.office')" prop="officeName" />
+        <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" />
+        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" />
+        <el-table-column align="center" :label="$t('contact.trade')" prop="tradeName" />
+        <el-table-column align="center" :label="$t('contact.accountname')" prop="accountName" />
+        <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactPerson" />
+        <el-table-column align="center" :label="$t('contact.dutydate')" prop="dutyDate" />
+        <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" />
         <el-table-column align="center" :label="$t('contact.phone')" prop="phone" />
         <el-table-column align="center" :label="$t('contact.email')" prop="email" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.status === 'Undeactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.active') }}</el-button>
-            <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.deactive') }}</el-button>
-            <el-button v-if="scope.row.status === 'Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row)">{{ $t('message.delete') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.active') }}</el-button>
+            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -116,7 +116,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
                 <el-checkbox-group v-model="addform.dutydate">
-                  <el-checkbox-button v-for="duty in dutylist" :key="city" :label="city">{{ duty }}</el-checkbox-button>
+                  <el-checkbox-button v-for="(duty,index) in dutylist" :key="index" :label="city">{{ duty }}</el-checkbox-button>
                 </el-checkbox-group>
               </el-form-item>
             </el-col>
@@ -151,6 +151,8 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+// eslint-disable-next-line no-unused-vars
+import { dictItem, contactDel, contactActive } from '@/api/contact.js'
 export default {
   name: 'Contact',
   components: {
@@ -216,6 +218,31 @@ export default {
     }
   },
   methods: {
+    // 状态改变
+    async handleUpdateStatus(row, active) {
+      const data = {
+        active: active,
+        id: row.id
+      }
+      const res = await contactActive(data)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
+    },
+    // 删除操作
+    handleDelete(id) {
+      this.$confirm(this.$t('business.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          await contactDel(id)
+          this.$refs.pagination.refreshRequest()
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
+    },
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
     }

@@ -151,13 +151,9 @@ export default {
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
       })
-        .then(() => {
-          this.roleDel(index).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$message.success(res.message)
-            }
-          })
+        .then(async() => {
+          const res = await roleDel(index)
+          this.$message.info(res.message)
         })
         .catch(() => {
           this.$message.info('已取消删除')
