@@ -10,13 +10,12 @@
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="submit">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
             <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
@@ -160,9 +159,6 @@ export default {
     this.getcategoryList()
   },
   methods: {
-    submit() {
-      this.$refs.pagination.refreshRequest()
-    },
     formatDate(date) {
       return this.$moment(date).format('YYYY-MM-DD')
     },

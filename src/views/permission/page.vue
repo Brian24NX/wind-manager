@@ -145,15 +145,19 @@ export default {
       console.log(parent, child)
     },
     // 删除角色
-    delFunction(id) {
+    delFunction(index) {
       this.$confirm(this.$t('userrole.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
       })
-        .then(async() => {
-          await roleDel(id)
-          this.$refs.pagination.refreshRequest()
+        .then(() => {
+          this.roleDel(index).then((res) => {
+            // eslint-disable-next-line eqeqeq
+            if (res.code == 200) {
+              this.$message.success(res.message)
+            }
+          })
         })
         .catch(() => {
           this.$message.info('已取消删除')
