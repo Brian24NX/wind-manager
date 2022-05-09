@@ -1,4 +1,7 @@
 export default {
+  remindMessage: {
+    expired: 'Login has expired. Please login again'
+  },
   // 路由翻译
   route: {
     dashboard: 'Dashboard',

@@ -26,11 +26,17 @@ import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
+  data() {
+    return {
+      //
+      user_routes: []
+    }
+  },
   computed: {
     ...mapGetters([
       // 'permission_routes',
-      'sidebar',
-      'user_routes'
+      'sidebar'
+      // 'user_routes'
     ]),
     activeMenu() {
       const route = this.$route
@@ -52,7 +58,14 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.getters.routes)
+    const dashbord = [{
+      path: '/dashboard',
+      name: 'dashboard',
+      meta: { title: 'dashboard', icon: 'dashboard', affix: true }
+    }]
+    const routers = dashbord.concat(JSON.parse(localStorage.getItem('routers')))
+    console.log(routers)
+    this.user_routes = routers
   }
 }
 </script>

@@ -1,6 +1,6 @@
 import { login, logout } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter, asyncRoutes, constantRoutes } from '@/router'
+import router, { resetRouter, constantRoutes } from '@/router'
 const state = {
   token: getToken(),
   name: '',
@@ -73,9 +73,10 @@ const actions = {
       login({ email: username.trim(), password: password }).then(response => {
         const { data } = response
         // 先按照超级管理员来写
-        commit('SET_ROUTES', asyncRoutes)
+        // commit('SET_ROUTES', asyncRoutes)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
+        localStorage.setItem('routers', JSON.stringify(data.menus))
         commit('SET_ROLES', data.role.funct)
         resolve()
       }).catch(error => {
@@ -118,6 +119,7 @@ const actions = {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        localStorage.removeItem('routers')
         removeToken()
         resetRouter()
 

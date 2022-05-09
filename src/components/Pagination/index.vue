@@ -40,7 +40,6 @@
 
 <script>
 import request from '@/utils/request'
-import { Message } from 'element-ui'
 
 export default {
   props: {
@@ -130,12 +129,6 @@ export default {
           this.total = response.data.total
           this.data = response.data.list
           this.isLoading = false
-        })
-        .catch((error) => {
-          Message({
-            message: error.message,
-            type: 'error'
-          })
         })
         .finally(() => {
           this.isLoading = false
