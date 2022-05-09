@@ -40,3 +40,11 @@ export function dictItem(dictName) {
     params: { dictName }
   })
 }
+// 获取联动list
+export function BusinessList(regionKey) {
+  return request({
+    url: '/api/admin/officeAndBusinessTypeList',
+    method: 'get',
+    params: { regionKey }
+  })
+}

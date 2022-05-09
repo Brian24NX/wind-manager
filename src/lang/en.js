@@ -180,7 +180,8 @@ export default {
     import: 'Import',
     createinfo: 'Create New Duty Info',
     deactive: 'Deactive',
-    active: 'Active'
+    active: 'Active',
+    deltitle: 'Please confirm if you want to delete this Contact?'
   },
   faq: {
     id: 'No.',

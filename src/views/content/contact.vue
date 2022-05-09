@@ -64,7 +64,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.region')" :label-width="formLabelWidth" prop="region">
-                <el-select v-model="addform.region" placeholder="请选择">
+                <el-select v-model="addform.region" placeholder="请选择" @change="changeoffice">
                   <el-option v-for="item in regionList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -72,7 +72,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('contact.office')" :label-width="formLabelWidth" prop="office">
                 <el-select v-model="addform.office" placeholder="请选择">
-                  <el-option v-for="item in officeList" :key="item.value" :label="item.label" :value="item.value" />
+                  <el-option v-for="item in newofficeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -115,9 +115,9 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
-                <el-checkbox-group v-model="addform.dutydate">
-                  <el-checkbox-button v-for="(duty,index) in dutylist" :key="index" :label="city">{{ duty }}</el-checkbox-button>
-                </el-checkbox-group>
+                <el-select v-model="addform.dutydate" multiple collapse-tags style="margin-left: 20px" placeholder="请选择">
+                  <el-option v-for="item in dutylist" :key="item.value" :label="item.label" :value="item.value" />
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -143,7 +143,7 @@
         </el-form>
       </el-row>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submithistory">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="addhistorynewsdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -152,7 +152,9 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { dictItem, contactDel, contactActive } from '@/api/contact.js'
+import { dictItem, contactDel, contactActive, BusinessList, contactAdd } from '@/api/contact.js'
+// eslint-disable-next-line no-unused-vars
+import { transdict } from '@/utils'
 export default {
   name: 'Contact',
   components: {
@@ -165,33 +167,31 @@ export default {
       importdialog: false,
       adddialog: false,
       formLabelWidth: '130px',
-      officeList: [
-        { value: 0, label: 'ShangHai' },
-        { value: 1, label: 'Wuhan' },
-        { value: 2, label: 'Suzhou' }
-      ],
-      tradeList: [
-        { value: 0, label: 'All Trade' },
-        { value: 1, label: 'North America' },
-        { value: 2, label: 'South America' }
-      ],
+      officeList: [],
+      tradeList: [],
+      newofficeList: [],
       regionList: [
-        { value: 0, label: 'Central China' },
-        { value: 1, label: 'North China' },
-        { value: 2, label: 'South China' }
+        { value: 1, label: 'Central China' },
+        { value: 2, label: 'North China' },
+        { value: 3, label: 'South China' }
       ],
-      deptList: [
-        { value: 0, label: 'Customer Service' },
-        { value: 1, label: 'Ecom' },
-        { value: 2, label: 'Cus' }
-      ],
+      deptList: [{ value: 1, label: 'Customer Service' }],
       buinessscopeList: [
-        { value: 0, label: '进口/Import' },
-        { value: 1, label: '出口/Export' },
-        { value: 2, label: '柜台业务/OBL & Telex Release' }
+        { value: 1, label: '进口/Import' },
+        { value: 2, label: '出口/Export' },
+        { value: 3, label: '柜台业务/OBL & Telex Release' }
       ],
-      dutylist: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+      dutylist: [
+        { value: 'Monday', label: 'Monday' },
+        { value: 'Tuesday', label: 'Tuesday' },
+        { value: 'Wednesday', label: 'Wednesday' },
+        { value: 'Thursday', label: 'Thursday' },
+        { value: 'Friday', label: 'Friday' },
+        { value: 'Saturday', label: 'Saturday' },
+        { value: 'Sunday', label: 'Sunday' }
+      ],
       addform: {
+        id: '',
         region: '',
         office: '',
         dept: '',
@@ -217,7 +217,26 @@ export default {
       }
     }
   },
+  created() {
+    this.contradeList()
+    this.conofficeList()
+  },
   methods: {
+    async contradeList() {
+      const dictName = 'dict_trade'
+      const res = await dictItem(dictName)
+      this.tradeList = transdict(res.data)
+    },
+    async conofficeList() {
+      const dictName = 'dict_office'
+      const res = await dictItem(dictName)
+      this.officeList = transdict(res.data)
+    },
+    // region值改变
+    async changeoffice() {
+      const res = await BusinessList(this.addform.region)
+      this.newofficeList = transdict(res.data.office)
+    },
     // 状态改变
     async handleUpdateStatus(row, active) {
       const data = {
@@ -230,7 +249,7 @@ export default {
     },
     // 删除操作
     handleDelete(id) {
-      this.$confirm(this.$t('business.deltitle'), this.$t('message.delete'), {
+      this.$confirm(this.$t('contact.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
@@ -242,6 +261,28 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
+    },
+    // 新增提交
+    async submitadd() {
+      const data = {
+        id: this.addform.id,
+        active: 1,
+        email: this.addform.email,
+        accountName: this.addform.accountname,
+        contactPerson: this.addform.contactperson,
+        region: this.addform.region,
+        trade: this.addform.trade,
+        office: this.addform.office,
+        businessType: this.addform.buinessscope,
+        phone: this.addform.phone,
+        department: this.addform.dept,
+        dutyDate: 'Monday,Tuesday,Wednesday,Thursday,Friday',
+        dutyTime: '09:00-18:00'
+      }
+      const res = await contactAdd(data)
+      this.$message.info(res.message)
+      this.addhistorynewsdialog = false
+      this.$refs.pagination.refreshRequest()
     },
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'

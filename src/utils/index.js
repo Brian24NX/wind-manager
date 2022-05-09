@@ -403,3 +403,18 @@ export function transroleList(list) {
   }
   return arr
 }
+/**
+ *  list转化为value-label
+ *  @param {string}list
+ */
+export function transdict(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].key,
+      label: list[i].value
+    }
+    arr.push(obj)
+  }
+  return arr
+}

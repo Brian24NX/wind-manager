@@ -186,7 +186,8 @@ export default {
     import: '导入',
     createinfo: '新建值班信息',
     deactive: '禁用',
-    active: '启用'
+    active: '启用',
+    deltitle: '是否确认删除该联系方式 ？'
   },
   // FAQ管理
   faq: {
