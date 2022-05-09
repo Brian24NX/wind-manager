@@ -8,7 +8,7 @@
         <tags-view v-if="needTagsView" />
       </div>
       <app-main />
-     <!-- <right-panel v-if="showSettings">
+      <!-- <right-panel v-if="showSettings">
         <settings />
       </right-panel>-->
     </div>
@@ -27,6 +27,7 @@ export default {
     AppMain,
     Navbar,
     // RightPanel,
+    // eslint-disable-next-line vue/no-unused-components
     Settings,
     Sidebar,
     TagsView

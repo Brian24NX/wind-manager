@@ -76,7 +76,7 @@ const actions = {
         commit('SET_ROUTES', asyncRoutes)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
-        commit('SET_ROLES', data.roles)
+        commit('SET_ROLES', data.role.funct)
         resolve()
       }).catch(error => {
         reject(error)
