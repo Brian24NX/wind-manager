@@ -253,9 +253,12 @@ $light_gray:#eee;
   min-width: 100%;
   background-color: #eef0f3;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .login{
-    width:1300px;
-    margin:0 auto
+    width: 1200px;
   }
   .loginleft{
       width:630px;
