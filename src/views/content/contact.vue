@@ -18,7 +18,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="exporttemplate">{{ $t('faq.export') }}</el-button>
+            <el-button type="danger" size="small" plain>{{ $t('faq.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('contact.import') }}</el-button>
             <el-button type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
