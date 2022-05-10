@@ -53,7 +53,7 @@
           <el-input v-model="historyform.link" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('newscenter.category')" :label-width="formLabelWidth" prop="category">
-          <el-select v-model="historyform.categoryIds" placeholder="请选择">
+          <el-select v-model="historyform.categoryIds" multiple collapse-tags placeholder="请选择">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -145,7 +145,7 @@ export default {
       historyform: {
         title: '',
         link: '',
-        categoryIds: '',
+        categoryIds: [],
         publishdate: ''
       },
       rules: {

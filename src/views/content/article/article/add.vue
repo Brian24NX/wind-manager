@@ -57,7 +57,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('addArticle.category')">
-                  <el-select v-model="articleForm.category" placeholder="请选择">
+                  <el-select v-model="articleForm.categoryIds" multiple collapse-tags placeholder="请选择">
                     <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
                   </el-select>
                 </el-form-item>
@@ -111,7 +111,8 @@ export default {
         type: '',
         publishTo: [],
         schedulePublish: false,
-        frontCover: ''
+        frontCover: '',
+        categoryIds: []
       },
       imageUrl: '',
       categoryList: [],
@@ -177,7 +178,7 @@ export default {
             content: this.articleForm.content,
             originalLink: this.articleForm.name,
             publishIds: this.articleForm.publishTo,
-            categoryIds: this.articleForm.category,
+            categoryIds: this.articleForm.categoryIds,
             publishDate: this.articleForm.date1,
             publish: 1,
             active: 1
