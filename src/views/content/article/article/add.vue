@@ -19,10 +19,19 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
-              <el-upload class="upload-demo" drag action="/api/admin/uploadFile" multiple :limit="1" :file-list="fileList">
-                <i class="el-icon-upload" />
-                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <el-upload
+                class="avatar-uploader"
+                drag
+                action="/api/admin/uploadFile"
+                multiple
+                :limit="1"
+                :headers="uploadHeaders"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+              >
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon" />
               </el-upload>
             </el-form-item>
           </el-col>
@@ -90,6 +99,7 @@ import { articleAdd, articleEdit } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList } from '@/api/article.js'
 import { transList } from '@/utils'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'AddArticle',
   components: { Tinymce },
@@ -101,8 +111,9 @@ export default {
         type: '',
         publishTo: [],
         schedulePublish: false,
-        frontCover: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+        frontCover: ''
       },
+      imageUrl: '',
       categoryList: [],
       fileList: [],
       isEdit: false,
@@ -122,7 +133,8 @@ export default {
         // sendTo: [
         //   { type: 'array', required: true, message: '请选择发送群组', trigger: 'change' }
         // ]
-      }
+      },
+      uploadHeaders: { 'Authorization': getToken() }
     }
   },
   created() {
@@ -143,7 +155,18 @@ export default {
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
     },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = file.response.data.fileUrl
+    },
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+      }
+      return isLt2M
+    },
     submitForm(formName) {
+      this.articleForm.frontCover = this.imageUrl
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const data = {
@@ -156,7 +179,8 @@ export default {
             publishIds: this.articleForm.publishTo,
             categoryIds: this.articleForm.category,
             publishDate: this.articleForm.date1,
-            publish: 1
+            publish: 1,
+            active: 1
           }
           if (this.isAdd) {
             const res = await articleAdd(data)
@@ -180,6 +204,29 @@ export default {
 .addContainer {
   .el-card__body {
     padding: 20px 50px;
+  }
+    .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 }
 </style>
