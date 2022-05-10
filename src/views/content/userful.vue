@@ -23,8 +23,7 @@
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false">
-        <el-table-column type="selectction" width="55" />
+      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
 
         <el-table-column :label="$t('userful.category')" prop="categoryId" />
