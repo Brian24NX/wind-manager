@@ -116,7 +116,7 @@ export default {
       const data = {
         title: this.addform.title,
         originalLink: this.addform.link,
-        publishDate: this.addform.publishdate,
+        publishDate: this.$moment(this.addform.publishdate).format('YYYY-MM-DD'),
         publish: 1
       }
       const res = await cmaAdd(data)
