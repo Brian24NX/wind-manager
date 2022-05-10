@@ -9,6 +9,9 @@
         :file-list="fileList"
         :show-file-list="true"
         :on-remove="handleRemove"
+        :headers="{
+          Authorization: cookies
+        }"
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
@@ -31,6 +34,7 @@
 
 <script>
 // import { getToken } from 'api/qiniu'
+import Cookies from 'js-cookie'
 
 export default {
   name: 'EditorSlideUpload',
@@ -43,6 +47,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      cookies: Cookies.get('Admin-Token'),
       listObj: {},
       fileList: []
     }
@@ -67,7 +72,7 @@ export default {
       const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file
+          this.listObj[objKeyArr[i]].url = response.data.fileUrl
           this.listObj[objKeyArr[i]].hasSuccess = true
           return
         }
