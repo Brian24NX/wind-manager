@@ -21,7 +21,7 @@
             <el-button type="danger" size="small" plain @click="exporttemplate">{{ $t('faq.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('contact.import') }}</el-button>
-            <el-button type="danger" size="small" @click="adddialog = true">{{ $t('contact.createinfo') }}</el-button>
+            <el-button type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -42,9 +42,9 @@
         <el-table-column align="center" :label="$t('contact.email')" prop="email" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.active') }}</el-button>
-            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.active') }}</el-button>
+            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -124,7 +124,25 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="dutytime">
-                <el-time-picker v-model="addform.dutytime" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围" />
+                <el-time-select
+                  v-model="addform.startTime"
+                  placeholder="起始时间"
+                  :picker-options="{
+                    start: '09:00',
+                    step: '00:15',
+                    end: '12:00',
+                  }"
+                />
+                <el-time-select
+                  v-model="addform.endTime"
+                  placeholder="结束时间"
+                  :picker-options="{
+                    start: '12:00',
+                    step: '00:15',
+                    end: '20:00',
+                    minTime: startTime,
+                  }"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -144,7 +162,7 @@
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="addhistorynewsdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -152,7 +170,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { dictItem, contactDel, contactActive, BusinessList, contactAdd } from '@/api/contact.js'
+import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit } from '@/api/contact.js'
 // eslint-disable-next-line no-unused-vars
 import { transdict } from '@/utils'
 export default {
@@ -166,6 +184,8 @@ export default {
       categoryList: [],
       importdialog: false,
       adddialog: false,
+      isAdd: false,
+      isEdit: false,
       formLabelWidth: '130px',
       officeList: [],
       tradeList: [],
@@ -200,7 +220,9 @@ export default {
         accountname: '',
         contactperson: '',
         dutydate: [],
-        dutytime: [new Date(2022, 4, 24, 9), new Date(2022, 4, 24, 18)],
+        startTime: '',
+        endTime: '',
+        // dutytime: [new Date(2022, 4, 24, 9), new Date(2022, 4, 24, 18)],
         phone: '',
         email: ''
       },
@@ -212,7 +234,8 @@ export default {
         trade: { required: true, message: '请选择', trigger: 'change' },
         contactperson: { required: true, message: '请输入', trigger: 'blur' },
         dutydate: { required: true, message: '请选择', trigger: 'change' },
-        dutytime: { required: true, message: '请选择', trigger: 'change' },
+        startTime: { required: true, message: '请选择', trigger: 'change' },
+        endTime: { required: true, message: '请选择', trigger: 'change' },
         email: { required: true, message: '请输入', trigger: 'blur' }
       }
     }
@@ -231,6 +254,31 @@ export default {
       const dictName = 'dict_office'
       const res = await dictItem(dictName)
       this.officeList = transdict(res.data)
+    },
+    handleAdd() {
+      this.isAdd = true
+      this.adddialog = true
+    },
+    handleEdit(row) {
+      const data = row.dutyDate.split(',')
+      const startTime = row.dutyTime.split('-')[0]
+      const endTime = row.dutyTime.split('-')[1]
+      this.isEdit = true
+      this.adddialog = true
+      this.addform.id = row.id
+      this.addform.email = row.email
+      this.addform.accountname = row.accountName
+      this.addform.contactperson = row.contactPerson
+      this.addform.region = row.region
+      this.changeoffice()
+      this.addform.trade = row.trade
+      this.addform.office = row.office
+      this.addform.buinessscope = row.businessType
+      this.addform.phone = row.phone
+      this.addform.dept = row.department
+      this.addform.dutydate = data
+      this.addform.startTime = startTime
+      this.addform.endTime = endTime
     },
     // region值改变
     async changeoffice() {
@@ -276,13 +324,24 @@ export default {
         businessType: this.addform.buinessscope,
         phone: this.addform.phone,
         department: this.addform.dept,
-        dutyDate: 'Monday,Tuesday,Wednesday,Thursday,Friday',
-        dutyTime: '09:00-18:00'
+        dutyDate: this.addform.dutydate.join(','),
+        dutyTime: this.addform.startTime + '-' + this.addform.endTime
       }
-      const res = await contactAdd(data)
-      this.$message.info(res.message)
-      this.addhistorynewsdialog = false
-      this.$refs.pagination.refreshRequest()
+      if (this.isAdd) {
+        const res = await contactAdd(data)
+        this.$message.info(res.message)
+        this.addform = {}
+        this.isAdd = false
+        this.adddialog = false
+        this.$refs.pagination.refreshRequest()
+      } else {
+        const res = await contactEdit(data)
+        this.$message.info(res.message)
+        this.addform = {}
+        this.isEdit = false
+        this.adddialog = false
+        this.$refs.pagination.refreshRequest()
+      }
     },
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'

@@ -154,7 +154,7 @@ export default {
             content: this.articleForm.content,
             originalLink: this.articleForm.name,
             publishIds: this.articleForm.publishTo,
-            categoryId: this.articleForm.category,
+            categoryIds: this.articleForm.category,
             publishDate: this.articleForm.date1,
             publish: 1
           }
