@@ -63,12 +63,27 @@
       </el-form>
     </el-dialog>
     <!--新增用户-->
-    <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="addemployeedialog" center>
-      <el-table ref="multipleTable" :data="persontableData" tooltip-effect="dark" style="width:100%" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" />
-        <el-table-column :label="$t('userrole.name')" width="120" prop="name" />
-        <el-table-column :label="$t('userrole.email')" width="120" prop="email" />
-      </el-table>
+    <el-dialog :title="$t('userrole.newuser')" :visible.sync="addemployeedialog" center>
+      <el-form ref="addemployeeform" :model="addemployeeform" :rules="rules">
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
+          <el-input v-model="addemployeeform.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
+          <el-input v-model="addemployeeform.email" autocomplete="off" />
+        </el-form-item>
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
+          <el-select v-model="addemployeeform.function" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth" prop="password">
+          <el-input v-model="addemployeeform.password" type="password" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -77,7 +92,9 @@
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
-import { roleDel, ActiveUser, ActiveUserExport } from '@/api/role.js'
+import { roleDel, ActiveUser, ActiveUserExport, roleDict } from '@/api/role.js'
+import { userAdd } from '@/api/user.js'
+import { transroleList } from '@/utils/index'
 export default {
   name: 'PagePermission',
   components: { Pagination, MultiCheckList },
@@ -145,10 +162,42 @@ export default {
       queryParams: { function: '' },
       tabledata: [],
       persontableData: [{ name: 'kelly', email: 'kelly@163.com' }, { name: 'kelly', email: 'kelly@163.com' }],
-      personSelecttion: []
+      personSelecttion: [],
+      addemployeeform: {
+        name: '',
+        email: '',
+        function: '',
+        password: ''
+      },
+      options: []
     }
   },
+  created() {
+    this.roleList()
+  },
   methods: {
+    async submitadd() {
+      const role = [{
+        id: this.addemployeeform.function
+      }]
+      const data = {
+        email: this.addemployeeform.email,
+        password: this.addemployeeform.password,
+        name: this.addemployeeform.name,
+        active: 1,
+        roles: role
+      }
+      const res = await userAdd(data)
+      this.$message.info(res.message)
+      this.addemployeedialog = false
+      this.$refs.pagination.refreshRequest()
+      this.addemployeeform = {}
+    },
+    async roleList() {
+      const res = await roleDict()
+      this.options = transroleList(res.data)
+      console.log(this.options)
+    },
     handleAddEmployee() {
       this.addemployeedialog = true
     },
