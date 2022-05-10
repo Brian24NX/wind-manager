@@ -31,7 +31,7 @@
         <el-table-column align="center" :label="$t('business.id')" prop="id" />
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
 
-        <el-table-column :label="$t('business.category')" prop="categoryId" />
+        <el-table-column :label="$t('business.category')" prop="categoryEnName" />
 
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
 
