@@ -16,6 +16,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
             <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
@@ -159,6 +160,9 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    search() {
+      this.$refs.pagination.refreshRequest()
+    },
     formatDate(date) {
       return this.$moment(date).format('YYYY-MM-DD')
     },

@@ -11,6 +11,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="exporttemplate">{{ $t('faq.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('faq.import') }}</el-button>
@@ -27,7 +28,7 @@
         <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center" />
         <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" /> -->
         <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
-        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" />
+        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
@@ -102,6 +103,12 @@ export default {
     }
   },
   methods: {
+    search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    formatDate(date) {
+      return this.$moment(date).format('YYYY-MM-DD')
+    },
     async submitfaq() {
       const data = {
         id: this.addform.id,
