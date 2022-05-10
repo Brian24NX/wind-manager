@@ -5,12 +5,12 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="5">
-              <el-select v-model="queryParams.category" placeholder="请选择">
+              <el-select v-model="queryParams.categoryId" placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.title" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
             </el-col>
             <el-col :span="8">
               <el-input v-model="queryParams.creator" size="small" style="width: 100%" placeholder="Creator" suffix-icon="el-icon-search" clearable />
@@ -135,8 +135,8 @@ export default {
   data() {
     return {
       queryParams: {
-        categoryIds: '',
-        title: '',
+        categoryId: '',
+        keyWord: '',
         creator: ''
       },
       categoryadd: false,

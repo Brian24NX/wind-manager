@@ -12,7 +12,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="adddialog = true">{{ $t('userrole.addnewfunction') }}</el-button>
+            <el-button type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -25,9 +25,9 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button size="small" type="text" class="primary" @click="viewdialog = true">{{ $t('userrole.viewuser') }}</el-button>
-            <el-button size="small" type="text" class="primary" @click="handleDelete(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
-            <el-button size="small" type="text" class="primary" @click="handleDelete(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
+            <el-button size="small" type="text" class="primary" @click="viewuser(scope.row)">{{ $t('userrole.viewuser') }}</el-button>
+            <el-button size="small" type="text" class="primary" @click="handleAdd(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
+            <el-button size="small" type="text" class="primary" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
             <el-button size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -43,7 +43,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           // eslint-disable-next-line vue/no-unused-vars
           <template scope="scope">
-            <el-button size="small" type="text" class="danger" @click="remove">{{ $t('userrole.remove') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="remove(scope.row.id)">{{ $t('userrole.remove') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,6 +62,14 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <!--新增用户-->
+    <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="addemployeedialog" center>
+      <el-table ref="multipleTable" :data="persontableData" tooltip-effect="dark" style="width:100%" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" />
+        <el-table-column :label="$t('userrole.name')" width="120" prop="name" />
+        <el-table-column :label="$t('userrole.email')" width="120" prop="email" />
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,7 +77,7 @@
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
-import { roleDel } from '../../api/role.js'
+import { roleDel, ActiveUser, ActiveUserExport } from '@/api/role.js'
 export default {
   name: 'PagePermission',
   components: { Pagination, MultiCheckList },
@@ -131,16 +139,31 @@ export default {
         description: '',
         function: ''
       },
-      queryParams: { function: '' },
+      addemployeedialog: false,
+      adddialog: false,
       viewdialog: false,
-      tabledata: [
-        { id: '1', name: 'kelly', email: 'kelly@163.com' },
-        { id: '2', name: 'kelly', email: 'kelly@163.com' },
-        { id: '3', name: 'kelly', email: 'kelly@163.com' }
-      ]
+      queryParams: { function: '' },
+      tabledata: [],
+      persontableData: [{ name: 'kelly', email: 'kelly@163.com' }, { name: 'kelly', email: 'kelly@163.com' }],
+      personSelecttion: []
     }
   },
   methods: {
+    handleAddEmployee() {
+      this.addemployeedialog = true
+    },
+    multipleSelection(val) {
+      this.personSelecttion = val
+    },
+    async viewuser(row) {
+      this.viewdialog = true
+      const data = {
+        id: row.id,
+        nameOrEmail: ''
+      }
+      const res = await ActiveUser(data)
+      this.tabledata = res.data
+    },
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },
@@ -158,10 +181,22 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
+    },
+    // 删除用户 roleDel方法不对，暂时用不了
+    remove(id) {
+      this.$confirm(this.$t('userrole.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          const res = await roleDel(id)
+          this.$message.info(res.message)
+        })
+        .catch(() => {
+          this.$message.info('已取消删除')
+        })
     }
-    // handleRolesChange() {
-    //   this.$router.push({ path: '/permission/index?' + +new Date() })
-    // },
   }
 }
 </script>

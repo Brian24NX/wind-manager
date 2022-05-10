@@ -181,7 +181,10 @@ export default {
   },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        office: '',
+        trade: ''
+      },
       categoryList: [],
       importdialog: false,
       adddialog: false,

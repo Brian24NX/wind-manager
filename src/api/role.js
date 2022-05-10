@@ -39,3 +39,19 @@ export function roleDict() {
     methods: 'get'
   })
 }
+// 获取所有激活用户
+export function ActiveUser(data) {
+  return request({
+    url: '/api/admin/roleActiveUser',
+    method: 'get',
+    params: data
+  })
+}
+// 所有激活用户导出
+export function ActiveUserExport(data) {
+  return request({
+    url: '/api/admin/roleActiveUserExport',
+    method: 'get',
+    params: data
+  })
+}
