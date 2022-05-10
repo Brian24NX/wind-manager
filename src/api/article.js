@@ -61,7 +61,7 @@ export function articleExport(data) {
   return request({
     url: '/api/admin/miniNewsExport',
     method: 'get',
-    data: data
+    params: data
   })
 }
 // 文章信息添加
@@ -85,7 +85,7 @@ export function articlePublish(data) {
   return request({
     url: '/api/admin/newsPublish',
     method: 'get',
-    data
+    params: data
   })
 }
 // 添加类别  type：1 小程序news center 2 business 3 useful 4 metail资源库 5 article

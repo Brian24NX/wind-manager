@@ -41,8 +41,8 @@
         <el-table-column align="center" :label="$t('article.status')" prop="status" />
         <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.status === 'published'" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('message.unPublish') }}</el-button>
-            <el-button v-if="scope.row.status === 'unPublished'" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('message.publish') }}</el-button>
+            <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('message.unPublish') }}</el-button>
+            <el-button v-if="scope.row.status === 'Unpublish'" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('message.publish') }}</el-button>
             <el-button size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
             <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
@@ -90,19 +90,14 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     // 状态改变
-    handleUpdateStatus(row) {
+    async handleUpdateStatus(row, publish) {
       const data = {
         id: row.id,
-        publish: row.publish
+        publish: publish
       }
-      this.articlePublish(data).then(res => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      const res = await articlePublish(data)
+      this.$message.info(res.message)
+      this.$refs.pagination.refreshRequest()
     },
     // 删除历史信息
     handleDelete(index) {
