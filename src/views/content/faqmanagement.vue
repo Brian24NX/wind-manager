@@ -208,7 +208,7 @@ export default {
     },
     // 编辑关联问题
     editrelations(row) {
-      this.relationsform = row
+      this.relationsform = JSON.parse(JSON.stringify(row))
       this.relationsdialog = true
     },
     // 编辑并修改问题
