@@ -23,3 +23,12 @@ export function materialChange(data) {
     data
   })
 }
+// 修改资源库名称
+export function materialRename(data) {
+  return request({
+    url: '/api/admin/renameMaterial',
+    method: 'get',
+    params: data
+  })
+}
+

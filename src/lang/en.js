@@ -95,7 +95,8 @@ export default {
     unPublish: 'Unpublish',
     download: 'Template',
     save: 'Save',
-    search: 'Search'
+    search: 'Search',
+    update: 'Update'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
@@ -122,7 +123,8 @@ export default {
     delete: 'Delete',
     upload: 'Upload',
     categorysetting: 'Category Setting',
-    addcategory: 'Add A New Category'
+    addcategory: 'Add A New Category',
+    name: 'Name'
   },
   // 管制品
   sanctions: {

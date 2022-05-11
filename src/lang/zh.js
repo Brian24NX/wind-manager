@@ -95,7 +95,8 @@ export default {
     unPublish: '撤回',
     download: '下载模版',
     save: '保存',
-    search: '搜索'
+    search: '搜索',
+    update: '修改'
   },
   addArticle: {
     pageTitle: '添加新推文',
@@ -127,7 +128,8 @@ export default {
     delete: '删除',
     upload: '上传',
     categorysetting: '分类设置',
-    addcategory: '添加新闻类别'
+    addcategory: '添加新闻类别',
+    name: '名称'
   },
   // 管制品
   sanctions: {
