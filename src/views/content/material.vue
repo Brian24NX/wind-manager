@@ -11,10 +11,8 @@
             <el-col :span="3">
               <el-checkbox v-model="checked" style="margin-top:10px" @change="changeall">{{ $t('library.allselect') }}</el-checkbox>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="10">
               <el-button type="danger" size="small" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
-            </el-col>
-            <el-col :span="4">
               <el-button type="danger" size="small" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
             </el-col>
           </el-row>
@@ -45,7 +43,7 @@
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
-      <el-table :data="tabledata" style="width: 80%">
+      <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
             <span v-if="scope.row.isSet">
