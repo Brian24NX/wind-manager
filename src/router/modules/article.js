@@ -5,7 +5,7 @@ import Layout from '@/layout'
 const articleRouter = {
   path: '/content',
   component: Layout,
-  redirect: '/content/articlemanagement/articlelist',
+  redirect: '/articlelist',
   name: 'contentManager',
   meta: {
     title: 'contentManager',
@@ -19,7 +19,7 @@ const articleRouter = {
     meta: {
       title: 'articleManager'
     },
-    redirect: '/content/article/articlelist',
+    redirect: '/articlelist',
     children: [{
       path: '/articlelist',
       component: () => import('@/views/content/article/article'),
