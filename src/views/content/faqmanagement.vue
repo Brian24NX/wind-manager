@@ -81,7 +81,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitrelations">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="Canclerelations">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -220,6 +220,10 @@ export default {
       const res = await faqEdit(data)
       this.$message.info(res.message)
       this.search()
+      this.relationsform = {}
+      this.relationsdialog = false
+    },
+    Canclerelations() {
       this.relationsform = {}
       this.relationsdialog = false
     },
