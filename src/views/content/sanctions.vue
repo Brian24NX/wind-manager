@@ -33,8 +33,8 @@
 
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
 
-        <el-table-column align="center" :label="$t('sanctions.remarkszh')" prop="remarkCn" />
-        <el-table-column align="center" :label="$t('sanctions.remarksen')" prop="remarkEn" />
+        <!-- <el-table-column align="center" :label="$t('sanctions.remarkszh')" prop="remarkCn" />-->
+        <!-- <el-table-column align="center" :label="$t('sanctions.remarksen')" prop="remarkEn" />-->
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
