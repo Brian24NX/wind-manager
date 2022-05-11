@@ -115,7 +115,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { newsDel, newsAdd, newsPublish } from '@/api/newcenter.js'
+import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
 import { transList } from '@/utils'
@@ -216,7 +216,10 @@ export default {
     },
     // 状态改变
     // 导出
-    exporttemplate() {},
+    async exporttemplate() {
+      const res = await newsExport(this.queryParams)
+      window.location.href = res.data
+    },
     // 下载模版
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
@@ -281,6 +284,7 @@ export default {
           this.$message.info('已取消删除')
         })
     }
+
   }
 }
 </script>

@@ -32,3 +32,11 @@ export function newsPublish(data) {
     params: data
   })
 }
+// 消息导出
+export function newsExport(data) {
+  return request({
+    url: '/api/admin/miniNewsExport',
+    method: 'get',
+    params: data
+  })
+}
