@@ -99,3 +99,22 @@ export default {
   display: none;
 }
 </style>
+<style lang="scss">
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+
+  .el-pagination.is-background .el-pager li {
+    background-color: transparent;
+  }
+
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #fff8f8;
+    color: #e10202 !important;
+  }
+
+  .el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #e10202 !important;
+  }
+}
+</style>
