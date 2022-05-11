@@ -59,20 +59,20 @@
       </el-upload>
     </el-dialog>
     <!--新增联系方式-->
-    <el-dialog :title="$t('contact.createinfo')" :visible.sync="adddialog" center :close-on-click-modal="false">
+    <el-dialog :title="$t('contact.createinfo')" :visible.sync="adddialog" width="700px" center destroy-on-close :close-on-click-modal="false">
       <el-row>
         <el-form ref="addform" :model="addform" :rules="rules">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.region')" :label-width="formLabelWidth" prop="region">
-                <el-select v-model="addform.region" placeholder="请选择" @change="changeoffice">
+                <el-select v-model="addform.region" style="width: 100%" placeholder="请选择" @change="changeoffice">
                   <el-option v-for="item in regionList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.office')" :label-width="formLabelWidth" prop="office">
-                <el-select v-model="addform.office" placeholder="请选择">
+                <el-select v-model="addform.office" style="width: 100%" placeholder="请选择">
                   <el-option v-for="item in newofficeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -81,14 +81,14 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.dept')" :label-width="formLabelWidth" prop="dept">
-                <el-select v-model="addform.dept" placeholder="请选择">
+                <el-select v-model="addform.dept" style="width: 100%" placeholder="请选择">
                   <el-option v-for="item in deptList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.buinessscope')" :label-width="formLabelWidth" prop="buinessscope">
-                <el-select v-model="addform.buinessscope" placeholder="请选择">
+                <el-select v-model="addform.buinessscope" style="width: 100%" placeholder="请选择">
                   <el-option v-for="item in buinessscopeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -97,7 +97,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.trade')" :label-width="formLabelWidth" prop="trade">
-                <el-select v-model="addform.trade" placeholder="请选择">
+                <el-select v-model="addform.trade" style="width: 100%" placeholder="请选择">
                   <el-option v-for="item in tradeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -139,6 +139,7 @@
               <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="dutytime">
                 <el-time-select
                   v-model="addform.startTime"
+                  style="width: 48%"
                   placeholder="起始时间"
                   :picker-options="{
                     start: '09:00',
@@ -146,9 +147,10 @@
                     end: '12:00'
                   }"
                 />
-                -
+                <div style="display: inline-block; width: 4%;text-align: center;">~</div>
                 <el-time-select
                   v-model="addform.endTime"
+                  style="width: 48%"
                   placeholder="结束时间"
                   :picker-options="{
                     start: '12:00',
@@ -190,7 +192,7 @@ export default {
       adddialog: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '130px',
+      formLabelWidth: '100px',
       officeList: [],
       tradeList: [],
       newofficeList: [],
