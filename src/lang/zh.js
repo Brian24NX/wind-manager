@@ -110,7 +110,7 @@ export default {
     schedulePublish: '是否定时发布',
     scheduleTime: '定时发布时间',
     sendTo: '发送到',
-    submit: '保存',
+    submit: '保存并发布',
     reset: '重置',
     addnew: '添加新文章'
   },

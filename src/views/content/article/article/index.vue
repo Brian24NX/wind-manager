@@ -18,14 +18,15 @@
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="submit">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain>{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
-      <div class="operations">
+      <!-- <div class="operations">
         <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
-      </div>
+      </div> -->
       <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
           <template scope="scope">

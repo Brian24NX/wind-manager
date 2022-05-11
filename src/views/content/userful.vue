@@ -45,7 +45,7 @@
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
-      <el-table :data="tabledata" style="width: 80%">
+      <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
             <span v-if="scope.row.isSet">
@@ -64,8 +64,8 @@
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+            <el-button v-if="!scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -98,7 +98,6 @@
             ref="upload"
             class="upload-demo"
             action="/api/admin/uploadFile"
-            :on-preview="handPreview"
             :on-remove="handRemove"
             :file-list="addform.document"
             :auto-upload="false"
@@ -165,7 +164,8 @@ export default {
         type: { required: true, message: 'function is required', trigger: 'change' },
         file: { required: true, message: 'file is required', trigger: 'change' },
         link: { required: true, message: 'link is required', trigger: 'blur' }
-      }
+      },
+      tabledata: []
     }
   },
   created() {
@@ -299,7 +299,8 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
-    }
+    },
+    change() {}
   }
 }
 </script>

@@ -48,9 +48,9 @@
       </Pagination>
     </div>
     <!--类别设置-->
-    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
+    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false" destroy-on-close>
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
-      <el-table :data="tabledata" style="width: 80%">
+      <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
             <span v-if="scope.row.isSet">
@@ -69,15 +69,15 @@
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+            <el-button v-if="!scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-dialog>
     <!--添加通告-->
-    <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="800px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" />
@@ -88,30 +88,33 @@
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
           <tinymce v-model="addform.content" :height="250" />
         </el-form-item>
-        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
+        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
             class="upload-demo"
+            :headers="{
+              Authorization: cookies,
+            }"
             action="/api/admin/uploadFile"
             :on-preview="handPreview"
             :on-remove="handRemove"
+            :on-success="handleSuccess"
             :file-list="fileList"
-            :auto-upload="false"
             :limit="1"
           >
             <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="category">
-          <el-select v-model="addform.category" placeholder="请选择">
+        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="categoryId">
+          <el-select v-model="addform.categoryId" placeholder="请选择">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="savebusiness">{{ $t('message.save') }}</el-button>
-        <el-button v-show="isAdd" type="primary" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="savebusiness">{{ $t('message.save') }}</el-button>
+        <el-button v-show="isAdd" type="primary" :loading="submitLoading" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -126,6 +129,7 @@ import { businessAdd, businessDel, businessPublish, businessEdit } from '@/api/b
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
 import { transList } from '@/utils'
+import Cookies from 'js-cookie'
 export default {
   name: 'Business',
   components: {
@@ -134,6 +138,7 @@ export default {
   },
   data() {
     return {
+      cookies: Cookies.get('Admin-Token'),
       queryParams: {
         categoryId: '',
         keyWord: '',
@@ -147,18 +152,27 @@ export default {
       adddialog: false,
       deldialog: false,
       setdialog: false,
-      fileList: '',
+      fileList: [],
       formLabelWidth: '130px',
       addform: {
         title: '',
         creator: '',
         content: '',
         uploadfile: '',
-        category: ''
+        categoryId: ''
       },
       tabledata: [],
+      submitLoading: false,
       rules: {
         title: { required: true, message: 'title is required', trigger: 'blur' }
+      }
+    }
+  },
+  watch: {
+    adddialog(newValue) {
+      if (!newValue) {
+        this.fileList = []
+        this.submitLoading = false
       }
     }
   },
@@ -185,43 +199,62 @@ export default {
     },
     // 提交新增数据
     async submitbusiness() {
-      const businiessOpentional = {
-        title: this.addform.title,
-        creator: this.addform.creator,
-        content: this.addform.content,
-        file: this.addform.uploadfile,
-        categoryId: this.addform.category,
-        publish: 1
-      }
-      const res = await businessAdd(businiessOpentional)
-      this.$message.info(res.message)
-      this.$refs.pagination.refreshRequest()
+      this.$refs['addform'].validate((valid) => {
+        if (valid) {
+          const businiessOpentional = {
+            title: this.addform.title,
+            creator: this.addform.creator,
+            content: this.addform.content,
+            filepath: this.addform.uploadfile,
+            categoryId: this.addform.categoryId,
+            publish: 1
+          }
+          this.submitLoading = true
+          businessAdd(businiessOpentional).then(res => {
+            this.$message.info(res.message)
+            this.$refs.pagination.refreshRequest()
+            this.adddialog = false
+          })
+        } else {
+          return false
+        }
+      })
     },
     // 保存新增数据
     async savebusiness() {
-      const businiessOpentional = {
-        id: this.addform.id,
-        title: this.addform.title,
-        creator: this.addform.creator,
-        content: this.addform.content,
-        file: this.addform.uploadfile,
-        categoryId: this.addform.category,
-        publish: 0
-      }
-      // eslint-disable-next-line eqeqeq
-      if (this.isAdd == true) {
-        const res = await businessAdd(businiessOpentional)
-        this.$message.info(res.message)
-        this.adddialog = false
-        this.$refs.pagination.refreshRequest()
-        this.isAdd = false
-      } else {
-        const res = await businessEdit(businiessOpentional)
-        this.$message.info(res.message)
-        this.adddialog = false
-        this.$refs.pagination.refreshRequest()
-        this.isEdit = false
-      }
+      this.$refs['addform'].validate((valid) => {
+        if (valid) {
+          const businiessOpentional = {
+            id: this.addform.id,
+            title: this.addform.title,
+            creator: this.addform.creator,
+            content: this.addform.content,
+            filepath: this.addform.uploadfile,
+            categoryId: this.addform.categoryId,
+            publish: 0
+          }
+          // eslint-disable-next-line eqeqeq
+          if (this.isAdd == true) {
+            this.submitLoading = true
+            businessAdd(businiessOpentional).then(res => {
+              this.$message.info(res.message)
+              this.adddialog = false
+              this.$refs.pagination.refreshRequest()
+              this.isAdd = false
+            })
+          } else {
+            this.submitLoading = true
+            businessEdit(businiessOpentional).then(res => {
+              this.$message.info(res.message)
+              this.adddialog = false
+              this.$refs.pagination.refreshRequest()
+              this.isEdit = false
+            })
+          }
+        } else {
+          return false
+        }
+      })
     },
     // 删除数据
     handleDelete(id) {
@@ -250,12 +283,27 @@ export default {
     },
     // 编辑
     handleEdit(row) {
-      this.addform = row
+      console.log(row)
+      this.addform = JSON.parse(JSON.stringify(row))
+      if (row.filepath) {
+        this.fileList = [{
+          name: row.filepath.split('/').pop(),
+          url: row.filepath
+        }]
+      }
       this.adddialog = true
       this.isEdit = true
     },
     // 新增
     handleAdd() {
+      this.addform = {
+        title: '',
+        creator: '',
+        content: '',
+        uploadfile: '',
+        categoryId: ''
+      }
+      this.fileList = []
       this.adddialog = true
       this.isAdd = true
     },
@@ -273,6 +321,7 @@ export default {
         creator: '',
         isSet: true
       }
+      if (!this.tabledata[this.tabledata.length - 1].category) return
       this.tabledata.push(data)
       this.categoryadd = true
     },
@@ -285,8 +334,8 @@ export default {
         type: 2,
         isSet: false
       }
-      // eslint-disable-next-line eqeqeq
-      if (this.categoryadd == true) {
+      if (!data.category) return
+      if (this.categoryadd) {
         const res = await categoryAdd(data)
         this.$message.info(res.message)
         this.getcategoryList()
@@ -317,6 +366,20 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
+    },
+    handPreview() {},
+    handRemove(file, fileList) {
+      console.log(file, fileList)
+      this.fileList = fileList
+    },
+    handleSuccess(response, file, fileList) {
+      if (response.code === '200') {
+        this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
+        this.addform.uploadfile = response.data.fileUrl
+      } else {
+        this.$message.error(response.message)
+        this.fileList = []
+      }
     }
   }
 }
