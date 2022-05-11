@@ -251,5 +251,13 @@ export default {
     remove: 'Remove',
     deltitle: 'Please confirm if you want to delete this function?',
     permission: 'Permission'
+  },
+  // 富文本
+  timymce: {
+    title: 'upload',
+    uploadBtn: 'Click upload',
+    confirmBtn: 'confirm',
+    cancelBtn: 'cancel',
+    uploadError: 'Please upload image file!'
   }
 }
