@@ -53,7 +53,7 @@
       </el-upload>
     </el-dialog>
     <!--创建新的faq-->
-    <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center width="800px" destroy-on-close>
+    <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
           <!--<el-input v-model="addform.question" autocomplete="off"></el-input>-->
@@ -63,18 +63,18 @@
           <!-- <el-input v-model="addform.answer" autocomplete="off"></el-input>-->
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
-        <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="keyword">
+        <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
           <el-input v-model="addform.faqKeywords" autocomplete="off" />
         </el-form-item>
-        <el-form-item prop="active" style="margin-left: 120px">
-          <el-radio-group v-model="active">
+        <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
+          <el-radio-group v-model="addform.active">
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitfaq">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="submitfaq">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -111,12 +111,12 @@ export default {
       importdialog: false,
       relationsdialog: false,
       formLabelWidth: '120px',
-      active: 1,
       addform: {
         id: '',
         question: '',
         answer: '',
-        faqKeywords: ''
+        faqKeywords: '',
+        active: 1
       },
       relationsform: {
         id: '',
@@ -131,6 +131,24 @@ export default {
       },
       relationsrules: {
         relatedquestion: { required: true, message: '请输入question', trigger: 'blur' }
+      },
+      submitLoading: false
+    }
+  },
+  watch: {
+    adddialog(newValue) {
+      if (!newValue) {
+        this.addform = {
+          id: '',
+          question: '',
+          answer: '',
+          faqKeywords: '',
+          active: 1
+        }
+        setTimeout(() => {
+          this.$refs.editor.setContent('')
+        }, 300)
+        this.submitLoading = false
       }
     }
   },
@@ -142,29 +160,34 @@ export default {
       return this.$moment(date).format('YYYY-MM-DD')
     },
     async submitfaq() {
-      const data = {
-        id: this.addform.id,
-        question: this.addform.question,
-        answer: this.addform.answer,
-        faqKeywords: this.addform.faqKeywords,
-        active: this.active
-      }
-      if (this.isAdd) {
-        const res = await faqAdd(data)
-        this.$message.info(res.message)
-        this.isAdd = false
-        this.adddialog = false
-        this.addform = {}
-        this.$refs.pagination.refreshRequest()
-      } else {
-        data.active = this.addform.active
-        const res = await faqEdit(data)
-        this.$message.info(res.message)
-        this.isEdit = false
-        this.adddialog = false
-        this.addform = {}
-        this.$refs.pagination.refreshRequest()
-      }
+      this.$refs['addform'].validate((valid) => {
+        if (valid) {
+          const data = {
+            id: this.addform.id,
+            question: this.addform.question,
+            answer: this.addform.answer,
+            faqKeywords: this.addform.faqKeywords,
+            active: this.addform.active
+          }
+          if (this.isAdd) {
+            faqAdd(data).then(res => {
+              this.$message.info(res.message)
+              this.isAdd = false
+              this.adddialog = false
+              this.$refs.pagination.refreshRequest()
+            })
+          } else {
+            faqEdit(data).then(res => {
+              this.$message.info(res.message)
+              this.isEdit = false
+              this.adddialog = false
+              this.$refs.pagination.refreshRequest()
+            })
+          }
+        } else {
+          return false
+        }
+      })
     },
     // 删除数据
     handleDel(id) {
@@ -196,7 +219,7 @@ export default {
     handleEdit(row) {
       this.isEdit = true
       this.adddialog = true
-      this.addform = row
+      this.addform = JSON.parse(JSON.stringify(row))
       setTimeout(() => {
         this.$refs.editor.setContent(row.answer)
       }, 300)
@@ -205,13 +228,11 @@ export default {
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
-      this.addform = {}
     },
     // 取消
     Cancle() {
       this.isAdd = false
       this.isEdit = false
-      this.addform = {}
       this.adddialog = false
     },
     // 编辑关联问题
