@@ -20,8 +20,8 @@ export function contactDel(id) {
 export function contactEdit(data) {
   return request({
     url: '/api/admin/contactInfoEdit',
-    method: 'get',
-    params: data
+    method: 'post',
+    data
   })
 }
 // 联系信息激活

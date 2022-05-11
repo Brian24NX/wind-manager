@@ -59,7 +59,7 @@
       </el-upload>
     </el-dialog>
     <!--新增联系方式-->
-    <el-dialog :title="$t('contact.createinfo')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('contact.createinfo')" :visible.sync="adddialog" center :close-on-click-modal="false">
       <el-row>
         <el-form ref="addform" :model="addform" :rules="rules">
           <el-row>
@@ -116,9 +116,10 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
-                <el-select v-model="addform.dutydate" multiple collapse-tags style="margin-left: 20px" placeholder="请选择">
+                <!-- <el-select v-model="addform.dutydate" multiple collapse-tags style="margin-left: 20px" placeholder="请选择">
                   <el-option v-for="item in dutylist" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
+                </el-select> -->
+                <el-input v-model="addform.dutydate" autocomplete="off" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -131,7 +132,7 @@
                   :picker-options="{
                     start: '09:00',
                     step: '00:15',
-                    end: '12:00',
+                    end: '12:00'
                   }"
                 />
                 <el-time-select
@@ -140,8 +141,7 @@
                   :picker-options="{
                     start: '12:00',
                     step: '00:15',
-                    end: '20:00',
-                    minTime: startTime,
+                    end: '20:00'
                   }"
                 />
               </el-form-item>
@@ -223,7 +223,7 @@ export default {
         trade: '',
         accountname: '',
         contactperson: '',
-        dutydate: [],
+        dutydate: '',
         startTime: '',
         endTime: '',
         // dutytime: [new Date(2022, 4, 24, 9), new Date(2022, 4, 24, 18)],
@@ -267,7 +267,7 @@ export default {
       this.adddialog = true
     },
     handleEdit(row) {
-      const data = row.dutyDate.split(',')
+      // const data = row.dutyDate.split(',')
       const startTime = row.dutyTime.split('-')[0]
       const endTime = row.dutyTime.split('-')[1]
       this.isEdit = true
@@ -283,7 +283,7 @@ export default {
       this.addform.buinessscope = row.businessType
       this.addform.phone = row.phone
       this.addform.dept = row.department
-      this.addform.dutydate = data
+      this.addform.dutydate = row.dutyDate
       this.addform.startTime = startTime
       this.addform.endTime = endTime
     },
@@ -331,7 +331,7 @@ export default {
         businessType: this.addform.buinessscope,
         phone: this.addform.phone,
         department: this.addform.dept,
-        dutyDate: this.addform.dutydate.join(','),
+        dutyDate: this.addform.dutydate,
         dutyTime: this.addform.startTime + '-' + this.addform.endTime
       }
       if (this.isAdd) {
