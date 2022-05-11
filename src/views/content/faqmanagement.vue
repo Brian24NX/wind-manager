@@ -66,6 +66,12 @@
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="keyword">
           <el-input v-model="addform.faqKeywords" autocomplete="off" />
         </el-form-item>
+        <el-form-item prop="active" style="margin-left: 120px">
+          <el-radio-group v-model="active">
+            <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
+            <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitfaq">{{ $t('forgetForm.yes') }}</el-button>
@@ -105,6 +111,7 @@ export default {
       importdialog: false,
       relationsdialog: false,
       formLabelWidth: '120px',
+      active: 1,
       addform: {
         id: '',
         question: '',
@@ -139,10 +146,10 @@ export default {
         id: this.addform.id,
         question: this.addform.question,
         answer: this.addform.answer,
-        faqKeywords: this.addform.faqKeywords
+        faqKeywords: this.addform.faqKeywords,
+        active: this.active
       }
       if (this.isAdd) {
-        data.active = 1
         const res = await faqAdd(data)
         this.$message.info(res.message)
         this.isAdd = false
@@ -150,6 +157,7 @@ export default {
         this.addform = {}
         this.$refs.pagination.refreshRequest()
       } else {
+        data.active = this.addform.active
         const res = await faqEdit(data)
         this.$message.info(res.message)
         this.isEdit = false
