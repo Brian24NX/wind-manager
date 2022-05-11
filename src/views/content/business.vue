@@ -36,7 +36,7 @@
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
 
         <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('business.status')" prop="publish" />
+        <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.publish === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
@@ -180,6 +180,14 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.publish == 1) {
+        return 'Published'
+      } else {
+        return 'Draft'
+      }
+    },
     formatDate(date) {
       return this.$moment(date.updateTime).format('YYYY-MM-DD')
     },
