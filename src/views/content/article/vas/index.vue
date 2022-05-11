@@ -34,7 +34,7 @@
       </Pagination>
     </div>
     <!--添加vas弹窗-->
-    <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" />
@@ -47,7 +47,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submithistory">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" :loading="loading" @click="submithistory">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -80,6 +80,19 @@ export default {
         title: { required: true, message: '请输入标题', trigger: 'blur' },
         link: { required: true, message: '请输入链接', trigger: 'blur' },
         publishdate: { required: true, message: '请选择发布时间', trigger: 'change' }
+      },
+      loading: false
+    }
+  },
+  watch: {
+    adddialog(val) {
+      if (!val) {
+        this.addform = {
+          title: '',
+          link: '',
+          publishdate: ''
+        }
+        this.loading = false
       }
     }
   },
@@ -113,20 +126,28 @@ export default {
       }
       const res = await cmaPublish(data)
       this.$message.info(res.message)
-      this.$refs.pagination.refreshRequest()
+      this.$refs.pagination.pageRequest()
     },
     // 新增
     async submithistory() {
-      const data = {
-        title: this.addform.title,
-        originalLink: this.addform.link,
-        publishDate: this.$moment(this.addform.publishdate).format('YYYY-MM-DD'),
-        publish: 1
-      }
-      const res = await cmaAdd(data)
-      this.$message.info(res.message)
-      this.adddialog = false
-      this.search()
+      this.$refs['addform'].validate((valid) => {
+        if (valid) {
+          this.loading = true
+          const data = {
+            title: this.addform.title,
+            originalLink: this.addform.link,
+            publishDate: this.$moment(this.addform.publishdate).format('YYYY-MM-DD'),
+            publish: 1
+          }
+          cmaAdd(data).then(res => {
+            this.$message.info(res.message)
+            this.adddialog = false
+            this.search()
+          })
+        } else {
+          return false
+        }
+      })
     },
     // 取消
     Cancle() {
