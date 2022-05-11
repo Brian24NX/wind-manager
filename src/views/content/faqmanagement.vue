@@ -31,7 +31,7 @@
             <el-button size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />
+        <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />-->
         <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
         <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" />
