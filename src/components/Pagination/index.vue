@@ -112,6 +112,8 @@ export default {
   methods: {
     refreshRequest() {
       this.pagination.pageNum = 1
+      this.total = 0
+      this.data = undefined
       this.pageRequest()
     },
     /**
