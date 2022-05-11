@@ -111,6 +111,7 @@ export default {
     schedulePublish: 'Schedule Publish Date',
     scheduleTime: 'Schedule Publish Date',
     sendTo: 'Send to',
+    save: 'Save',
     submit: 'Save and Publish',
     reset: 'Reset',
     addnew: 'Add A New Article'

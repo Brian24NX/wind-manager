@@ -84,6 +84,7 @@
         </el-row>
         <el-row type="flex" justify="end">
           <el-form-item>
+            <el-button type="danger" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
             <el-button type="danger" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
             <el-button type="danger" plain @click="resetForm('articleForm')">{{ $t('addArticle.reset') }}</el-button>
           </el-form-item>
@@ -165,6 +166,35 @@ export default {
         this.$message.error('上传图片大小不能超过 2MB!')
       }
       return isLt2M
+    },
+    saveForm(formName) {
+      this.articleForm.frontCover = this.imageUrl
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          const data = {
+            title: this.articleForm.title,
+            creator: this.articleForm.creator,
+            frontCover: this.articleForm.frontCover,
+            description: this.articleForm.description,
+            content: this.articleForm.content,
+            originalLink: this.articleForm.name,
+            publishIds: this.articleForm.publishTo,
+            categoryIds: this.articleForm.categoryIds,
+            publishDate: this.articleForm.date1,
+            publish: 0,
+            active: 1
+          }
+          if (this.isAdd) {
+            const res = await articleAdd(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          } else {
+            const res = await articleEdit(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          }
+        }
+      })
     },
     submitForm(formName) {
       this.articleForm.frontCover = this.imageUrl
