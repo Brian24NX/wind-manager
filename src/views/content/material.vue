@@ -166,6 +166,7 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    // 关闭获取list
     getMatlist() {
       this.uploaddialog = false
       this.getlist()
