@@ -25,8 +25,13 @@
         <el-table-column align="center" :label="$t('faq.id')" prop="id" />
         <el-table-column align="center" :label="$t('faq.question')" prop="question" />
         <el-table-column :label="$t('faq.keyword')" prop="faqKeywords" />
-        <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center" />
-        <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" /> -->
+        <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center">
+          <template scope="scope">
+            {{ scope.row.faqRelations }}
+            <el-button size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />
         <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
         <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" />
@@ -67,6 +72,18 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!--编辑relations-->
+    <el-dialog :title="$t('faq.createinfo')" :visible.sync="relationsdialog" center>
+      <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
+        <el-form-item :label="$t('faq.relatedquestion')" :label-width="formLabelWidth" prop="faqRelations">
+          <el-input v-model="relationsform.faqRelations" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitrelations">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -86,6 +103,7 @@ export default {
       categoryList: [],
       adddialog: false,
       importdialog: false,
+      relationsdialog: false,
       formLabelWidth: '120px',
       addform: {
         id: '',
@@ -93,12 +111,19 @@ export default {
         answer: '',
         faqKeywords: ''
       },
+      relationsform: {
+        id: '',
+        relatedquestion: ''
+      },
       isEdit: false,
       isAdd: false,
       rules: {
         question: { required: true, message: '请输入question', trigger: 'blur' },
         answer: { required: true, message: '请输入answer', trigger: 'blur' },
         faqKeywords: { required: true, message: 'To add more key words, please enter key words or phrases separated by a comma', trigger: 'blur' }
+      },
+      relationsrules: {
+        relatedquestion: { required: true, message: '请输入question', trigger: 'blur' }
       }
     }
   },
@@ -177,6 +202,23 @@ export default {
       this.isEdit = false
       this.addform = {}
       this.adddialog = false
+    },
+    // 编辑关联问题
+    editrelations(row) {
+      this.relationsform = row
+      this.relationsdialog = true
+    },
+    // 编辑并修改问题
+    async submitrelations() {
+      const data = {
+        id: this.relationsform.id,
+        faqRelations: this.relationsform.faqRelations
+      }
+      const res = await faqEdit(data)
+      this.$message.info(res.message)
+      this.search()
+      this.relationsform = {}
+      this.relationsdialog = false
     },
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
