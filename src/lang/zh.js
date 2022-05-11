@@ -111,7 +111,8 @@ export default {
     scheduleTime: '定时发布时间',
     sendTo: '发送到',
     submit: '保存',
-    reset: '重置'
+    reset: '重置',
+    addnew: '添加新文章'
   },
   publishTo: {
     newsCenter: '小程序新闻中心',

@@ -111,7 +111,8 @@ export default {
     scheduleTime: 'Schedule Publish Date',
     sendTo: 'Send to',
     submit: 'Save and Publish',
-    reset: 'Reset'
+    reset: 'Reset',
+    addnew: 'Add A New Article'
   },
   // 素材库
   library: {
