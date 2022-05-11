@@ -90,7 +90,7 @@
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
-import { faqAdd, faqDel, faqEdit, faqActive } from '@/api/faq'
+import { faqAdd, faqDel, faqEdit, faqEditRelations, faqActive } from '@/api/faq'
 export default {
   name: 'FaqManagement',
   components: {
@@ -139,10 +139,10 @@ export default {
         id: this.addform.id,
         question: this.addform.question,
         answer: this.addform.answer,
-        faqKeywords: this.addform.faqKeywords,
-        active: 1
+        faqKeywords: this.addform.faqKeywords
       }
       if (this.isAdd) {
+        data.active = 1
         const res = await faqAdd(data)
         this.$message.info(res.message)
         this.isAdd = false
@@ -217,7 +217,7 @@ export default {
         id: this.relationsform.id,
         faqRelations: this.relationsform.faqRelations
       }
-      const res = await faqEdit(data)
+      const res = await faqEditRelations(data)
       this.$message.info(res.message)
       this.search()
       this.relationsform = {}
