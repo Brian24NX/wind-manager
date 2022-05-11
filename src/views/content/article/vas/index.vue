@@ -88,7 +88,7 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     formatDate(date) {
-      return this.$moment(date).format('YYYY-MM-DD')
+      return this.$moment(date.publishDate).format('YYYY-MM-DD')
     },
     // 删除
     handleDel(id) {

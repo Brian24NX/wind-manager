@@ -164,7 +164,7 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     formatDate(date) {
-      return this.$moment(date).format('YYYY-MM-DD')
+      return this.$moment(date.publishDate).format('YYYY-MM-DD')
     },
     // 获取种类列表
     async getcategoryList() {
