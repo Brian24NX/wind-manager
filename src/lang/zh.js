@@ -259,5 +259,13 @@ export default {
     remove: '移除',
     deltitle: '请确认是否要删除该角色？',
     permission: '权限'
+  },
+  // 富文本
+  tinymce: {
+    title: '上传',
+    uploadBtn: '点击上传',
+    confirmBtn: '确定',
+    cancelBtn: '取消',
+    uploadError: '请上传图片'
   }
 }

@@ -53,7 +53,7 @@
       </el-upload>
     </el-dialog>
     <!--创建新的faq-->
-    <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center width="800px" destroy-on-close>
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
           <!--<el-input v-model="addform.question" autocomplete="off"></el-input>-->
@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
           <!-- <el-input v-model="addform.answer" autocomplete="off"></el-input>-->
-          <tinymce v-model="addform.answer" :height="350" />
+          <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="keyword">
           <el-input v-model="addform.faqKeywords" autocomplete="off" />
@@ -189,6 +189,9 @@ export default {
       this.isEdit = true
       this.adddialog = true
       this.addform = row
+      setTimeout(() => {
+        this.$refs.editor.setContent(row.answer)
+      }, 300)
     },
     // 新增状态
     handleAdd() {
@@ -222,7 +225,9 @@ export default {
     },
     downloadfile() {
       window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
-    }
+    },
+    // 导出
+    exporttemplate() {}
   }
 }
 </script>

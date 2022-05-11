@@ -1,16 +1,14 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
-      upload
-    </el-button>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-button :style="{ background: color, borderColor: color }" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible = true"> {{ $t('tinymce.title') }} </el-button>
+    <el-dialog :title="$t('tinymce.title')" :visible.sync="dialogVisible" center width="800px" destroy-on-close append-to-body :modal-append-to-body="false">
       <el-upload
         :multiple="true"
         :file-list="fileList"
         :show-file-list="true"
         :on-remove="handleRemove"
         :headers="{
-          Authorization: cookies
+          Authorization: cookies,
         }"
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
@@ -18,16 +16,12 @@
         action="/api/admin/uploadFile"
         list-type="picture-card"
       >
-        <el-button size="small" type="primary">
-          Click upload
-        </el-button>
+        <el-button size="small" type="primary"> {{ $t('tinymce.uploadBtn') }} </el-button>
       </el-upload>
-      <el-button @click="dialogVisible = false">
-        Cancel
-      </el-button>
-      <el-button type="primary" @click="handleSubmit">
-        Confirm
-      </el-button>
+      <div style="display: flex; justify-content: center;">
+        <el-button @click="dialogVisible = false"> {{ $t('tinymce.cancelBtn') }} </el-button>
+        <el-button type="primary" @click="handleSubmit"> {{ $t('tinymce.confirmBtn') }} </el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -54,10 +48,10 @@ export default {
   },
   methods: {
     checkAllSuccess() {
-      return Object.keys(this.listObj).every(item => this.listObj[item].hasSuccess)
+      return Object.keys(this.listObj).every((item) => this.listObj[item].hasSuccess)
     },
     handleSubmit() {
-      const arr = Object.keys(this.listObj).map(v => this.listObj[v])
+      const arr = Object.keys(this.listObj).map((v) => this.listObj[v])
       if (!this.checkAllSuccess()) {
         this.$message('Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!')
         return
@@ -94,6 +88,12 @@ export default {
       const fileName = file.uid
       this.listObj[fileName] = {}
       return new Promise((resolve, reject) => {
+        console.log(file)
+        if (file.type.indexOf('image') === -1) {
+          this.$message.error(this.$t('tinymce.uploadError'))
+          reject(file)
+          return
+        }
         const img = new Image()
         img.src = _URL.createObjectURL(file)
         img.onload = function() {
