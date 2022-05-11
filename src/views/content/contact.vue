@@ -115,16 +115,27 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
-                <!-- <el-select v-model="addform.dutydate" multiple collapse-tags style="margin-left: 20px" placeholder="请选择">
-                  <el-option v-for="item in dutylist" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select> -->
-                <el-input v-model="addform.dutydate" autocomplete="off" />
+              <el-form-item :label="$t('contact.phone')" :label-width="formLabelWidth" prop="phone">
+                <el-input v-model="addform.phone" autocomplete="off" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item :label="$t('contact.email')" :label-width="formLabelWidth" prop="email">
+                <el-input v-model="addform.email" autocomplete="off" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
+                <el-input v-model="addform.dutydate" autocomplete="off" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="dutytime">
                 <el-time-select
                   v-model="addform.startTime"
@@ -135,6 +146,7 @@
                     end: '12:00'
                   }"
                 />
+                -
                 <el-time-select
                   v-model="addform.endTime"
                   placeholder="结束时间"
@@ -144,18 +156,6 @@
                     end: '20:00'
                   }"
                 />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item :label="$t('contact.phone')" :label-width="formLabelWidth" prop="phone">
-                <el-input v-model="addform.phone" autocomplete="off" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item :label="$t('contact.email')" :label-width="formLabelWidth" prop="email">
-                <el-input v-model="addform.email" autocomplete="off" />
               </el-form-item>
             </el-col>
           </el-row>
