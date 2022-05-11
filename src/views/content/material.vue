@@ -9,22 +9,22 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="3">
-              <el-checkbox style="margin-top:10px">{{ $t('library.allselect') }}</el-checkbox>
+              <el-checkbox v-model="checked" style="margin-top:10px" @change="changeall">{{ $t('library.allselect') }}</el-checkbox>
             </el-col>
             <el-col :span="4">
-              <el-button type="danger" size="small" plain>{{ $t('library.category') }}</el-button>
+              <el-button type="danger" size="small" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
             </el-col>
             <el-col :span="4">
-              <el-button type="danger" size="small" plain>{{ $t('library.delete') }}</el-button>
+              <el-button type="danger" size="small" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-select v-model="query.category" placeholder="请选择" style="margin-right:20px">
+            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right:20px" @change="changesearch">
               <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
-            <el-button type="danger" size="small" plain>{{ $t('library.upload') }}</el-button>
+            <el-button type="danger" size="small" plain @click="uploaddialog=true">{{ $t('library.upload') }}</el-button>
             <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
           </el-row>
         </el-col>
@@ -97,6 +97,23 @@
         <el-button @click="Canclecate">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!--批量文件上传-->
+    <el-dialog :title="$t('library.upload')" :visible.sync="uploaddialog" center @close="getMatlist">
+      <el-upload
+        ref="upload"
+        class="upload-demo"
+        :headers="{
+          Authorization: cookies,
+        }"
+        action="/api/admin/uploadImgList"
+        :on-preview="handPreview"
+        :on-remove="handRemove"
+        :on-success="handleSuccess"
+        :file-list="fileList"
+        :limit="10"
+      >
+        <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
+      </el-upload></el-dialog>
   </div>
 </template>
 
@@ -108,18 +125,22 @@ import { materialList, materialDelete, materialChange, materialRename } from '@/
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
 import { transList } from '@/utils'
+import Cookies from 'js-cookie'
 export default {
   name: 'Material',
   components: { Pagination },
   data() {
     return {
+      cookies: Cookies.get('Admin-Token'),
       // 全选参数
       query: {
         category: ''
       },
+      checked: false,
       setdialog: false,
       editdialog: false,
       editcategorydialog: false,
+      uploaddialog: false,
       tabledata: [],
       librarylist: [],
       categoryList: [],
@@ -145,6 +166,41 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    // 关闭获取list
+    getMatlist() {
+      this.uploaddialog = false
+      this.getlist()
+    },
+    // 种类变化搜索
+    changesearch() {
+      this.getlist()
+    },
+    handleEditAllCate() {
+      this.librarylist.map((i) => {
+        this.editcateform.id.push(i.id)
+      })
+      this.editcategorydialog = true
+    },
+    async handleDelAll() {
+      const list = []
+      this.librarylist.map((i) => {
+        list.push(i.id)
+      })
+      const res = await materialDelete(list)
+      this.$message.info(res.message)
+      this.getlist()
+    },
+    changeall() {
+      if (this.checked) {
+        this.librarylist.map((i) => {
+          i.checked = true
+        })
+      } else {
+        this.librarylist.map((i) => {
+          i.checked = false
+        })
+      }
+    },
     Canclecate() {
       this.editcateform.id = []
       this.editcateform.categoryId = ''
@@ -198,7 +254,8 @@ export default {
     async getlist() {
       const data = {
         pageNum: this.pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        categoryId: this.query.categoryId
       }
       const res = await materialList(data)
       this.total = res.data.total

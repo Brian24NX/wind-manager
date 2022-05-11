@@ -34,7 +34,7 @@
         <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />-->
         <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
         <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('faq.status')" prop="active" />
+        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
@@ -157,7 +157,15 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     formatDate(date) {
-      return this.$moment(date).format('YYYY-MM-DD')
+      return this.$moment(date.publishDate).format('YYYY-MM-DD')
+    },
+    transactive(data) {
+      // eslint-disable-next-line eqeqeq
+      if (data.active == 1) {
+        return 'Active'
+      } else {
+        return 'Deactive'
+      }
     },
     async submitfaq() {
       this.$refs['addform'].validate((valid) => {
