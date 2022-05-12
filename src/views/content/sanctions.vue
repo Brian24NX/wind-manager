@@ -46,7 +46,7 @@
       </Pagination>
     </div>
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center>
-      <el-form ref="addform" :model="addform" :rules="rules">
+      <el-form ref="addform" :model="addform">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.commodityCn" autocomplete="off" />
         </el-form-item>
@@ -114,6 +114,11 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    Cancle() {
+      this.isAdd = false
+      this.addform = {}
+      this.adddialog = false
+    },
     search() {
       this.$refs.pagination.refreshRequest()
     },

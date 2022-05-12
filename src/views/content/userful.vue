@@ -186,6 +186,7 @@ export default {
     this.getcategoryList()
   },
   methods: {
+
     transdocument(date) {
       // eslint-disable-next-line eqeqeq
       if (date.type == 1) {
