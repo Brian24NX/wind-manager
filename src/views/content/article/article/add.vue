@@ -27,11 +27,15 @@
                 :limit="1"
                 :headers="uploadHeaders"
                 :show-file-list="false"
+                :on-progress="handleProgress"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
               >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon" />
+                <el-image v-if="imageUrl" :src="imageUrl" fit="contain" class="avatar" />
+                <template v-else>
+                  <i class="el-icon-upload" />
+                  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                </template>
               </el-upload>
             </el-form-item>
           </el-col>
@@ -136,7 +140,7 @@ export default {
         //   { type: 'array', required: true, message: '请选择发送群组', trigger: 'change' }
         // ]
       },
-      uploadHeaders: { 'Authorization': getToken() }
+      uploadHeaders: { Authorization: getToken() }
     }
   },
   created() {
@@ -156,6 +160,9 @@ export default {
       const type = 5
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
+    },
+    handleProgress(event, file, fileList) {
+      console.log(event)
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = file.response.data.fileUrl
@@ -236,27 +243,27 @@ export default {
   .el-card__body {
     padding: 20px 50px;
   }
-    .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
+  // .avatar-uploader .el-upload {
+  //   border: 1px dashed #d9d9d9;
+  //   border-radius: 6px;
+  //   cursor: pointer;
+  //   position: relative;
+  //   overflow: hidden;
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
+  // .avatar-uploader .el-upload:hover {
+  //   border-color: #409eff;
+  // }
+  // .avatar-uploader-icon {
+  //   font-size: 28px;
+  //   color: #8c939d;
+  // }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 100%;
+    height: 100%;
     display: block;
   }
 }
