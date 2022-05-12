@@ -68,7 +68,7 @@
     </el-dialog>
     <!--文章导入-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="/api/admin/miniNewsImport" :limit="1">
+      <el-upload class="upload-demo" drag action="/api/admin/miniNewsImport" :limit="1" :headers="uploadHeaders">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
@@ -123,6 +123,7 @@ import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
 import { transList } from '@/utils'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'News',
   components: {
@@ -130,6 +131,7 @@ export default {
   },
   data() {
     return {
+      uploadHeaders: { 'Authorization': getToken() },
       queryParams: {
         categoryIds: [],
         keyword: ''
