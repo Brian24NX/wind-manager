@@ -80,7 +80,7 @@ export default {
   article: {
     thumb: '封面图',
     title: '标题',
-    date: '日期',
+    date: '发布日期',
     category: '分类',
     platform: '发布平台',
     status: '状态',
