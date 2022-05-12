@@ -48,3 +48,10 @@ export function BusinessList(regionKey) {
     params: { regionKey }
   })
 }
+// 获取联系信息模版
+export function contactTemplateDownload() {
+  return request({
+    url: '/api/admin/contactTemplateDownload',
+    method: 'get'
+  })
+}

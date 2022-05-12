@@ -12,7 +12,6 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="exporttemplate">{{ $t('faq.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('faq.import') }}</el-button>
             <el-button type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
@@ -47,10 +46,14 @@
     </div>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center width="410px">
-      <el-upload class="upload-demo" drag action="/api/admin/uploadFile" :limit="1">
+      <el-upload class="upload-demo" drag action="/api/admin/faqImport" :limit="1" :headers="uploadHeaders">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
     </el-dialog>
     <!--创建新的faq-->
     <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false">
@@ -96,7 +99,8 @@
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
-import { faqAdd, faqDel, faqEdit, faqEditRelations, faqActive } from '@/api/faq'
+import { faqAdd, faqDel, faqEdit, faqEditRelations, faqActive, faqTemplateDownload } from '@/api/faq'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'FaqManagement',
   components: {
@@ -105,6 +109,7 @@ export default {
   },
   data() {
     return {
+      uploadHeaders: { 'Authorization': getToken() },
       queryParams: { keyWord: '' },
       categoryList: [],
       adddialog: false,
@@ -153,6 +158,10 @@ export default {
     }
   },
   methods: {
+    submitimport() {
+      this.importdialog = false
+      this.search()
+    },
     search() {
       this.$refs.pagination.refreshRequest()
     },
@@ -264,8 +273,9 @@ export default {
       this.relationsform = {}
       this.relationsdialog = false
     },
-    downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+    async downloadfile() {
+      const res = await faqTemplateDownload()
+      window.location.href = res.data
     },
     // 导出
     exporttemplate() {}
