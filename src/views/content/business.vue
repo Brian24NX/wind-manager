@@ -295,8 +295,8 @@ export default {
       this.addform = JSON.parse(JSON.stringify(row))
       if (row.filepath) {
         this.fileList = [{
-          name: row.filepath.split('/').pop(),
-          url: row.filepath
+          name: row.filepath.split('wind/')[1],
+          url: process.env.VUE_APP_FILE_BASE_API + row.filepath
         }]
       }
       this.adddialog = true
@@ -383,7 +383,7 @@ export default {
     handleSuccess(response, file, fileList) {
       if (response.code === '200') {
         this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
-        this.addform.uploadfile = response.data.fileUrl
+        this.addform.uploadfile = 'wind/' + response.data.fileName
       } else {
         this.$message.error(response.message)
         this.fileList = []
