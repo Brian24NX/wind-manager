@@ -180,7 +180,7 @@ export default {
             originalLink: this.articleForm.name,
             publishIds: this.articleForm.publishTo,
             categoryIds: this.articleForm.categoryIds,
-            publishDate: this.articleForm.date1,
+            publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
             publish: 0,
             active: 1
           }
