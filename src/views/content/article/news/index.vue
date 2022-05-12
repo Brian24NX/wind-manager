@@ -254,7 +254,7 @@ export default {
     },
     // 下载模版
     downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/Import Historical News 导入历史新闻_新.xlsx'
+      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Historical News 导入历史新闻_新.xlsx'
     },
     // 取消
     Cancle() {
