@@ -15,6 +15,7 @@
             <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
+            <el-button type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
             <el-button type="danger" size="small" plain @click="handleAdd">{{ $t('userful.additem') }}</el-button>
 
           </el-row>
@@ -42,7 +43,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
+      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -177,7 +178,8 @@ export default {
         file: { required: true, message: 'file is required', trigger: 'change' },
         link: { required: true, message: 'link is required', trigger: 'blur' }
       },
-      tabledata: []
+      tabledata: [],
+      selectcolumn: []
     }
   },
   created() {
@@ -329,7 +331,27 @@ export default {
           this.$message.info('已取消删除')
         })
     },
-    change() {},
+    change(selections) {
+      if (selections.length < 2) {
+        // eslint-disable-next-line eqeqeq
+        if (selections.type == 1) {
+          this.selectcolumn.push(selections.document)
+        }
+      } else {
+        selections.map((i) => {
+        // eslint-disable-next-line eqeqeq
+          if (i.type == 1) {
+            this.selectcolumn.push(i.document)
+          }
+        })
+      }
+    },
+    download() {
+      console.log(this.selectcolumn)
+      this.selectcolumn.map((i) => {
+        window.location.href = this.filePath + i
+      })
+    },
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq
       if (res.code != 200) {
