@@ -19,7 +19,6 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain>{{ $t('faq.export') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('contact.import') }}</el-button>
             <el-button type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
@@ -53,10 +52,14 @@
     </div>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="/api/admin/uploadFile" :limit="1">
+      <el-upload class="upload-demo" drag action="/api/admin/contactInfoImport" :limit="1" :headers="uploadHeaders">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
     </el-dialog>
     <!--新增联系方式-->
     <el-dialog :title="$t('contact.createinfo')" :visible.sync="adddialog" width="700px" center destroy-on-close :close-on-click-modal="false">
@@ -173,9 +176,10 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit } from '@/api/contact.js'
+import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit, contactTemplateDownload } from '@/api/contact.js'
 // eslint-disable-next-line no-unused-vars
 import { transdict } from '@/utils'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Contact',
   components: {
@@ -183,6 +187,7 @@ export default {
   },
   data() {
     return {
+      uploadHeaders: { 'Authorization': getToken() },
       queryParams: {
         office: '',
         trade: ''
@@ -251,6 +256,10 @@ export default {
     this.conofficeList()
   },
   methods: {
+    submitimport() {
+      this.importdialog = false
+      this.search()
+    },
     search() {
       this.$refs.pagination.refreshRequest()
     },
@@ -352,8 +361,9 @@ export default {
         this.$refs.pagination.refreshRequest()
       }
     },
-    downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+    async downloadfile() {
+      const res = await contactTemplateDownload()
+      window.location.href = res.data
     }
   }
 }
