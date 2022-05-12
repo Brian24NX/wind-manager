@@ -159,6 +159,7 @@ export default {
   methods: {
     async getList(id) {
       const res = await newsDetail(id)
+      this.articleForm.publishTo = res.data.publishIds
       this.articleForm = res.data
     },
     async getcategoryList() {
