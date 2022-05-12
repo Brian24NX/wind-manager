@@ -127,21 +127,20 @@ export default {
   methods: {
     // 提交表单
     submit() {
-      this.$refs['forgetForm'].validator((valid) => {
+      this.$refs['forgetForm'].validator(async(valid) => {
         if (valid) {
           const data = {
             email: this.forgetForm.email,
             newPwd: this.forgetForm.password,
             veriCode: this.forgetForm.verifycode
           }
-          this.resetPwd(data).then(res => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$router.push('/login')
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          const res = await resetPwd(data)
+          // eslint-disable-next-line eqeqeq
+          if (res.code == 200) {
+            this.$router.push('/login')
+          } else {
+            this.$message.error(res.message)
+          }
         } else {
           return false
         }

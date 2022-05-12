@@ -96,16 +96,15 @@ export default {
   methods: {
     // 提交表单
     submit() {
-      this.$refs['forgetForm'].validator((valid) => {
+      this.$refs['forgetForm'].validator(async(valid) => {
         if (valid) {
-          this.sendEmail(this.forgetForm.email).then(res => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$router.push({ name: '/forget/topassword', params: { email: this.forgetForm.email }})
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          const res = await sendEmail(this.forgetForm.email)
+          // eslint-disable-next-line eqeqeq
+          if (res.code == 200) {
+            this.$router.push({ name: '/forget/topassword', params: { email: this.forgetForm.email }})
+          } else {
+            this.$message.error(res.message)
+          }
         } else {
           return false
         }
