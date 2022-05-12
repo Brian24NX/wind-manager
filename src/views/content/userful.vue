@@ -15,6 +15,7 @@
             <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
+            <el-button type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
             <el-button type="danger" size="small" plain @click="handleAdd">{{ $t('userful.additem') }}</el-button>
 
           </el-row>
@@ -177,7 +178,8 @@ export default {
         file: { required: true, message: 'file is required', trigger: 'change' },
         link: { required: true, message: 'link is required', trigger: 'blur' }
       },
-      tabledata: []
+      tabledata: [],
+      selectcolumn: []
     }
   },
   created() {
@@ -329,7 +331,27 @@ export default {
           this.$message.info('已取消删除')
         })
     },
-    change() {},
+    change(selections) {
+      if (selections.length < 2) {
+        // eslint-disable-next-line eqeqeq
+        if (selections.type == 1) {
+          this.selectcolumn.push(selections.document)
+        }
+      } else {
+        selections.map((i) => {
+        // eslint-disable-next-line eqeqeq
+          if (i.type == 1) {
+            this.selectcolumn.push(i.document)
+          }
+        })
+      }
+    },
+    download() {
+      console.log(this.selectcolumn)
+      this.selectcolumn.map((i) => {
+        window.location.href = this.filePath + i
+      })
+    },
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq
       if (res.code != 200) {
