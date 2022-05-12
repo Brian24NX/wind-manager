@@ -383,7 +383,7 @@ export default {
     handleSuccess(response, file, fileList) {
       if (response.code === '200') {
         this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
-        this.addform.uploadfile = 'wind/' + response.data.fileName
+        this.addform.uploadfile = response.data.fileName
       } else {
         this.$message.error(response.message)
         this.fileList = []
