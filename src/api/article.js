@@ -88,6 +88,14 @@ export function articlePublish(data) {
     params: data
   })
 }
+// 文章信息获取详情
+export function newsDetail(id) {
+  return request({
+    url: '/api/admin/newsDetail',
+    method: 'get',
+    params: { id }
+  })
+}
 // 添加类别  type：1 小程序news center 2 business 3 useful 4 metail资源库 5 article
 export function categoryAdd(data) {
   return request({

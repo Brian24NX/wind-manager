@@ -96,7 +96,7 @@
 <script>
 import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
-import { articleAdd, articleEdit } from '@/api/article.js'
+import { articleAdd, articleEdit, newsDetail } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList } from '@/api/article.js'
 import { transList } from '@/utils'
@@ -147,11 +147,16 @@ export default {
     console.log(id)
     if (id) {
       this.isEdit = true
+      this.getList(id)
     } else {
       this.isAdd = true
     }
   },
   methods: {
+    async getList(id) {
+      const res = await newsDetail(id)
+      this.articleForm = res.data
+    },
     async getcategoryList() {
       const type = 5
       const res = await categoryList(type)
