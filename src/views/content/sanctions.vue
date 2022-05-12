@@ -187,7 +187,7 @@ export default {
       this.addform = row
     },
     downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/user_tm.xlsx'
     }
   }
 }
