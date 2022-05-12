@@ -120,7 +120,7 @@
     </el-dialog>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center width="410px">
-      <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :headers="uploadHeaders">
+      <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
@@ -319,7 +319,13 @@ export default {
           this.$message.info('已取消删除')
         })
     },
-    change() {}
+    change() {},
+    handleSuccess(res) {
+      // eslint-disable-next-line eqeqeq
+      if (res.code != 200) {
+        this.$message.error(res.message)
+      }
+    }
   }
 }
 </script>

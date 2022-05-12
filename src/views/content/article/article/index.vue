@@ -44,7 +44,7 @@
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.status === 'Unpublish'" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('message.publish') }}</el-button>
-            <el-button v-if="scope.row.status === 'Unpublish'||scope.row.historyFlag!=1" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.status === 'Unpublish'&&scope.row.historyFlag!=1" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
             <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>

@@ -46,7 +46,7 @@
     </div>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center width="410px">
-      <el-upload class="upload-demo" drag action="/api/admin/faqImport" :limit="1" :headers="uploadHeaders">
+      <el-upload class="upload-demo" drag action="/api/admin/faqImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
@@ -278,7 +278,14 @@ export default {
       window.location.href = res.data
     },
     // 导出
-    exporttemplate() {}
+    exporttemplate() {},
+    //
+    handleSuccess(res) {
+      // eslint-disable-next-line eqeqeq
+      if (res.code != 200) {
+        this.$message.error(res.message)
+      }
+    }
   }
 }
 </script>
