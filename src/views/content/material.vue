@@ -1,6 +1,6 @@
 <template>
-  <div class="librarycontainer">
-    <div slot="header" class="clearfix" style="margin-bottom:20px">
+  <div v-loading="loading" class="librarycontainer">
+    <div slot="header" class="clearfix" style="margin-bottom: 20px">
       <span>{{ $t('library.title') }}</span>
     </div>
 
@@ -9,37 +9,41 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="3">
-              <el-checkbox v-model="checked" style="margin-top:10px" @change="changeall">{{ $t('library.allselect') }}</el-checkbox>
+              <el-checkbox v-model="checked" style="margin-top: 10px" @change="changeall">{{ $t('library.allselect') }}</el-checkbox>
             </el-col>
             <el-col :span="10">
-              <el-button type="danger" size="small" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
-              <el-button type="danger" size="small" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
+              <el-button type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
+              <el-button type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right:20px" @change="changesearch">
+            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" @change="changesearch">
               <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
-            <el-button type="danger" size="small" plain @click="uploaddialog=true">{{ $t('library.upload') }}</el-button>
+            <el-button type="danger" size="small" plain @click="uploaddialog = true">{{ $t('library.upload') }}</el-button>
             <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
-    <div class="listcontainer">
-      <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
-        <el-image :src="item.filePath" mode="aspectFit" class="imgsrc" />
-        <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
-        <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
-        <el-button class="table-cell" icon="el-icon-delete" @click="handleDel(item)" />
-        <el-checkbox v-model="item.checked">
-          <span>{{ item.title }}</span>
-        </el-checkbox>
+    <el-checkbox-group v-model="checkedList">
+      <div class="listcontainer">
+        <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
+          <el-image :src="item.filePath" mode="aspectFit" lazy :preview-src-list="[item.filePath]" class="imgsrc" />
+          <div>
+            <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
+            <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
+            <el-button class="table-cell" icon="el-icon-delete" @click="handleDel(item)" />
+          </div>
+          <el-checkbox :label="item.id" @change="changeCheck">
+            <span>{{ item.title }}</span>
+          </el-checkbox>
+        </div>
       </div>
-    </div>
-    <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="getlist" />
+    </el-checkbox-group>
+    <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
@@ -85,7 +89,7 @@
     <el-dialog :title="$t('message.update')" :visible.sync="editcategorydialog" center>
       <el-form ref="editcateform" :model="editcateform">
         <el-form-item :label="$t('library.category')" :label-width="formLabelWidth" prop="categoryId">
-          <el-select v-model="editcateform.categoryId" placeholder="请选择" style="margin-right:20px">
+          <el-select v-model="editcateform.categoryId" placeholder="请选择" style="margin-right: 20px">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -156,7 +160,10 @@ export default {
       formLabelWidth: '130px',
       rules: {
         title: { required: true, message: 'title is required', trigger: 'blur' }
-      }
+      },
+      checkedList: [],
+      fileList: [],
+      loading: false
     }
   },
   created() {
@@ -174,28 +181,26 @@ export default {
       this.getlist()
     },
     handleEditAllCate() {
-      this.librarylist.map((i) => {
-        this.editcateform.id.push(i.id)
-      })
+      this.editcateform.id = this.checkedList
       this.editcategorydialog = true
     },
+    changeCheck() {
+      if (this.librarylist.length && this.checkedList.length === this.librarylist.length) {
+        this.checked = true
+      } else {
+        this.checked = false
+      }
+    },
     async handleDelAll() {
-      const list = []
-      this.librarylist.map((i) => {
-        list.push(i.id)
-      })
-      const res = await materialDelete(list)
+      const res = await materialDelete(this.checkedList)
       this.$message.info(res.message)
       this.getlist()
     },
     changeall() {
+      this.checkedList = []
       if (this.checked) {
-        this.librarylist.map((i) => {
-          i.checked = true
-        })
-      } else {
-        this.librarylist.map((i) => {
-          i.checked = false
+        this.librarylist.forEach(item => {
+          this.checkedList.push(item.id)
         })
       }
     },
@@ -237,6 +242,7 @@ export default {
       this.editcategorydialog = false
       this.editcateform.id = []
       this.editcateform.categoryId = ''
+      this.checkedList = []
       this.getlist()
     },
     // 获取种类列表
@@ -249,13 +255,22 @@ export default {
       })
       this.tabledata = res.data
     },
+    changePagination(pagination) {
+      this.pageNum = pagination.page
+      this.pageSize = pagination.limit
+      this.checkedList = []
+      this.getlist()
+    },
     async getlist() {
       const data = {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
         categoryId: this.query.categoryId
       }
+      this.loading = true
+      this.librarylist = []
       const res = await materialList(data)
+      this.loading = false
       this.total = res.data.total
       res.data.list.map((i) => {
         i.checked = false
@@ -321,7 +336,10 @@ export default {
       const res = await materialDelete(list)
       this.$message.info(res.message)
       this.getlist()
-    }
+    },
+    handPreview() {},
+    handRemove() {},
+    handleSuccess() {}
   }
 }
 </script>
@@ -341,22 +359,28 @@ export default {
   float: right;
 }
 .listcontainer {
-  background-color:#ffffff;
-  padding:20px;
+  background-color: #ffffff;
+  padding: 20px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-content:stretch
+  align-content: stretch;
+  min-height: 225px;
 }
 .cardcontainer {
-  width: 200px;
+  width: 20%;
   height: 225px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .imgsrc {
   width: 190px;
   height: 160px;
+  margin-bottom: 10px;
 }
 .table-cell {
   display: table-cell;
