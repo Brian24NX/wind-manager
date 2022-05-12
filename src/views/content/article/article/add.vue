@@ -31,7 +31,7 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
               >
-                <el-image v-if="imageUrl" :src="imageUrl" fit="contain" class="avatar" />
+                <el-image v-if="articleForm.frontCover" :src="articleForm.frontCover" fit="contain" class="avatar" />
                 <template v-else>
                   <i class="el-icon-upload" />
                   <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -47,42 +47,42 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="80">
-          <el-col :span="12">
-            <el-row>
-              <el-col :span="12">
+        <el-row :gutter="20">
+          <el-col :span="14">
+            <el-row :gutter="20">
+              <el-col :span="14">
                 <el-form-item :label="$t('addArticle.publishTo')" prop="publishIds">
-                  <el-select v-model="articleForm.publishIds" multiple placeholder="请选择活动区域" style="width: 85%" size="small">
-                    <el-option :label="$t('publishTo.newsCenter')" value="1" />
-                    <el-option :label="$t('publishTo.CMACGM')" value="2" />
-                    <el-option :label="$t('publishTo.weChatAccount')" value="3" />
+                  <el-select v-model="articleForm.publishIds" multiple placeholder="请选择" style="width: 100%" size="small">
+                    <el-option :label="$t('publishTo.newsCenter')" :value="1" />
+                    <el-option :label="$t('publishTo.CMACGM')" :value="2" />
+                    <el-option :label="$t('publishTo.weChatAccount')" :value="3" />
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="10">
                 <el-form-item :label="$t('addArticle.category')">
-                  <el-select v-model="articleForm.categoryIds" multiple collapse-tags placeholder="请选择">
+                  <el-select v-model="articleForm.categoryIds" multiple collapse-tags style="width: 100%" placeholder="请选择">
                     <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="10">
             <el-form-item :label="$t('addArticle.orginalArticleLink')">
               <el-input v-model="articleForm.name" size="small" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="2">
-            <el-form-item :label="$t('addArticle.schedulePublish')" prop="schedulePublish">
-              <el-switch v-model="articleForm.schedulePublish" size="small" />
+          <el-col :span="3">
+            <el-form-item :label="$t('addArticle.schedulePublish')" prop="schedule">
+              <el-switch v-model="articleForm.schedule" size="small" />
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item :label="$t('addArticle.scheduleTime')" prop="delivery">
-              <el-date-picker v-model="articleForm.date1" type="date" placeholder="选择日期" style="width: 100%" size="small" />
+            <el-form-item :label="$t('addArticle.scheduleTime')" prop="publishDate" :rules="articleForm.schedule ? articleRules.publishDate : [{ required: false }]">
+              <el-date-picker v-model="articleForm.publishDate" type="datetime" placeholder="选择日期" :default-time="'09:00:00'" style="width: 100%" size="small" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -99,9 +99,7 @@
 </template>
 <script>
 import Tinymce from '@/components/Tinymce'
-// eslint-disable-next-line no-unused-vars
 import { articleAdd, articleEdit, newsDetail } from '@/api/article.js'
-// eslint-disable-next-line no-unused-vars
 import { categoryList } from '@/api/article.js'
 import { transList } from '@/utils'
 import { getToken } from '@/utils/auth'
@@ -116,11 +114,10 @@ export default {
         region: '',
         type: '',
         publishIds: [],
-        schedulePublish: false,
+        schedule: false,
         frontCover: '',
         categoryIds: []
       },
-      imageUrl: '',
       categoryList: [],
       fileList: [],
       isEdit: false,
@@ -136,10 +133,8 @@ export default {
         ],
         frontCover: [{ required: true, message: '请上传封面图', trigger: 'change' }],
         content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
-        publishIds: [{ required: true, message: '请选择发布范围', trigger: 'change' }]
-        // sendTo: [
-        //   { type: 'array', required: true, message: '请选择发送群组', trigger: 'change' }
-        // ]
+        publishIds: [{ required: true, message: '请选择发布范围', trigger: 'change' }],
+        publishDate: [{ required: true, message: '请选择定时发布时间', trigger: 'change' }]
       },
       uploadHeaders: { Authorization: getToken() }
     }
@@ -147,7 +142,6 @@ export default {
   created() {
     this.getcategoryList()
     // 通过id判断是新增还是编辑
-    // eslint-disable-next-line no-unused-vars
     const id = this.$route.query.id
     console.log(id)
     if (id) {
@@ -160,8 +154,7 @@ export default {
   methods: {
     async getList(id) {
       const res = await newsDetail(id)
-      this.articleForm.publishTo = res.data.publishIds
-      this.imageUrl = res.data.frontCover
+      res.data.schedule = res.data.schedule === 1
       this.articleForm = res.data
     },
     async getcategoryList() {
@@ -173,7 +166,7 @@ export default {
       console.log(event)
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = file.response.data.fileUrl
+      this.articleForm.frontCover = file.response.data.fileUrl
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -183,134 +176,63 @@ export default {
       return isLt2M
     },
     saveForm(formName) {
-      this.articleForm.frontCover = this.imageUrl
-      if (this.articleForm.schedulePublish) {
-        // eslint-disable-next-line eqeqeq
-        if (this.articleForm.date1 == '') {
-          this.$message.error('开启定时开关,发布时间不能为空')
-        } else {
-          this.$refs[formName].validate(async(valid) => {
-            if (valid) {
-              const data = {
-                id: this.articleForm.id,
-                title: this.articleForm.title,
-                creator: this.articleForm.creator,
-                frontCover: this.articleForm.frontCover,
-                description: this.articleForm.description,
-                content: this.articleForm.content,
-                originalLink: this.articleForm.name,
-                publishIds: this.articleForm.publishIds,
-                categoryIds: this.articleForm.categoryIds,
-                schedule: 1,
-                publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
-                publish: 0,
-                active: 1
-              }
-              if (this.isAdd) {
-                const res = await articleAdd(data)
-                this.$message.info(res.message)
-                this.$router.push('/articlelist')
-              } else {
-                const res = await articleEdit(data)
-                this.$message.info(res.message)
-                this.$router.push('/articlelist')
-              }
-            }
-          })
-        }
-      } else {
-        this.$refs[formName].validate(async(valid) => {
-          if (valid) {
-            const data = {
-              id: this.articleForm.id,
-              title: this.articleForm.title,
-              creator: this.articleForm.creator,
-              frontCover: this.articleForm.frontCover,
-              description: this.articleForm.description,
-              content: this.articleForm.content,
-              originalLink: this.articleForm.name,
-              publishIds: this.articleForm.publishTo,
-              categoryIds: this.articleForm.categoryIds,
-              publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
-              publish: 0,
-              active: 1
-            }
-            if (this.isAdd) {
-              const res = await articleAdd(data)
-              this.$message.info(res.message)
-              this.$router.push('/articlelist')
-            } else {
-              const res = await articleEdit(data)
-              this.$message.info(res.message)
-              this.$router.push('/articlelist')
-            }
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          const data = {
+            id: this.articleForm.id,
+            title: this.articleForm.title,
+            creator: this.articleForm.creator,
+            frontCover: this.articleForm.frontCover,
+            description: this.articleForm.description,
+            content: this.articleForm.content,
+            originalLink: this.articleForm.name,
+            publishIds: this.articleForm.publishIds,
+            categoryIds: this.articleForm.categoryIds,
+            schedule: this.articleForm.schedule ? 1 : 0,
+            publishDate: this.$moment(this.articleForm.publishDate),
+            publish: 0,
+            active: 1
           }
-        })
-      }
+          if (this.isAdd) {
+            const res = await articleAdd(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          } else {
+            const res = await articleEdit(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          }
+        }
+      })
     },
     submitForm(formName) {
-      this.articleForm.frontCover = this.imageUrl
-      if (this.articleForm.schedulePublish) {
-        // eslint-disable-next-line eqeqeq
-        if (this.articleForm.date1 == '') {
-          this.$message.error('开启定时开关,发布时间不能为空')
-        } else {
-          this.$refs[formName].validate(async(valid) => {
-            if (valid) {
-              const data = {
-                title: this.articleForm.title,
-                creator: this.articleForm.creator,
-                frontCover: this.articleForm.frontCover,
-                description: this.articleForm.description,
-                content: this.articleForm.content,
-                originalLink: this.articleForm.name,
-                publishIds: this.articleForm.publishIds,
-                categoryIds: this.articleForm.categoryIds,
-                schedule: 1,
-                publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
-                publish: 1,
-                active: 1
-              }
-              if (this.isAdd) {
-                const res = await articleAdd(data)
-                this.$message.info(res.message)
-                this.$router.push('/articlelist')
-              } else {
-                const res = await articleEdit(data)
-                this.$message.info(res.message)
-                this.$router.push('/articlelist')
-              }
-            }
-          })
-        }
-      } else {
-        this.$refs[formName].validate(async(valid) => {
-          if (valid) {
-            const data = {
-              title: this.articleForm.title,
-              creator: this.articleForm.creator,
-              frontCover: this.articleForm.frontCover,
-              description: this.articleForm.description,
-              content: this.articleForm.content,
-              originalLink: this.articleForm.name,
-              publishIds: this.articleForm.publishIds,
-              categoryIds: this.articleForm.categoryIds,
-              publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
-              publish: 1,
-              active: 1
-            }
-            if (this.isAdd) {
-              const res = await articleAdd(data)
-              this.$message.info(res.message)
-              this.$router.push('/articlelist')
-            } else {
-              const res = await articleEdit(data)
-              this.$message.info(res.message)
-              this.$router.push('/articlelist')
-            }
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          const data = {
+            title: this.articleForm.title,
+            creator: this.articleForm.creator,
+            frontCover: this.articleForm.frontCover,
+            description: this.articleForm.description,
+            content: this.articleForm.content,
+            originalLink: this.articleForm.name,
+            publishIds: this.articleForm.publishIds,
+            categoryIds: this.articleForm.categoryIds,
+            schedule: this.articleForm.schedule ? 1 : 0,
+            publishDate: this.$moment(this.articleForm.publishDate),
+            publish: 1,
+            active: 1
           }
-        })
-      }
+          if (this.isAdd) {
+            const res = await articleAdd(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          } else {
+            const res = await articleEdit(data)
+            this.$message.info(res.message)
+            this.$router.push('/articlelist')
+          }
+        }
+      })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -318,6 +240,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 .addContainer {
   .el-card__body {
