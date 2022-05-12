@@ -51,8 +51,8 @@
           <el-col :span="12">
             <el-row>
               <el-col :span="12">
-                <el-form-item :label="$t('addArticle.publishTo')" prop="publishTo">
-                  <el-select v-model="articleForm.publishTo" multiple placeholder="请选择活动区域" style="width: 85%" size="small">
+                <el-form-item :label="$t('addArticle.publishTo')" prop="publishIds">
+                  <el-select v-model="articleForm.publishIds" multiple placeholder="请选择活动区域" style="width: 85%" size="small">
                     <el-option :label="$t('publishTo.newsCenter')" value="1" />
                     <el-option :label="$t('publishTo.CMACGM')" value="2" />
                     <el-option :label="$t('publishTo.weChatAccount')" value="3" />
@@ -111,10 +111,11 @@ export default {
   data() {
     return {
       articleForm: {
+        id: '',
         title: '',
         region: '',
         type: '',
-        publishTo: [],
+        publishIds: [],
         schedulePublish: false,
         frontCover: '',
         categoryIds: []
@@ -135,7 +136,7 @@ export default {
         ],
         frontCover: [{ required: true, message: '请上传封面图', trigger: 'change' }],
         content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
-        publishTo: [{ required: true, message: '请选择发布范围', trigger: 'change' }]
+        publishIds: [{ required: true, message: '请选择发布范围', trigger: 'change' }]
         // sendTo: [
         //   { type: 'array', required: true, message: '请选择发送群组', trigger: 'change' }
         // ]
@@ -160,6 +161,7 @@ export default {
     async getList(id) {
       const res = await newsDetail(id)
       this.articleForm.publishTo = res.data.publishIds
+      this.imageUrl = res.data.frontCover
       this.articleForm = res.data
     },
     async getcategoryList() {
@@ -182,61 +184,133 @@ export default {
     },
     saveForm(formName) {
       this.articleForm.frontCover = this.imageUrl
-      this.$refs[formName].validate(async(valid) => {
-        if (valid) {
-          const data = {
-            title: this.articleForm.title,
-            creator: this.articleForm.creator,
-            frontCover: this.articleForm.frontCover,
-            description: this.articleForm.description,
-            content: this.articleForm.content,
-            originalLink: this.articleForm.name,
-            publishIds: this.articleForm.publishTo,
-            categoryIds: this.articleForm.categoryIds,
-            publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
-            publish: 0,
-            active: 1
-          }
-          if (this.isAdd) {
-            const res = await articleAdd(data)
-            this.$message.info(res.message)
-            this.$router.push('/articlelist')
-          } else {
-            const res = await articleEdit(data)
-            this.$message.info(res.message)
-            this.$router.push('/articlelist')
-          }
+      if (this.articleForm.schedulePublish) {
+        // eslint-disable-next-line eqeqeq
+        if (this.articleForm.date1 == '') {
+          this.$message.error('开启定时开关,发布时间不能为空')
+        } else {
+          this.$refs[formName].validate(async(valid) => {
+            if (valid) {
+              const data = {
+                id: this.articleForm.id,
+                title: this.articleForm.title,
+                creator: this.articleForm.creator,
+                frontCover: this.articleForm.frontCover,
+                description: this.articleForm.description,
+                content: this.articleForm.content,
+                originalLink: this.articleForm.name,
+                publishIds: this.articleForm.publishIds,
+                categoryIds: this.articleForm.categoryIds,
+                schedule: 1,
+                publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
+                publish: 0,
+                active: 1
+              }
+              if (this.isAdd) {
+                const res = await articleAdd(data)
+                this.$message.info(res.message)
+                this.$router.push('/articlelist')
+              } else {
+                const res = await articleEdit(data)
+                this.$message.info(res.message)
+                this.$router.push('/articlelist')
+              }
+            }
+          })
         }
-      })
+      } else {
+        this.$refs[formName].validate(async(valid) => {
+          if (valid) {
+            const data = {
+              id: this.articleForm.id,
+              title: this.articleForm.title,
+              creator: this.articleForm.creator,
+              frontCover: this.articleForm.frontCover,
+              description: this.articleForm.description,
+              content: this.articleForm.content,
+              originalLink: this.articleForm.name,
+              publishIds: this.articleForm.publishTo,
+              categoryIds: this.articleForm.categoryIds,
+              publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
+              publish: 0,
+              active: 1
+            }
+            if (this.isAdd) {
+              const res = await articleAdd(data)
+              this.$message.info(res.message)
+              this.$router.push('/articlelist')
+            } else {
+              const res = await articleEdit(data)
+              this.$message.info(res.message)
+              this.$router.push('/articlelist')
+            }
+          }
+        })
+      }
     },
     submitForm(formName) {
       this.articleForm.frontCover = this.imageUrl
-      this.$refs[formName].validate(async(valid) => {
-        if (valid) {
-          const data = {
-            title: this.articleForm.title,
-            creator: this.articleForm.creator,
-            frontCover: this.articleForm.frontCover,
-            description: this.articleForm.description,
-            content: this.articleForm.content,
-            originalLink: this.articleForm.name,
-            publishIds: this.articleForm.publishTo,
-            categoryIds: this.articleForm.categoryIds,
-            publishDate: this.articleForm.date1,
-            publish: 1,
-            active: 1
-          }
-          if (this.isAdd) {
-            const res = await articleAdd(data)
-            this.$message.info(res.message)
-            this.$router.push('/articlelist')
-          } else {
-            const res = await articleEdit(data)
-            this.$message.info(res.message)
-            this.$router.push('/articlelist')
-          }
+      if (this.articleForm.schedulePublish) {
+        // eslint-disable-next-line eqeqeq
+        if (this.articleForm.date1 == '') {
+          this.$message.error('开启定时开关,发布时间不能为空')
+        } else {
+          this.$refs[formName].validate(async(valid) => {
+            if (valid) {
+              const data = {
+                title: this.articleForm.title,
+                creator: this.articleForm.creator,
+                frontCover: this.articleForm.frontCover,
+                description: this.articleForm.description,
+                content: this.articleForm.content,
+                originalLink: this.articleForm.name,
+                publishIds: this.articleForm.publishIds,
+                categoryIds: this.articleForm.categoryIds,
+                schedule: 1,
+                publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
+                publish: 1,
+                active: 1
+              }
+              if (this.isAdd) {
+                const res = await articleAdd(data)
+                this.$message.info(res.message)
+                this.$router.push('/articlelist')
+              } else {
+                const res = await articleEdit(data)
+                this.$message.info(res.message)
+                this.$router.push('/articlelist')
+              }
+            }
+          })
         }
-      })
+      } else {
+        this.$refs[formName].validate(async(valid) => {
+          if (valid) {
+            const data = {
+              title: this.articleForm.title,
+              creator: this.articleForm.creator,
+              frontCover: this.articleForm.frontCover,
+              description: this.articleForm.description,
+              content: this.articleForm.content,
+              originalLink: this.articleForm.name,
+              publishIds: this.articleForm.publishIds,
+              categoryIds: this.articleForm.categoryIds,
+              publishDate: this.$moment(this.articleForm.date1).format('YYYY-MM-DD'),
+              publish: 1,
+              active: 1
+            }
+            if (this.isAdd) {
+              const res = await articleAdd(data)
+              this.$message.info(res.message)
+              this.$router.push('/articlelist')
+            } else {
+              const res = await articleEdit(data)
+              this.$message.info(res.message)
+              this.$router.push('/articlelist')
+            }
+          }
+        })
+      }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
