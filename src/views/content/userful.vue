@@ -27,8 +27,7 @@
 
         <el-table-column :label="$t('userful.category')" prop="categoryName" />
 
-        <el-table-column :label="$t('userful.document')" prop="document" align="center" />
-
+        <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
 
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
@@ -82,7 +81,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('userful.type')" :label-width="formLabelWidth" prop="type">
-          <el-radio-group v-model="addform.type">
+          <el-radio-group v-model="type">
             <el-radio
               v-for="item in typelist"
               :key="item.value"
@@ -91,21 +90,20 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="addform.type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
+        <el-form-item v-show="type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
             class="upload-demo"
             action="/api/admin/uploadFile"
-            :on-remove="handRemove"
-            :file-list="addform.document"
-            :auto-upload="false"
+            :headers="uploadHeaders"
+            :on-success="handleupSuccess"
             :limit="1"
           >
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-show="addform.type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="category">
+        <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="category">
           <el-input v-model="addform.document" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
@@ -153,10 +151,11 @@ export default {
       categoryadd: false,
       categoryedit: false,
       importdialog: false,
+      type: 1,
       addform: {
         name: '',
         categoryId: '',
-        type: 1,
+        type: '',
         document: '',
         internalReference: '',
         id: ''
@@ -165,6 +164,7 @@ export default {
       isEdit: false,
       adddialog: false,
       setdialog: false,
+      filePath: process.env.VUE_APP_FILE_BASE_API,
       typelist: [{
         label: 'Document', value: 1
       }, {
@@ -174,7 +174,6 @@ export default {
       rules: {
         name: { required: true, message: 'name is required', trigger: 'blur' },
         categoryId: { required: true, message: 'email is required', trigger: 'blur' },
-        type: { required: true, message: 'function is required', trigger: 'change' },
         file: { required: true, message: 'file is required', trigger: 'change' },
         link: { required: true, message: 'link is required', trigger: 'blur' }
       },
@@ -185,6 +184,17 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    transdocument(date) {
+      // eslint-disable-next-line eqeqeq
+      if (date.type == 1) {
+        return this.filePath + date.document
+      } else {
+        return date.document
+      }
+    },
+    handleupSuccess(res) {
+      this.addform.document = res.data.fileName
+    },
     //
     submitimport() {
       this.importdialog = false
@@ -213,10 +223,10 @@ export default {
     async save() {
       const data = {
         name: this.addform.name,
-        type: parseInt(this.addform.type),
+        type: parseInt(this.type),
         categoryId: this.addform.categoryId,
         internalReference: this.addform.internalReference,
-        document: this.addform.link || this.addform.file,
+        document: this.addform.document,
         id: this.addform.id
       }
       // eslint-disable-next-line eqeqeq
