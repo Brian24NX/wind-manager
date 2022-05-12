@@ -68,10 +68,14 @@
     </el-dialog>
     <!--文章导入-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="/api/admin/uploadFile" :limit="1">
+      <el-upload class="upload-demo" drag action="/api/admin/miniNewsImport" :limit="1">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
     </el-dialog>
     <!--文章类型修改-->
     <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center>
@@ -174,6 +178,10 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    submitimport() {
+      this.importdialog = false
+      this.search()
+    },
     search() {
       this.$refs.pagination.refreshRequest()
     },
@@ -244,7 +252,7 @@ export default {
     },
     // 下载模版
     downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/Import Historical News 导入历史新闻_新.xlsx'
     },
     // 取消
     Cancle() {
