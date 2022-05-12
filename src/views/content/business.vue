@@ -49,7 +49,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false" destroy-on-close>
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
+      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
