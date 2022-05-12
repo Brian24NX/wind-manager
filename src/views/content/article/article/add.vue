@@ -158,7 +158,7 @@ export default {
       this.articleForm = res.data
     },
     async getcategoryList() {
-      const type = 5
+      const type = 1
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
     },

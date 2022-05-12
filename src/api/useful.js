@@ -23,3 +23,10 @@ export function templateDelete(id) {
     params: { id }
   })
 }
+// 模版下载
+export function usefulTemplateDownload() {
+  return request({
+    url: '/api/admin/usefulTemplateDownload',
+    method: 'get'
+  })
+}
