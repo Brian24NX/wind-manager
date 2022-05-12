@@ -147,7 +147,7 @@ export default {
     this.getcategoryList()
     // 通过id判断是新增还是编辑
     // eslint-disable-next-line no-unused-vars
-    const id = this.$route.params.id
+    const id = this.$route.query.id
     console.log(id)
     if (id) {
       this.isEdit = true

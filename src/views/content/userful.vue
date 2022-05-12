@@ -14,8 +14,7 @@
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
             <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-            <el-button type="danger" size="small">{{ $t('userful.import') }}</el-button>
-            <el-button type="danger" size="small">{{ $t('userful.export') }}</el-button>
+            <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
             <el-button type="danger" size="small" plain @click="handleAdd">{{ $t('userful.additem') }}</el-button>
 
           </el-row>
@@ -26,7 +25,7 @@
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
 
-        <el-table-column :label="$t('userful.category')" prop="categoryId" />
+        <el-table-column :label="$t('userful.category')" prop="categoryName" />
 
         <el-table-column :label="$t('userful.document')" prop="document" align="center" />
 
@@ -119,15 +118,27 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!--导入模版-->
+    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center width="410px">
+      <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :headers="uploadHeaders">
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { templateAdd, templateEdit, templateDelete } from '@/api/useful.js'
+import { templateAdd, templateEdit, templateDelete, usefulTemplateDownload } from '@/api/useful.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
+import { getToken } from '@/utils/auth'
 import { transList } from '@/utils'
 export default {
   name: 'Useful',
@@ -136,10 +147,12 @@ export default {
   },
   data() {
     return {
+      uploadHeaders: { 'Authorization': getToken() },
       queryParams: { keyWord: '' },
       categoryList: [],
       categoryadd: false,
       categoryedit: false,
+      importdialog: false,
       addform: {
         name: '',
         categoryId: '',
@@ -172,6 +185,11 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    //
+    submitimport() {
+      this.importdialog = false
+      this.search()
+    },
     // 获取种类列表
     async getcategoryList() {
       const type = 3
@@ -238,8 +256,9 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     // 下载文档
-    downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+    async downloadfile() {
+      const res = await usefulTemplateDownload()
+      window.location.href = res.data
     },
     // 取消
     Cancle() {
