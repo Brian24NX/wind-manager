@@ -78,6 +78,7 @@ const actions = {
         setToken(data.token)
         localStorage.setItem('routers', JSON.stringify(data.menus))
         localStorage.setItem('role', JSON.stringify(data.role))
+        localStorage.setItem('buttons', JSON.stringify(data.buttons))
         localStorage.setItem('userInfo', JSON.stringify(data.user))
         commit('SET_ROLES', data.role.funct)
         resolve()
