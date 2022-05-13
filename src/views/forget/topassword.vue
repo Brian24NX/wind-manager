@@ -76,7 +76,7 @@
         </div>
         <div class="clearright">
           <el-button type="info" plain @click="cancel">取消</el-button>
-          <el-button plain @click="submit">提交</el-button>
+          <el-button plain @click="submit('forgetForm')">提交</el-button>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
-import { resetPwd } from '../../api/user.js'
+import { resetPwd } from '@/api/user.js'
 const validatePass2 = (rule, value, callback) => {
   if (value === '') {
     callback(new Error('请再次输入密码'))
@@ -126,8 +126,8 @@ export default {
   },
   methods: {
     // 提交表单
-    submit() {
-      this.$refs['forgetForm'].validator(async(valid) => {
+    submit(formName) {
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const data = {
             email: this.forgetForm.email,
