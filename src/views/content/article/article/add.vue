@@ -207,6 +207,7 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const data = {
+            id: this.articleForm.id,
             title: this.articleForm.title,
             creator: this.articleForm.creator,
             frontCover: this.articleForm.frontCover,
