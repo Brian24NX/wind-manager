@@ -35,7 +35,21 @@
     </div>
     <!--启用用户查看和移除-->
     <el-dialog :title="$t('userrole.viewuser')" :visible.sync="viewdialog" center>
-      <el-input /><el-button>{{ $t('sanctions.export') }}</el-button>
+      <el-row style="width: 100%">
+        <el-col :span="16">
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-input v-model="nameOrEmail" size="small" style="width: 100%" clearable />
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="8">
+          <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" @click="searchUser">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="exportUser">{{ $t('sanctions.export') }}</el-button>
+          </el-row>
+        </el-col>
+      </el-row>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
@@ -151,6 +165,8 @@ export default {
           ]
         }
       ],
+      nameOrEmail: '',
+      id: '',
       premissionform: {
         permission: ['a001', 'a003', 'a005', 'a009'],
         description: '',
@@ -160,7 +176,7 @@ export default {
       adddialog: false,
       viewdialog: false,
       formLabelWidth: '120px',
-      queryParams: { function: '' },
+      queryParams: { function: '', roleViewId: 1 },
       tabledata: [],
       persontableData: [{ name: 'kelly', email: 'kelly@163.com' }, { name: 'kelly', email: 'kelly@163.com' }],
       personSelecttion: [],
@@ -216,6 +232,7 @@ export default {
         id: row.id,
         nameOrEmail: ''
       }
+      this.id = row.id
       const res = await ActiveUser(data)
       this.tabledata = res.data
     },
@@ -251,6 +268,24 @@ export default {
         .catch(() => {
           this.$message.info('已取消删除')
         })
+    },
+    // 查找激活用户
+    async searchUser() {
+      const data = {
+        id: this.id,
+        nameOrEmail: this.nameOrEmail
+      }
+      const res = await ActiveUser(data)
+      this.tabledata = res.data
+    },
+    // 导出激活用户
+    async exportUser() {
+      const data = {
+        id: this.id,
+        nameOrEmail: this.nameOrEmail
+      }
+      const res = await ActiveUserExport(data)
+      this.tabledata = res.data
     }
   }
 }
