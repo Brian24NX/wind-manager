@@ -11,7 +11,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>

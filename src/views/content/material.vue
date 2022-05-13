@@ -168,8 +168,7 @@ export default {
     }
   },
   created() {
-    this.getlist()
-    this.getcategoryList()
+    this.getcategoryList(1)
   },
   methods: {
     // 关闭获取list
@@ -247,7 +246,7 @@ export default {
       this.getlist()
     },
     // 获取种类列表
-    async getcategoryList() {
+    async getcategoryList(first) {
       const type = 4
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
@@ -255,6 +254,10 @@ export default {
         i.isSet = false
       })
       this.tabledata = res.data
+      if (first) {
+        this.query.categoryId = res.data[0].id
+        this.getlist()
+      }
     },
     changePagination(pagination) {
       this.pageNum = pagination.page
