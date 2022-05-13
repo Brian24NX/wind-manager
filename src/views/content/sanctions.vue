@@ -5,10 +5,10 @@
         <el-col :span="18">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable suffix-icon="el-icon-search" />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" placeholder="请输入内容" clearable suffix-icon="el-icon-search" />
             </el-col>
           </el-row>
         </el-col>

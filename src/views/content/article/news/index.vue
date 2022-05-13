@@ -4,13 +4,13 @@
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-            <el-col :span="6">
-              <el-select v-model="queryParams.categoryIds" clearable filterable placeholder="请选择">
+            <el-col :span="8">
+              <el-select v-model="queryParams.categoryIds" clearable filterable placeholder="请选择" style="width: 100%">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" clearable />
+              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" clearable suffix-icon="el-icon-search" />
             </el-col>
           </el-row>
         </el-col>

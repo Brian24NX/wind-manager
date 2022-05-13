@@ -4,8 +4,8 @@
       <el-row style="width: 100%">
         <el-col :span="16">
           <el-row :gutter="20">
-            <el-col :span="5">
-              <el-select v-model="queryParams.categoryId" placeholder="请选择">
+            <el-col :span="8">
+              <el-select v-model="queryParams.categoryId" placeholder="请选择" clearable filterable style="width: 100%">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
