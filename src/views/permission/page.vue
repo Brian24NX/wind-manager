@@ -212,7 +212,7 @@ export default {
     },
     async roleList() {
       const data = {
-        roleViewId: 1
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
       }
       const res = await roleDict(data)
       this.options = transroleList(res.data)
