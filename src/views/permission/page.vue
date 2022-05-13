@@ -159,6 +159,7 @@ export default {
       addemployeedialog: false,
       adddialog: false,
       viewdialog: false,
+      formLabelWidth: '120px',
       queryParams: { function: '' },
       tabledata: [],
       persontableData: [{ name: 'kelly', email: 'kelly@163.com' }, { name: 'kelly', email: 'kelly@163.com' }],

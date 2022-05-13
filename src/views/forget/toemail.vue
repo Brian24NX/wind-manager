@@ -55,7 +55,7 @@
         </div>
         <div class="clearright">
           <el-button type="info" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
-          <el-button plain @click="submit">{{ $t('forgetForm.sendcode') }}</el-button>
+          <el-button plain @click="submit('forgetForm')">{{ $t('forgetForm.sendcode') }}</el-button>
         </div>
       </div>
     </div>
@@ -95,13 +95,16 @@ export default {
   },
   methods: {
     // 提交表单
-    submit() {
-      this.$refs['forgetForm'].validator(async(valid) => {
+    submit(formName) {
+      const data = {
+        email: this.forgetForm.email
+      }
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const res = await sendEmail(this.forgetForm.email)
+          const res = await sendEmail(data)
           // eslint-disable-next-line eqeqeq
           if (res.code == 200) {
-            this.$router.push({ name: '/forget/topassword', params: { email: this.forgetForm.email }})
+            this.$router.push({ name: '/forget/topassword', query: { email: this.forgetForm.email }})
           } else {
             this.$message.error(res.message)
           }

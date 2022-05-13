@@ -122,7 +122,7 @@ export default {
     }
   },
   created() {
-    this.forgetForm.email = this.$route.params.email
+    this.forgetForm.email = this.$route.query.email
   },
   methods: {
     // 提交表单

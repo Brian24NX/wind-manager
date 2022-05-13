@@ -26,13 +26,11 @@ export function logout() {
   })
 }
 // 远端发送邮箱验证码
-export function sendEmail(email) {
+export function sendEmail(data) {
   return request({
     url: '/api/admin/sendEmail',
     method: 'post',
-    params: {
-      email
-    }
+    data
   })
 }
 // 远端重置密码
