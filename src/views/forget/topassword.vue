@@ -10,7 +10,7 @@
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
-            <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
+            <el-form ref="forgetForm" :model="forgetForm" :rules="rules" class="login-form" autocomplete="on" label-position="left">
               <el-form-item prop="verifycode">
                 <el-input
                   :key="verifyType"
@@ -21,7 +21,6 @@
                   name="verifycode"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
                   @blur="capsTooltip = false"
                 />
               </el-form-item>
@@ -30,13 +29,11 @@
                   :key="passwordType"
                   ref="password"
                   v-model="forgetForm.password"
-                  :type="passwordType"
+                  type="password"
                   :placeholder="$t('forgetForm.password')"
                   name="password"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
               <el-form-item prop="confirmpassword">
@@ -44,13 +41,11 @@
                   :key="passwordType"
                   ref="confirmpassword"
                   v-model="forgetForm.confirmpassword"
-                  :type="passwordType"
+                  type="password"
                   :placeholder="$t('forgetForm.confirmpassword')"
                   name="confirmpassword"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
             </el-form>
@@ -114,10 +109,10 @@ export default {
         email: ''
       },
       src: logo,
-      forgetRules: {
+      rules: {
         verifycode: { required: true, message: 'verifycode is required' },
         password: { required: true, message: 'password is required' },
-        confirmpassword: [{ validator: validatePass2, trigger: 'blur' }]
+        confirmpassword: { required: true, message: 'password is required' }
       }
     }
   },

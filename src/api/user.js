@@ -29,8 +29,8 @@ export function logout() {
 export function sendEmail(data) {
   return request({
     url: '/api/admin/sendEmail',
-    method: 'post',
-    data
+    method: 'get',
+    params: data
   })
 }
 // 远端重置密码

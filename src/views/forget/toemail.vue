@@ -28,8 +28,6 @@
                   name="email"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
             </el-form>
@@ -68,7 +66,7 @@
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
-import { sendEmail } from '../../api/user.js'
+import { sendEmail } from '@/api/user.js'
 // eslint-disable-next-line no-unused-vars
 const checkemail = (rule, value, callback) => {
   // eslint-disable-next-line no-unused-vars

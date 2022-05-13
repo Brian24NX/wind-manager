@@ -59,7 +59,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/forget/topassword:email',
+    path: '/forget/topassword',
     component: () => import('@/views/forget/topassword'),
     hidden: true
   },
