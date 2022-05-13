@@ -6,18 +6,22 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.creator" size="small" style="width: 100%" placeholder="Creator" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.function" size="small" style="width: 100%" placeholder="Creator" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
+      </div>
       <Pagination ref="pagination" uri="/api/admin/roleList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
         <el-table-column align="center" :label="$t('userrole.function')" prop="funct" />
@@ -160,6 +164,15 @@ export default {
     setRoleBtnList() {
       this.dataList = JSON.parse(localStorage.getItem('buttons')) || []
       this.dataList = this.dataList.filter(item => item.children.length)
+    },
+    search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams.function = ''
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     async handleAdd() {
       this.premissionform = {
