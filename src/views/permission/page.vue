@@ -72,7 +72,7 @@
           <el-input v-model="addemployeeform.email" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="addemployeeform.function" placeholder="请选择">
+          <el-select v-model="addemployeeform.function" placeholder="请选择" disabled>
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -92,7 +92,7 @@
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
-import { roleDel, ActiveUser, ActiveUserExport, roleDict } from '@/api/role.js'
+import { roleDel, ActiveUser, ActiveUserExport, roleDict, roleDetail } from '@/api/role.js'
 import { userAdd } from '@/api/user.js'
 import { transroleList } from '@/utils/index'
 export default {
@@ -199,8 +199,13 @@ export default {
       this.options = transroleList(res.data)
       console.log(this.options)
     },
-    handleAddEmployee() {
+    handleAddEmployee(row) {
+      this.addemployeeform.function = row.id
       this.addemployeedialog = true
+    },
+    async handleAdd(row) {
+      const res = await roleDetail(Number(row.id))
+      console.log(res.data)
     },
     multipleSelection(val) {
       this.personSelecttion = val

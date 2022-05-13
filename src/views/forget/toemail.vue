@@ -104,7 +104,7 @@ export default {
           const res = await sendEmail(data)
           // eslint-disable-next-line eqeqeq
           if (res.code == 200) {
-            this.$router.push({ name: '/forget/topassword', query: { email: this.forgetForm.email }})
+            this.$router.push({ path: '/forget/topassword', query: { email: this.forgetForm.email }})
           } else {
             this.$message.error(res.message)
           }
