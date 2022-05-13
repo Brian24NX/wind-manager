@@ -180,21 +180,23 @@ export default {
           const menuButtons = this.$refs.multiCheckList.getCheckedKeys()
           if (!menuButtons.length) return
           this.addRoleBtnLoading = true
+          let res
           if (this.premissionform.id) {
-            await roleEdit({
+            res = await roleEdit({
               ...this.premissionform,
               ...{
                 menuButtons
               }
             })
           } else {
-            await roleAdd({
+            res = await roleAdd({
               ...this.premissionform,
               ...{
                 menuButtons
               }
             })
           }
+          this.$message.info(res.message)
           this.$refs.pagination.refreshRequest()
           this.addRoleBtnLoading = false
           this.adddialog = false
@@ -277,6 +279,7 @@ export default {
         .then(async() => {
           const res = await roleDel(index)
           this.$message.info(res.message)
+          this.$refs.pagination.refreshRequest()
         })
         .catch(() => {
           this.$message.info('已取消删除')
