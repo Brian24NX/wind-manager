@@ -72,8 +72,8 @@
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -117,7 +117,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="submitLoading" @click="savebusiness">{{ $t('message.save') }}</el-button>
-        <el-button v-show="isAdd" type="primary" :loading="submitLoading" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -340,7 +340,7 @@ export default {
         creator: '',
         isSet: true
       }
-      if (!this.tabledata[this.tabledata.length - 1].category) return
+      // if (!this.tabledata[this.tabledata.length - 1].category) return
       this.tabledata.push(data)
       this.categoryadd = true
     },

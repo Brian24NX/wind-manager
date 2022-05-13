@@ -6,12 +6,13 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.name" size="small" style="width: 100%" placeholder="Name or Function" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.nameOrFunction" size="small" style="width: 100%" placeholder="Name or Function" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="downloadfile">{{ $t('message.download') }}</el-button>
             <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('userrole.import') }}</el-button>
             <el-button type="danger" size="small" plain @click="exportlist">{{ $t('userrole.export') }}</el-button>
@@ -56,7 +57,7 @@
           <el-input v-model="addform.email" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="addform.function" placeholder="请选择">
+          <el-select v-model="addform.id" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -79,7 +80,7 @@
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="editform.function" placeholder="请选择">
+          <el-select v-model="editform.id" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -94,7 +95,7 @@
     </el-dialog>
     <!--新增定制化权限-->
     <el-dialog :title="$t('userrole.editpremission')" :visible.sync="premissiondialog" center>
-      <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
+      <el-form ref="premissionform" :model="premissionform">
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
           <el-input v-model="premissionform.function" autocomplete="off" disabled />
         </el-form-item>
@@ -113,7 +114,7 @@
 // eslint-disable-next-line no-unused-vars
 import i18n from '@/lang'
 // eslint-disable-next-line no-unused-vars
-import { userActive, userExport, userAdd, userEdit } from '@/api/user.js'
+import { userActive, userExport, userAdd, userEdit, getInfo } from '@/api/user.js'
 import { roleDict } from '@/api/role.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
@@ -182,12 +183,12 @@ export default {
       ],
       queryParams: {
         nameOrFunction: '',
-        roleViewId: 1
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
       },
       addform: {
         name: '',
         email: '',
-        function: '',
+        id: '',
         password: ''
       },
       premissionform: {
@@ -196,9 +197,10 @@ export default {
         function: ''
       },
       editform: {
+        id: '',
         name: '',
         email: '',
-        function: ''
+        funid: ''
       },
       options: [],
       adddialog: false,
@@ -209,11 +211,11 @@ export default {
       rules: {
         name: { required: true, message: 'name is required', trigger: 'blur' },
         email: { required: true, message: 'email is required', trigger: 'blur' },
-        function: { required: true, message: 'function is required', trigger: 'change' },
+        id: { required: true, message: 'id is required', trigger: 'change' },
         password: { required: true, message: 'password is required', trigger: 'blur' }
       },
       editrules: {
-        function: { required: true, message: 'function is required', trigger: 'change' }
+        funid: { required: true, message: 'id is required', trigger: 'change' }
       }
     }
   },
@@ -224,7 +226,7 @@ export default {
   methods: {
     async roleList() {
       const data = {
-        roleViewId: 1
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
       }
       const res = await roleDict(data)
       this.options = transroleList(res.data)
@@ -276,7 +278,7 @@ export default {
     // 提交操作
     async submitview() {
       const role = [{
-        id: this.editform.function
+        id: this.editform.funid
       }]
       const data = {
         id: this.editform.id,
@@ -291,16 +293,21 @@ export default {
       this.$refs.pagination.refreshRequest()
       this.editform = {}
     },
-    //
-    Edit(row) {
+    // 编辑权限
+    async Edit(row) {
       this.editdialog = true
-      this.editform = row
+      const res = await getInfo(row.id)
+      console.log(res.data)
+      this.editform.name = res.data.name
+      this.editform.email = res.data.email
+      this.editform.id = res.data.id
+      this.editform.funid = res.data.roles[0].id
     },
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户_新.xlsx'
+      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx'
     },
     // 处理成功
     handleSuccess(res) {
@@ -312,6 +319,9 @@ export default {
     submitimport() {
       this.importdialog = false
       this.search()
+    },
+    search() {
+      this.$refs.pagination.refreshRequest()
     }
   }
 }
