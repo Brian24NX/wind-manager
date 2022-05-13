@@ -15,15 +15,18 @@
         <el-col :span="6">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-            <el-button type="danger" size="small">{{ $t('sanctions.import') }}</el-button>
-            <el-button type="danger" size="small" plain>{{ $t('sanctions.export') }}</el-button>
-            <el-button type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small">{{ $t('sanctions.import') }}</el-button>
+        <el-button type="danger" size="small" plain>{{ $t('sanctions.export') }}</el-button>
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
+      </div>
       <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityCn" />
 
@@ -120,6 +123,13 @@ export default {
       this.adddialog = false
     },
     search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams = {
+        referenceNo: '',
+        keyword: ''
+      }
       this.$refs.pagination.refreshRequest()
     },
     handleAdd() {

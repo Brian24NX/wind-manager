@@ -5,28 +5,31 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="6">
-              <el-select v-model="queryParams.categoryIds" placeholder="请选择">
+              <el-select v-model="queryParams.categoryIds" clearable filterable placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
-            <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
-            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-            <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
-            <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
+        <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
+        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
+        <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
+      </div>
       <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
@@ -183,6 +186,13 @@ export default {
     submitimport() {
       this.importdialog = false
       this.search()
+    },
+    reset() {
+      this.queryParams = {
+        categoryIds: [],
+        keyword: ''
+      }
+      this.$refs.pagination.refreshRequest()
     },
     search() {
       this.$refs.pagination.refreshRequest()

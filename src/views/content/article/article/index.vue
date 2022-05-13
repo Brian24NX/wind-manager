@@ -5,7 +5,7 @@
         <el-col :span="18">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable placeholder="请选择">
+              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable filterable placeholder="请选择">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
@@ -17,16 +17,15 @@
         <el-col :span="6">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="submit">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain>{{ $t('addArticle.reset') }}</el-button>
-            <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
-      <!-- <div class="operations">
+      <div class="operations">
         <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
-      </div> -->
+      </div>
       <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
           <template scope="scope">
@@ -88,6 +87,13 @@ export default {
     },
     // 搜索
     submit() {
+      this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams = {
+        categoryIds: [],
+        keyword: ''
+      }
       this.$refs.pagination.refreshRequest()
     },
     // 状态改变

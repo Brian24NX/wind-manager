@@ -8,13 +8,13 @@
         <el-row :gutter="80">
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.title')" prop="title">
-              <el-input v-model="articleForm.title" size="small" />
+              <el-input v-model="articleForm.title" size="small" clearable />
             </el-form-item>
             <el-form-item :label="$t('addArticle.creator')" prop="creator">
-              <el-input v-model="articleForm.creator" size="small" />
+              <el-input v-model="articleForm.creator" size="small" clearable />
             </el-form-item>
             <el-form-item :label="$t('addArticle.description')" prop="description">
-              <el-input v-model="articleForm.description" type="textarea" :rows="4" size="small" />
+              <el-input v-model="articleForm.description" type="textarea" :rows="4" clearable size="small" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -47,30 +47,28 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
-          <el-col :span="14">
-            <el-row :gutter="20">
-              <el-col :span="14">
-                <el-form-item :label="$t('addArticle.publishTo')" prop="publishIds">
-                  <el-select v-model="articleForm.publishIds" multiple placeholder="请选择" style="width: 100%" size="small">
-                    <el-option :label="$t('publishTo.newsCenter')" :value="1" />
-                    <el-option :label="$t('publishTo.CMACGM')" :value="2" />
-                    <el-option :label="$t('publishTo.weChatAccount')" :value="3" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item :label="$t('addArticle.category')">
-                  <el-select v-model="articleForm.categoryIds" multiple collapse-tags style="width: 100%" placeholder="请选择">
-                    <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-col>
+        <el-row>
           <el-col :span="10">
             <el-form-item :label="$t('addArticle.orginalArticleLink')">
-              <el-input v-model="articleForm.name" size="small" />
+              <el-input v-model="articleForm.orginalArticleLink" size="small" clearable />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="$t('addArticle.publishTo')" prop="publishIds">
+              <el-select v-model="articleForm.publishIds" multiple clearable placeholder="请选择" style="width: 100%" size="small">
+                <el-option :label="$t('publishTo.newsCenter')" :value="1" />
+                <el-option :label="$t('publishTo.CMACGM')" :value="2" />
+                <el-option :label="$t('publishTo.weChatAccount')" :value="3" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('addArticle.category')">
+              <el-select v-model="articleForm.categoryIds" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
+                <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>

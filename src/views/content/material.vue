@@ -31,7 +31,7 @@
     <el-checkbox-group v-model="checkedList">
       <div class="listcontainer">
         <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
-          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[item.filePath]" class="imgsrc" />
+          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
           <div>
             <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
             <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />

@@ -19,14 +19,17 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
-            <el-button type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
+      </div>
       <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('business.id')" prop="id" />
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
@@ -203,6 +206,14 @@ export default {
     },
     // 搜索
     search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams = {
+        categoryId: '',
+        keyWord: '',
+        creator: ''
+      }
       this.$refs.pagination.refreshRequest()
     },
     // 提交新增数据
