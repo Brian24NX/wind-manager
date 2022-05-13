@@ -190,7 +190,9 @@ export default {
   methods: {
     reset() {
       this.queryParams = { keyWord: '' }
-      this.$refs.pagination.refreshRequest()
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     transdocument(date) {
       // eslint-disable-next-line eqeqeq

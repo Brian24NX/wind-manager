@@ -107,7 +107,9 @@ export default {
       this.queryParams = {
         keyword: ''
       }
-      this.$refs.pagination.refreshRequest()
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     formatDate(date) {
       return this.$moment(date.publishDate).format('YYYY-MM-DD')

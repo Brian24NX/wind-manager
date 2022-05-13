@@ -214,7 +214,9 @@ export default {
         keyWord: '',
         creator: ''
       }
-      this.$refs.pagination.refreshRequest()
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     // 提交新增数据
     async submitbusiness() {

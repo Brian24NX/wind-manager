@@ -170,7 +170,9 @@ export default {
     },
     reset() {
       this.queryParams = { keyWord: '' }
-      this.search()
+      setTimeout(() => {
+        this.search()
+      }, 100)
     },
     formatDate(date) {
       return this.$moment(date.publishDate).format('YYYY-MM-DD')

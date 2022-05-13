@@ -294,7 +294,9 @@ export default {
         office: '',
         trade: ''
       }
-      this.search()
+      setTimeout(() => {
+        this.search()
+      }, 100)
     },
     async contradeList() {
       const dictName = 'dict_trade'

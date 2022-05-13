@@ -130,7 +130,9 @@ export default {
         referenceNo: '',
         keyword: ''
       }
-      this.$refs.pagination.refreshRequest()
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     handleAdd() {
       this.isAdd = true

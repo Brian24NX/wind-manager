@@ -192,7 +192,9 @@ export default {
         categoryIds: [],
         keyword: ''
       }
-      this.$refs.pagination.refreshRequest()
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     search() {
       this.$refs.pagination.refreshRequest()

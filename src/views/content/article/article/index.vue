@@ -94,7 +94,9 @@ export default {
         categoryIds: [],
         keyword: ''
       }
-      this.$refs.pagination.refreshRequest()
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     },
     // 状态改变
     async handleUpdateStatus(row, publish) {
