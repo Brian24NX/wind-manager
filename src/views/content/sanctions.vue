@@ -15,7 +15,7 @@
         <el-col :span="6">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain>{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -123,6 +123,13 @@ export default {
       this.adddialog = false
     },
     search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams = {
+        referenceNo: '',
+        keyword: ''
+      }
       this.$refs.pagination.refreshRequest()
     },
     handleAdd() {

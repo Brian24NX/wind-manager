@@ -20,7 +20,7 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain>{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -206,6 +206,14 @@ export default {
     },
     // 搜索
     search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams = {
+        categoryId: '',
+        keyWord: '',
+        creator: ''
+      }
       this.$refs.pagination.refreshRequest()
     },
     // 提交新增数据
