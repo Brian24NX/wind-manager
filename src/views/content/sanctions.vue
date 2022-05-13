@@ -202,7 +202,7 @@ export default {
       this.addform = row
     },
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/user_tm.xlsx'
+      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx'
     }
   }
 }
