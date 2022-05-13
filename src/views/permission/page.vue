@@ -123,6 +123,7 @@ export default {
       menuButtons: [1],
       premissionform: {
         id: null,
+        roleViewId: JSON.parse(localStorage.getItem('role')).id,
         descri: '',
         funct: ''
       },
@@ -163,6 +164,7 @@ export default {
     async handleAdd() {
       this.premissionform = {
         id: null,
+        roleViewId: JSON.parse(localStorage.getItem('role')).id,
         descri: '',
         funct: ''
       }
@@ -178,29 +180,22 @@ export default {
           const menuButtons = this.$refs.multiCheckList.getCheckedKeys()
           if (!menuButtons.length) return
           this.addRoleBtnLoading = true
-          let res = null
           if (this.premissionform.id) {
-            res = await roleEdit({
+            await roleEdit({
               ...this.premissionform,
               ...{
                 menuButtons
               }
             })
           } else {
-            res = await roleAdd({
+            await roleAdd({
               ...this.premissionform,
               ...{
                 menuButtons
               }
             })
           }
-          console.log(res)
-          this.premissionform = {
-            menuButtons: [],
-            descri: '',
-            funct: ''
-          }
-          this.roleList()
+          this.$refs.pagination.refreshRequest()
           this.addRoleBtnLoading = false
           this.adddialog = false
         }
@@ -215,15 +210,17 @@ export default {
       this.menuButtons = []
       this.premissionform = {
         id: res.data.id,
+        roleViewId: JSON.parse(localStorage.getItem('role')).id,
         descri: res.data.descri,
         funct: res.data.funct
       }
       res.data.menuButtons.forEach(item => {
-        item.children.forEach(item => {
-          this.menuButtons.push(item.id)
+        item.children.forEach(child => {
+          child.children.forEach(grandson => {
+            this.menuButtons.push(grandson.id)
+          })
         })
       })
-      console.log(this.menuButtons)
       this.adddialog = true
       this.$nextTick(() => {
         this.$refs.multiCheckList.dealDatas()
