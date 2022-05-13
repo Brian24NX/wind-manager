@@ -33,10 +33,11 @@ export function roleEdit(data) {
   })
 }
 // 角色字典修改
-export function roleDict() {
+export function roleDict(data) {
   return request({
     url: '/api/admin/roleDict',
-    methods: 'get'
+    methods: 'get',
+    params: data
   })
 }
 // 获取所有激活用户

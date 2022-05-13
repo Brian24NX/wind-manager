@@ -211,7 +211,10 @@ export default {
       this.addemployeeform = {}
     },
     async roleList() {
-      const res = await roleDict()
+      const data = {
+        roleViewId: 1
+      }
+      const res = await roleDict(data)
       this.options = transroleList(res.data)
       console.log(this.options)
     },
