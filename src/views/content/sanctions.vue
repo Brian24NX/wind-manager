@@ -2,7 +2,7 @@
   <div>
     <div class="searchContainer">
       <el-row style="width: 100%">
-        <el-col :span="18">
+        <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
               <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable suffix-icon="el-icon-search" />
