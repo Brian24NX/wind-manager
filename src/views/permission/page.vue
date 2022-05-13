@@ -196,7 +196,7 @@ export default {
               }
             })
           }
-          this.$message.info(res.message)
+          this.$message.success(res.message)
           this.$refs.pagination.refreshRequest()
           this.addRoleBtnLoading = false
           this.adddialog = false
@@ -240,7 +240,7 @@ export default {
         roles: role
       }
       const res = await userAdd(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.addemployeedialog = false
       this.$refs.pagination.refreshRequest()
       this.addemployeeform = {}
@@ -278,11 +278,8 @@ export default {
       })
         .then(async() => {
           const res = await roleDel(index)
-          this.$message.info(res.message)
+          this.$message.success(res.message)
           this.$refs.pagination.refreshRequest()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     // 删除用户 roleDel方法不对，暂时用不了
@@ -294,10 +291,7 @@ export default {
       })
         .then(async() => {
           const res = await roleDel(id)
-          this.$message.info(res.message)
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
+          this.$message.success(res.message)
         })
     },
     // 查找激活用户

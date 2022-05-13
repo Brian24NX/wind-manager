@@ -105,7 +105,7 @@ export default {
         publish: publish
       }
       const res = await articlePublish(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.refreshRequest()
     },
     // 删除历史信息
@@ -118,9 +118,6 @@ export default {
         .then(async() => {
           await articleDel(index)
           this.submit()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     // 编辑历史信息

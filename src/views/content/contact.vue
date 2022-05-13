@@ -345,7 +345,7 @@ export default {
         id: row.id
       }
       const res = await contactActive(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.refreshRequest()
     },
     // 删除操作
@@ -358,9 +358,6 @@ export default {
         .then(async() => {
           await contactDel(id)
           this.$refs.pagination.refreshRequest()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     // 新增提交
@@ -385,14 +382,14 @@ export default {
           this.loading = true
           if (this.isAdd) {
             const res = await contactAdd(data)
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.addform = {}
             this.isAdd = false
             this.adddialog = false
             this.$refs.pagination.refreshRequest()
           } else {
             const res = await contactEdit(data)
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.addform = {}
             this.isEdit = false
             this.adddialog = false

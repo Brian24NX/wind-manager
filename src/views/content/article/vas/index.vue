@@ -125,9 +125,6 @@ export default {
           await cmaDel(id)
           this.$refs.pagination.refreshRequest()
         })
-        .catch(() => {
-          this.$message.info('已取消删除')
-        })
     },
     // 状态改变
     async handleUpdateStatus(row, publish) {
@@ -136,7 +133,7 @@ export default {
         publish: publish
       }
       const res = await cmaPublish(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.pageRequest()
     },
     // 新增
@@ -151,7 +148,7 @@ export default {
             publish: 1
           }
           cmaAdd(data).then(res => {
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.adddialog = false
             this.search()
           })

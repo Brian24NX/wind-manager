@@ -158,14 +158,14 @@ export default {
       }
       if (this.isAdd) {
         const res = await sanctionAdd(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.isAdd = false
         this.addform = {}
         this.adddialog = false
         this.$refs.pagination.refreshRequest()
       } else {
         const res = await sanctionEdit(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.isEdit = false
         this.addform = {}
         this.adddialog = false
@@ -179,7 +179,7 @@ export default {
         active: active
       }
       const res = await sanctionActive(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.refreshRequest()
     },
     // 管制品删除
@@ -192,9 +192,6 @@ export default {
         .then(async() => {
           await sanctionDel(id)
           this.$refs.pagination.refreshRequest()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     // 管制品修改

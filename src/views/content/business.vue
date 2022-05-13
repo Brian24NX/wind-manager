@@ -232,7 +232,7 @@ export default {
           }
           this.submitLoading = true
           businessAdd(businiessOpentional).then(res => {
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.$refs.pagination.refreshRequest()
             this.adddialog = false
           })
@@ -258,7 +258,7 @@ export default {
           if (this.isAdd == true) {
             this.submitLoading = true
             businessAdd(businiessOpentional).then(res => {
-              this.$message.info(res.message)
+              this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
               this.isAdd = false
@@ -266,7 +266,7 @@ export default {
           } else {
             this.submitLoading = true
             businessEdit(businiessOpentional).then(res => {
-              this.$message.info(res.message)
+              this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
               this.isEdit = false
@@ -288,9 +288,6 @@ export default {
           await businessDel(id)
           this.$refs.pagination.refreshRequest()
         })
-        .catch(() => {
-          this.$message.info('已取消删除')
-        })
     },
     // 处理发布状态
     async handleUpdateStatus(row, publish) {
@@ -299,7 +296,7 @@ export default {
         publish: publish
       }
       const res = await businessPublish(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.refreshRequest()
     },
     // 编辑
@@ -358,12 +355,12 @@ export default {
       if (!data.category) return
       if (this.categoryadd) {
         const res = await categoryAdd(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryadd = false
       } else {
         const res = await categoryEdit(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryedit = false
       }
@@ -383,9 +380,6 @@ export default {
         .then(async() => {
           await categoryDel(id)
           this.getcategoryList()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     handPreview() {},

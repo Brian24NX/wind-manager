@@ -193,7 +193,7 @@ export default {
     },
     async handleDelAll() {
       const res = await materialDelete(this.checkedList)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.getlist()
     },
     changeall() {
@@ -230,7 +230,7 @@ export default {
         name: this.editform.title
       }
       const res = await materialRename(data)
-      this.$message.info(res)
+      this.$message.success(res)
       this.editdialog = false
       this.editform = {}
       this.getlist()
@@ -238,7 +238,7 @@ export default {
     // 修改类别
     async savecate() {
       const res = await materialChange(this.editcateform)
-      this.$message.info(res)
+      this.$message.success(res)
       this.editcategorydialog = false
       this.editcateform.id = []
       this.editcateform.categoryId = ''
@@ -303,12 +303,12 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (this.categoryadd == true) {
         const res = await categoryAdd(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryadd = false
       } else {
         const res = await categoryEdit(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryedit = false
       }
@@ -329,16 +329,13 @@ export default {
           await categoryDel(id)
           this.getcategoryList()
         })
-        .catch(() => {
-          this.$message.info('已取消删除')
-        })
     },
     // 删除资源库文件
     async handleDel(row) {
       const list = []
       list.push(row.id)
       const res = await materialDelete(list)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.getlist()
     },
     handPreview() {},

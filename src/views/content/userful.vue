@@ -242,14 +242,14 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (this.isAdd == true) {
         const res = await templateAdd(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.adddialog = false
         this.$refs.pagination.refreshRequest()
         this.isAdd = false
         this.addform = []
       } else {
         const res = await templateEdit(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.adddialog = false
         this.$refs.pagination.refreshRequest()
         this.isEdit = false
@@ -266,9 +266,6 @@ export default {
         .then(async() => {
           await templateDelete(id)
           this.$refs.pagination.refreshRequest()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     // 搜索
@@ -309,12 +306,12 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (this.categoryadd == true) {
         const res = await categoryAdd(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryadd = false
       } else {
         const res = await categoryEdit(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryedit = false
       }
@@ -334,9 +331,6 @@ export default {
         .then(async() => {
           await categoryDel(id)
           this.getcategoryList()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     },
     change(selections) {

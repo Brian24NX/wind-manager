@@ -253,7 +253,7 @@ export default {
         id: row.id
       }
       const res = await userActive(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.refreshRequest()
     },
     // 新增操作
@@ -270,7 +270,7 @@ export default {
         roles: role
       }
       const res = await userAdd(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.adddialog = false
       this.$refs.pagination.refreshRequest()
       this.addform = {}
@@ -288,7 +288,7 @@ export default {
         roles: role
       }
       const res = await userEdit(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.editdialog = false
       this.$refs.pagination.refreshRequest()
       this.editform = {}

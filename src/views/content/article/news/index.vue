@@ -225,7 +225,7 @@ export default {
             publish: 1
           }
           newsAdd(data).then(res => {
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.addhistorynewsdialog = false
             this.$refs.pagination.refreshRequest()
           })
@@ -245,9 +245,6 @@ export default {
           await newsDel(id)
           this.$refs.pagination.refreshRequest()
         })
-        .catch(() => {
-          this.$message.info('已取消删除')
-        })
     },
     async handleUpdateStatus(row, publish) {
       const data = {
@@ -255,7 +252,7 @@ export default {
         publish: publish
       }
       const res = await newsPublish(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.pageRequest()
     },
     // 状态改变
@@ -298,12 +295,12 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (this.categoryadd == true) {
         const res = await categoryAdd(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryadd = false
       } else {
         const res = await categoryEdit(data)
-        this.$message.info(res.message)
+        this.$message.success(res.message)
         this.getcategoryList()
         this.categoryedit = false
       }
@@ -323,9 +320,6 @@ export default {
         .then(async() => {
           await categoryDel(id)
           this.getcategoryList()
-        })
-        .catch(() => {
-          this.$message.info('已取消删除')
         })
     }
 

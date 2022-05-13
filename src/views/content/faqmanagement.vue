@@ -197,14 +197,14 @@ export default {
           }
           if (this.isAdd) {
             faqAdd(data).then(res => {
-              this.$message.info(res.message)
+              this.$message.success(res.message)
               this.isAdd = false
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
             })
           } else {
             faqEdit(data).then(res => {
-              this.$message.info(res.message)
+              this.$message.success(res.message)
               this.isEdit = false
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
@@ -227,9 +227,6 @@ export default {
           await faqDel(id)
           this.$refs.pagination.refreshRequest()
         })
-        .catch(() => {
-          this.$message.info('已取消删除')
-        })
     },
     // 状态改变
     async handleUpdateStatus(row, active) {
@@ -238,7 +235,7 @@ export default {
         active: active
       }
       const res = await faqActive(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.$refs.pagination.refreshRequest()
     },
     // 编辑状态
@@ -273,7 +270,7 @@ export default {
         faqRelations: this.relationsform.faqRelations
       }
       const res = await faqEditRelations(data)
-      this.$message.info(res.message)
+      this.$message.success(res.message)
       this.search()
       this.relationsform = {}
       this.relationsdialog = false

@@ -193,11 +193,11 @@ export default {
           }
           if (this.isAdd) {
             const res = await articleAdd(data)
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.$router.push('/articlelist')
           } else {
             const res = await articleEdit(data)
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.$router.push('/articlelist')
           }
         }
@@ -223,11 +223,11 @@ export default {
           }
           if (this.isAdd) {
             const res = await articleAdd(data)
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.$router.push('/articlelist')
           } else {
             const res = await articleEdit(data)
-            this.$message.info(res.message)
+            this.$message.success(res.message)
             this.$router.push('/articlelist')
           }
         }
