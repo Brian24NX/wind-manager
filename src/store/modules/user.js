@@ -77,6 +77,8 @@ const actions = {
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         localStorage.setItem('routers', JSON.stringify(data.menus))
+        localStorage.setItem('role', JSON.stringify(data.role))
+        localStorage.setItem('userInfo', JSON.stringify(data.user))
         commit('SET_ROLES', data.role.funct)
         resolve()
       }).catch(error => {

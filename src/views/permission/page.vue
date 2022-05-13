@@ -176,7 +176,7 @@ export default {
       adddialog: false,
       viewdialog: false,
       formLabelWidth: '120px',
-      queryParams: { function: '', roleViewId: 1 },
+      queryParams: { function: '', roleViewId: JSON.parse(localStorage.getItem('role')).id },
       tabledata: [],
       persontableData: [{ name: 'kelly', email: 'kelly@163.com' }, { name: 'kelly', email: 'kelly@163.com' }],
       personSelecttion: [],
@@ -223,8 +223,9 @@ export default {
       this.addemployeedialog = true
     },
     async handleAdd(row) {
-      const res = await roleDetail(Number(row.id))
-      console.log(res.data)
+      // const res = await roleDetail(Number(row.id))
+      // console.log(res.data)
+      this.adddialog = true
     },
     multipleSelection(val) {
       this.personSelecttion = val
