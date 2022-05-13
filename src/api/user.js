@@ -66,13 +66,11 @@ export function userActive(data) {
   })
 }
 // 远端用户导出
-export function userExport(nameOrFunction) {
+export function userExport(data) {
   return request({
     url: '/api/admin/userExport',
     method: 'get',
-    params: {
-      nameOrFunction
-    }
+    params: data
   })
 }
 // 文件上传

@@ -37,10 +37,14 @@
     </div>
     <!--文件上传弹窗-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="/api/admin/uploadFile" :limit="1">
+      <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
     </el-dialog>
     <!--新增弹窗-->
     <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center>
@@ -115,7 +119,7 @@ import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
 import { transroleList } from '@/utils/index'
-
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Role',
   components: {
@@ -124,6 +128,7 @@ export default {
   },
   data() {
     return {
+      uploadHeaders: { 'Authorization': getToken() },
       dataList: [
         {
           code: 1001,
@@ -176,7 +181,8 @@ export default {
         }
       ],
       queryParams: {
-        nameOrFunction: ''
+        nameOrFunction: '',
+        roleViewId: 1
       },
       addform: {
         name: '',
@@ -224,17 +230,15 @@ export default {
     // 导入列表
     import() {},
     // 导出列表
-    exportlist() {
+    async exportlist() {
       // eslint-disable-next-line no-unused-vars
-      const nameOrFunction = this.queryParams.name
-      this.userExport(nameOrFunction).then((res) => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          window.location.href = res.data
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      const res = await userExport(this.queryParams)
+      // eslint-disable-next-line eqeqeq
+      if (res.code == 200) {
+        window.location.href = res.data
+      } else {
+        this.$message.error(res.message)
+      }
     },
     // 状态改变
     async handleUpdateStatus(row, active) {
@@ -294,6 +298,17 @@ export default {
     },
     downloadfile() {
       window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/user_tm.xlsx'
+    },
+    // 处理成功
+    handleSuccess(res) {
+      // eslint-disable-next-line eqeqeq
+      if (res.code != 200) {
+        this.$message.error(res.message)
+      }
+    },
+    submitimport() {
+      this.importdialog = false
+      this.search()
     }
   }
 }
