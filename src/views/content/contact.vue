@@ -170,7 +170,7 @@
         </el-form>
       </el-row>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" :loading="loading" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -198,6 +198,7 @@ export default {
       categoryList: [],
       importdialog: false,
       adddialog: false,
+      loading: false,
       isAdd: false,
       isEdit: false,
       formLabelWidth: '100px',
@@ -236,7 +237,6 @@ export default {
         dutydate: '',
         startTime: '',
         endTime: '',
-        // dutytime: [new Date(2022, 4, 24, 9), new Date(2022, 4, 24, 18)],
         phone: '',
         email: ''
       },
@@ -247,10 +247,33 @@ export default {
         buinessscope: { required: true, message: '请选择', trigger: 'change' },
         trade: { required: true, message: '请选择', trigger: 'change' },
         contactperson: { required: true, message: '请输入', trigger: 'blur' },
-        dutydate: { required: true, message: '请选择', trigger: 'change' },
+        phone: { required: true, message: '请输入', trigger: 'change' },
+        dutydate: { required: true, message: '请输入', trigger: 'change' },
         startTime: { required: true, message: '请选择', trigger: 'change' },
         endTime: { required: true, message: '请选择', trigger: 'change' },
         email: { required: true, message: '请输入', trigger: 'blur' }
+      }
+    }
+  },
+  watch: {
+    adddialog(val) {
+      if (!val) {
+        this.addform = {
+          id: '',
+          region: '',
+          office: '',
+          dept: '',
+          buinessscope: '',
+          trade: '',
+          accountname: '',
+          contactperson: '',
+          dutydate: '',
+          startTime: '',
+          endTime: '',
+          phone: '',
+          email: ''
+        }
+        this.loading = false
       }
     }
   },
@@ -357,6 +380,7 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
+          this.loading = true
           if (this.isAdd) {
             const res = await contactAdd(data)
             this.$message.info(res.message)
