@@ -117,7 +117,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="submitLoading" @click="savebusiness">{{ $t('message.save') }}</el-button>
-        <el-button v-show="isAdd" type="primary" :loading="submitLoading" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>

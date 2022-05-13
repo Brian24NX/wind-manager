@@ -170,7 +170,7 @@
         </el-form>
       </el-row>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -339,7 +339,7 @@ export default {
         })
     },
     // 新增提交
-    async submitadd() {
+    async submitadd(formName) {
       const data = {
         id: this.addform.id,
         active: 1,
@@ -355,21 +355,27 @@ export default {
         dutyDate: this.addform.dutydate,
         dutyTime: this.addform.startTime + '-' + this.addform.endTime
       }
-      if (this.isAdd) {
-        const res = await contactAdd(data)
-        this.$message.info(res.message)
-        this.addform = {}
-        this.isAdd = false
-        this.adddialog = false
-        this.$refs.pagination.refreshRequest()
-      } else {
-        const res = await contactEdit(data)
-        this.$message.info(res.message)
-        this.addform = {}
-        this.isEdit = false
-        this.adddialog = false
-        this.$refs.pagination.refreshRequest()
-      }
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          if (this.isAdd) {
+            const res = await contactAdd(data)
+            this.$message.info(res.message)
+            this.addform = {}
+            this.isAdd = false
+            this.adddialog = false
+            this.$refs.pagination.refreshRequest()
+          } else {
+            const res = await contactEdit(data)
+            this.$message.info(res.message)
+            this.addform = {}
+            this.isEdit = false
+            this.adddialog = false
+            this.$refs.pagination.refreshRequest()
+          }
+        } else {
+          return false
+        }
+      })
     },
     async downloadfile() {
       const res = await contactTemplateDownload()
