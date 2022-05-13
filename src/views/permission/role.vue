@@ -114,7 +114,7 @@
 // eslint-disable-next-line no-unused-vars
 import i18n from '@/lang'
 // eslint-disable-next-line no-unused-vars
-import { userActive, userExport, userAdd, userEdit } from '@/api/user.js'
+import { userActive, userExport, userAdd, userEdit, getInfo } from '@/api/user.js'
 import { roleDict } from '@/api/role.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
@@ -197,9 +197,10 @@ export default {
         function: ''
       },
       editform: {
+        id: '',
         name: '',
         email: '',
-        id: ''
+        funid: ''
       },
       options: [],
       adddialog: false,
@@ -214,7 +215,7 @@ export default {
         password: { required: true, message: 'password is required', trigger: 'blur' }
       },
       editrules: {
-        id: { required: true, message: 'id is required', trigger: 'change' }
+        funid: { required: true, message: 'id is required', trigger: 'change' }
       }
     }
   },
@@ -277,7 +278,7 @@ export default {
     // 提交操作
     async submitview() {
       const role = [{
-        id: this.editform.id
+        id: this.editform.funid
       }]
       const data = {
         id: this.editform.id,
@@ -293,9 +294,14 @@ export default {
       this.editform = {}
     },
     // 编辑权限
-    Edit(row) {
+    async Edit(row) {
       this.editdialog = true
-      this.editform = row
+      const res = await getInfo(row.id)
+      console.log(res.data)
+      this.editform.name = res.data.name
+      this.editform.email = res.data.email
+      this.editform.id = res.data.id
+      this.editform.funid = res.data.roles[0].id
     },
     handlerDataCheck(parent, child) {
       console.log(parent, child)
