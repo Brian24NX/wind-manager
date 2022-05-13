@@ -12,14 +12,17 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" plain @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-            <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('faq.import') }}</el-button>
-            <el-button type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('faq.import') }}</el-button>
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
+      </div>
       <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('faq.id')" prop="id" />
         <el-table-column align="center" :label="$t('faq.question')" prop="question" />
@@ -164,6 +167,10 @@ export default {
     },
     search() {
       this.$refs.pagination.refreshRequest()
+    },
+    reset() {
+      this.queryParams = { keyWord: '' }
+      this.search()
     },
     formatDate(date) {
       return this.$moment(date.publishDate).format('YYYY-MM-DD')

@@ -12,17 +12,19 @@
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
-            <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-            <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
-            <el-button type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
-            <el-button type="danger" size="small" plain @click="handleAdd">{{ $t('userful.additem') }}</el-button>
-
+            <el-button type="danger" size="small" plain>{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
+        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
+        <el-button type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
+        <el-button type="danger" size="small" plain @click="handleAdd">{{ $t('userful.additem') }}</el-button>
+      </div>
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
 
