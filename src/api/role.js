@@ -55,3 +55,11 @@ export function ActiveUserExport(data) {
     params: data
   })
 }
+// 角色详情
+export function roleDetail(id) {
+  return request({
+    url: '/api/admin/roleDetail',
+    method: 'get',
+    params: { id }
+  })
+}
