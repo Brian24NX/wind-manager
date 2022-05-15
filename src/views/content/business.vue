@@ -167,7 +167,7 @@ export default {
       tabledata: [],
       submitLoading: false,
       rules: {
-        title: { required: true, message: 'title is required', trigger: 'blur' }
+        title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
       }
     }
   },

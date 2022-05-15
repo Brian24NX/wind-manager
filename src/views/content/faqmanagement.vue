@@ -138,7 +138,7 @@ export default {
         faqKeywords: { required: true, message: this.$t('faq.faqKeywords'), trigger: 'blur' }
       },
       relationsrules: {
-        relatedquestion: { required: true, message: '请输入question', trigger: 'blur' }
+        relatedquestion: { required: true, message: this.$t('faq.relatedquestiontips'), trigger: 'blur' }
       },
       submitLoading: false
     }
@@ -269,6 +269,21 @@ export default {
         id: this.relationsform.id,
         faqRelations: this.relationsform.faqRelations
       }
+      this.$refs['relationsform'].validate(async(valid) => {
+        if (valid) {
+          const data = {
+            id: this.relationsform.id,
+            faqRelations: this.relationsform.faqRelations
+          }
+          const res = await faqEditRelations(data)
+          this.$message.success(res.message)
+          this.search()
+          this.relationsform = {}
+          this.relationsdialog = false
+        } else {
+          return false
+        }
+      })
       const res = await faqEditRelations(data)
       this.$message.success(res.message)
       this.search()

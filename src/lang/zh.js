@@ -167,7 +167,11 @@ export default {
     export: '导出',
     link: '链接',
     uploadfile: '选择文件',
-    type: '类型'
+    type: '类型',
+    nametips: '文档或者链接名必填',
+    categoryIdtips: '类别必填',
+    typetips: '类型必填',
+    documenttips: '文档或者链接必填'
   },
   // 业务和运营
   business: {
@@ -182,7 +186,8 @@ export default {
     sendnotification: '添加通知',
     deltitle: '是否确认删除该通知？',
     content: '文章',
-    uploadfile: '上传文件'
+    uploadfile: '上传文件',
+    titletips: '通知标题必填'
   },
   // 联系信息
   contact: {
@@ -203,7 +208,18 @@ export default {
     deactive: '禁用',
     active: '启用',
     deltitle: '是否确认删除该联系方式 ？',
-    createtitle: '值班信息'
+    createtitle: '值班信息',
+    regiontips: '区域必填',
+    officetips: '办事处必填',
+    depttips: '部门必填',
+    buinessscopetips: '业务范围必填',
+    tradetips: '航线必填',
+    contactpersontips: '联系人必填',
+    phonetips: '手机号必填',
+    dutydatetips: '值班日期必填',
+    startTimetips: '开始时间必填',
+    endTimetips: '结束时间必填',
+    emailtips: '邮箱必填'
   },
   // FAQ管理
   faq: {
@@ -223,7 +239,8 @@ export default {
     deltitle: '是否确认删除该 FAQ ？',
     questiontips: '问题必填',
     answertips: '答案必填',
-    faqKeywords: '关键字必填'
+    faqKeywords: '关键字必填',
+    relatedquestiontips: '关联问题必填'
   },
   //  新闻中心
   newscenter: {

@@ -241,17 +241,17 @@ export default {
         email: ''
       },
       rules: {
-        region: { required: true, message: '请选择', trigger: 'change' },
-        office: { required: true, message: '请选择', trigger: 'change' },
-        dept: { required: true, message: '请选择', trigger: 'change' },
-        buinessscope: { required: true, message: '请选择', trigger: 'change' },
-        trade: { required: true, message: '请选择', trigger: 'change' },
-        contactperson: { required: true, message: '请输入', trigger: 'blur' },
-        phone: { required: true, message: '请输入', trigger: 'change' },
-        dutydate: { required: true, message: '请输入', trigger: 'change' },
-        startTime: { required: true, message: '请选择', trigger: 'change' },
-        endTime: { required: true, message: '请选择', trigger: 'change' },
-        email: { required: true, message: '请输入', trigger: 'blur' }
+        region: { required: true, message: this.$t('contact.regiontips'), trigger: 'change' },
+        office: { required: true, message: this.$t('contact.officetips'), trigger: 'change' },
+        dept: { required: true, message: this.$t('contact.depttips'), trigger: 'change' },
+        buinessscope: { required: true, message: this.$t('contact.buinessscopetips'), trigger: 'change' },
+        trade: { required: true, message: this.$t('contact.tradetips'), trigger: 'change' },
+        contactperson: { required: true, message: this.$t('contact.contactpersontips'), trigger: 'blur' },
+        phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'change' },
+        dutydate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
+        startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
+        endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
+        email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
       }
     }
   },

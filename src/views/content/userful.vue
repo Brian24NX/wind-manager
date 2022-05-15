@@ -78,7 +78,7 @@
         <el-form-item :label="$t('userful.name')" :label-width="formLabelWidth" prop="name">
           <el-input v-model="addform.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item :label="$t('userful.category')" :label-width="formLabelWidth" prop="category">
+        <el-form-item :label="$t('userful.category')" :label-width="formLabelWidth" prop="categoryId">
           <el-select v-model="addform.categoryId" placeholder="请选择">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -93,7 +93,7 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="publishdate">
+        <el-form-item v-show="type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="document">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
@@ -106,7 +106,7 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="category">
+        <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
           <el-input v-model="addform.document" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
@@ -114,7 +114,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="save">{{ $t('message.save') }}</el-button>
+        <el-button type="primary" @click="save('addform')">{{ $t('message.save') }}</el-button>
         <!-- <el-button v-show="isAdd" type="primary" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>-->
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
@@ -175,10 +175,10 @@ export default {
       }],
       formLabelWidth: '180px',
       rules: {
-        name: { required: true, message: 'name is required', trigger: 'blur' },
-        categoryId: { required: true, message: 'email is required', trigger: 'blur' },
-        file: { required: true, message: 'file is required', trigger: 'change' },
-        link: { required: true, message: 'link is required', trigger: 'blur' }
+        name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
+        categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
+        type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
+        document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
       },
       tabledata: [],
       selectcolumn: []
@@ -230,7 +230,7 @@ export default {
       this.isEdit = true
       this.adddialog = true
     },
-    async save() {
+    async save(formName) {
       const data = {
         name: this.addform.name,
         type: parseInt(this.type),
@@ -239,22 +239,28 @@ export default {
         document: this.addform.document,
         id: this.addform.id
       }
-      // eslint-disable-next-line eqeqeq
-      if (this.isAdd == true) {
-        const res = await templateAdd(data)
-        this.$message.success(res.message)
-        this.adddialog = false
-        this.$refs.pagination.refreshRequest()
-        this.isAdd = false
-        this.addform = []
-      } else {
-        const res = await templateEdit(data)
-        this.$message.success(res.message)
-        this.adddialog = false
-        this.$refs.pagination.refreshRequest()
-        this.isEdit = false
-        this.addform = []
-      }
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          // eslint-disable-next-line eqeqeq
+          if (this.isAdd == true) {
+            const res = await templateAdd(data)
+            this.$message.success(res.message)
+            this.adddialog = false
+            this.$refs.pagination.refreshRequest()
+            this.isAdd = false
+            this.addform = []
+          } else {
+            const res = await templateEdit(data)
+            this.$message.success(res.message)
+            this.adddialog = false
+            this.$refs.pagination.refreshRequest()
+            this.isEdit = false
+            this.addform = []
+          }
+        } else {
+          return false
+        }
+      })
     },
     // 删除数据
     handleDelete(id) {

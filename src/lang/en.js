@@ -162,7 +162,11 @@ export default {
     export: 'Export',
     link: 'Link',
     uploadfile: 'Uploadfile',
-    type: 'Type'
+    type: 'Type',
+    nametips: 'name is required',
+    categoryIdtips: 'categoryId is required',
+    typetips: 'type is required',
+    documenttips: 'document is required'
   },
   // 业务和运营
   business: {
@@ -177,7 +181,8 @@ export default {
     sendnotification: 'Send A Notification',
     deltitle: 'Please confirm if you want to delete this notification?',
     content: 'Content',
-    uploadfile: 'UploadFile'
+    uploadfile: 'UploadFile',
+    titletips: 'title is required'
   },
   contact: {
     id: 'No.',
@@ -197,7 +202,18 @@ export default {
     deactive: 'Deactive',
     active: 'Active',
     deltitle: 'Please confirm if you want to delete this Contact?',
-    createtitle: 'Duty Info'
+    createtitle: 'Duty Info',
+    regiontips: 'region is required',
+    officetips: 'office is required',
+    depttips: 'dept is required',
+    buinessscopetips: 'buinessscope is required',
+    tradetips: 'trade is required',
+    contactpersontips: 'contactperson is required',
+    phonetips: 'phone is required',
+    dutydatetips: 'dutydate is required',
+    startTimetips: 'starttime is required',
+    endTimetips: 'endtime is required',
+    emailtips: 'email is required'
   },
   faq: {
     id: 'No.',
@@ -216,7 +232,8 @@ export default {
     deltitle: 'Please confirm if you want to delete this FAQ?',
     questiontips: 'question is required',
     answertips: 'answer is required',
-    faqKeywords: 'To add more key words, please enter key words or phrases separated by a comma'
+    faqKeywords: 'To add more key words, please enter key words or phrases separated by a comma',
+    relatedquestiontips: 'relatedquestion is required'
   },
   //  新闻中心
   newscenter: {
