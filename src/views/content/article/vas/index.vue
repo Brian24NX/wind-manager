@@ -19,7 +19,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" plain @click="adddialog = true">{{ $t('vas.addarticlelink') }}</el-button>
+        <el-button type="danger" size="small" @click="adddialog = true">{{ $t('vas.addarticlelink') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/cmaNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('vas.title')" prop="title" />

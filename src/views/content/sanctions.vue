@@ -22,8 +22,8 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small">{{ $t('sanctions.import') }}</el-button>
+        <el-button type="danger" size="small" plain @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" plain>{{ $t('sanctions.import') }}</el-button>
         <el-button type="danger" size="small" plain>{{ $t('sanctions.export') }}</el-button>
         <el-button type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>

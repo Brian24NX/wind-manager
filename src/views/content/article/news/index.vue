@@ -25,9 +25,9 @@
     <div class="tableContainer">
       <div class="operations">
         <el-button type="danger" size="small" plain @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
-        <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
+        <el-button type="danger" size="small" plain @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
+        <el-button type="danger" size="small" plain @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
         <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">

@@ -19,11 +19,11 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
-        <el-button type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
-        <el-button type="danger" size="small" plain @click="handleAdd">{{ $t('userful.additem') }}</el-button>
+        <el-button type="danger" size="small" plain @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
+        <el-button type="danger" size="small" plain @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" plain @click="importdialog=true">{{ $t('userful.import') }}</el-button>
+        <el-button type="danger" size="small" plain @click="download">{{ $t('userful.export') }}</el-button>
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
