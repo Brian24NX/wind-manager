@@ -194,7 +194,8 @@ export default {
     createinfo: '新建值班信息',
     deactive: '禁用',
     active: '启用',
-    deltitle: '是否确认删除该联系方式 ？'
+    deltitle: '是否确认删除该联系方式 ？',
+    createtitle: '值班信息'
   },
   // FAQ管理
   faq: {

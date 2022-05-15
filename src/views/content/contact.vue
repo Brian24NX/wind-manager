@@ -65,7 +65,7 @@
       </div>
     </el-dialog>
     <!--新增联系方式-->
-    <el-dialog :title="$t('contact.createinfo')" :visible.sync="adddialog" width="700px" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('contact.createtitle')" :visible.sync="adddialog" width="700px" center destroy-on-close :close-on-click-modal="false">
       <el-row>
         <el-form ref="addform" :model="addform" :rules="rules">
           <el-row>

@@ -188,7 +188,8 @@ export default {
     createinfo: 'Create New Duty Info',
     deactive: 'Deactive',
     active: 'Active',
-    deltitle: 'Please confirm if you want to delete this Contact?'
+    deltitle: 'Please confirm if you want to delete this Contact?',
+    createtitle: 'Duty Info'
   },
   faq: {
     id: 'No.',
