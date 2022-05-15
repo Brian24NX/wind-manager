@@ -133,9 +133,9 @@ export default {
       isEdit: false,
       isAdd: false,
       rules: {
-        question: { required: true, message: '请输入question', trigger: 'blur' },
-        answer: { required: true, message: '请输入answer', trigger: 'blur' },
-        faqKeywords: { required: true, message: 'To add more key words, please enter key words or phrases separated by a comma', trigger: 'blur' }
+        question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
+        answer: { required: true, message: this.$t('faq.answertips'), trigger: 'blur' },
+        faqKeywords: { required: true, message: this.$t('faq.faqKeywords'), trigger: 'blur' }
       },
       relationsrules: {
         relatedquestion: { required: true, message: '请输入question', trigger: 'blur' }

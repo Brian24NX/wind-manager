@@ -80,9 +80,9 @@ export default {
       // 添加弹窗
       adddialog: false,
       rules: {
-        title: { required: true, message: '请输入标题', trigger: 'blur' },
-        link: { required: true, message: '请输入链接', trigger: 'blur' },
-        publishdate: { required: true, message: '请选择发布时间', trigger: 'change' }
+        title: { required: true, message: this.$t('vas.titletips'), trigger: 'blur' },
+        link: { required: true, message: this.$t('vas.linktips'), trigger: 'blur' },
+        publishdate: { required: true, message: this.$t('vas.publishdatetips'), trigger: 'change' }
       },
       loading: false
     }

@@ -122,17 +122,17 @@ export default {
       isAdd: false,
       articleRules: {
         title: [
-          { required: true, message: '请输入文章名称', trigger: 'blur' },
-          { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
+          { required: true, message: this.$t('addArticle.titletips'), trigger: 'blur' },
+          { min: 3, max: 100, message: this.$t('addArticle.titlelengthtips'), trigger: 'blur' }
         ],
         creator: [
-          { required: true, message: '请输入作者', trigger: 'blur' },
-          { min: 3, max: 100, message: '长度在 3 到 100 个字符', trigger: 'blur' }
+          { required: true, message: this.$t('addArticle.creatortips'), trigger: 'blur' },
+          { min: 3, max: 100, message: this.$t('addArticle.creatorlengthtips'), trigger: 'blur' }
         ],
-        frontCover: [{ required: true, message: '请上传封面图', trigger: 'change' }],
-        content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
-        publishIds: [{ required: true, message: '请选择发布范围', trigger: 'change' }],
-        publishDate: [{ required: true, message: '请选择定时发布时间', trigger: 'change' }]
+        frontCover: [{ required: true, message: this.$t('addArticle.frontCovertips'), trigger: 'change' }],
+        content: [{ required: true, message: this.$t('addArticle.contenttips'), trigger: 'blur' }],
+        publishIds: [{ required: true, message: this.$t('addArticle.publishIdstips'), trigger: 'change' }],
+        publishDate: [{ required: true, message: this.$t('addArticle.publishDatetips'), trigger: 'change' }]
       },
       uploadHeaders: { Authorization: getToken() }
     }

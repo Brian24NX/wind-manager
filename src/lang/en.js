@@ -114,7 +114,15 @@ export default {
     save: 'Save',
     submit: 'Save and Publish',
     reset: 'Reset',
-    addnew: 'Add A New Article'
+    addnew: 'Add A New Article',
+    titletips: 'title is required',
+    titlelengthtips: 'It is between 3 and 100 characters in length',
+    creatortips: 'creator is required',
+    creatorlengthtips: 'It is between 3 and 100 characters in length',
+    frontCovertips: 'frontCover is required',
+    contenttips: 'content is required',
+    publishIdstips: 'publishids is required',
+    publishDatetips: 'publishdate is required'
   },
   // 素材库
   library: {
@@ -205,7 +213,10 @@ export default {
     deactive: 'Deactive',
     active: 'Active',
     export: 'Export',
-    deltitle: 'Please confirm if you want to delete this FAQ?'
+    deltitle: 'Please confirm if you want to delete this FAQ?',
+    questiontips: 'question is required',
+    answertips: 'answer is required',
+    faqKeywords: 'To add more key words, please enter key words or phrases separated by a comma'
   },
   //  新闻中心
   newscenter: {
@@ -223,7 +234,10 @@ export default {
     del: 'Delete',
     categoryen: 'Category-EN',
     categoryzh: 'Category-ZH',
-    creator: 'Creator'
+    creator: 'Creator',
+    titletips: 'title is required',
+    linktips: 'link is required',
+    publishdatetips: 'publishdate is required'
   },
   //  vas
   vas: {
@@ -233,7 +247,10 @@ export default {
     link: 'Link',
     status: 'Status',
     deltitle: 'Please confirm if you want to delete this article?',
-    addtitle: 'Add A CMA CGM+ Intro by Link'
+    addtitle: 'Add A CMA CGM+ Intro by Link',
+    titletips: 'title is required',
+    linktips: 'link is required',
+    publishdatetips: 'publishdate is required'
   },
   // 用户角色和权限
   userrole: {
@@ -259,7 +276,9 @@ export default {
     nametips: 'name is required',
     emailtips: 'email is required',
     idtips: 'roleviewid is required',
-    passwordtips: 'password is required'
+    passwordtips: 'password is required',
+    functips: 'role and department is required',
+    permissiontips: 'premission is required'
   },
   // 富文本
   timymce: {

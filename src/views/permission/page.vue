@@ -79,7 +79,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" :loading="addRoleBtnLoading" @click="submitaddRole">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" :loading="addRoleBtnLoading" @click="submitaddRole('premissionform')">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="CancleRole">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -132,9 +132,8 @@ export default {
         funct: ''
       },
       premissionrules: {
-        funct: [
-          { required: true, message: '请输入角色与部门', trigger: 'blur' }
-        ]
+        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' },
+        menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
       },
       addemployeedialog: false,
       adddialog: false,

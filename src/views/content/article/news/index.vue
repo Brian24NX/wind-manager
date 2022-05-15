@@ -158,9 +158,9 @@ export default {
         publishdate: ''
       },
       rules: {
-        title: { required: true, message: 'title is required', trigger: 'blur' },
-        link: { required: true, message: 'link is required', trigger: 'blur' },
-        publishdate: { required: true, message: 'publishdate is required', trigger: 'change' }
+        title: { required: true, message: this.$t('newscenter.titletips'), trigger: 'blur' },
+        link: { required: true, message: this.$t('newscenter.linktips'), trigger: 'blur' },
+        publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
       },
       tabledata: [],
       loading: false

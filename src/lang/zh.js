@@ -114,7 +114,15 @@ export default {
     save: '保存',
     submit: '保存并发布',
     reset: '重置',
-    addnew: '添加新文章'
+    addnew: '添加新文章',
+    titletips: '文章名称必填',
+    titlelengthtips: '长度在 3 到 100 个字符',
+    creatortips: '作者必填',
+    creatorlengthtips: '长度在 3 到 100 个字符',
+    frontCovertips: '封面图必填',
+    contenttips: '内容必填',
+    publishIdstips: '发布范围必填',
+    publishDatetips: '定时发布时间必填'
   },
   publishTo: {
     newsCenter: '小程序新闻中心',
@@ -212,7 +220,10 @@ export default {
     deactive: '禁用',
     active: '启用',
     export: '导出',
-    deltitle: '是否确认删除该 FAQ ？'
+    deltitle: '是否确认删除该 FAQ ？',
+    questiontips: '问题必填',
+    answertips: '答案必填',
+    faqKeywords: '关键字必填'
   },
   //  新闻中心
   newscenter: {
@@ -230,7 +241,10 @@ export default {
     del: '删除',
     categoryen: '种类英文',
     categoryzh: '种类中文',
-    creator: '作者'
+    creator: '作者',
+    titletips: '新闻标题必填',
+    linktips: '链接必填',
+    publishdatetips: '发布日期必填'
   },
   // CMA CGM
   vas: {
@@ -240,7 +254,10 @@ export default {
     link: '链接',
     status: '状态',
     deltitle: '是否确认删除该文章？',
-    addtitle: '以链接形式添加增值服务介绍'
+    addtitle: '以链接形式添加增值服务介绍',
+    titletips: '标题必填',
+    linktips: '链接必填',
+    publishdatetips: '发布时间必填'
   },
   // 角色和权限
   userrole: {
@@ -266,7 +283,9 @@ export default {
     nametips: '姓名必填',
     emailtips: '邮箱必填',
     idtips: '角色必选',
-    passwordtips: '密码必填'
+    passwordtips: '密码必填',
+    functips: '角色和部门必填',
+    permissiontips: '权限必填'
   },
   // 富文本
   tinymce: {
