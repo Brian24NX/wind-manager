@@ -59,7 +59,7 @@
         <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
           <el-input v-model="addform.email" autocomplete="off" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="id">
           <el-select v-model="addform.id" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -69,7 +69,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -82,17 +82,17 @@
         <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="editform.id" placeholder="请选择">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="funid">
+          <el-select v-model="editform.funid" placeholder="请选择">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <!--<el-form-item>
           <el-button type="text" plain @click="premissiondialog = true">Customize permission for the user</el-button>
-        </el-form-item>
+        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitview">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" @click="submitview('editform')">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="editdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -212,13 +212,13 @@ export default {
       premissiondialog: false,
       formLabelWidth: '130px',
       rules: {
-        name: { required: true, message: 'name is required', trigger: 'blur' },
-        email: { required: true, message: 'email is required', trigger: 'blur' },
-        id: { required: true, message: 'id is required', trigger: 'change' },
-        password: { required: true, message: 'password is required', trigger: 'blur' }
+        name: { required: true, message: this.$t('userrole.nametips'), trigger: 'blur' },
+        email: { required: true, message: this.$t('userrole.emailtips'), trigger: 'blur' },
+        id: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' },
+        password: { required: true, message: this.$t('userrole.passwordtips'), trigger: 'blur' }
       },
       editrules: {
-        funid: { required: true, message: 'id is required', trigger: 'change' }
+        funid: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' }
       }
     }
   },
@@ -260,7 +260,7 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     // 新增操作
-    async submitadd() {
+    submitadd(formName) {
       console.log(this.addform.function)
       const role = [{
         id: this.addform.function
@@ -272,11 +272,17 @@ export default {
         active: 1,
         roles: role
       }
-      const res = await userAdd(data)
-      this.$message.success(res.message)
-      this.adddialog = false
-      this.$refs.pagination.refreshRequest()
-      this.addform = {}
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          const res = await userAdd(data)
+          this.$message.success(res.message)
+          this.adddialog = false
+          this.$refs.pagination.refreshRequest()
+          this.addform = {}
+        } else {
+          return false
+        }
+      })
     },
     // 取消操作
     Cancle() {
@@ -284,7 +290,7 @@ export default {
       this.addform = {}
     },
     // 提交操作
-    async submitview() {
+    async submitview(formName) {
       const role = [{
         id: this.editform.funid
       }]
@@ -295,11 +301,17 @@ export default {
         active: 1,
         roles: role
       }
-      const res = await userEdit(data)
-      this.$message.success(res.message)
-      this.editdialog = false
-      this.$refs.pagination.refreshRequest()
-      this.editform = {}
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          const res = await userEdit(data)
+          this.$message.success(res.message)
+          this.editdialog = false
+          this.$refs.pagination.refreshRequest()
+          this.editform = {}
+        } else {
+          return false
+        }
+      })
     },
     // 编辑权限
     async Edit(row) {

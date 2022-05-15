@@ -255,7 +255,11 @@ export default {
     addnewfunction: 'Add A New Function',
     remove: 'Remove',
     deltitle: 'Please confirm if you want to delete this function?',
-    permission: 'Permission'
+    permission: 'Permission',
+    nametips: 'name is required',
+    emailtips: 'email is required',
+    idtips: 'roleviewid is required',
+    passwordtips: 'password is required'
   },
   // 富文本
   timymce: {

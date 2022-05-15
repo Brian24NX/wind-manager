@@ -262,7 +262,11 @@ export default {
     addnewfunction: '创建新角色',
     remove: '移除',
     deltitle: '请确认是否要删除该角色？',
-    permission: '权限'
+    permission: '权限',
+    nametips: '姓名必填',
+    emailtips: '邮箱必填',
+    idtips: '角色必选',
+    passwordtips: '密码必填'
   },
   // 富文本
   tinymce: {
