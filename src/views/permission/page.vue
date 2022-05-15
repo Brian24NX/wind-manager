@@ -258,6 +258,10 @@ export default {
       this.$refs.pagination.refreshRequest()
       this.addemployeeform = {}
     },
+    Cancle() {
+      this.addemployeeform = {}
+      this.addemployeedialog = false
+    },
     async roleList() {
       const data = {
         roleViewId: JSON.parse(localStorage.getItem('role')).id
@@ -326,8 +330,7 @@ export default {
       }
       const res = await ActiveUserExport(data)
       window.open(res.data)
-    },
-    Cancle() {}
+    }
   }
 }
 </script>

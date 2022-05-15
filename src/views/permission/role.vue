@@ -278,6 +278,11 @@ export default {
       this.$refs.pagination.refreshRequest()
       this.addform = {}
     },
+    // 取消操作
+    Cancle() {
+      this.adddialog = false
+      this.addform = {}
+    },
     // 提交操作
     async submitview() {
       const role = [{
