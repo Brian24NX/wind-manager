@@ -59,7 +59,7 @@
       </div>
     </el-dialog>
     <!--创建新的faq-->
-    <el-dialog :title="$t('faq.createinfo')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
           <!--<el-input v-model="addform.question" autocomplete="off"></el-input>-->
@@ -85,7 +85,7 @@
       </div>
     </el-dialog>
     <!--编辑relations-->
-    <el-dialog :title="$t('faq.createinfo')" :visible.sync="relationsdialog" center>
+    <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center>
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
         <el-form-item :label="$t('faq.relatedquestion')" :label-width="formLabelWidth" prop="faqRelations">
           <el-input v-model="relationsform.faqRelations" autocomplete="off" />
