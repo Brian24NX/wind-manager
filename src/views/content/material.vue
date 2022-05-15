@@ -22,8 +22,8 @@
             <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" @change="changesearch">
               <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
-            <el-button type="danger" size="small" @click="uploaddialog = true">{{ $t('library.upload') }}</el-button>
-            <el-button type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
+            <el-button type="primary" size="small" @click="uploaddialog = true">{{ $t('library.upload') }}</el-button>
+            <el-button type="primary" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>

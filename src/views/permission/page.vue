@@ -12,15 +12,15 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="primary" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="primary" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
+        <el-button type="primary" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/roleList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
@@ -49,8 +49,8 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="searchUser">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="exportUser">{{ $t('sanctions.export') }}</el-button>
+            <el-button type="primary" size="small" @click="searchUser">{{ $t('message.search') }}</el-button>
+            <el-button type="primary" size="small" plain @click="exportUser">{{ $t('sanctions.export') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
