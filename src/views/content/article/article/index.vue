@@ -16,15 +16,15 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="primary" size="small" @click="submit">{{ $t('message.search') }}</el-button>
-            <el-button type="primary" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" @click="submit">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="primary" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
+        <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
@@ -38,7 +38,7 @@
 
         <el-table-column align="center" :label="$t('article.category')" prop="category" />
         <el-table-column align="center" :label="$t('article.platform')" prop="publishTos" />
-        <el-table-column align="center" :label="$t('article.status')" prop="status" />
+        <el-table-column align="center" :label="$t('article.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Published'" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('message.unPublish') }}</el-button>
@@ -76,6 +76,14 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.publish == 1) {
+        return 'Published'
+      } else {
+        return 'Draft'
+      }
+    },
     formatDate(date) {
       return this.$moment(date.publishDate).format('YYYY-MM-DD')
     },

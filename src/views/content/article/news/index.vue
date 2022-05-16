@@ -16,26 +16,26 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="primary" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="primary" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="primary" size="small" @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
-        <el-button type="primary" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
-        <el-button type="primary" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="primary" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
-        <el-button type="primary" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
+        <el-button type="danger" size="small" @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
+        <el-button type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
+        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
+        <el-button type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
-        <el-table-column align="center" :label="$t('newscenter.status')" prop="status" />
+        <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Unpublish'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
@@ -183,6 +183,14 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.publish == 1) {
+        return 'Published'
+      } else {
+        return 'Draft'
+      }
+    },
     submitimport() {
       this.importdialog = false
       this.search()

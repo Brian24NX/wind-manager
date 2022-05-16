@@ -18,17 +18,17 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="primary" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="primary" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="primary" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="primary" size="small" @click="importdialog = true">{{ $t('contact.import') }}</el-button>
-        <el-button type="primary" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
+        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('contact.import') }}</el-button>
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('contact.id')" prop="id" />
@@ -247,7 +247,7 @@ export default {
         buinessscope: { required: true, message: this.$t('contact.buinessscopetips'), trigger: 'change' },
         trade: { required: true, message: this.$t('contact.tradetips'), trigger: 'change' },
         contactperson: { required: true, message: this.$t('contact.contactpersontips'), trigger: 'blur' },
-        phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'change' },
+        // phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'change' },
         dutydate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
         startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
         endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
@@ -364,7 +364,7 @@ export default {
     async submitadd(formName) {
       const data = {
         id: this.addform.id,
-        active: 1,
+        active: 0,
         email: this.addform.email,
         accountName: this.addform.accountname,
         contactPerson: this.addform.contactperson,
