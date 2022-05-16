@@ -93,7 +93,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitview('editform')">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="editdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="Cancleedit">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--新增定制化权限-->
@@ -294,6 +294,10 @@ export default {
     Cancle() {
       this.adddialog = false
       this.addform = {}
+    },
+    Cancleedit() {
+      this.editdialog = false
+      this.editform = {}
     },
     // 提交操作
     async submitview(formName) {
