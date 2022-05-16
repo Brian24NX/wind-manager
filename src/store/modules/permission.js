@@ -1,32 +1,20 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 
 /**
- * Use meta.role to determine if the current user has permission
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
-    return true
-  }
-}
-
-/**
  * Filter asynchronous routing tables by recursion
  * @param routes asyncRoutes
- * @param roles
+ * @param routesMap
  */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRoutes(routes, routesMap) {
   const res = []
-
   routes.forEach(route => {
     const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
+    if (routesMap.includes(tmp.path)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+        tmp.children = filterAsyncRoutes(tmp.children, routesMap)
       }
+      res.push(tmp)
+    } else if (tmp.path === '*') {
       res.push(tmp)
     }
   })
@@ -43,21 +31,37 @@ const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+  },
+  REMOVE_ROUTES: (state) => {
+    state.addRoutes = []
+    state.routes = []
   }
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit }, routes) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+      const routeArr = []
+      routes.forEach(route => {
+        routeArr.push(route.path)
+        if (route.children) {
+          route.children.forEach(item => {
+            routeArr.push(item.path)
+            if (item.children) {
+              item.children.forEach(child => {
+                routeArr.push(child.path)
+              })
+            }
+          })
+        }
+      })
+      const accessedRoutes = filterAsyncRoutes(asyncRoutes, routeArr)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
+  },
+  removeRoute({ commit }) {
+    commit('REMOVE_ROUTES')
   }
 }
 

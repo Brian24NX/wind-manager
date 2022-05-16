@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import articleRouter from './modules/article'
+import permissionRouter from './modules/permission'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -52,6 +53,21 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
   // forgetToEmail  desc:忘记密码
   {
     path: '/forget/toemail',
@@ -75,36 +91,6 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  },
-  articleRouter,
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: 'permission',
-      icon: 'lock'
-    },
-    children: [
-      {
-        path: '/UserManagement',
-        component: () => import('@/views/permission/role'),
-        name: 'UserManagement',
-        meta: {
-          title: 'userManagement'
-        }
-      },
-      {
-        path: '/RolePermission',
-        component: () => import('@/views/permission/page'),
-        name: 'Role & Permission',
-        meta: {
-          title: 'rolePermission'
-        }
-      }
-    ]
   }
 ]
 
@@ -114,6 +100,10 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  articleRouter,
+  permissionRouter,
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

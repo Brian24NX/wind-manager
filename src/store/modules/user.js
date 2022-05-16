@@ -80,7 +80,7 @@ const actions = {
         localStorage.setItem('role', JSON.stringify(data.role))
         localStorage.setItem('buttons', JSON.stringify(data.buttons))
         localStorage.setItem('userInfo', JSON.stringify(data.user))
-        commit('SET_ROLES', data.role.funct)
+        // commit('SET_ROLES', data.role.funct)
         resolve()
       }).catch(error => {
         reject(error)
@@ -123,12 +123,16 @@ const actions = {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         localStorage.removeItem('routers')
+        localStorage.removeItem('userInfo')
+        localStorage.removeItem('role')
+        localStorage.removeItem('buttons')
         removeToken()
         resetRouter()
+        dispatch('permission/removeRoute', null, { root: true })
 
         // reset visited views and cached views
         // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
+        // dispatch('tagsView/delAllViews', null, { root: true })
 
         resolve()
       }).catch(error => {

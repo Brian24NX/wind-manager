@@ -13,7 +13,7 @@ const articleRouter = {
     affix: true
   },
   children: [{
-    path: '/article',
+    path: '/articlemanagement',
     component: () => import('@/views/content/article/index'),
     name: 'articleManager',
     meta: {
