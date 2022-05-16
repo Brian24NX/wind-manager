@@ -12,15 +12,15 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="primary" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="primary" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="primary" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
+        <el-button type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/roleList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
@@ -29,9 +29,9 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button size="small" type="text" class="primary" @click="viewuser(scope.row)">{{ $t('userrole.viewuser') }}</el-button>
-            <el-button size="small" type="text" class="primary" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
-            <el-button size="small" type="text" class="primary" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="viewuser(scope.row)">{{ $t('userrole.viewuser') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
+            <el-button size="small" type="text" class="danger" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
             <el-button size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
