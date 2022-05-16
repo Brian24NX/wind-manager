@@ -177,7 +177,7 @@ export default {
       rules: {
         name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
         categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
-        type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
+        // type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
         document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
       },
       tabledata: [],
