@@ -247,7 +247,7 @@ export default {
         buinessscope: { required: true, message: this.$t('contact.buinessscopetips'), trigger: 'change' },
         trade: { required: true, message: this.$t('contact.tradetips'), trigger: 'change' },
         contactperson: { required: true, message: this.$t('contact.contactpersontips'), trigger: 'blur' },
-        phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'change' },
+        // phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'change' },
         dutydate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
         startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
         endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },

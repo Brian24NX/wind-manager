@@ -34,7 +34,7 @@
           </template>
         </el-table-column>
         <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />-->
-        <el-table-column align="center" :label="$t('faq.creator')" prop="createUser" />
+        <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
         <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
