@@ -231,6 +231,8 @@ export default {
     // eslint-disable-next-line eqeqeq
       if (data.active == 1) {
         return 'Active'
+      } else {
+        return ' Deactive'
       }
     },
     async roleList() {

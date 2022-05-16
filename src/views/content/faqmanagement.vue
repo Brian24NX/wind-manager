@@ -294,9 +294,9 @@ export default {
       this.relationsform = {}
       this.relationsdialog = false
     },
-    async downloadfile() {
-      const res = await faqTemplateDownload()
-      window.location.href = res.data
+    downloadfile() {
+      // const res = await faqTemplateDownload()
+      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx'
     },
     // 导出
     exporttemplate() {},

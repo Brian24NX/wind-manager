@@ -279,9 +279,9 @@ export default {
       this.$refs.pagination.refreshRequest()
     },
     // 下载文档
-    async downloadfile() {
-      const res = await usefulTemplateDownload()
-      window.location.href = res.data
+    downloadfile() {
+      // const res = await usefulTemplateDownload()
+      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx'
     },
     // 取消
     Cancle() {
