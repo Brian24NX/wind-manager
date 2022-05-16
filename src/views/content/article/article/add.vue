@@ -220,7 +220,7 @@ export default {
             publishIds: this.articleForm.publishIds,
             categoryIds: this.articleForm.categoryIds,
             schedule: this.articleForm.schedule ? 1 : 0,
-            publishDate: this.$moment(this.articleForm.publishDate),
+            publishDate: this.$moment(this.articleForm.publishDate).format('YYYY-MM-DD'),
             publish: 1,
             active: 1
           }

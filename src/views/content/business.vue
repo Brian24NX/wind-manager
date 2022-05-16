@@ -236,6 +236,7 @@ export default {
               this.$message.success(res.message)
               this.$refs.pagination.refreshRequest()
               this.adddialog = false
+              this.addform = {}
             })
           } else {
             this.submitLoading = true
@@ -244,6 +245,7 @@ export default {
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
               this.isEdit = false
+              this.addform = {}
             })
           }
         } else {
@@ -272,6 +274,7 @@ export default {
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
               this.isAdd = false
+              this.addform = {}
             })
           } else {
             this.submitLoading = true
@@ -280,6 +283,7 @@ export default {
               this.adddialog = false
               this.$refs.pagination.refreshRequest()
               this.isEdit = false
+              this.addform = {}
             })
           }
         } else {
