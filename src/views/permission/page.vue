@@ -237,7 +237,13 @@ export default {
       res.data.menuButtons.forEach(item => {
         item.children.forEach(child => {
           child.children.forEach(grandson => {
-            this.menuButtons.push(grandson.id)
+            if (grandson.children) {
+              grandson.children.forEach(greatgrandson => {
+                this.menuButtons.push(greatgrandson.id)
+              })
+            } else {
+              this.menuButtons.push(grandson.id)
+            }
           })
         })
       })
