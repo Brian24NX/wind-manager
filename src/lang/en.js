@@ -27,7 +27,8 @@ export default {
     logOut: 'Log Out',
     profile: 'Profile',
     theme: 'Theme',
-    size: 'Global Size'
+    size: 'Global Size',
+    delcatetitle: 'Please confirm if you want to delete this category?'
   },
   // 忘记密码页面翻译
   forgetForm: {

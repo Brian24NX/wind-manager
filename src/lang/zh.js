@@ -27,7 +27,8 @@ export default {
     logOut: '退出登录',
     profile: '个人中心',
     theme: '换肤',
-    size: '布局大小'
+    size: '布局大小',
+    delcatetitle: '是否确认删除该类别？'
   },
   // 忘记密码页面翻译
   forgetForm: {
