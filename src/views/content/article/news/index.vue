@@ -312,7 +312,7 @@ export default {
     },
     // 删除种类
     async Delete(id) {
-      this.$confirm(this.$t('business.deltitle'), this.$t('message.delete'), {
+      this.$confirm(this.$t('navbar.delcatetitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
