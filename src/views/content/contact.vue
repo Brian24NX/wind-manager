@@ -364,7 +364,7 @@ export default {
     async submitadd(formName) {
       const data = {
         id: this.addform.id,
-        active: 0,
+        active: 1,
         email: this.addform.email,
         accountName: this.addform.accountname,
         contactPerson: this.addform.contactperson,
