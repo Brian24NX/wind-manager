@@ -61,7 +61,7 @@
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--新增联系方式-->
@@ -140,28 +140,34 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="24">
+          <el-row :gutter="0">
+            <el-col :span="11">
               <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="startTime">
                 <el-time-select
                   v-model="addform.startTime"
-                  style="width: 48%"
+                  style="width: 100%"
                   placeholder="起始时间"
                   :picker-options="{
                     start: '09:00',
                     step: '00:15',
-                    end: '12:00'
+                    end: '12:00',
                   }"
                 />
-                <div style="display: inline-block; width: 4%;text-align: center;">~</div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div style="display: flex; width: 100%; justify-content: center; height: 36px; align-items: center">~</div>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item prop="endTime">
                 <el-time-select
                   v-model="addform.endTime"
-                  style="width: 48%"
+                  style="width: 100%"
                   placeholder="结束时间"
                   :picker-options="{
                     start: '12:00',
                     step: '00:15',
-                    end: '20:00'
+                    end: '20:00',
                   }"
                 />
               </el-form-item>
@@ -190,7 +196,7 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { 'Authorization': getToken() },
+      uploadHeaders: { Authorization: getToken() },
       queryParams: {
         office: '',
         trade: ''
@@ -355,11 +361,10 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await contactDel(id)
+        this.$refs.pagination.refreshRequest()
       })
-        .then(async() => {
-          await contactDel(id)
-          this.$refs.pagination.refreshRequest()
-        })
     },
     // 新增提交
     async submitadd(formName) {
