@@ -261,9 +261,9 @@ export default {
     },
     // 新增操作
     submitadd(formName) {
-      console.log(this.addform.function)
+      console.log(this.addform.id)
       const role = [{
-        id: this.addform.function
+        id: this.addform.id
       }]
       const data = {
         email: this.addform.email,
