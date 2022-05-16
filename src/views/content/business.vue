@@ -230,12 +230,22 @@ export default {
             categoryId: this.addform.categoryId,
             publish: 1
           }
-          this.submitLoading = true
-          businessAdd(businiessOpentional).then(res => {
-            this.$message.success(res.message)
-            this.$refs.pagination.refreshRequest()
-            this.adddialog = false
-          })
+          if (this.isAdd) {
+            this.submitLoading = true
+            businessAdd(businiessOpentional).then(res => {
+              this.$message.success(res.message)
+              this.$refs.pagination.refreshRequest()
+              this.adddialog = false
+            })
+          } else {
+            this.submitLoading = true
+            businessEdit(businiessOpentional).then(res => {
+              this.$message.success(res.message)
+              this.adddialog = false
+              this.$refs.pagination.refreshRequest()
+              this.isEdit = false
+            })
+          }
         } else {
           return false
         }
