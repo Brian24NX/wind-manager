@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       queryParams: {
-        categoryIds: [],
+        categoryIds: '',
         keyword: ''
       },
       categoryList: []
@@ -91,7 +91,7 @@ export default {
     },
     reset() {
       this.queryParams = {
-        categoryIds: [],
+        categoryIds: '',
         keyword: ''
       }
       setTimeout(() => {
