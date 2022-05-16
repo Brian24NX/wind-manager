@@ -220,7 +220,8 @@ export default {
     dutydatetips: '值班日期必填',
     startTimetips: '开始时间必填',
     endTimetips: '结束时间必填',
-    emailtips: '邮箱必填'
+    emailtips: '邮箱必填',
+    dutytimetips: '值班时间必填'
   },
   // FAQ管理
   faq: {

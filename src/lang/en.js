@@ -214,7 +214,8 @@ export default {
     dutydatetips: 'dutydate is required',
     startTimetips: 'starttime is required',
     endTimetips: 'endtime is required',
-    emailtips: 'email is required'
+    emailtips: 'email is required',
+    dutytimetips: 'dutytime is required'
   },
   faq: {
     id: 'No.',

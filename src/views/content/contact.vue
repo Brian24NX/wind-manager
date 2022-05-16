@@ -142,7 +142,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="dutytime">
+              <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="startTime">
                 <el-time-select
                   v-model="addform.startTime"
                   style="width: 48%"
@@ -252,6 +252,7 @@ export default {
         startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
         endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
         email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
+        // dutytime: { required: true, message: this.$t('contact.dutytimetips'), trigger: 'change' }
       }
     }
   },
