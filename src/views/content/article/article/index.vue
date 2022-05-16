@@ -10,7 +10,7 @@
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable suffix-icon="el-icon-search" />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable />
             </el-col>
           </el-row>
         </el-col>

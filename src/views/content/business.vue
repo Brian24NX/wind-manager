@@ -10,10 +10,10 @@
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" placeholder="Keyword" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" placeholder="Keyword" clearable />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.creator" size="small" style="width: 100%" placeholder="Creator" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.creator" size="small" style="width: 100%" placeholder="Creator" clearable />
             </el-col>
           </el-row>
         </el-col>

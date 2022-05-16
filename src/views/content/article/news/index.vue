@@ -10,7 +10,7 @@
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" clearable suffix-icon="el-icon-search" />
+              <el-input v-model="queryParams.Keyword" size="small" style="width: 100%" placeholder="Keyword" clearable />
             </el-col>
           </el-row>
         </el-col>
