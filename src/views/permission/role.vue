@@ -51,7 +51,7 @@
       </div>
     </el-dialog>
     <!--新增弹窗-->
-    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
           <el-input v-model="addform.name" autocomplete="off" />
@@ -74,7 +74,7 @@
       </div>
     </el-dialog>
     <!--查看和编辑角色-->
-    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center>
+    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="editform" :model="editform" :rules="editrules">
         <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
           <el-input v-model="editform.name" autocomplete="off" disabled />
