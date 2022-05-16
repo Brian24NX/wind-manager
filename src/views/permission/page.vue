@@ -124,7 +124,7 @@ export default {
       dataList: [],
       nameOrEmail: '',
       id: '',
-      menuButtons: [1],
+      menuButtons: [],
       premissionform: {
         id: null,
         roleViewId: JSON.parse(localStorage.getItem('role')).id,

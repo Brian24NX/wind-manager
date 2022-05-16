@@ -18,7 +18,7 @@ import toolbar from './toolbar'
 import load from './dynamicLoadScript'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+const tinymceCDN = 'https://lib.baomitu.com/tinymce/4.9.3/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
@@ -120,10 +120,13 @@ export default {
       })
     },
     initTinymce() {
+      console.log(this.language)
       const _this = this
       window.tinymce.init({
         statusbar: false,
-        language: this.language,
+        // language: this.language,
+        // language_url: '../../../public/language/zh_CN.js',
+        // element_format: 'html',
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
@@ -137,7 +140,7 @@ export default {
         code_dialog_width: 1000,
         advlist_bullet_styles: 'square',
         advlist_number_styles: 'default',
-        imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
+        imagetools_cors_hosts: [],
         default_link_target: '_blank',
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
@@ -209,6 +212,7 @@ export default {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
+      console.log(1, window.tinymce.get(this.tinymceId).getContent())
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {

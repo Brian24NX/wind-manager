@@ -43,7 +43,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item :label="$t('addArticle.content')" prop="content">
-              <tinymce v-model="articleForm.content" :height="350" />
+              <tinymce ref="editor" v-model="articleForm.content" :height="350" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -153,6 +153,9 @@ export default {
     async getList(id) {
       const res = await newsDetail(id)
       res.data.schedule = res.data.schedule === 1
+      setTimeout(() => {
+        this.$refs.editor.setContent(res.data.content)
+      }, 300)
       this.articleForm = res.data
     },
     async getcategoryList() {
