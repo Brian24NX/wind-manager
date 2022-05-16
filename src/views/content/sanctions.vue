@@ -23,8 +23,8 @@
     <div class="tableContainer">
       <div class="operations">
         <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small">{{ $t('sanctions.import') }}</el-button>
-        <el-button type="danger" size="small">{{ $t('sanctions.export') }}</el-button>
+        <el-button type="danger" size="small" @click="importdialog=true">{{ $t('sanctions.import') }}</el-button>
+        <el-button type="danger" size="small" @click="download">{{ $t('sanctions.export') }}</el-button>
         <el-button type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
@@ -74,6 +74,17 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!--导入模版-->
+    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center width="410px">
+      <el-upload class="upload-demo" drag action="/api/admin/sanctionCommodityImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -82,9 +93,10 @@ import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
 import { categoryList } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
-import { sanctionAdd, sanctionEdit, sanctionDel, sanctionActive } from '@/api/sanction.js'
+import { sanctionAdd, sanctionEdit, sanctionDel, sanctionActive, sanctionExport } from '@/api/sanction.js'
 // eslint-disable-next-line no-unused-vars
 import { transList } from '@/utils'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Senctions',
   components: {
@@ -93,6 +105,7 @@ export default {
   },
   data() {
     return {
+      uploadHeaders: { 'Authorization': getToken() },
       queryParams: {
         referenceNo: '',
         keyword: ''
@@ -117,6 +130,14 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    async download() {
+      const res = await sanctionExport(this.queryParams)
+      window.location.href = res.data
+    },
+    submitimport() {
+      this.importdialog = false
+      this.search()
+    },
     Cancle() {
       this.isAdd = false
       this.addform = {}
@@ -202,6 +223,12 @@ export default {
     },
     downloadfile() {
       window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx'
+    },
+    handleSuccess(res) {
+      // eslint-disable-next-line eqeqeq
+      if (res.code != 200) {
+        this.$message.error(res.message)
+      }
     }
   }
 }
