@@ -136,7 +136,7 @@ export default {
     return {
       uploadHeaders: { 'Authorization': getToken() },
       queryParams: {
-        categoryIds: [],
+        categoryIds: '',
         keyword: ''
       },
       categoryedit: false,
@@ -189,7 +189,7 @@ export default {
     },
     reset() {
       this.queryParams = {
-        categoryIds: [],
+        categoryIds: '',
         keyword: ''
       }
       setTimeout(() => {
