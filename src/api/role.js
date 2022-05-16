@@ -56,6 +56,14 @@ export function ActiveUserExport(data) {
     params: data
   })
 }
+// 激活用户移除
+export function ActiveUserDel(data) {
+  return request({
+    url: '/api/admin/roleActiveUserDelete',
+    method: 'get',
+    params: data
+  })
+}
 // 角色详情
 export function roleDetail(id) {
   return request({

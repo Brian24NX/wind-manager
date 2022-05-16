@@ -29,10 +29,10 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button :disabled="scope.row.id==premissionform.roleViewId" size="small" type="text" class="danger" @click="viewuser(scope.row)">{{ $t('userrole.viewuser') }}</el-button>
-            <el-button :disabled="scope.row.id==premissionform.roleViewId" size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
-            <el-button :disabled="scope.row.id==premissionform.roleViewId" size="small" type="text" class="danger" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
-            <el-button :disabled="scope.row.id==premissionform.roleViewId" size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
+            <el-button v-show="scope.row.id!=premissionform.roleViewId" size="small" type="text" class="danger" @click="viewuser(scope.row.id)">{{ $t('userrole.viewuser') }}</el-button>
+            <el-button v-show="scope.row.id!=premissionform.roleViewId" size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
+            <el-button v-show="scope.row.id!=premissionform.roleViewId" size="small" type="text" class="danger" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
+            <el-button v-show="scope.row.id!=premissionform.roleViewId" size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -113,7 +113,7 @@
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
-import { roleDel, ActiveUser, ActiveUserExport, roleDict, roleDetail, roleAdd, roleEdit } from '@/api/role.js'
+import { roleDel, ActiveUser, ActiveUserExport, roleDict, roleDetail, roleAdd, roleEdit, ActiveUserDel } from '@/api/role.js'
 import { userAdd } from '@/api/user.js'
 import { transroleList } from '@/utils/index'
 export default {
@@ -287,13 +287,13 @@ export default {
     multipleSelection(val) {
       this.personSelecttion = val
     },
-    async viewuser(row) {
+    async viewuser(id) {
       this.viewdialog = true
       const data = {
-        id: row.id,
+        id: id,
         nameOrEmail: ''
       }
-      this.id = row.id
+      this.id = id
       const res = await ActiveUser(data)
       this.tabledata = res.data
     },
@@ -318,8 +318,13 @@ export default {
         type: 'warning'
       })
         .then(async() => {
-          const res = await roleDel(id)
+          const data = {
+            userId: id,
+            roleId: this.id
+          }
+          const res = await ActiveUserDel(data)
           this.$message.success(res.message)
+          this.viewuser(this.id)
         })
     },
     // 查找激活用户
