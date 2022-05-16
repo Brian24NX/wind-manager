@@ -120,13 +120,11 @@ export default {
       })
     },
     initTinymce() {
-      console.log(this.language)
       const _this = this
       window.tinymce.init({
         statusbar: false,
-        // language: this.language,
-        // language_url: '../../../public/language/zh_CN.js',
-        // element_format: 'html',
+        language: this.language,
+        language_url: '/tinymce/langs/zh_CN.js',
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
