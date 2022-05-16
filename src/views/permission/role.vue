@@ -32,9 +32,9 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.active === 1&&scope.row.roleViewId!=queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0&&scope.row.roleViewId!=queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
-            <el-button v-show="scope.row.roleViewId!=queryParams.roleViewId" size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
+            <el-button v-if="scope.row.active === 1" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
+            <el-button :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="id">
           <el-select v-model="addform.id" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('login.password')" :label-width="formLabelWidth" prop="password">
@@ -84,7 +84,7 @@
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="funid">
           <el-select v-model="editform.funid" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
         <!--<el-form-item>
@@ -132,6 +132,7 @@ export default {
   },
   data() {
     return {
+      userId: JSON.parse(localStorage.getItem('userInfo')).id,
       uploadHeaders: { 'Authorization': getToken() },
       dataList: [
         {
@@ -286,7 +287,12 @@ export default {
           this.$message.success(res.message)
           this.adddialog = false
           this.$refs.pagination.refreshRequest()
-          this.addform = {}
+          this.addform = {
+            id: '',
+            name: '',
+            email: '',
+            funid: ''
+          }
         } else {
           return false
         }
@@ -295,11 +301,21 @@ export default {
     // 取消操作
     Cancle() {
       this.adddialog = false
-      this.addform = {}
+      this.addform = {
+        id: '',
+        name: '',
+        email: '',
+        funid: ''
+      }
     },
     Cancleedit() {
       this.editdialog = false
-      this.editform = {}
+      this.editform = {
+        id: '',
+        name: '',
+        email: '',
+        funid: ''
+      }
     },
     // 提交操作
     async submitview(formName) {
@@ -319,7 +335,12 @@ export default {
           this.$message.success(res.message)
           this.editdialog = false
           this.$refs.pagination.refreshRequest()
-          this.editform = {}
+          this.editform = {
+            id: '',
+            name: '',
+            email: '',
+            funid: ''
+          }
         } else {
           return false
         }
