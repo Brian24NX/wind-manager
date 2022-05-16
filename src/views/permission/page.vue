@@ -26,7 +26,7 @@
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
         <el-table-column align="center" :label="$t('userrole.function')" prop="funct" />
         <el-table-column :label="$t('userrole.description')" prop="descri" />
-        <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
+        <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" class="danger" @click="viewuser(scope.row)">{{ $t('userrole.viewuser') }}</el-button>
@@ -132,8 +132,8 @@ export default {
         funct: ''
       },
       premissionrules: {
-        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' },
-        menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
+        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
+        // menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
       },
       addemployeedialog: false,
       adddialog: false,
@@ -160,6 +160,12 @@ export default {
     this.roleList()
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.active == 1) {
+        return 'Active'
+      }
+    },
     setRoleBtnList() {
       this.dataList = JSON.parse(localStorage.getItem('buttons')) || []
       this.dataList = this.dataList.filter(item => item.children.length)

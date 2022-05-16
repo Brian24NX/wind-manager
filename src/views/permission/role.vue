@@ -29,7 +29,7 @@
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
         <el-table-column :label="$t('userrole.function')" prop="functions" />
-        <el-table-column :label="$t('userrole.status')" prop="active" align="center" />
+        <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
@@ -227,6 +227,12 @@ export default {
     this.roleList()
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.active == 1) {
+        return 'Active'
+      }
+    },
     async roleList() {
       const data = {
         roleViewId: JSON.parse(localStorage.getItem('role')).id
