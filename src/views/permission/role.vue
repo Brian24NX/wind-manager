@@ -32,9 +32,9 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
+            <el-button v-if="scope.row.active === 1&&scope.row.id!=queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0&&scope.row.id!=queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
+            <el-button v-show="scope.row.id!=queryParams.roleViewId" size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
