@@ -25,7 +25,7 @@
         <el-table-column align="center" :label="$t('vas.title')" prop="title" />
         <el-table-column :label="$t('vas.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('vas.link')" prop="originalLink" align="center" />
-        <el-table-column align="center" :label="$t('vas.status')" prop="status" />
+        <el-table-column align="center" :label="$t('vas.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Unpublish'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
@@ -100,6 +100,14 @@ export default {
     }
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.publish == 1) {
+        return 'Published'
+      } else {
+        return 'Draft'
+      }
+    },
     search() {
       this.$refs.pagination.refreshRequest()
     },

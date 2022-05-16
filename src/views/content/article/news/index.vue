@@ -35,7 +35,7 @@
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
-        <el-table-column align="center" :label="$t('newscenter.status')" prop="status" />
+        <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.status === 'Unpublish'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
@@ -183,6 +183,14 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.publish == 1) {
+        return 'Published'
+      } else {
+        return 'Draft'
+      }
+    },
     submitimport() {
       this.importdialog = false
       this.search()
