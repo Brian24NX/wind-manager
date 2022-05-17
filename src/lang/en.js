@@ -56,6 +56,7 @@ export default {
     yes: 'Yes',
     emailtips: 'email is Incorrect',
     passwordtips: 'password is required',
+    confirmpasswordtips: 'confirmpassword is required',
     verifycodetips: 'verifycode is required',
     emailrequired: 'email is required'
   },

@@ -90,7 +90,9 @@ import { resetPwd } from '@/api/user.js'
 const checkapssword = (rule, value, callback) => {
   // eslint-disable-next-line no-unused-vars
   const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
-  if (!passwordreg.test(this.forgetForm.password)) {
+  if (value === '') {
+    callback(new Error(this.$t('forgetForm.passwordtips')))
+  } else if (!passwordreg.test(value)) {
     callback(new Error(this.$t('forgetForm.requirerule')))
     return
   } else {
@@ -121,8 +123,8 @@ export default {
       src: logo,
       rules: {
         verifycode: { required: true, message: this.$t('forgetForm.verifycodetips') },
-        password: { required: true, validator: checkapssword },
-        confirmpassword: { required: true, validator: validatePass2 }
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }],
+        confirmpassword: [{ required: true, message: this.$t('forgetForm.confirmpasswordtips') }, { trigger: blur, validator: validatePass2 }]
       }
     }
   },
