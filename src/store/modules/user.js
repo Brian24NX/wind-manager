@@ -92,7 +92,7 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       roleDetail(JSON.parse(localStorage.getItem('role')).id).then(response => {
-        console.log(response)
+        // console.log(response)
         const { data } = response
         // console.log(data)
         if (!data) {
@@ -113,7 +113,7 @@ const actions = {
 
   setRoutes({ commit }, routes) {
     return new Promise(resolve => {
-      console.log(routes)
+      // console.log(routes)
       const menuList = JSON.parse(JSON.stringify(routes)).filter(item => item.children.length)
       routes = [constantRoutes[constantRoutes.length - 1]].concat(menuList)
       commit('SET_ROUTES', routes)

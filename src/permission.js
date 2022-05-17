@@ -36,9 +36,9 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else {
       // determine whether the user has obtained his permission roles through getInfo
-      console.log(store.getters)
+      // console.log(store.getters)
       const hasRoles = store.getters.routes && store.getters.routes.length > 0
-      console.log(hasRoles)
+      // console.log(hasRoles)
       if (hasRoles) {
         next()
       } else {

@@ -127,7 +127,7 @@ export default {
         params: Object.assign(this.pagination, this.requestParams)
       })
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           this.total = response.data.total
           this.data = response.data.list
           this.isLoading = false

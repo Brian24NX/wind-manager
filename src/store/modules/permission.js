@@ -60,22 +60,28 @@ const actions = {
               })
             } else {
               item.children.forEach(child => {
-                buttonArr.push(child.id)
                 if (child.children && child.children.findIndex(secondChild => secondChild.name === 'View') !== -1) {
                   menuArr.push(child.name)
                 }
+                child.children.forEach(secondChild => {
+                  buttonArr.push(secondChild.id)
+                  // a.push({
+                  //   id: secondChild.id,
+                  //   name: child.name + ',' + secondChild.name
+                  // })
+                })
               })
             }
           })
         }
       })
       // console.log(JSON.stringify(a))
-      console.log(buttonArr)
+      // console.log(buttonArr)
       const accessedRoutes = filterAsyncRoutes(asyncRoutes, menuArr)
       dispatch('user/setRoutes', JSON.parse(JSON.stringify(accessedRoutes)), { root: true })
       dispatch('user/setButtons', buttonArr, { root: true })
       accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
-      console.log(accessedRoutes)
+      // console.log(accessedRoutes)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
