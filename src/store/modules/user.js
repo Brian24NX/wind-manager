@@ -71,11 +71,8 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ email: username.trim(), password: password }).then(response => {
         const { data } = response
-        // 先按照超级管理员来写
-        // commit('SET_ROUTES', asyncRoutes)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
-        localStorage.setItem('routers', JSON.stringify(data.menus))
         localStorage.setItem('role', JSON.stringify(data.role))
         localStorage.setItem('buttons', JSON.stringify(data.buttons))
         localStorage.setItem('userInfo', JSON.stringify(data.user))
@@ -124,7 +121,6 @@ const actions = {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
-        localStorage.removeItem('routers')
         localStorage.removeItem('userInfo')
         localStorage.removeItem('role')
         localStorage.removeItem('buttons')

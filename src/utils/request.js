@@ -56,7 +56,6 @@ service.interceptors.response.use(
           type: 'error',
           duration: 3 * 1000
         })
-        localStorage.removeItem('routers')
         Cookies.remove('Admin-Token')
         setTimeout(() => {
           window.location.reload()
