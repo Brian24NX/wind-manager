@@ -123,7 +123,7 @@
       </div>
     </el-dialog>
     <!--导入模版-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center width="410px">
+    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>

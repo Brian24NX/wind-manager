@@ -46,6 +46,14 @@ export default {
       fileList: []
     }
   },
+  watch: {
+    dialogVisible(val) {
+      if (!val) {
+        this.listObj = {}
+        this.fileList = []
+      }
+    }
+  },
   methods: {
     checkAllSuccess() {
       return Object.keys(this.listObj).every((item) => this.listObj[item].hasSuccess)
