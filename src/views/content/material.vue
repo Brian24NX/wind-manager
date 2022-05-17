@@ -106,6 +106,7 @@
         class="upload-demo"
         :headers="{
           Authorization: cookies,
+          userId:JSON.parse(localStorage.getItem('userinfo')).id
         }"
         action="/api/admin/uploadImgList"
         :on-preview="handPreview"
@@ -237,6 +238,7 @@ export default {
     },
     // 修改类别
     async savecate() {
+      this.editcateform.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
       const res = await materialChange(this.editcateform)
       this.$message.success(res)
       this.editcategorydialog = false

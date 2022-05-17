@@ -295,7 +295,7 @@ export default {
       // eslint-disable-next-line eqeqeq
       if (row.category == '' || row.categoryCn == '') {
         this.$message.error(this.$t('newscenter.categorytips'))
-        return false
+        return
       } else {
         const data = {
           id: row.id,

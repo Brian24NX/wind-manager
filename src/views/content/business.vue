@@ -239,6 +239,7 @@ export default {
           }
           if (this.isAdd) {
             this.submitLoading = true
+            businiessOpentional.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.$refs.pagination.pageRequest()
@@ -246,6 +247,7 @@ export default {
             })
           } else {
             this.submitLoading = true
+            businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
             businessEdit(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
@@ -274,6 +276,7 @@ export default {
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
             this.submitLoading = true
+            businiessOpentional.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
@@ -282,6 +285,7 @@ export default {
             })
           } else {
             this.submitLoading = true
+            businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
             businessEdit(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
@@ -310,7 +314,8 @@ export default {
     async handleUpdateStatus(row, publish) {
       const data = {
         id: row.id,
-        publish: publish
+        publish: publish,
+        userId: JSON.parse(localStorage.getItem('userinfo')).id
       }
       const res = await businessPublish(data)
       this.$message.success(res.message)
