@@ -148,7 +148,7 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { 'Authorization': getToken() },
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userinfo')).id },
       queryParams: { keyWord: '' },
       categoryList: [],
       categoryadd: false,
@@ -259,6 +259,7 @@ export default {
           this.loading = true
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
+            data.creatUser = JSON.parse(localStorage.getItem('userinfo')).id
             const res = await templateAdd(data)
             this.$message.success(res.message)
             this.adddialog = false
@@ -266,6 +267,7 @@ export default {
             this.isAdd = false
             this.loading = false
           } else {
+            data.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
             const res = await templateEdit(data)
             this.$message.success(res.message)
             this.adddialog = false
