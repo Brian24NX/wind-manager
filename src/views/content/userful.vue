@@ -100,8 +100,11 @@
             class="upload-demo"
             action="/api/admin/uploadFile"
             :headers="uploadHeaders"
-            :on-success="handleupSuccess"
+            :on-preview="handPreview"
+            :on-remove="handRemove"
+            :on-success="handleSuccess"
             :limit="1"
+            :file-list="fileList"
           >
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
@@ -163,6 +166,7 @@ export default {
         internalReference: '',
         id: ''
       },
+      fileList: [],
       isAdd: false,
       isEdit: false,
       adddialog: false,
@@ -244,6 +248,16 @@ export default {
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
       this.type = row.type
+      console.log(process.env.VUE_APP_FILE_BASE_API + row.document)
+      // eslint-disable-next-line eqeqeq
+      if (this.type == 1) {
+        if (row.document) {
+          this.fileList = [{
+            name: row.document.split('wind/')[1],
+            url: process.env.VUE_APP_FILE_BASE_API + row.document
+          }]
+        }
+      }
       this.isEdit = true
       this.adddialog = true
     },
@@ -301,7 +315,7 @@ export default {
     // 下载文档
     downloadfile() {
       // const res = await usefulTemplateDownload()
-      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx'
+      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx'
     },
     // 取消
     Cancle() {
@@ -380,10 +394,18 @@ export default {
         window.location.href = this.filePath + i
       })
     },
-    handleSuccess(res) {
-      // eslint-disable-next-line eqeqeq
-      if (res.code != 200) {
-        this.$message.error(res.message)
+    handPreview() {},
+    handRemove(file, fileList) {
+      console.log(file, fileList)
+      this.fileList = fileList
+    },
+    handleSuccess(response, file, fileList) {
+      if (response.code === '200') {
+        this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
+        this.addform.uploadfile = response.data.fileName
+      } else {
+        this.$message.error(response.message)
+        this.fileList = []
       }
     }
   }
