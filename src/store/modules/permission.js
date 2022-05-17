@@ -5,20 +5,19 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @param routes asyncRoutes
  * @param routesMap
  */
-export function filterAsyncRoutes(routes, routesMap) {
+export function filterAsyncRoutes(routes, menuButtonArr) {
   const res = []
   routes.forEach(route => {
     const tmp = { ...route }
-    if (routesMap.includes(tmp.path)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, routesMap)
-      }
+    if (tmp.path === '*') {
       res.push(tmp)
-    } else if (tmp.path === '*') {
+    } else if (menuButtonArr.includes(tmp.name)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, menuButtonArr)
+      }
       res.push(tmp)
     }
   })
-
   return res
 }
 
@@ -39,23 +38,31 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, routes) {
+  generateRoutes({ commit, state, dispatch }, menuButtons) {
     return new Promise(resolve => {
-      const routeArr = []
-      routes.forEach(route => {
-        routeArr.push(route.path)
+      const menuButtonArr = []
+      menuButtons.forEach(route => {
+        menuButtonArr.push(route.name)
         if (route.children) {
           route.children.forEach(item => {
-            routeArr.push(item.path)
-            if (item.children) {
+            if (item.name !== 'Article Management') {
+              if (item.children && item.children.findIndex(child => child.name === 'View') !== -1) {
+                menuButtonArr.push(item.name)
+              }
+            } else {
               item.children.forEach(child => {
-                routeArr.push(child.path)
+                if (child.children && child.children.findIndex(secondChild => secondChild.name === 'View') !== -1) {
+                  menuButtonArr.push(child.name)
+                }
               })
             }
           })
         }
       })
-      const accessedRoutes = filterAsyncRoutes(asyncRoutes, routeArr)
+      const accessedRoutes = filterAsyncRoutes(asyncRoutes, menuButtonArr)
+      dispatch('user/setRoutes', accessedRoutes, { root: true })
+      accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
+      console.log(accessedRoutes)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })

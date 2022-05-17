@@ -15,7 +15,7 @@ const articleRouter = {
   children: [{
     path: '/articlemanagement',
     component: () => import('@/views/content/article/index'),
-    name: 'articleManager',
+    name: 'Article Management',
     meta: {
       title: 'articleManager'
     },
@@ -44,7 +44,7 @@ const articleRouter = {
     }, {
       path: '/vas',
       component: () => import('@/views/content/article/vas/index'),
-      name: 'Mini-Program CMA CGM+',
+      name: 'Mini-Program Vas',
       meta: {
         title: 'cmaCgm'
       }
