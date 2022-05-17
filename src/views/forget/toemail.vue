@@ -20,10 +20,9 @@
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
               <el-form-item prop="email">
                 <el-input
-                  :key="email"
                   ref="email"
                   v-model="forgetForm.email"
-                  :type="text"
+                  type="text"
                   :placeholder="$t('forgetForm.email')"
                   name="email"
                   tabindex="2"
@@ -68,26 +67,26 @@ import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
 import { sendEmail } from '@/api/user.js'
 // eslint-disable-next-line no-unused-vars
-const checkemail = (rule, value, callback) => {
-  // eslint-disable-next-line no-unused-vars
-  const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  if (!email.test(value)) {
-    callback(new Error())
-  } else {
-    callback()
-  }
-}
 export default {
   name: 'Toemail',
   components: { LangSelect },
   data() {
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
       forgetForm: {
         email: ''
       },
       src: logo,
       forgetRules: {
-        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, message: this.$t('forgetForm.emailtips'), trigger: blur }]
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }]
       }
     }
   },

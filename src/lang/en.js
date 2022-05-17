@@ -51,7 +51,7 @@ export default {
     confirmpassword: 'New Password Confirmation',
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
-    passwordconsistent: 'Password must be consistent',
+    passwordconsistent: 'The password entered twice does not match',
     terms: 'Legal Terms',
     yes: 'Yes',
     emailtips: 'email is Incorrect',
@@ -263,7 +263,8 @@ export default {
     creator: 'Creator',
     titletips: 'title is required',
     linktips: 'link is required',
-    publishdatetips: 'publishdate is required'
+    publishdatetips: 'publishdate is required',
+    categorytips: 'New input category items cannot be empty'
   },
   //  vas
   vas: {

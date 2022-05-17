@@ -51,7 +51,7 @@ export default {
     confirmpassword: '确认新密码',
     resetpasssuccess: '重置密码成功',
     verifyerror: '验证码错误',
-    passwordconsistent: '密码不一致',
+    passwordconsistent: '两次输入密码不一致',
     terms: '法律条款',
     yes: '确定',
     emailtips: '邮箱格式不正确',
@@ -270,7 +270,8 @@ export default {
     creator: '作者',
     titletips: '新闻标题必填',
     linktips: '链接必填',
-    publishdatetips: '发布日期必填'
+    publishdatetips: '发布日期必填',
+    categorytips: '新增输入类别项不能为空'
   },
   // CMA CGM
   vas: {
