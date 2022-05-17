@@ -78,7 +78,7 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 4) {
+      if (value.length > 5) {
         callback(new Error(this.$t('login.passwordtips')))
       } else {
         callback()
