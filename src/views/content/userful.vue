@@ -243,7 +243,6 @@ export default {
     },
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
-      console.log(row.type)
       this.type = row.type
       this.isEdit = true
       this.adddialog = true
