@@ -44,7 +44,7 @@
       </Pagination>
     </div>
     <!--类别设置-->
-    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
+    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
@@ -73,7 +73,7 @@
       </el-table>
     </el-dialog>
     <!--添加通告-->
-    <el-dialog :title="$t('userful.additem')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('userful.additem')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="650px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userful.name')" :label-width="formLabelWidth" prop="name">
           <el-input v-model="addform.name" autocomplete="off" />

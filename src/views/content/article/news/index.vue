@@ -81,7 +81,7 @@
       </div>
     </el-dialog>
     <!--文章类型修改-->
-    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center>
+    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center :close-on-click-modal="false">
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen">

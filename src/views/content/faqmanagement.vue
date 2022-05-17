@@ -59,7 +59,7 @@
       </div>
     </el-dialog>
     <!--创建新的faq-->
-    <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
           <!--<el-input v-model="addform.question" autocomplete="off"></el-input>-->

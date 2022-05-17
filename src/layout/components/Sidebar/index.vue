@@ -53,15 +53,5 @@ export default {
       return !this.sidebar.opened
     }
   }
-  // created() {
-  //   const dashbord = [{
-  //     path: '/dashboard',
-  //     name: 'dashboard',
-  //     meta: { title: 'dashboard', icon: 'dashboard', affix: true }
-  //   }]
-  //   const routers = dashbord.concat(JSON.parse(localStorage.getItem('routers')))
-  //   console.log(routers)
-  //   this.user_routes = routers
-  // }
 }
 </script>

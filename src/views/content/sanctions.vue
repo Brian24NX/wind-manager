@@ -48,7 +48,7 @@
         </el-table-column>
       </Pagination>
     </div>
-    <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="addform" :model="addform">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.commodityCn" autocomplete="off" />

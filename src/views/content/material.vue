@@ -45,7 +45,7 @@
     </el-checkbox-group>
     <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
     <!--类别设置-->
-    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center>
+    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
@@ -74,7 +74,7 @@
       </el-table>
     </el-dialog>
     <!--名称修改-->
-    <el-dialog :title="$t('message.update')" :visible.sync="editdialog" center>
+    <el-dialog :title="$t('message.update')" :visible.sync="editdialog" center :close-on-click-modal="false">
       <el-form ref="editform" :model="editform" :rules="rules">
         <el-form-item :label="$t('library.name')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="editform.title" autocomplete="off" />
@@ -86,7 +86,7 @@
       </div>
     </el-dialog>
     <!--类别修改-->
-    <el-dialog :title="$t('message.update')" :visible.sync="editcategorydialog" center>
+    <el-dialog :title="$t('message.update')" :visible.sync="editcategorydialog" center :close-on-click-modal="false">
       <el-form ref="editcateform" :model="editcateform">
         <el-form-item :label="$t('library.category')" :label-width="formLabelWidth" prop="categoryId">
           <el-select v-model="editcateform.categoryId" placeholder="请选择" style="margin-right: 20px">
