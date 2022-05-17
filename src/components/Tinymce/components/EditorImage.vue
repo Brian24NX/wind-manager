@@ -85,15 +85,15 @@ export default {
     beforeUpload(file) {
       const _self = this
       const _URL = window.URL || window.webkitURL
-      const fileName = file.uid
+      const fileName = file.name
       this.listObj[fileName] = {}
       // 图片文件名有空格，不让上传
       // eslint-disable-next-line eqeqeq
-      if (fileName.indexOf(' ') != -1) {
+      if (fileName.indexOf(' ') !== -1) {
         this.$message.error('图片文件名有空格,请上传正确的图片文件名')
+        return false
       } else {
         return new Promise((resolve, reject) => {
-          console.log(file)
           if (file.type.indexOf('image') === -1) {
             this.$message.error(this.$t('tinymce.uploadError'))
             reject(file)
