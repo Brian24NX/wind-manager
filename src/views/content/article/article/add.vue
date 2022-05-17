@@ -17,7 +17,7 @@
               <el-input v-model="articleForm.description" type="textarea" :rows="4" clearable size="small" @blur="articleForm.description = $event.target.value.trim()" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col v-permission="[20]" :span="12">
             <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
               <el-upload
                 class="avatar-uploader"
@@ -86,9 +86,9 @@
         </el-row>
         <el-row type="flex" justify="end">
           <el-form-item>
-            <el-button type="danger" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
-            <el-button type="danger" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
-            <el-button type="danger" plain @click="resetForm('articleForm')">{{ $t('addArticle.reset') }}</el-button>
+            <el-button v-permission="[20]" type="danger" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
+            <el-button v-permission="[21]" type="danger" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
+            <el-button v-permission="[20]" type="danger" plain @click="resetForm('articleForm')">{{ $t('addArticle.reset') }}</el-button>
           </el-form-item>
         </el-row>
       </el-form>
