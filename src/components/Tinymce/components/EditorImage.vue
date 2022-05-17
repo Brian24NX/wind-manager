@@ -87,20 +87,26 @@ export default {
       const _URL = window.URL || window.webkitURL
       const fileName = file.uid
       this.listObj[fileName] = {}
-      return new Promise((resolve, reject) => {
-        console.log(file)
-        if (file.type.indexOf('image') === -1) {
-          this.$message.error(this.$t('tinymce.uploadError'))
-          reject(file)
-          return
-        }
-        const img = new Image()
-        img.src = _URL.createObjectURL(file)
-        img.onload = function() {
-          _self.listObj[fileName] = { hasSuccess: false, uid: file.uid, width: this.width, height: this.height }
-        }
-        resolve(true)
-      })
+      // 图片文件名有空格，不让上传
+      // eslint-disable-next-line eqeqeq
+      if (fileName.indexOf(' ') == -1) {
+        this.$message.error('图片文件名有空格,请上传正确的图片文件名')
+      } else {
+        return new Promise((resolve, reject) => {
+          console.log(file)
+          if (file.type.indexOf('image') === -1) {
+            this.$message.error(this.$t('tinymce.uploadError'))
+            reject(file)
+            return
+          }
+          const img = new Image()
+          img.src = _URL.createObjectURL(file)
+          img.onload = function() {
+            _self.listObj[fileName] = { hasSuccess: false, uid: file.uid, width: this.width, height: this.height }
+          }
+          resolve(true)
+        })
+      }
     }
   }
 }
