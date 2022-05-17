@@ -244,7 +244,8 @@ export default {
         startTime: '',
         endTime: '',
         phone: '',
-        email: ''
+        email: '',
+        active: 1
       },
       rules: {
         region: { required: true, message: this.$t('contact.regiontips'), trigger: 'change' },
@@ -278,7 +279,8 @@ export default {
           startTime: '',
           endTime: '',
           phone: '',
-          email: ''
+          email: '',
+          active: 1
         }
         this.loading = false
       }
@@ -320,7 +322,6 @@ export default {
       this.adddialog = true
     },
     handleEdit(row) {
-      // const data = row.dutyDate.split(',')
       const startTime = row.dutyTime.split('-')[0]
       const endTime = row.dutyTime.split('-')[1]
       this.isEdit = true
@@ -339,6 +340,7 @@ export default {
       this.addform.dutydate = row.dutyDate
       this.addform.startTime = startTime
       this.addform.endTime = endTime
+      this.addform.active = row.active
     },
     // region值改变
     async changeoffice() {
@@ -370,7 +372,7 @@ export default {
     async submitadd(formName) {
       const data = {
         id: this.addform.id,
-        active: 1,
+        active: this.addform.active,
         email: this.addform.email,
         accountName: this.addform.accountname,
         contactPerson: this.addform.contactperson,
