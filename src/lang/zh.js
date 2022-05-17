@@ -53,7 +53,8 @@ export default {
     verifyerror: '验证码错误',
     passwordconsistent: '密码不一致',
     terms: '法律条款',
-    yes: '确定'
+    yes: '确定',
+    emailtips: '邮箱为空或者格式不正确'
   },
   // 登陆翻译
   login: {

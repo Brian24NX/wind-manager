@@ -53,7 +53,8 @@ export default {
     verifyerror: 'Validation code error',
     passwordconsistent: 'Password must be consistent',
     terms: 'Legal Terms',
-    yes: 'Yes'
+    yes: 'Yes',
+    emailtips: 'email is Incorrect'
   },
   // 登陆页面翻译
   login: {

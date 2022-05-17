@@ -72,7 +72,7 @@ const checkemail = (rule, value, callback) => {
   // eslint-disable-next-line no-unused-vars
   const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   if (!email.test(value)) {
-    callback(new Error('email is Incorrect'))
+    callback(new Error(this.$t('forgetForm.emailtips')))
   } else {
     callback()
   }
