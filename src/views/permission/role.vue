@@ -20,10 +20,10 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('userrole.import') }}</el-button>
-        <el-button type="danger" size="small" @click="exportlist">{{ $t('userrole.export') }}</el-button>
-        <el-button type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
+        <el-button v-permission="[6]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button v-permission="[6]" type="danger" size="small" @click="importdialog = true">{{ $t('userrole.import') }}</el-button>
+        <el-button v-permission="[7]" type="danger" size="small" @click="exportlist">{{ $t('userrole.export') }}</el-button>
+        <el-button v-permission="[3]" type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
@@ -32,9 +32,9 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.active === 1" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
-            <el-button :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
+            <el-button v-if="scope.row.active === 1" v-permission="[4]" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[4]" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
+            <el-button v-permission="[2]" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>

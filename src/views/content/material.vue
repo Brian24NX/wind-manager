@@ -67,7 +67,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="!scope.row.isSet" v-permission="[61]" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>

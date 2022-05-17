@@ -19,11 +19,11 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
-        <el-button type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
-        <el-button type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
+        <el-button v-permission="[47]" type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
+        <el-button v-permission="[48]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button v-permission="[48]" type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
+        <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
+        <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
@@ -37,8 +37,8 @@
           <template scope="scope">
             <!--<el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>-->
-            <el-button size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>
+            <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
+            <el-button v-permission="[51]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>

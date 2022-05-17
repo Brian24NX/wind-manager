@@ -19,9 +19,9 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('faq.import') }}</el-button>
-        <el-button type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
+        <el-button v-permission="[32]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button v-permission="[32]" type="danger" size="small" @click="importdialog = true">{{ $t('faq.import') }}</el-button>
+        <el-button v-permission="[31]" type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('faq.id')" prop="id" />
@@ -30,7 +30,7 @@
         <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center">
           <template scope="scope">
             {{ scope.row.faqRelations }}
-            <el-button size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
+            <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
         <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />-->
@@ -39,10 +39,10 @@
         <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
-            <el-button v-if="scope.row.active === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
+            <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-permission="[35]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
