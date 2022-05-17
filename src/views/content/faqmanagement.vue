@@ -196,7 +196,7 @@ export default {
             active: this.addform.active
           }
           if (this.isAdd) {
-            data.creatUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             faqAdd(data).then(res => {
               this.$message.success(res.message)
               this.isAdd = false

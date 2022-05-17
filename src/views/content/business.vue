@@ -239,7 +239,7 @@ export default {
           }
           if (this.isAdd) {
             this.submitLoading = true
-            businiessOpentional.creatUser = JSON.parse(localStorage.getItem('userinfo')).id
+            businiessOpentional.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.$refs.pagination.pageRequest()
@@ -276,7 +276,7 @@ export default {
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
             this.submitLoading = true
-            businiessOpentional.creatUser = JSON.parse(localStorage.getItem('userinfo')).id
+            businiessOpentional.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false

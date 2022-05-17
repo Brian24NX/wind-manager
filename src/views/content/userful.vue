@@ -259,7 +259,7 @@ export default {
           this.loading = true
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
-            data.creatUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             const res = await templateAdd(data)
             this.$message.success(res.message)
             this.adddialog = false

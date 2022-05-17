@@ -390,7 +390,7 @@ export default {
         if (valid) {
           this.loading = true
           if (this.isAdd) {
-            data.creatUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.createUser = JSON.parse(localStorage.getItem('userinfo')).id
             const res = await contactAdd(data)
             this.$message.success(res.message)
             this.addform = {}
