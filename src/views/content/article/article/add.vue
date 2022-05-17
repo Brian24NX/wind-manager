@@ -173,8 +173,19 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
+        return isLt2M
       }
-      return isLt2M
+      const fileName = file.name
+      console.log(file)
+      if (fileName.indexOf('jpg') === -1 && fileName.indexOf('png') === -1 && fileName.indexOf('jpeg') === -1) {
+        this.$message.error('上传图片格式不正确，请选择 jpg、png 或 jpeg 格式的图片!')
+        return false
+      }
+      if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
+        this.$message.error('上传图片名称不能包含空格或 #!')
+        return false
+      }
+      return true
     },
     saveForm(formName) {
       this.$refs[formName].validate(async(valid) => {

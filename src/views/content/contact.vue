@@ -352,7 +352,7 @@ export default {
       const data = {
         active: active,
         id: row.id,
-        updateUser: JSON.parse(localStorage.getItem('userInfo')).id
+        userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
       const res = await contactActive(data)
       this.$message.success(res.message)

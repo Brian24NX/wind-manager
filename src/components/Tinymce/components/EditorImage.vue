@@ -97,8 +97,8 @@ export default {
       this.listObj[fileName] = {}
       // 图片文件名有空格，不让上传
       // eslint-disable-next-line eqeqeq
-      if (fileName.indexOf(' ') !== -1) {
-        this.$message.error('图片文件名有空格,请上传正确的图片文件名')
+      if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
+        this.$message.error('上传图片名称不能包含空格或 #!')
         return false
       } else {
         return new Promise((resolve, reject) => {
