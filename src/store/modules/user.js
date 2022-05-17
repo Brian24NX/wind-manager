@@ -8,7 +8,8 @@ const state = {
   avatar: '',
   introduction: '',
   roles: [],
-  routes: []
+  routes: [],
+  buttons: []
 }
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
   },
   SET_ROUTES: (state, routes) => {
     state.routes = routes
+  },
+  SET_BUTTONS: (state, buttons) => {
+    state.buttons = buttons
   }
 }
 /**
@@ -109,9 +113,18 @@ const actions = {
 
   setRoutes({ commit }, routes) {
     return new Promise(resolve => {
-      routes = [constantRoutes[constantRoutes.length - 1]].concat(routes)
+      console.log(routes)
+      const menuList = JSON.parse(JSON.stringify(routes)).filter(item => item.children.length)
+      routes = [constantRoutes[constantRoutes.length - 1]].concat(menuList)
       commit('SET_ROUTES', routes)
       resolve(routes)
+    })
+  },
+
+  setButtons({ commit }, buttons) {
+    return new Promise(resolve => {
+      commit('SET_BUTTONS', buttons)
+      resolve(buttons)
     })
   },
 

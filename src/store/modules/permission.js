@@ -40,27 +40,40 @@ const mutations = {
 const actions = {
   generateRoutes({ commit, state, dispatch }, menuButtons) {
     return new Promise(resolve => {
-      const menuButtonArr = []
+      const menuArr = []
+      const buttonArr = []
+      // const a = []
       menuButtons.forEach(route => {
-        menuButtonArr.push(route.name)
+        menuArr.push(route.name)
         if (route.children) {
           route.children.forEach(item => {
             if (item.name !== 'Article Management') {
               if (item.children && item.children.findIndex(child => child.name === 'View') !== -1) {
-                menuButtonArr.push(item.name)
+                menuArr.push(item.name)
               }
+              item.children.forEach(child => {
+                buttonArr.push(child.id)
+                // a.push({
+                //   id: child.id,
+                //   name: item.name + ',' + child.name
+                // })
+              })
             } else {
               item.children.forEach(child => {
+                buttonArr.push(child.id)
                 if (child.children && child.children.findIndex(secondChild => secondChild.name === 'View') !== -1) {
-                  menuButtonArr.push(child.name)
+                  menuArr.push(child.name)
                 }
               })
             }
           })
         }
       })
-      const accessedRoutes = filterAsyncRoutes(asyncRoutes, menuButtonArr)
-      dispatch('user/setRoutes', accessedRoutes, { root: true })
+      // console.log(JSON.stringify(a))
+      console.log(buttonArr)
+      const accessedRoutes = filterAsyncRoutes(asyncRoutes, menuArr)
+      dispatch('user/setRoutes', JSON.parse(JSON.stringify(accessedRoutes)), { root: true })
+      dispatch('user/setButtons', buttonArr, { root: true })
       accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
       console.log(accessedRoutes)
       commit('SET_ROUTES', accessedRoutes)

@@ -24,7 +24,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
+        <el-button v-permission="[1]" type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">

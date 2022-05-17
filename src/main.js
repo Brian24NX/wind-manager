@@ -19,6 +19,9 @@ import './permission' // permission control
 import './utils/error-log' // error log
 import moment from 'moment'
 
+import permission from './directive/permission/index'
+Vue.use(permission)
+
 import * as filters from './filters' // global filters
 
 /**
