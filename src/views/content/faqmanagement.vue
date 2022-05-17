@@ -200,14 +200,14 @@ export default {
               this.$message.success(res.message)
               this.isAdd = false
               this.adddialog = false
-              this.$refs.pagination.refreshRequest()
+              this.$refs.pagination.pageRequest()
             })
           } else {
             faqEdit(data).then(res => {
               this.$message.success(res.message)
               this.isEdit = false
               this.adddialog = false
-              this.$refs.pagination.refreshRequest()
+              this.$refs.pagination.pageRequest()
             })
           }
         } else {
@@ -225,7 +225,7 @@ export default {
       })
         .then(async() => {
           await faqDel(id)
-          this.$refs.pagination.refreshRequest()
+          this.$refs.pagination.pageRequest()
         })
     },
     // 状态改变
@@ -236,7 +236,7 @@ export default {
       }
       const res = await faqActive(data)
       this.$message.success(res.message)
-      this.$refs.pagination.refreshRequest()
+      this.$refs.pagination.pageRequest()
     },
     // 编辑状态
     handleEdit(row) {
@@ -265,10 +265,6 @@ export default {
     },
     // 编辑并修改问题
     async submitrelations() {
-      const data = {
-        id: this.relationsform.id,
-        faqRelations: this.relationsform.faqRelations
-      }
       this.$refs['relationsform'].validate(async(valid) => {
         if (valid) {
           const data = {
@@ -277,18 +273,13 @@ export default {
           }
           const res = await faqEditRelations(data)
           this.$message.success(res.message)
-          this.search()
+          this.$refs.pagination.pageRequest()
           this.relationsform = {}
           this.relationsdialog = false
         } else {
           return false
         }
       })
-      const res = await faqEditRelations(data)
-      this.$message.success(res.message)
-      this.search()
-      this.relationsform = {}
-      this.relationsdialog = false
     },
     Canclerelations() {
       this.relationsform = {}

@@ -89,7 +89,7 @@
           <el-input v-model="addform.creator" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
-          <tinymce v-model="addform.content" :height="250" />
+          <tinymce ref="editor" v-model="addform.content" :height="250" />
         </el-form-item>
         <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
@@ -174,6 +174,13 @@ export default {
   watch: {
     adddialog(newValue) {
       if (!newValue) {
+        this.addform = {
+          title: '',
+          creator: '',
+          content: '',
+          uploadfile: '',
+          categoryId: ''
+        }
         this.fileList = []
         this.submitLoading = false
       }
@@ -234,18 +241,16 @@ export default {
             this.submitLoading = true
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
-              this.$refs.pagination.refreshRequest()
+              this.$refs.pagination.pageRequest()
               this.adddialog = false
-              this.addform = {}
             })
           } else {
             this.submitLoading = true
             businessEdit(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
-              this.$refs.pagination.refreshRequest()
+              this.$refs.pagination.pageRequest()
               this.isEdit = false
-              this.addform = {}
             })
           }
         } else {
@@ -272,18 +277,16 @@ export default {
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
-              this.$refs.pagination.refreshRequest()
+              this.$refs.pagination.pageRequest()
               this.isAdd = false
-              this.addform = {}
             })
           } else {
             this.submitLoading = true
             businessEdit(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
-              this.$refs.pagination.refreshRequest()
+              this.$refs.pagination.pageRequest()
               this.isEdit = false
-              this.addform = {}
             })
           }
         } else {
@@ -300,7 +303,7 @@ export default {
       })
         .then(async() => {
           await businessDel(id)
-          this.$refs.pagination.refreshRequest()
+          this.$refs.pagination.pageRequest()
         })
     },
     // 处理发布状态
@@ -311,7 +314,7 @@ export default {
       }
       const res = await businessPublish(data)
       this.$message.success(res.message)
-      this.$refs.pagination.refreshRequest()
+      this.$refs.pagination.pageRequest()
     },
     // 编辑
     handleEdit(row) {
@@ -324,18 +327,13 @@ export default {
         }]
       }
       this.adddialog = true
+      setTimeout(() => {
+        this.$refs.editor.setContent(row.content)
+      }, 200)
       this.isEdit = true
     },
     // 新增
     handleAdd() {
-      this.addform = {
-        title: '',
-        creator: '',
-        content: '',
-        uploadfile: '',
-        categoryId: ''
-      }
-      this.fileList = []
       this.adddialog = true
       this.isAdd = true
     },
@@ -343,7 +341,6 @@ export default {
     Cancle() {
       this.isAdd = false
       this.isEdit = false
-      this.$refs.addform.resetFields()
       this.adddialog = false
     },
     // 添加种类
