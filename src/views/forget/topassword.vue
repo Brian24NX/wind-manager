@@ -13,20 +13,17 @@
             <el-form ref="forgetForm" :model="forgetForm" :rules="rules" class="login-form" autocomplete="on" label-position="left">
               <el-form-item prop="verifycode">
                 <el-input
-                  :key="verifyType"
                   ref="verifycode"
                   v-model="forgetForm.verifycode"
-                  :type="text"
+                  type="text"
                   :placeholder="$t('forgetForm.verifycode')"
                   name="verifycode"
                   tabindex="2"
                   autocomplete="on"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
               <el-form-item prop="password">
                 <el-input
-                  :key="passwordType"
                   ref="password"
                   v-model="forgetForm.password"
                   type="password"
@@ -38,7 +35,6 @@
               </el-form-item>
               <el-form-item prop="confirmpassword">
                 <el-input
-                  :key="passwordType"
                   ref="confirmpassword"
                   v-model="forgetForm.confirmpassword"
                   type="password"
@@ -90,17 +86,11 @@ import { resetPwd } from '@/api/user.js'
 const checkapssword = (rule, value, callback) => {
   // eslint-disable-next-line no-unused-vars
   const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
-  if (passwordreg.test(value)) {
-    callback(new Error())
-  } else {
+  console.log(passwordreg.test(value))
+  if (!passwordreg.test(value)) {
     callback()
-  }
-}
-const validatePass2 = (rule, value, callback) => {
-  if (value !== this.forgetForm.password) {
-    callback(new Error())
   } else {
-    callback()
+    callback(new Error('密码必须包含至少1个数字，1个大写字母和1个小写字母'))
   }
 }
 export default {
@@ -117,8 +107,8 @@ export default {
       src: logo,
       rules: {
         verifycode: { required: true, message: this.$t('forgetForm.verifycodetips') },
-        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, message: this.$t('forgetForm.requirerule'), validator: checkapssword }],
-        confirmpassword: [{ required: true, message: this.$t('forgetForm.confirmpasswordtips') }, { trigger: blur, message: this.$t('forgetForm.passwordconsistent'), validator: validatePass2 }]
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }],
+        confirmpassword: { required: true, message: this.$t('forgetForm.confirmpasswordtips') }
       }
     }
   },
@@ -130,6 +120,11 @@ export default {
     submit(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
+          // eslint-disable-next-line eqeqeq
+          if (this.forgetForm.password != this.forgetForm.confirmpassword) {
+            this.$message.error(this.$t('forgetForm.passwordconsistent'))
+            return
+          }
           const data = {
             email: this.forgetForm.email,
             newPwd: this.forgetForm.password,
