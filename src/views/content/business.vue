@@ -230,6 +230,7 @@ export default {
       this.$refs['addform'].validate((valid) => {
         if (valid) {
           const businiessOpentional = {
+            id: this.addform.id,
             title: this.addform.title,
             creator: this.addform.creator,
             content: this.addform.content,

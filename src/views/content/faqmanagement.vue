@@ -175,7 +175,7 @@ export default {
       }, 100)
     },
     formatDate(date) {
-      return this.$moment(date.publishDate).format('YYYY-MM-DD')
+      return this.$moment(date.updateTime).format('YYYY-MM-DD')
     },
     transactive(data) {
       // eslint-disable-next-line eqeqeq
