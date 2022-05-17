@@ -27,8 +27,8 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
-        <el-button type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
+        <el-button v-permission="[43]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
+        <el-button v-permission="[43]" type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('business.id')" prop="id" />
@@ -42,10 +42,10 @@
         <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.publish === 1" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
-            <el-button v-if="scope.row.publish === 0" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
-            <el-button v-if="scope.row.publish === 0" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
+            <el-button v-if="scope.row.publish === 1" v-permission="[44]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
+            <el-button v-if="scope.row.publish === 0" v-permission="[44]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
+            <el-button v-if="scope.row.publish === 0" v-permission="[43]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-permission="[43]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>

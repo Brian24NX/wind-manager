@@ -20,7 +20,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
+        <el-button v-permission="[9]" type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/roleList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
@@ -29,10 +29,10 @@
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="200px">
           <template scope="scope">
-            <el-button :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="viewuser(scope.row.id)">{{ $t('userrole.viewuser') }}</el-button>
-            <el-button :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
-            <el-button :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
-            <el-button :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
+            <el-button v-permission="[10]" :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="viewuser(scope.row.id)">{{ $t('userrole.viewuser') }}</el-button>
+            <el-button v-permission="[11]" :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
+            <el-button v-permission="[12]" :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
+            <el-button v-permission="[13]" :disabled="scope.row.id == premissionform.roleViewId" size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
