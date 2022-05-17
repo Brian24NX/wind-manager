@@ -89,8 +89,7 @@ export default {
   data() {
     const checkapssword = (rule, value, callback) => {
       // eslint-disable-next-line no-unused-vars
-      const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
-      console.log(passwordreg.test(value))
+      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
       if (!passwordreg.test(value)) {
         callback(new Error(this.$t('forgetForm.requirerule')))
       } else {
