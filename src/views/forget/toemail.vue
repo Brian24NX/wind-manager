@@ -72,7 +72,7 @@ const checkemail = (rule, value, callback) => {
   // eslint-disable-next-line no-unused-vars
   const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   if (!email.test(value)) {
-    callback(new Error(this.$t('forgetForm.emailtips')))
+    callback(new Error())
   } else {
     callback()
   }
@@ -87,7 +87,7 @@ export default {
       },
       src: logo,
       forgetRules: {
-        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }]
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, message: this.$t('forgetForm.emailtips'), trigger: blur }]
       }
     }
   },
