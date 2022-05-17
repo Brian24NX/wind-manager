@@ -87,7 +87,7 @@ export default {
       },
       src: logo,
       forgetRules: {
-        email: [{ required: true, message: 'email is required' }, { validator: checkemail, trigger: ['blur', 'change'] }]
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: ['blur', 'change'] }]
       }
     }
   },

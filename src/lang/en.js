@@ -54,7 +54,10 @@ export default {
     passwordconsistent: 'Password must be consistent',
     terms: 'Legal Terms',
     yes: 'Yes',
-    emailtips: 'email is Incorrect'
+    emailtips: 'email is Incorrect',
+    passwordtips: 'password is required',
+    verifycodetips: 'verifycode is required',
+    emailrequired: 'email is required'
   },
   // 登陆页面翻译
   login: {

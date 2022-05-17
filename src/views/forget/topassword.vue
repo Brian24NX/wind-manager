@@ -87,12 +87,22 @@ import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
 import { resetPwd } from '@/api/user.js'
+const checkapssword = (rule, value, callback) => {
+  // eslint-disable-next-line no-unused-vars
+  const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
+  if (!passwordreg.test(this.forgetForm.password)) {
+    callback(new Error(this.$t('forgetForm.requirerule')))
+    return
+  } else {
+    callback()
+  }
+}
 const validatePass2 = (rule, value, callback) => {
   if (value === '') {
-    callback(new Error('请再次输入密码'))
+    callback(new Error(this.$t('forgetForm.passwordtips')))
     // password 是表单上绑定的字段
   } else if (value !== this.forgetForm.password) {
-    callback(new Error('两次输入密码不一致!'))
+    callback(new Error(this.$t('forgetForm.passwordconsistent')))
   } else {
     callback()
   }
@@ -110,9 +120,9 @@ export default {
       },
       src: logo,
       rules: {
-        verifycode: { required: true, message: 'verifycode is required' },
-        password: { required: true, message: 'password is required' },
-        confirmpassword: { required: true, message: 'password is required' }
+        verifycode: { required: true, message: this.$t('forgetForm.verifycodetips') },
+        password: { required: true, validator: checkapssword },
+        confirmpassword: { required: true, validator: validatePass2 }
       }
     }
   },
