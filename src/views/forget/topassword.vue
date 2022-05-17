@@ -83,20 +83,27 @@ import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
 import { resetPwd } from '@/api/user.js'
-const checkapssword = (rule, value, callback) => {
-  // eslint-disable-next-line no-unused-vars
-  const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
-  console.log(passwordreg.test(value))
-  if (!passwordreg.test(value)) {
-    callback()
-  } else {
-    callback(new Error('密码必须包含至少1个数字，1个大写字母和1个小写字母'))
-  }
-}
 export default {
   name: 'Topassword',
   components: { LangSelect },
   data() {
+    const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
+      console.log(passwordreg.test(value))
+      if (!passwordreg.test(value)) {
+        callback(new Error(this.$t('forgetForm.requirerule')))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (value !== this.forgetForm.password) {
+        callback(new Error(this.$t('forgetForm.passwordconsistent')))
+      } else {
+        callback()
+      }
+    }
     return {
       forgetForm: {
         verifycode: '',
@@ -108,7 +115,7 @@ export default {
       rules: {
         verifycode: { required: true, message: this.$t('forgetForm.verifycodetips') },
         password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }],
-        confirmpassword: { required: true, message: this.$t('forgetForm.confirmpasswordtips') }
+        confirmpassword: [{ required: true, message: this.$t('forgetForm.confirmpasswordtips') }, { trigger: blur, validator: validatePass2 }]
       }
     }
   },
@@ -120,11 +127,6 @@ export default {
     submit(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          // eslint-disable-next-line eqeqeq
-          if (this.forgetForm.password != this.forgetForm.confirmpassword) {
-            this.$message.error(this.$t('forgetForm.passwordconsistent'))
-            return
-          }
           const data = {
             email: this.forgetForm.email,
             newPwd: this.forgetForm.password,

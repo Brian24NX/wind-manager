@@ -67,19 +67,19 @@ import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
 import { sendEmail } from '@/api/user.js'
 // eslint-disable-next-line no-unused-vars
-const checkemail = (rule, value, callback) => {
-  // eslint-disable-next-line no-unused-vars
-  const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  if (!email.test(value)) {
-    callback()
-  } else {
-    callback(new Error('邮箱格式不正确'))
-  }
-}
 export default {
   name: 'Toemail',
   components: { LangSelect },
   data() {
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
       forgetForm: {
         email: ''
