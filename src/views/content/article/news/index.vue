@@ -292,25 +292,31 @@ export default {
     },
     // 添加种类
     async Save(row) {
-      const data = {
-        id: row.id,
-        category: row.category,
-        categoryCn: row.categoryCn,
-        creator: row.creator,
-        type: 1,
-        isSet: false
-      }
       // eslint-disable-next-line eqeqeq
-      if (this.categoryadd == true) {
-        const res = await categoryAdd(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryadd = false
+      if (row.category == '' || row.categoryCn == '') {
+        this.$message.error(this.$t('newscenter.categorytips'))
+        return false
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryedit = false
+        const data = {
+          id: row.id,
+          category: row.category,
+          categoryCn: row.categoryCn,
+          creator: row.creator,
+          type: 1,
+          isSet: false
+        }
+        // eslint-disable-next-line eqeqeq
+        if (this.categoryadd == true) {
+          const res = await categoryAdd(data)
+          this.$message.success(res.message)
+          this.getcategoryList()
+          this.categoryadd = false
+        } else {
+          const res = await categoryEdit(data)
+          this.$message.success(res.message)
+          this.getcategoryList()
+          this.categoryedit = false
+        }
       }
     },
     // 编辑种类

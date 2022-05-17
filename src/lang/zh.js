@@ -270,7 +270,8 @@ export default {
     creator: '作者',
     titletips: '新闻标题必填',
     linktips: '链接必填',
-    publishdatetips: '发布日期必填'
+    publishdatetips: '发布日期必填',
+    categorytips: '新增输入类别项不能为空'
   },
   // CMA CGM
   vas: {

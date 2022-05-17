@@ -263,7 +263,8 @@ export default {
     creator: 'Creator',
     titletips: 'title is required',
     linktips: 'link is required',
-    publishdatetips: 'publishdate is required'
+    publishdatetips: 'publishdate is required',
+    categorytips: 'New input category items cannot be empty'
   },
   //  vas
   vas: {
