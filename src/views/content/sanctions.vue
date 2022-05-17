@@ -63,10 +63,10 @@
           <el-input v-model="addform.type" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="category">
-          <tinymce v-model="addform.remarkCn" :height="250" />
+          <tinymce ref="editor1" v-model="addform.remarkCn" :height="250" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="category">
-          <tinymce v-model="addform.remarkEn" :height="250" />
+          <tinymce ref="editor2" v-model="addform.remarkEn" :height="250" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -81,7 +81,7 @@
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" :loading="loading" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -115,6 +115,7 @@ export default {
       isAdd: false,
       isEdit: false,
       formLabelWidth: '130px',
+      importdialog: false,
       addform: {
         id: '',
         commodityCn: '',
@@ -123,6 +124,23 @@ export default {
         type: '',
         remarkCn: '',
         remarkEn: ''
+      },
+      loading: false
+    }
+  },
+  watch: {
+    adddialog(val) {
+      if (!val) {
+        this.addform = {
+          id: '',
+          commodityCn: '',
+          commodityEn: '',
+          referenceNo: '',
+          type: '',
+          remarkCn: '',
+          remarkEn: ''
+        }
+        this.loading = false
       }
     }
   },
@@ -178,19 +196,20 @@ export default {
         active: 1
       }
       if (this.isAdd) {
+        this.loading = true
         const res = await sanctionAdd(data)
         this.$message.success(res.message)
         this.isAdd = false
-        this.addform = {}
         this.adddialog = false
-        this.$refs.pagination.refreshRequest()
+        this.loading = false
+        this.$refs.pagination.pageRequest()
       } else {
         const res = await sanctionEdit(data)
         this.$message.success(res.message)
         this.isEdit = false
-        this.addform = {}
         this.adddialog = false
-        this.$refs.pagination.refreshRequest()
+        this.loading = false
+        this.$refs.pagination.pageRequest()
       }
     },
     // 管制品激活
@@ -201,7 +220,7 @@ export default {
       }
       const res = await sanctionActive(data)
       this.$message.success(res.message)
-      this.$refs.pagination.refreshRequest()
+      this.$refs.pagination.pageRequest()
     },
     // 管制品删除
     async handleDelete(id) {
@@ -212,14 +231,18 @@ export default {
       })
         .then(async() => {
           await sanctionDel(id)
-          this.$refs.pagination.refreshRequest()
+          this.$refs.pagination.pageRequest()
         })
     },
     // 管制品修改
     handleEdit(row) {
       this.isEdit = true
       this.adddialog = true
-      this.addform = row
+      this.addform = JSON.parse(JSON.stringify(row))
+      setTimeout(() => {
+        this.$refs.editor1.setContent(row.remarkCn)
+        this.$refs.editor2.setContent(row.remarkEn)
+      }, 200)
     },
     downloadfile() {
       window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx'

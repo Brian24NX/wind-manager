@@ -126,7 +126,7 @@
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" :loading="loading" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -181,7 +181,23 @@ export default {
         document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
       },
       tabledata: [],
-      selectcolumn: []
+      selectcolumn: [],
+      loading: false
+    }
+  },
+  watch: {
+    adddialog(val) {
+      if (!val) {
+        this.addform = {
+          name: '',
+          categoryId: '',
+          type: '',
+          document: '',
+          internalReference: '',
+          id: ''
+        }
+        this.loading = false
+      }
     }
   },
   created() {
@@ -221,12 +237,11 @@ export default {
       this.tabledata = res.data
     },
     handleAdd() {
-      this.addform = []
       this.isAdd = true
       this.adddialog = true
     },
     handleEdit(row) {
-      this.addform = row
+      this.addform = JSON.parse(JSON.stringify(row))
       this.isEdit = true
       this.adddialog = true
     },
@@ -241,21 +256,22 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
+          this.loading = true
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
             const res = await templateAdd(data)
             this.$message.success(res.message)
             this.adddialog = false
-            this.$refs.pagination.refreshRequest()
+            this.$refs.pagination.pageRequest()
             this.isAdd = false
-            this.addform = []
+            this.loading = false
           } else {
             const res = await templateEdit(data)
             this.$message.success(res.message)
             this.adddialog = false
-            this.$refs.pagination.refreshRequest()
+            this.$refs.pagination.pageRequest()
             this.isEdit = false
-            this.addform = []
+            this.loading = false
           }
         } else {
           return false
@@ -271,7 +287,7 @@ export default {
       })
         .then(async() => {
           await templateDelete(id)
-          this.$refs.pagination.refreshRequest()
+          this.$refs.pagination.pageRequest()
         })
     },
     // 搜索

@@ -131,7 +131,7 @@ export default {
       })
         .then(async() => {
           await cmaDel(id)
-          this.$refs.pagination.refreshRequest()
+          this.$refs.pagination.pageRequest()
         })
     },
     // 状态改变
@@ -158,7 +158,7 @@ export default {
           cmaAdd(data).then(res => {
             this.$message.success(res.message)
             this.adddialog = false
-            this.search()
+            this.$refs.pagination.pageRequest()
           })
         } else {
           return false

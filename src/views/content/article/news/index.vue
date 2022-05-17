@@ -235,7 +235,7 @@ export default {
           newsAdd(data).then(res => {
             this.$message.success(res.message)
             this.addhistorynewsdialog = false
-            this.$refs.pagination.refreshRequest()
+            this.$refs.pagination.pageRequest()
           })
         } else {
           return false
@@ -251,7 +251,7 @@ export default {
       })
         .then(async() => {
           await newsDel(id)
-          this.$refs.pagination.refreshRequest()
+          this.$refs.pagination.pageRequest()
         })
     },
     async handleUpdateStatus(row, publish) {
