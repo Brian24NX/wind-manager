@@ -104,10 +104,7 @@
       <el-upload
         ref="upload"
         class="upload-demo"
-        :headers="{
-          Authorization: cookies,
-          userId:JSON.parse(localStorage.getItem('userInfo')).id
-        }"
+        :headers="uploadHeaders"
         action="/api/admin/uploadImgList"
         :on-preview="handPreview"
         :on-remove="handRemove"
@@ -129,11 +126,13 @@ import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/arti
 // eslint-disable-next-line no-unused-vars
 import { transList } from '@/utils'
 import Cookies from 'js-cookie'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Material',
   components: { Pagination },
   data() {
     return {
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       cookies: Cookies.get('Admin-Token'),
       filePath: process.env.VUE_APP_FILE_BASE_API,
       // 全选参数
@@ -257,7 +256,7 @@ export default {
       })
       this.tabledata = res.data
       if (first) {
-        this.query.categoryId = res.data[0].id
+        this.query.categoryId = ''
         this.getlist()
       }
     },
