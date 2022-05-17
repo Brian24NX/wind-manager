@@ -87,7 +87,7 @@ export default {
     return {
       loginForm: {
         username: 'admin@163.com',
-        password: 'admin'
+        password: 'admin123456'
       },
       src: logo,
       loginRules: {

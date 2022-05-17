@@ -7,7 +7,7 @@ const permissionRouter = {
   component: Layout,
   redirect: '/permission/page',
   alwaysShow: true, // will always show the root menu
-  name: 'Permission',
+  name: 'Role and Permission Management',
   meta: {
     title: 'permission',
     icon: 'lock'

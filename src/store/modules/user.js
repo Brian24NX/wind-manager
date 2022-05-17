@@ -1,4 +1,5 @@
 import { login, logout } from '@/api/user'
+import { roleDetail } from '@/api/role'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter, constantRoutes } from '@/router'
 const state = {
@@ -7,8 +8,7 @@ const state = {
   avatar: '',
   introduction: '',
   roles: [],
-  routes: [],
-  addRoutes: []
+  routes: []
 }
 
 const mutations = {
@@ -28,8 +28,7 @@ const mutations = {
     state.roles = roles
   },
   SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.routes = routes
   }
 }
 /**
@@ -89,32 +88,35 @@ const actions = {
   },
 
   // get user info
-  // getInfo({ commit, state }) {
-  //   return new Promise((resolve, reject) => {
-  //     getInfo(state.token).then(response => {
-  //       const { data } = response
+  getInfo({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      roleDetail(JSON.parse(localStorage.getItem('role')).id).then(response => {
+        console.log(response)
+        const { data } = response
+        // console.log(data)
+        if (!data) {
+          reject('Verification failed, please Login again.')
+        }
 
-  //       if (!data) {
-  //         reject('Verification failed, please Login again.')
-  //       }
+        const { menuButtons } = data
 
-  //       const { roles, name, avatar, introduction } = data
+        if (!menuButtons || menuButtons.length <= 0) {
+          reject('getInfo: roles must be a non-null array!')
+        }
+        resolve(data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
-  //       // roles must be a non-empty array
-  //       if (!roles || roles.length <= 0) {
-  //         reject('getInfo: roles must be a non-null array!')
-  //       }
-
-  //       commit('SET_ROLES', roles)
-  //       commit('SET_NAME', name)
-  //       commit('SET_AVATAR', avatar)
-  //       commit('SET_INTRODUCTION', introduction)
-  //       resolve(data)
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
+  setRoutes({ commit }, routes) {
+    return new Promise(resolve => {
+      routes = [constantRoutes[constantRoutes.length - 1]].concat(routes)
+      commit('SET_ROUTES', routes)
+      resolve(routes)
+    })
+  },
 
   // user logout
   logout({ commit, state, dispatch }) {
@@ -129,11 +131,6 @@ const actions = {
         removeToken()
         resetRouter()
         dispatch('permission/removeRoute', null, { root: true })
-
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        // dispatch('tagsView/delAllViews', null, { root: true })
-
         resolve()
       }).catch(error => {
         reject(error)
