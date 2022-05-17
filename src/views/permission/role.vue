@@ -54,10 +54,10 @@
     <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
-          <el-input v-model="addform.name" autocomplete="off" />
+          <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
-          <el-input v-model="addform.email" autocomplete="off" />
+          <el-input v-model="addform.email" autocomplete="off" clearable @blur="addform.email = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="id">
           <el-select v-model="addform.id" placeholder="请选择">
@@ -65,7 +65,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('login.password')" :label-width="formLabelWidth" prop="password">
-          <el-input v-model="addform.password" type="password" autocomplete="off" />
+          <el-input v-model="addform.password" type="password" autocomplete="off" clearable @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -76,7 +76,7 @@
     <el-dialog :title="$t('userful.additem')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="650px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userful.name')" :label-width="formLabelWidth" prop="name">
-          <el-input v-model="addform.name" autocomplete="off" />
+          <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.category')" :label-width="formLabelWidth" prop="categoryId">
           <el-select v-model="addform.categoryId" placeholder="请选择">
@@ -110,10 +110,10 @@
           </el-upload>
         </el-form-item>
         <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
-          <el-input v-model="addform.document" autocomplete="off" />
+          <el-input v-model="addform.document" autocomplete="off" clearable @blur="addform.document = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
-          <el-input v-model="addform.internalReference" autocomplete="off" />
+          <el-input v-model="addform.internalReference" autocomplete="off" clearable @blur="addform.internalReference = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

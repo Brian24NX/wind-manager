@@ -62,15 +62,13 @@
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
-          <!--<el-input v-model="addform.question" autocomplete="off"></el-input>-->
-          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" />
+          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.question = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
-          <!-- <el-input v-model="addform.answer" autocomplete="off"></el-input>-->
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
-          <el-input v-model="addform.faqKeywords" autocomplete="off" />
+          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
           <el-radio-group v-model="addform.active">

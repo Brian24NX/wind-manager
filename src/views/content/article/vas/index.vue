@@ -40,13 +40,13 @@
     <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="addform.title" autocomplete="off" />
+          <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('vas.link')" :label-width="formLabelWidth" prop="link">
-          <el-input v-model="addform.link" autocomplete="off" />
+          <el-input v-model="addform.link" autocomplete="off" clearable @blur="addform.link = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('vas.publishdate')" :label-width="formLabelWidth" prop="publishdate">
-          <el-date-picker v-model="addform.publishdate" type="date" placeholder="" style="width: 100%" />
+          <el-date-picker v-model="addform.publishdate" type="date" placeholder="" style="width: 100%" clearable />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

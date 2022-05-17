@@ -57,7 +57,7 @@
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input v-model="scope.row.category" size="mini" />
+              <el-input v-model="scope.row.category" size="mini" @blur="scope.row.category = $event.target.value.trim()" />
             </span>
             <span v-else>{{ scope.row.category }}</span>
           </template>
@@ -65,7 +65,7 @@
         <el-table-column :label="$t('business.creator')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input v-model="scope.row.creator" size="mini" />
+              <el-input v-model="scope.row.creator" size="mini" @blur="scope.row.creator = $event.target.value.trim()" />
             </span>
             <span v-else>{{ scope.row.creator }}</span>
           </template>
@@ -83,10 +83,10 @@
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="addform.title" autocomplete="off" />
+          <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('business.creator')" :label-width="formLabelWidth" prop="creator">
-          <el-input v-model="addform.creator" autocomplete="off" />
+          <el-input v-model="addform.creator" autocomplete="off" clearable @blur="addform.creator = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
           <tinymce ref="editor" v-model="addform.content" :height="250" />

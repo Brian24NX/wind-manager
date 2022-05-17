@@ -50,13 +50,13 @@
     <el-dialog :title="$t('newscenter.addtitle')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close>
       <el-form ref="historyform" :model="historyform" :rules="rules">
         <el-form-item :label="$t('newscenter.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="historyform.title" autocomplete="off" />
+          <el-input v-model="historyform.title" autocomplete="off" clearable @blur="historyform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('newscenter.link')" :label-width="formLabelWidth" prop="link">
-          <el-input v-model="historyform.link" autocomplete="off" />
+          <el-input v-model="historyform.link" autocomplete="off" clearable @blur="historyform.link = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('newscenter.category')" :label-width="formLabelWidth" prop="category">
-          <el-select v-model="historyform.categoryIds" style="width: 100%" multiple collapse-tags placeholder="请选择">
+          <el-select v-model="historyform.categoryIds" style="width: 100%" multiple collapse-tags clearable placeholder="请选择">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -81,13 +81,13 @@
       </div>
     </el-dialog>
     <!--文章类型修改-->
-    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center :close-on-click-modal="false">
+    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center destroy-on-close :close-on-click-modal="false">
       <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input v-model="scope.row.category" size="mini" />
+              <el-input v-model="scope.row.category" size="mini" clearable @blur="scope.row.category = $event.target.value.trim()" />
             </span>
             <span v-else>{{ scope.row.category }}</span>
           </template>
@@ -95,7 +95,7 @@
         <el-table-column :label="$t('newscenter.categoryzh')" prop="categoryzh" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input v-model="scope.row.categoryCn" size="mini" />
+              <el-input v-model="scope.row.categoryCn" size="mini" clearable @blur="scope.row.categoryCn = $event.target.value.trim()" />
             </span>
             <span v-else>{{ scope.row.categoryCn }}</span>
           </template>

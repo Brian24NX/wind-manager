@@ -8,13 +8,13 @@
         <el-row :gutter="80">
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.title')" prop="title">
-              <el-input v-model="articleForm.title" size="small" clearable />
+              <el-input v-model="articleForm.title" size="small" clearable @blur="articleForm.title = $event.target.value.trim()" />
             </el-form-item>
             <el-form-item :label="$t('addArticle.creator')" prop="creator">
-              <el-input v-model="articleForm.creator" size="small" clearable />
+              <el-input v-model="articleForm.creator" size="small" clearable @blur="articleForm.creator = $event.target.value.trim()" />
             </el-form-item>
             <el-form-item :label="$t('addArticle.description')" prop="description">
-              <el-input v-model="articleForm.description" type="textarea" :rows="4" clearable size="small" />
+              <el-input v-model="articleForm.description" type="textarea" :rows="4" clearable size="small" @blur="articleForm.description = $event.target.value.trim()" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -50,7 +50,7 @@
         <el-row>
           <el-col :span="10">
             <el-form-item :label="$t('addArticle.orginalArticleLink')">
-              <el-input v-model="articleForm.orginalArticleLink" size="small" clearable />
+              <el-input v-model="articleForm.orginalArticleLink" size="small" clearable @blur="articleForm.orginalArticleLink = $event.target.value.trim()" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -176,7 +176,6 @@ export default {
         return isLt2M
       }
       const fileName = file.name
-      console.log(file)
       if (fileName.indexOf('jpg') === -1 && fileName.indexOf('png') === -1 && fileName.indexOf('jpeg') === -1) {
         this.$message.error('上传图片格式不正确，请选择 jpg、png 或 jpeg 格式的图片!')
         return false

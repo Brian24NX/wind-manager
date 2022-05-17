@@ -110,33 +110,33 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.accountname')" :label-width="formLabelWidth" prop="accountname">
-                <el-input v-model="addform.accountname" autocomplete="off" />
+                <el-input v-model="addform.accountname" autocomplete="off" clearable @blur="addform.accountname = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.contactperson')" :label-width="formLabelWidth" prop="contactperson">
-                <el-input v-model="addform.contactperson" autocomplete="off" />
+                <el-input v-model="addform.contactperson" autocomplete="off" clearable @blur="addform.contactperson = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.phone')" :label-width="formLabelWidth" prop="phone">
-                <el-input v-model="addform.phone" autocomplete="off" />
+                <el-input v-model="addform.phone" autocomplete="off" clearable @blur="addform.phone = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.email')" :label-width="formLabelWidth" prop="email">
-                <el-input v-model="addform.email" autocomplete="off" />
+                <el-input v-model="addform.email" autocomplete="off" clearable @blur="addform.email = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
-                <el-input v-model="addform.dutydate" autocomplete="off" />
+                <el-input v-model="addform.dutydate" autocomplete="off" clearable @blur="addform.dutydate = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -346,6 +346,7 @@ export default {
     async changeoffice() {
       const res = await BusinessList(this.addform.region)
       this.newofficeList = transdict(res.data.office)
+      this.addform.office = ''
     },
     // 状态改变
     async handleUpdateStatus(row, active) {

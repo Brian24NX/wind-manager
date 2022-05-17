@@ -51,16 +51,16 @@
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="addform" :model="addform">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="addform.commodityCn" autocomplete="off" />
+          <el-input v-model="addform.commodityCn" autocomplete="off" clearable @blur="addform.commodityCn = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="creator">
-          <el-input v-model="addform.commodityEn" autocomplete="off" />
+          <el-input v-model="addform.commodityEn" autocomplete="off" clearable @blur="addform.commodityEn = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referencenumber">
-          <el-input v-model="addform.referenceNo" autocomplete="off" />
+          <el-input v-model="addform.referenceNo" autocomplete="off" clearable @blur="addform.referenceNo = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
-          <el-input v-model="addform.type" autocomplete="off" />
+          <el-input v-model="addform.type" autocomplete="off" clearable @blur="addform.type = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="category">
           <tinymce ref="editor1" v-model="addform.remarkCn" :height="250" />

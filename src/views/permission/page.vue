@@ -69,10 +69,10 @@
     <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="adddialog" center :close-on-click-modal="false" width="1000px" top="20px">
       <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
         <el-form-item :label="$t('userrole.function')" label-width="100px" prop="funct">
-          <el-input v-model="premissionform.funct" autocomplete="off" />
+          <el-input v-model="premissionform.funct" autocomplete="off" clearable @blur="premissionform.funct = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.description')" label-width="100px" prop="descri">
-          <el-input v-model="premissionform.descri" type="textarea" :row="2" autocomplete="off" />
+          <el-input v-model="premissionform.descri" type="textarea" :row="2" autocomplete="off" clearable @blur="premissionform.descri = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.permission')" label-width="100px" prop="menuButtons">
           <multi-check-list ref="multiCheckList" :data-list="dataList" :default-checked-keys="menuButtons" :invert="false" :is-check-all="false" />
