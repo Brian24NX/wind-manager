@@ -54,8 +54,9 @@ export default {
     passwordconsistent: '密码不一致',
     terms: '法律条款',
     yes: '确定',
-    emailtips: '邮箱为空或者格式不正确',
+    emailtips: '邮箱格式不正确',
     passwordtips: '密码不能为空',
+    confirmpasswordtips: '确认密码不能为空',
     verifycodetips: '验证码不能为空',
     emailrequired: '邮箱不能为空'
   },

@@ -90,19 +90,15 @@ import { resetPwd } from '@/api/user.js'
 const checkapssword = (rule, value, callback) => {
   // eslint-disable-next-line no-unused-vars
   const passwordreg = /(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,30}/
-  if (!passwordreg.test(this.forgetForm.password)) {
-    callback(new Error(this.$t('forgetForm.requirerule')))
-    return
+  if (passwordreg.test(value)) {
+    callback(new Error())
   } else {
     callback()
   }
 }
 const validatePass2 = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error(this.$t('forgetForm.passwordtips')))
-    // password 是表单上绑定的字段
-  } else if (value !== this.forgetForm.password) {
-    callback(new Error(this.$t('forgetForm.passwordconsistent')))
+  if (value !== this.forgetForm.password) {
+    callback(new Error())
   } else {
     callback()
   }
@@ -121,8 +117,8 @@ export default {
       src: logo,
       rules: {
         verifycode: { required: true, message: this.$t('forgetForm.verifycodetips') },
-        password: { required: true, validator: checkapssword },
-        confirmpassword: { required: true, validator: validatePass2 }
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, message: this.$t('forgetForm.requirerule'), validator: checkapssword }],
+        confirmpassword: [{ required: true, message: this.$t('forgetForm.confirmpasswordtips') }, { trigger: blur, message: this.$t('forgetForm.passwordconsistent'), validator: validatePass2 }]
       }
     }
   },
