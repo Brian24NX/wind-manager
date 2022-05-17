@@ -196,7 +196,7 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userinfo')).id },
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: {
         office: '',
         trade: ''
@@ -352,7 +352,7 @@ export default {
       const data = {
         active: active,
         id: row.id,
-        updateUser: JSON.parse(localStorage.getItem('userinfo')).id
+        updateUser: JSON.parse(localStorage.getItem('userInfo')).id
       }
       const res = await contactActive(data)
       this.$message.success(res.message)
@@ -390,7 +390,7 @@ export default {
         if (valid) {
           this.loading = true
           if (this.isAdd) {
-            data.createUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await contactAdd(data)
             this.$message.success(res.message)
             this.addform = {}
@@ -398,7 +398,7 @@ export default {
             this.adddialog = false
             this.$refs.pagination.refreshRequest()
           } else {
-            data.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await contactEdit(data)
             this.$message.success(res.message)
             this.addform = {}

@@ -112,7 +112,7 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userinfo')).id },
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: { keyWord: '' },
       categoryList: [],
       adddialog: false,
@@ -196,7 +196,7 @@ export default {
             active: this.addform.active
           }
           if (this.isAdd) {
-            data.createUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqAdd(data).then(res => {
               this.$message.success(res.message)
               this.isAdd = false
@@ -204,7 +204,7 @@ export default {
               this.$refs.pagination.pageRequest()
             })
           } else {
-            data.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqEdit(data).then(res => {
               this.$message.success(res.message)
               this.isEdit = false
@@ -235,7 +235,7 @@ export default {
       const data = {
         id: row.id,
         active: active,
-        userId: JSON.parse(localStorage.getItem('userinfo')).id
+        userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
       const res = await faqActive(data)
       this.$message.success(res.message)
@@ -273,7 +273,7 @@ export default {
           const data = {
             id: this.relationsform.id,
             faqRelations: this.relationsform.faqRelations,
-            updateUser: JSON.parse(localStorage.getItem('userinfo')).id
+            updateUser: JSON.parse(localStorage.getItem('userInfo')).id
           }
           const res = await faqEditRelations(data)
           this.$message.success(res.message)

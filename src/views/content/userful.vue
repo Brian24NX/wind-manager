@@ -148,7 +148,7 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userinfo')).id },
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: { keyWord: '' },
       categoryList: [],
       categoryadd: false,
@@ -204,6 +204,7 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    // 置空列表
     reset() {
       this.queryParams = { keyWord: '' }
       setTimeout(() => {
@@ -259,7 +260,7 @@ export default {
           this.loading = true
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
-            data.createUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await templateAdd(data)
             this.$message.success(res.message)
             this.adddialog = false
@@ -267,7 +268,7 @@ export default {
             this.isAdd = false
             this.loading = false
           } else {
-            data.updateUser = JSON.parse(localStorage.getItem('userinfo')).id
+            data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await templateEdit(data)
             this.$message.success(res.message)
             this.adddialog = false
