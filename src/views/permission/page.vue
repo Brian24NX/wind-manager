@@ -237,23 +237,21 @@ export default {
           const menuButtons = this.$refs.multiCheckList.getCheckedKeys()
           if (!menuButtons.length) return
           this.addRoleBtnLoading = true
-          let res
           if (this.premissionform.id) {
-            res = await roleEdit({
+            await roleEdit({
               ...this.premissionform,
               ...{
                 menuButtons
               }
             })
           } else {
-            res = await roleAdd({
+            await roleAdd({
               ...this.premissionform,
               ...{
                 menuButtons
               }
             })
           }
-          this.$message.success(res.message)
           this.$refs.pagination.refreshRequest()
           this.addRoleBtnLoading = false
           this.adddialog = false
@@ -307,8 +305,7 @@ export default {
             active: 1,
             roles: role
           }
-          const res = await userAdd(data)
-          this.$message.success(res.message)
+          await userAdd(data)
           this.addemployeedialog = false
           this.$refs.pagination.refreshRequest()
           this.addemployeeform = {}
@@ -350,8 +347,7 @@ export default {
         type: 'warning'
       })
         .then(async() => {
-          const res = await roleDel(index)
-          this.$message.success(res.message)
+          await roleDel(index)
           this.$refs.pagination.refreshRequest()
         })
     },
@@ -367,8 +363,7 @@ export default {
             userId: id,
             roleId: this.id
           }
-          const res = await ActiveUserDel(data)
-          this.$message.success(res.message)
+          await ActiveUserDel(data)
           this.viewuser(this.id)
         })
     },

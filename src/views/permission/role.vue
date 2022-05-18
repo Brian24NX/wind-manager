@@ -283,8 +283,7 @@ export default {
         active: active,
         id: row.id
       }
-      const res = await userActive(data)
-      this.$message.success(res.message)
+      await userActive(data)
       this.$refs.pagination.refreshRequest()
     },
     // 新增操作
@@ -302,8 +301,7 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const res = await userAdd(data)
-          this.$message.success(res.message)
+          await userAdd(data)
           this.adddialog = false
           this.$refs.pagination.refreshRequest()
           this.addform = {
@@ -350,8 +348,7 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const res = await userEdit(data)
-          this.$message.success(res.message)
+          await userEdit(data)
           this.editdialog = false
           this.$refs.pagination.refreshRequest()
           this.editform = {

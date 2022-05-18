@@ -252,8 +252,7 @@ export default {
             publishDate: this.$moment(this.historyform.publishdate).format('YYYY-MM-DD'),
             publish: 1
           }
-          newsAdd(data).then((res) => {
-            this.$message.success(res.message)
+          newsAdd(data).then(() => {
             this.addhistorynewsdialog = false
             this.$refs.pagination.pageRequest()
           })
@@ -278,8 +277,7 @@ export default {
         id: row.id,
         publish: publish
       }
-      const res = await newsPublish(data)
-      this.$message.success(res.message)
+      await newsPublish(data)
       this.$refs.pagination.pageRequest()
     },
     // 状态改变
@@ -311,8 +309,7 @@ export default {
     },
     // 添加种类
     async Save(row) {
-      // eslint-disable-next-line eqeqeq
-      if (row.category == '' || row.categoryCn == '') {
+      if (!row.category || !row.categoryCn) {
         this.$message.error(this.$t('newscenter.categorytips'))
         return
       } else {
@@ -328,11 +325,9 @@ export default {
           const res = await categoryAdd(data)
           data.id = res.data
           this.$set(this.tabledata, this.tabledata.indexOf(row), data)
-          this.$message.success(res.message)
         } else {
-          const res = await categoryEdit(data)
+          await categoryEdit(data)
           this.$set(this.tabledata, this.tabledata.indexOf(row), data)
-          this.$message.success(res.message)
         }
       }
     },

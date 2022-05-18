@@ -158,8 +158,7 @@ export default {
         id: row.id,
         publish: publish
       }
-      const res = await cmaPublish(data)
-      this.$message.success(res.message)
+      await cmaPublish(data)
       this.$refs.pagination.pageRequest()
     },
     // 新增
@@ -174,7 +173,6 @@ export default {
             publish: 1
           }
           cmaAdd(data).then(res => {
-            this.$message.success(res.message)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
           })

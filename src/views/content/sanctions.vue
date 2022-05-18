@@ -231,15 +231,13 @@ export default {
         }
         if (this.isAdd) {
           this.loading = true
-          const res = await sanctionAdd(data)
-          this.$message.success(res.message)
+          await sanctionAdd(data)
           this.isAdd = false
           this.adddialog = false
           this.loading = false
           this.$refs.pagination.pageRequest()
         } else {
-          const res = await sanctionEdit(data)
-          this.$message.success(res.message)
+          await sanctionEdit(data)
           this.isEdit = false
           this.adddialog = false
           this.loading = false
@@ -253,8 +251,7 @@ export default {
         id: row.id,
         active: active
       }
-      const res = await sanctionActive(data)
-      this.$message.success(res.message)
+      await sanctionActive(data)
       this.$refs.pagination.pageRequest()
     },
     // 管制品删除

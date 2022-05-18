@@ -209,7 +209,6 @@ export default {
           if (this.isAdd) {
             articleAdd(data).then(res => {
               this.loading = false
-              this.$message.success(res.message)
               this.$router.push('/articlelist')
             }, () => {
               this.loading = false
@@ -217,7 +216,6 @@ export default {
           } else {
             articleEdit(data).then(res => {
               this.loading = false
-              this.$message.success(res.message)
               this.$router.push('/articlelist')
             }, () => {
               this.loading = false
@@ -245,12 +243,10 @@ export default {
             active: 1
           }
           if (this.isAdd) {
-            const res = await articleAdd(data)
-            this.$message.success(res.message)
+            await articleAdd(data)
             this.$router.push('/articlelist')
           } else {
-            const res = await articleEdit(data)
-            this.$message.success(res.message)
+            await articleEdit(data)
             this.$router.push('/articlelist')
           }
         }

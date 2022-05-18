@@ -114,8 +114,7 @@ export default {
         id: row.id,
         publish: publish
       }
-      const res = await articlePublish(data)
-      this.$message.success(res.message)
+      await articlePublish(data)
       this.$refs.pagination.pageRequest()
     },
     // 删除历史信息

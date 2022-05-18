@@ -224,14 +224,12 @@ export default {
           if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqAdd(data).then(res => {
-              this.$message.success(res.message)
               this.Cancle()
               this.$refs.pagination.pageRequest()
             })
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqEdit(data).then(res => {
-              this.$message.success(res.message)
               this.Cancle()
               this.$refs.pagination.pageRequest()
             })
@@ -261,8 +259,7 @@ export default {
         active: active,
         userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
-      const res = await faqActive(data)
-      this.$message.success(res.message)
+      await faqActive(data)
       this.$refs.pagination.pageRequest()
     },
     // 编辑状态
@@ -297,8 +294,7 @@ export default {
             faqRelations: this.relationsform.faqRelations,
             updateUser: JSON.parse(localStorage.getItem('userInfo')).id
           }
-          const res = await faqEditRelations(data)
-          this.$message.success(res.message)
+          await faqEditRelations(data)
           this.$refs.pagination.pageRequest()
           this.relationsform = {}
           this.relationsdialog = false

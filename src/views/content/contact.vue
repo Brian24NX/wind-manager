@@ -276,7 +276,6 @@ export default {
   },
   methods: {
     Cancle() {
-      this.addform = {}
       this.adddialog = false
       this.isEdit = false
       this.isAdd = false
@@ -352,8 +351,7 @@ export default {
         id: row.id,
         userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
-      const res = await contactActive(data)
-      this.$message.success(res.message)
+      await contactActive(data)
       this.$refs.pagination.pageRequest()
     },
     // 删除操作
@@ -389,18 +387,14 @@ export default {
           this.loading = true
           if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await contactAdd(data)
-            this.$message.success(res.message)
-            this.addform = {}
+            await contactAdd(data)
             this.isAdd = false
             this.isEdit = false
             this.adddialog = false
             this.$refs.pagination.pageRequest()
           } else if (this.isEdit) {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await contactEdit(data)
-            this.$message.success(res.message)
-            this.addform = {}
+            await contactEdit(data)
             this.isEdit = false
             this.isAdd = false
             this.adddialog = false

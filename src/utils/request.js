@@ -9,7 +9,7 @@ import { myMessage } from '@/plugins/resetMessage'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 10000 // request timeout
+  timeout: 30000 // request timeout
 })
 
 // request interceptor
@@ -70,6 +70,13 @@ service.interceptors.response.use(
         return Promise.reject(new Error(res.message || 'Error'))
       }
     } else {
+      if (response.config.method !== 'get') {
+        myMessage({
+          message: i18n.t('remindMessage.success') || 'Success',
+          type: 'success',
+          duration: 3 * 1000
+        })
+      }
       return res
     }
   },

@@ -200,8 +200,7 @@ export default {
       }
     },
     async handleDelAll() {
-      const res = await materialDelete(this.checkedList)
-      this.$message.success(res.message)
+      materialDelete(this.checkedList)
       this.getlist()
     },
     changeall() {
@@ -237,8 +236,7 @@ export default {
         id: this.editform.id,
         name: this.editform.title
       }
-      const res = await materialRename(data)
-      this.$message.success(res)
+      await materialRename(data)
       this.editdialog = false
       this.editform = {}
       this.getlist()
@@ -246,8 +244,7 @@ export default {
     // 修改类别
     async savecate() {
       this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-      const res = await materialChange(this.editcateform)
-      this.$message.success(res)
+      materialChange(this.editcateform)
       this.editcategorydialog = false
       this.editcateform.id = []
       this.editcateform.categoryId = ''
@@ -311,12 +308,10 @@ export default {
       }
       if (row.categoryadd) {
         const res = await categoryAdd(data)
-        this.$message.success(res.message)
         data.id = res.data
         this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
+        await categoryEdit(data)
         this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       }
     },
@@ -340,8 +335,7 @@ export default {
     async handleDel(row) {
       const list = []
       list.push(row.id)
-      const res = await materialDelete(list)
-      this.$message.success(res.message)
+      await materialDelete(list)
       this.getlist()
     },
     handPreview() {},

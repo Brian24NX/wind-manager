@@ -280,7 +280,6 @@ export default {
             this.submitLoading = true
             businiessOpentional.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessAdd(businiessOpentional).then(res => {
-              this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
             })
@@ -288,7 +287,6 @@ export default {
             this.submitLoading = true
             businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessEdit(businiessOpentional).then(res => {
-              this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
             })
@@ -317,8 +315,7 @@ export default {
         publish: publish,
         userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
-      const res = await businessPublish(data)
-      this.$message.success(res.message)
+      await businessPublish(data)
       this.$refs.pagination.pageRequest()
     },
     // 查看详情
@@ -387,11 +384,9 @@ export default {
       if (row.categoryadd) {
         const res = await categoryAdd(data)
         data.id = res.data
-        this.$message.success(res.message)
         this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
+        await categoryEdit(data)
         this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       }
     },

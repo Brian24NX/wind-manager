@@ -280,15 +280,13 @@ export default {
           this.loading = true
           if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await templateAdd(data)
-            this.$message.success(res.message)
+            await templateAdd(data)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
             this.loading = false
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await templateEdit(data)
-            this.$message.success(res.message)
+            await templateEdit(data)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
             this.loading = false
@@ -349,12 +347,10 @@ export default {
       }
       if (row.categoryadd) {
         const res = await categoryAdd(data)
-        this.$message.success(res.message)
         data.id = res.data
         this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
+        await categoryEdit(data)
         this.$set(this.tabledata, this.tabledata.indexOf(row), data)
         this.categoryedit = false
       }

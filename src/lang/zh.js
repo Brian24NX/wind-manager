@@ -1,6 +1,7 @@
 export default {
   remindMessage: {
-    expired: '登录已过期，请重新登录'
+    expired: '登录已过期，请重新登录',
+    success: '操作成功'
   },
   // 路由翻译
   route: {

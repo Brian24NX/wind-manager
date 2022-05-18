@@ -1,6 +1,7 @@
 export default {
   remindMessage: {
-    expired: 'Login has expired. Please login again'
+    expired: 'Login has expired. Please login again',
+    success: 'Operation is successful'
   },
   // 路由翻译
   route: {
