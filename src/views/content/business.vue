@@ -116,8 +116,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" :loading="submitLoading" @click="savebusiness">{{ $t('message.save') }}</el-button>
-        <el-button type="primary" :loading="submitLoading" @click="submitbusiness">{{ $t('addArticle.submit') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="savebusiness(0)">{{ $t('message.save') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="savebusiness(1)">{{ $t('addArticle.submit') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -225,8 +225,9 @@ export default {
         this.$refs.pagination.refreshRequest()
       }, 100)
     },
-    // 提交新增数据
-    async submitbusiness() {
+    // 保存或者保存并发布新增数据
+    async savebusiness(publish) {
+      console.log(this.isEdit)
       this.$refs['addform'].validate((valid) => {
         if (valid) {
           const businiessOpentional = {
@@ -236,43 +237,7 @@ export default {
             content: this.addform.content,
             filepath: this.addform.uploadfile,
             categoryId: this.addform.categoryId,
-            publish: 1
-          }
-          if (this.isAdd) {
-            this.submitLoading = true
-            businiessOpentional.createUser = JSON.parse(localStorage.getItem('userInfo')).id
-            businessAdd(businiessOpentional).then(res => {
-              this.$message.success(res.message)
-              this.$refs.pagination.pageRequest()
-              this.adddialog = false
-            })
-          } else {
-            this.submitLoading = true
-            businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-            businessEdit(businiessOpentional).then(res => {
-              this.$message.success(res.message)
-              this.adddialog = false
-              this.$refs.pagination.pageRequest()
-              this.isEdit = false
-            })
-          }
-        } else {
-          return false
-        }
-      })
-    },
-    // 保存新增数据
-    async savebusiness() {
-      this.$refs['addform'].validate((valid) => {
-        if (valid) {
-          const businiessOpentional = {
-            id: this.addform.id,
-            title: this.addform.title,
-            creator: this.addform.creator,
-            content: this.addform.content,
-            filepath: this.addform.uploadfile,
-            categoryId: this.addform.categoryId,
-            publish: 0
+            publish: publish
           }
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
@@ -282,9 +247,11 @@ export default {
               this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
+              this.isEdit = false
               this.isAdd = false
             })
-          } else {
+          // eslint-disable-next-line eqeqeq
+          } else if (this.isEdit == true) {
             this.submitLoading = true
             businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessEdit(businiessOpentional).then(res => {
@@ -292,6 +259,7 @@ export default {
               this.adddialog = false
               this.$refs.pagination.pageRequest()
               this.isEdit = false
+              this.isAdd = false
             })
           }
         } else {
@@ -337,11 +305,13 @@ export default {
         this.$refs.editor.setContent(row.content)
       }, 200)
       this.isEdit = true
+      this.isAdd = false
     },
     // 新增
     handleAdd() {
       this.adddialog = true
       this.isAdd = true
+      this.isEdit = false
     },
     // 取消
     Cancle() {
