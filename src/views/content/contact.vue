@@ -357,7 +357,7 @@ export default {
       }
       const res = await contactActive(data)
       this.$message.success(res.message)
-      this.$refs.pagination.refreshRequest()
+      this.$refs.pagination.pageRequest()
     },
     // 删除操作
     handleDelete(id) {
@@ -367,7 +367,7 @@ export default {
         type: 'warning'
       }).then(async() => {
         await contactDel(id)
-        this.$refs.pagination.refreshRequest()
+        this.$refs.pagination.pageRequest()
       })
     },
     // 新增提交
@@ -397,7 +397,7 @@ export default {
             this.addform = {}
             this.isAdd = false
             this.adddialog = false
-            this.$refs.pagination.refreshRequest()
+            this.$refs.pagination.pageRequest()
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await contactEdit(data)
@@ -405,7 +405,7 @@ export default {
             this.addform = {}
             this.isEdit = false
             this.adddialog = false
-            this.$refs.pagination.refreshRequest()
+            this.$refs.pagination.pageRequest()
           }
         } else {
           return false
