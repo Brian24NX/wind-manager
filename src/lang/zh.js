@@ -243,7 +243,7 @@ export default {
     keyword: '关键词',
     relatedquestion: '关联问题',
     answer: '答案',
-    creator: '作者',
+    creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
     import: '导入',

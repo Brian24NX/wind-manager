@@ -99,7 +99,7 @@ export default {
   },
   message: {
     index: 'No.',
-    detail: 'Details',
+    detail: 'Detail',
     edit: 'Edit',
     delete: 'Delete',
     publish: 'Published',
