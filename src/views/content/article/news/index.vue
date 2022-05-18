@@ -150,7 +150,7 @@ export default {
       importdialog: false,
       // 类别修改
       setdialog: false,
-      formLabelWidth: '130px',
+      formLabelWidth: '80px',
       historyform: {
         title: '',
         link: '',

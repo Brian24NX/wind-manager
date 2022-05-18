@@ -174,7 +174,7 @@ export default {
       }, {
         label: 'Link', value: 2
       }],
-      formLabelWidth: '180px',
+      formLabelWidth: '110px',
       rules: {
         name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
         categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },

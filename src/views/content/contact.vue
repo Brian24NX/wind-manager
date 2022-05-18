@@ -206,7 +206,7 @@ export default {
       loading: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '100px',
+      formLabelWidth: '80px',
       officeList: [],
       tradeList: [],
       newofficeList: [],

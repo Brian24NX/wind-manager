@@ -76,7 +76,7 @@ export default {
         link: '',
         publishdate: ''
       },
-      formLabelWidth: '130px',
+      formLabelWidth: '80px',
       // 添加弹窗
       adddialog: false,
       rules: {

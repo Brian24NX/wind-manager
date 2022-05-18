@@ -108,7 +108,7 @@ export default {
       adddialog: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '130px',
+      formLabelWidth: '100px',
       importdialog: false,
       addform: {
         id: '',
