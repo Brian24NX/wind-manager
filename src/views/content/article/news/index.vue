@@ -77,12 +77,12 @@
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--文章类型修改-->
-    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center destroy-on-close :close-on-click-modal="false">
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
+    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center destroy-on-close :close-on-click-modal="false" top="50px">
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen">
           <template scope="scope">
@@ -134,13 +134,11 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { 'Authorization': getToken() },
+      uploadHeaders: { Authorization: getToken() },
       queryParams: {
         categoryIds: '',
         keyword: ''
       },
-      categoryedit: false,
-      categoryadd: false,
       categoryList: [],
       // 新增历史新闻
       addhistorynewsdialog: false,
@@ -177,6 +175,11 @@ export default {
         }
         this.loading = false
       }
+    },
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
+      }
     }
   },
   created() {
@@ -184,7 +187,7 @@ export default {
   },
   methods: {
     transactive(data) {
-    // eslint-disable-next-line eqeqeq
+      // eslint-disable-next-line eqeqeq
       if (data.publish == 1) {
         return 'Published'
       } else {
@@ -215,7 +218,7 @@ export default {
       const type = 1
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
-      res.data.map(i => {
+      res.data.map((i) => {
         i.isSet = false
       })
       this.tabledata = res.data
@@ -232,7 +235,7 @@ export default {
             publishDate: this.$moment(this.historyform.publishdate).format('YYYY-MM-DD'),
             publish: 1
           }
-          newsAdd(data).then(res => {
+          newsAdd(data).then((res) => {
             this.$message.success(res.message)
             this.addhistorynewsdialog = false
             this.$refs.pagination.pageRequest()
@@ -248,11 +251,10 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await newsDel(id)
+        this.$refs.pagination.pageRequest()
       })
-        .then(async() => {
-          await newsDel(id)
-          this.$refs.pagination.pageRequest()
-        })
     },
     async handleUpdateStatus(row, publish) {
       const data = {
@@ -285,10 +287,10 @@ export default {
         category: '',
         categoryCn: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       this.tabledata.push(data)
-      this.categoryadd = true
     },
     // 添加种类
     async Save(row) {
@@ -305,24 +307,21 @@ export default {
           type: 1,
           isSet: false
         }
-        // eslint-disable-next-line eqeqeq
-        if (this.categoryadd == true) {
+        if (row.categoryadd) {
           const res = await categoryAdd(data)
+          data.id = res.data
+          this.$set(this.tabledata, this.tabledata.indexOf(row), data)
           this.$message.success(res.message)
-          this.getcategoryList()
-          this.categoryadd = false
         } else {
           const res = await categoryEdit(data)
+          this.$set(this.tabledata, this.tabledata.indexOf(row), data)
           this.$message.success(res.message)
-          this.getcategoryList()
-          this.categoryedit = false
         }
       }
     },
     // 编辑种类
     async Edit(row) {
       row.isSet = true
-      this.categoryedit = true
     },
     // 删除种类
     async Delete(id) {
@@ -330,13 +329,16 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
-      })
-        .then(async() => {
-          await categoryDel(id)
-          this.getcategoryList()
+      }).then(async() => {
+        await categoryDel(id)
+        // 删除表格当前行
+        this.tabledata.map((i, index) => {
+          if (i.id === id) {
+            this.tabledata.splice(index, 1)
+          }
         })
+      })
     }
-
   }
 }
 </script>

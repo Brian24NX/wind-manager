@@ -43,7 +43,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -63,8 +63,8 @@
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -152,7 +152,6 @@ export default {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: { keyWord: '' },
       categoryList: [],
-      categoryadd: false,
       categoryedit: false,
       importdialog: false,
       type: 1,
@@ -198,6 +197,11 @@ export default {
         }
         this.fileList = []
         this.loading = false
+      }
+    },
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
       }
     }
   },
@@ -327,10 +331,10 @@ export default {
       const data = {
         category: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       this.tabledata.push(data)
-      this.categoryadd = true
     },
     // 添加种类
     async Save(row) {
@@ -341,16 +345,19 @@ export default {
         type: 3,
         isSet: false
       }
-      // eslint-disable-next-line eqeqeq
-      if (this.categoryadd == true) {
+      if (!data.category) {
+        this.$message.error('类别不能为空')
+        return
+      }
+      if (row.categoryadd) {
         const res = await categoryAdd(data)
         this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryadd = false
+        data.id = res.data
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
         const res = await categoryEdit(data)
         this.$message.success(res.message)
-        this.getcategoryList()
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
         this.categoryedit = false
       }
     },
@@ -368,7 +375,12 @@ export default {
       })
         .then(async() => {
           await categoryDel(id)
-          this.getcategoryList()
+          // 删除表格当前行
+          this.tabledata.map((i, index) => {
+            if (i.id === id) {
+              this.tabledata.splice(index, 1)
+            }
+          })
         })
     },
     change(selections) {

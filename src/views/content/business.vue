@@ -48,7 +48,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false" destroy-on-close>
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -144,7 +144,6 @@ export default {
         creator: ''
       },
       categoryadd: false,
-      categoryedit: false,
       isAdd: false,
       categoryList: [],
       adddialog: false,
@@ -181,6 +180,11 @@ export default {
         }, 300)
         this.fileList = []
         this.submitLoading = false
+      }
+    },
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
       }
     }
   },
@@ -310,7 +314,8 @@ export default {
       const data = {
         category: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       // if (!this.tabledata[this.tabledata.length - 1].category) return
       this.tabledata.push(data)
@@ -325,23 +330,24 @@ export default {
         type: 2,
         isSet: false
       }
-      if (!data.category) return
-      if (this.categoryadd) {
+      if (!data.category) {
+        this.$message.error('类别不能为空')
+        return
+      }
+      if (row.categoryadd) {
         const res = await categoryAdd(data)
+        data.id = res.data
         this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryadd = false
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
         const res = await categoryEdit(data)
         this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryedit = false
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       }
     },
     // 编辑种类
     async Edit(row) {
       row.isSet = true
-      this.categoryedit = true
     },
     // 删除种类
     async Delete(id) {
@@ -352,7 +358,12 @@ export default {
       })
         .then(async() => {
           await categoryDel(id)
-          this.getcategoryList()
+          // 删除表格当前行
+          this.tabledata.map((i, index) => {
+            if (i.id === id) {
+              this.tabledata.splice(index, 1)
+            }
+          })
         })
     },
     handPreview() {},
