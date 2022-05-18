@@ -211,23 +211,9 @@ export default {
       officeList: [],
       tradeList: [],
       newofficeList: [],
-      regionList: [
-        { value: 1, label: 'Central China' },
-        { value: 2, label: 'North China' },
-        { value: 3, label: 'South China' }
-      ],
-      deptList: [{ value: 1, label: 'Customer Service' }],
-      buinessscopeList: [
-      ],
-      dutylist: [
-        { value: 'Monday', label: 'Monday' },
-        { value: 'Tuesday', label: 'Tuesday' },
-        { value: 'Wednesday', label: 'Wednesday' },
-        { value: 'Thursday', label: 'Thursday' },
-        { value: 'Friday', label: 'Friday' },
-        { value: 'Saturday', label: 'Saturday' },
-        { value: 'Sunday', label: 'Sunday' }
-      ],
+      regionList: [],
+      deptList: [],
+      buinessscopeList: [],
       addform: {
         id: '',
         region: '',
@@ -256,7 +242,6 @@ export default {
         startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
         endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
         email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
-        // dutytime: { required: true, message: this.$t('contact.dutytimetips'), trigger: 'change' }
       }
     }
   },
@@ -284,8 +269,10 @@ export default {
     }
   },
   created() {
+    this.officeLists()
+    this.regionLists()
     this.contradeList()
-    this.conofficeList()
+    this.deparementList()
   },
   methods: {
     submitimport() {
@@ -304,15 +291,23 @@ export default {
         this.search()
       }, 100)
     },
+    async officeLists() {
+      const res = await dictItem('dict_office')
+      this.officeList = transdict(res.data)
+    },
+    async regionLists() {
+      const res = await dictItem('dict_region')
+      this.regionList = transdict(res.data)
+    },
     async contradeList() {
       const dictName = 'dict_trade'
       const res = await dictItem(dictName)
       this.tradeList = transdict(res.data)
     },
-    async conofficeList() {
-      const dictName = 'dict_office'
+    async deparementList() {
+      const dictName = 'dict_department'
       const res = await dictItem(dictName)
-      this.officeList = transdict(res.data)
+      this.deptList = transdict(res.data)
     },
     handleAdd() {
       this.isAdd = true
