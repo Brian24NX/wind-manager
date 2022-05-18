@@ -228,7 +228,7 @@ export default {
     dutytimetips: 'dutytime is required'
   },
   faq: {
-    id: 'No.',
+    id: 'Question No.',
     question: 'Question',
     keyword: 'Keyword(s)',
     relatedquestion: 'Related Question(s)',
