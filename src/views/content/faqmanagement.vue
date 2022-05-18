@@ -169,7 +169,6 @@ export default {
       this.addform = JSON.parse(JSON.stringify(row))
       setTimeout(() => {
         this.$refs.editor.setContent(row.answer)
-        this.$refs.editor.getBody().setAttribute('contenteditable', false)
       }, 300)
     },
     submitimport() {
