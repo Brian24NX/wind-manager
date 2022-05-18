@@ -157,7 +157,9 @@ export default {
     import: 'Import',
     export: 'Export',
     newitem: 'Add A New Item',
-    deltitle: 'Please confirm if you want to delete this commodity list?'
+    deltitle: 'Please confirm if you want to delete this commodity list?',
+    commodityzhtips: 'commodityCn is required',
+    commodityentips: 'commodityEn is required'
   },
   // 用户模版
   userful: {

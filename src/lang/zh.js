@@ -162,7 +162,9 @@ export default {
     import: '导入',
     export: '导出',
     newitem: '添加新管制品',
-    deltitle: '是否确认删除该管制品记录'
+    deltitle: '是否确认删除该管制品记录',
+    commodityzhtips: '商品(中文)必填',
+    commodityentips: '商品(中文)必填'
   },
   // 用户模版
   userful: {
