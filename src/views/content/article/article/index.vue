@@ -56,7 +56,7 @@
 import { articlePublish, articleDel } from '@/api/article.js'
 // eslint-disable-next-line no-unused-vars
 import { categoryList } from '@/api/article.js'
-import { transList } from '@/utils'
+import { transNewsList } from '@/utils'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'ArticleManagement',
@@ -91,7 +91,7 @@ export default {
     async getcategoryList() {
       const type = 1
       const res = await categoryList(type)
-      this.categoryList = transList(res.data)
+      this.categoryList = transNewsList(res.data)
     },
     // 搜索
     submit() {
