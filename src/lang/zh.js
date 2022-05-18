@@ -235,7 +235,7 @@ export default {
   },
   // FAQ管理
   faq: {
-    id: '序号',
+    id: '问题编号',
     question: '问题',
     keyword: '关键词',
     relatedquestion: '关联问题',

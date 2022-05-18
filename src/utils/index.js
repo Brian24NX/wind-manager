@@ -380,9 +380,10 @@ export function downLoad(url, filename) {
 export function transList(list) {
   const arr = []
   for (let i = 0; i < list.length; i++) {
+    const label = list[i].category + ' / ' + list[i].categoryCn
     const obj = {
       value: list[i].id,
-      label: list[i].category
+      label: label
     }
     arr.push(obj)
   }
