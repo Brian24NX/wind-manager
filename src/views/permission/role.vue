@@ -131,6 +131,24 @@ export default {
     MultiCheckList
   },
   data() {
+    const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+      if (!passwordreg.test(value)) {
+        callback(new Error(this.$t('forgetForm.requirerule')))
+      } else {
+        callback()
+      }
+    }
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
       uploadHeaders: { 'Authorization': getToken() },
@@ -213,10 +231,10 @@ export default {
       premissiondialog: false,
       formLabelWidth: '130px',
       rules: {
-        name: { required: true, message: this.$t('userrole.nametips'), trigger: 'blur' },
-        email: { required: true, message: this.$t('userrole.emailtips'), trigger: 'blur' },
-        id: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' },
-        password: { required: true, message: this.$t('userrole.passwordtips'), trigger: 'blur' }
+        name: { required: true, message: this.$t('forgetForm.namerequired') },
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+        id: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
       },
       editrules: {
         funid: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' }
@@ -318,7 +336,7 @@ export default {
       }
     },
     // 提交操作
-    async submitview(formName) {
+    submitview(formName) {
       const role = [{
         id: this.editform.funid
       }]

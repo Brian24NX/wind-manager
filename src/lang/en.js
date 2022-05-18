@@ -58,7 +58,9 @@ export default {
     passwordtips: 'password is required',
     confirmpasswordtips: 'confirmpassword is required',
     verifycodetips: 'verifycode is required',
-    emailrequired: 'email is required'
+    emailrequired: 'email is required',
+    namerequired: 'name is required',
+    functionrequired: 'function is required'
   },
   // 登陆页面翻译
   login: {

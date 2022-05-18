@@ -58,7 +58,9 @@ export default {
     passwordtips: '密码不能为空',
     confirmpasswordtips: '确认密码不能为空',
     verifycodetips: '验证码不能为空',
-    emailrequired: '邮箱不能为空'
+    emailrequired: '邮箱不能为空',
+    namerequired: '用户名不能为空',
+    functionrequired: '角色不能为空'
   },
   // 登陆翻译
   login: {

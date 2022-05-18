@@ -69,10 +69,10 @@
     <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="adddialog" center :close-on-click-modal="false" width="1000px" top="20px">
       <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
         <el-form-item :label="$t('userrole.function')" label-width="100px" prop="funct">
-          <el-input v-model="premissionform.funct" autocomplete="off" clearable @blur="premissionform.funct = $event.target.value.trim()" />
+          <el-input v-model="premissionform.funct" :disabled="isEdit" autocomplete="off" clearable @blur="premissionform.funct = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.description')" label-width="100px" prop="descri">
-          <el-input v-model="premissionform.descri" type="textarea" :row="2" autocomplete="off" clearable @blur="premissionform.descri = $event.target.value.trim()" />
+          <el-input v-model="premissionform.descri" :disabled="isEdit" type="textarea" :row="2" autocomplete="off" clearable @blur="premissionform.descri = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.permission')" label-width="100px" prop="menuButtons">
           <multi-check-list ref="multiCheckList" :data-list="dataList" :default-checked-keys="menuButtons" :invert="false" :is-check-all="false" />
@@ -102,7 +102,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button type="primary" @click="submitadd('addemployeeform')">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
@@ -120,6 +120,24 @@ export default {
   name: 'PagePermission',
   components: { Pagination, MultiCheckList },
   data() {
+    const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+      if (!passwordreg.test(value)) {
+        callback(new Error(this.$t('forgetForm.requirerule')))
+      } else {
+        callback()
+      }
+    }
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
       dataList: [],
       nameOrEmail: '',
@@ -135,6 +153,7 @@ export default {
         funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
         // menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
       },
+      isEdit: false,
       addemployeedialog: false,
       adddialog: false,
       addRoleBtnLoading: false,
@@ -152,7 +171,12 @@ export default {
         password: ''
       },
       options: [],
-      rules: {}
+      rules: {
+        name: { required: true, message: this.$t('forgetForm.namerequired') },
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+        function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
+      }
     }
   },
   created() {
@@ -218,11 +242,13 @@ export default {
           this.$refs.pagination.refreshRequest()
           this.addRoleBtnLoading = false
           this.adddialog = false
+          this.isEdit = false
         }
       })
     },
     CancleRole() {
       this.adddialog = false
+      this.isEdit = false
     },
     async handleEdit(row) {
       const res = await roleDetail(row.id)
@@ -248,26 +274,31 @@ export default {
         })
       })
       this.adddialog = true
+      this.isEdit = true
       this.$nextTick(() => {
         this.$refs.multiCheckList.dealDatas()
       })
     },
-    async submitadd() {
-      const role = [{
-        id: this.addemployeeform.function
-      }]
-      const data = {
-        email: this.addemployeeform.email,
-        password: this.addemployeeform.password,
-        name: this.addemployeeform.name,
-        active: 1,
-        roles: role
-      }
-      const res = await userAdd(data)
-      this.$message.success(res.message)
-      this.addemployeedialog = false
-      this.$refs.pagination.refreshRequest()
-      this.addemployeeform = {}
+    submitadd(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        if (valid) {
+          const role = [{
+            id: this.addemployeeform.function
+          }]
+          const data = {
+            email: this.addemployeeform.email,
+            password: this.addemployeeform.password,
+            name: this.addemployeeform.name,
+            active: 1,
+            roles: role
+          }
+          const res = await userAdd(data)
+          this.$message.success(res.message)
+          this.addemployeedialog = false
+          this.$refs.pagination.refreshRequest()
+          this.addemployeeform = {}
+        }
+      })
     },
     Cancle() {
       this.addemployeeform = {}
