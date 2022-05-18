@@ -413,7 +413,7 @@ export function transdict(list) {
   for (let i = 0; i < list.length; i++) {
     const obj = {
       value: list[i].key,
-      label: list[i].value
+      label: list[i].value + (list[i].valueCn ? ' / ' + list[i].valueCn : '')
     }
     arr.push(obj)
   }
