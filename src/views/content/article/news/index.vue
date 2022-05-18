@@ -119,8 +119,7 @@
       </el-table>
     </el-dialog>
     <el-dialog :title="$t('message.detail')" :visible.sync="detailDialog" center width="500px" :close-on-click-modal="false" destroy-on-close top="50px">
-      <div v-if="!detailform.historyFlag" class="detailContent" v-html="detailform.content" />
-      <iframe v-else class="iframe" :src="detailform.originalLink" />
+      <div class="detailContent" v-html="detailform.content" />
     </el-dialog>
   </div>
 </template>
@@ -197,10 +196,14 @@ export default {
     handleDetail(id) {
       newsDetail(id).then(res => {
         this.detailform = res.data
-        if (this.detailform.content) {
-          this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+        if (this.detailform.historyFlag) {
+          window.open(this.detailform.originalLink)
+        } else {
+          if (this.detailform.content) {
+            this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+          }
+          this.detailDialog = true
         }
-        this.detailDialog = true
       })
     },
     transactive(data) {
