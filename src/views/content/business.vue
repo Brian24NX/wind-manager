@@ -181,6 +181,9 @@ export default {
           uploadfile: '',
           categoryId: ''
         }
+        setTimeout(() => {
+          this.$refs.editor.setContent('')
+        }, 300)
         this.fileList = []
         this.submitLoading = false
       }
