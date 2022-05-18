@@ -25,14 +25,11 @@
         <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
         <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
+      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :selection-change="change" show-check>
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
-
         <el-table-column :label="$t('userful.category')" prop="categoryName" />
-
         <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
-
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <!--<el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>

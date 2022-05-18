@@ -26,7 +26,7 @@
       <div class="operations">
         <el-button v-permission="[15]" type="danger" size="small" @click="addarticle"> <i class="el-icon-plus" /> {{ $t('addArticle.addnew') }} </el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="true">
+      <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" show-index>
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
           <template scope="scope">
             <el-image v-if="scope.row.frontCover" :src="scope.row.frontCover" :preview-src-list="[scope.row.frontCover]" mode="aspectFit" />

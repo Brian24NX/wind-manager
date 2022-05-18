@@ -30,14 +30,10 @@
         <el-button v-permission="[43]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
         <el-button v-permission="[43]" type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('business.id')" prop="id" />
+      <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
-
         <el-table-column :label="$t('business.category')" prop="categoryEnName" />
-
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
-
         <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" />
         <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">

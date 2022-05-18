@@ -30,8 +30,7 @@
         <el-button type="danger" size="small" @click="importdialog = true">{{ $t('contact.import') }}</el-button>
         <el-button v-permission="[38]" type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('contact.id')" prop="id" />
+      <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('contact.region')" prop="regionName" />
         <el-table-column :label="$t('contact.office')" prop="officeName" />
         <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" />

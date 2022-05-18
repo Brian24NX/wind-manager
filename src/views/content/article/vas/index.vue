@@ -21,7 +21,7 @@
       <div class="operations">
         <el-button v-permission="[27]" type="danger" size="small" @click="adddialog = true">{{ $t('vas.addarticlelink') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/cmaNewsList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/cmaNewsList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('vas.title')" prop="title" />
         <el-table-column :label="$t('vas.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('vas.link')" prop="originalLink" align="center" />

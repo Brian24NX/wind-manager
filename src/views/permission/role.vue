@@ -25,7 +25,7 @@
         <el-button v-permission="[7]" type="danger" size="small" @click="exportlist">{{ $t('userrole.export') }}</el-button>
         <el-button v-permission="[3]" type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
         <el-table-column :label="$t('userrole.function')" prop="functions" />
@@ -51,20 +51,20 @@
       </div>
     </el-dialog>
     <!--新增弹窗-->
-    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
           <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
           <el-input v-model="addform.email" autocomplete="off" clearable @blur="addform.email = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="id">
-          <el-select v-model="addform.id" placeholder="请选择">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="id">
+          <el-select v-model="addform.id" placeholder="请选择" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth" prop="password">
+        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
           <el-input v-model="addform.password" type="password" autocomplete="off" clearable @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
@@ -74,16 +74,16 @@
       </div>
     </el-dialog>
     <!--查看和编辑角色-->
-    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="editform" :model="editform" :rules="editrules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
           <el-input v-model="editform.name" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="funid">
-          <el-select v-model="editform.funid" placeholder="请选择">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="funid">
+          <el-select v-model="editform.funid" placeholder="请选择" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
@@ -230,6 +230,7 @@ export default {
       editdialog: false,
       premissiondialog: false,
       formLabelWidth: '130px',
+      formLabelWidth1: '100px',
       rules: {
         name: { required: true, message: this.$t('forgetForm.namerequired') },
         email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],

@@ -27,17 +27,11 @@
         <el-button v-permission="[55]" type="danger" size="small" @click="download">{{ $t('sanctions.export') }}</el-button>
         <el-button v-permission="[53]" type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityCn" />
-
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
-
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
-
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
-
-        <!-- <el-table-column align="center" :label="$t('sanctions.remarkszh')" prop="remarkCn" />-->
-        <!-- <el-table-column align="center" :label="$t('sanctions.remarksen')" prop="remarkEn" />-->
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.active === 1" v-permission="[58]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>

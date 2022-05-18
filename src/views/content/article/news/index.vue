@@ -30,7 +30,7 @@
         <el-button v-permission="[23]" type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
         <el-button v-permission="[23]" type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />

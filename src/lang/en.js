@@ -98,7 +98,7 @@ export default {
     deltitle: 'Please confirm if you want to delete this article?'
   },
   message: {
-    index: 'Index',
+    index: 'No.',
     detail: 'Details',
     edit: 'Edit',
     delete: 'Delete',
