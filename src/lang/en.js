@@ -177,7 +177,8 @@ export default {
     nametips: 'name is required',
     categoryIdtips: 'categoryId is required',
     typetips: 'type is required',
-    documenttips: 'document is required'
+    documenttips: 'document is required',
+    download: 'Download'
   },
   // 业务和运营
   business: {

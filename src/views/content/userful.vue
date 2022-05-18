@@ -22,10 +22,10 @@
         <el-button v-permission="[47]" type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
         <el-button v-permission="[48]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
         <el-button v-permission="[48]" type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
-        <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
+        <!-- <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>-->
         <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :selection-change="change" show-check>
+      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
         <el-table-column :label="$t('userful.category')" prop="categoryName" />
         <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
@@ -35,6 +35,7 @@
             <!--<el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>-->
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
+            <el-button v-if="scope.row.type==1" v-permission="[50]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
             <el-button v-permission="[51]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -221,7 +222,6 @@ export default {
       }
     },
     handleupSuccess(res) {
-      console.log(res)
       this.addform.document = res.data.fileName
     },
     //
@@ -392,11 +392,8 @@ export default {
         })
       }
     },
-    download() {
-      console.log(this.selectcolumn)
-      this.selectcolumn.map((i) => {
-        window.location.href = this.filePath + i
-      })
+    download(url) {
+      window.location.href = this.filePath + url
     },
     handPreview() {},
     handRemove(file, fileList) {

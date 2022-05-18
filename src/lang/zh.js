@@ -182,7 +182,8 @@ export default {
     nametips: '文档或者链接名必填',
     categoryIdtips: '类别必填',
     typetips: '类型必填',
-    documenttips: '文档或者链接必填'
+    documenttips: '文档或者链接必填',
+    download: '下载'
   },
   // 业务和运营
   business: {
