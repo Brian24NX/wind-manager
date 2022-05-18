@@ -98,6 +98,7 @@ export default {
     deltitle: '请确认是否要删除该文章？'
   },
   message: {
+    index: '序号',
     detail: '查看',
     edit: '编辑',
     delete: '删除',
