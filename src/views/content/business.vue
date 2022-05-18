@@ -81,9 +81,9 @@
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('business.creator')" :label-width="formLabelWidth" prop="creator">
+        <!--<el-form-item :label="$t('business.creator')" :label-width="formLabelWidth" prop="creator">
           <el-input v-model="addform.creator" autocomplete="off" clearable @blur="addform.creator = $event.target.value.trim()" />
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
           <tinymce ref="editor" v-model="addform.content" :height="250" />
         </el-form-item>
