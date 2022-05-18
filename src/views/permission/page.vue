@@ -58,11 +58,11 @@
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" width="60px" />
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="60px">
+        <!-- <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="60px">
           <template scope="scope">
             <el-button size="small" type="text" class="danger" @click="remove(scope.row.id)">{{ $t('userrole.remove') }}</el-button>
           </template>
-        </el-table-column>
+        </el-table-column>-->
       </el-table>
     </el-dialog>
     <!--新增角色和权限-->
