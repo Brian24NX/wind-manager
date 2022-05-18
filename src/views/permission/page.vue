@@ -6,7 +6,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.function" size="small" style="width: 100%" placeholder="Creator" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.function" size="small" style="width: 100%" placeholder="Function" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -23,7 +23,7 @@
         <el-button v-permission="[9]" type="danger" size="small" @click="handleAdd">{{ $t('userrole.addnewfunction') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/roleList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('userrole.id')" prop="id" />
+        <!-- <el-table-column align="center" :label="$t('userrole.id')" prop="id" />-->
         <el-table-column align="center" :label="$t('userrole.function')" prop="funct" />
         <el-table-column :label="$t('userrole.description')" prop="descri" />
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
