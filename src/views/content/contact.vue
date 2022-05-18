@@ -31,18 +31,18 @@
         <el-button v-permission="[38]" type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams">
-        <el-table-column align="center" :label="$t('contact.region')" prop="regionName" />
-        <el-table-column :label="$t('contact.office')" prop="officeName" />
-        <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" />
-        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" />
-        <el-table-column align="center" :label="$t('contact.trade')" prop="tradeName" />
+        <el-table-column align="center" :label="$t('contact.region')" prop="regionName" width="120px" />
+        <el-table-column :label="$t('contact.office')" prop="officeName" align="center" width="160px" />
+        <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" width="150px" />
+        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" width="120px" />
+        <el-table-column align="center" :label="$t('contact.trade')" prop="tradeName" width="180px" />
         <el-table-column align="center" :label="$t('contact.accountname')" prop="accountName" />
-        <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactPerson" />
-        <el-table-column align="center" :label="$t('contact.dutydate')" prop="dutyDate" />
-        <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" />
-        <el-table-column align="center" :label="$t('contact.phone')" prop="phone" />
-        <el-table-column align="center" :label="$t('contact.email')" prop="email" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactPerson" width="160px" />
+        <el-table-column align="center" :label="$t('contact.dutydate')" prop="dutyDate" width="160px" />
+        <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" width="160px" />
+        <el-table-column align="center" :label="$t('contact.phone')" prop="phone" width="160px" />
+        <el-table-column align="center" :label="$t('contact.email')" prop="email" width="180px" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="120px">
           <template scope="scope">
             <el-button v-if="scope.row.active === 0" v-permission="[39]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[40]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.deactive') }}</el-button>

@@ -27,13 +27,11 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
-        <el-table-column :label="$t('userful.category')" prop="categoryName" />
+        <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
         <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
-            <!--<el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
-            <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>-->
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
             <el-button v-if="scope.row.type==1" v-permission="[50]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
             <el-button v-permission="[51]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>

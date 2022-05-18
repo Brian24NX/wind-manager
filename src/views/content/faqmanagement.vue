@@ -33,16 +33,15 @@
             <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />-->
         <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
-        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" width="120px" />
+        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="100px" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('faq.detail' ) }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
-            <el-button v-permission="[35]" size="small" type="text" @click="handleDetail(scope.row)">{{ $t('faq.detail' ) }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[35]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -63,16 +62,16 @@
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
-          <el-input v-model="addform.question" :disabled="isSelect" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.question = $event.target.value.trim()" />
+          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.question = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer" :disabled="isSelect">
+        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
-          <el-input v-model="addform.faqKeywords" :disabled="isSelect" autocomplete="off" clearable @blur="addform.faqKeywords = $event.target.value.trim()" />
+          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
-          <el-radio-group v-model="addform.active" :disabled="isSelect">
+          <el-radio-group v-model="addform.active">
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
           </el-radio-group>
@@ -82,6 +81,26 @@
         <el-button type="primary" :loading="submitLoading" @click="submitfaq">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
+    </el-dialog>
+    <!-- 详情 -->
+    <el-dialog :title="$t('message.detail')" :visible.sync="isSelect" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
+      <el-form ref="addform" :model="detailForm">
+        <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
+          <el-input v-model="detailForm.question" disabled type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable />
+        </el-form-item>
+        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
+          <div class="detailContent" v-html="detailForm.answer" />
+        </el-form-item>
+        <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
+          <el-input v-model="detailForm.faqKeywords" disabled autocomplete="off" />
+        </el-form-item>
+        <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
+          <el-radio-group v-model="addform.active" disabled>
+            <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
+            <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
     </el-dialog>
     <!--编辑relations-->
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center>
@@ -125,12 +144,12 @@ export default {
         faqKeywords: '',
         active: 1
       },
+      detailForm: {},
       relationsform: {
         id: '',
         relatedquestion: ''
       },
       isSelect: false,
-      isEdit: false,
       isAdd: false,
       rules: {
         question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
@@ -162,15 +181,9 @@ export default {
   },
   methods: {
     handleDetail(row) {
-      this.isAdd = false
-      this.isEdit = false
       this.isSelect = true
-      this.adddialog = true
-      this.addform = JSON.parse(JSON.stringify(row))
-      setTimeout(() => {
-        this.$refs.editor.setContent(row.answer)
-        this.$refs.editor.getBody().setAttribute('contenteditable', false)
-      }, 300)
+      this.detailForm = JSON.parse(JSON.stringify(row))
+      this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
     },
     submitimport() {
       this.importdialog = false
@@ -213,15 +226,13 @@ export default {
               this.Cancle()
               this.$refs.pagination.pageRequest()
             })
-          } else if (this.isEdit) {
+          } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqEdit(data).then(res => {
               this.$message.success(res.message)
               this.Cancle()
               this.$refs.pagination.pageRequest()
             })
-          } else if (this.isSelect) {
-            this.Cancle()
           }
         } else {
           return false
@@ -255,8 +266,6 @@ export default {
     // 编辑状态
     handleEdit(row) {
       this.isAdd = false
-      this.isSelect = false
-      this.isEdit = true
       this.adddialog = true
       this.addform = JSON.parse(JSON.stringify(row))
       setTimeout(() => {
@@ -266,15 +275,10 @@ export default {
     // 新增状态
     handleAdd() {
       this.isAdd = true
-      this.isEdit = false
-      this.isSelect = false
       this.adddialog = true
     },
     // 取消
     Cancle() {
-      this.isAdd = false
-      this.isEdit = false
-      this.isSelect = false
       this.adddialog = false
     },
     // 编辑关联问题

@@ -32,11 +32,12 @@
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[56]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[58]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.active === 0" v-permission="[57]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[56]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[59]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -67,6 +68,28 @@
         <el-button type="primary" @click="savesanctions('addform')">{{ $t('message.save') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
+    </el-dialog>
+    <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
+      <el-form ref="detailform" :model="detailform">
+        <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
+          <el-input v-model="detailform.commodityCn" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="commodityEn">
+          <el-input v-model="detailform.commodityEn" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referenceNo">
+          <el-input v-model="detailform.referenceNo" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
+          <el-input v-model="detailform.type" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="remarkCn">
+          <div v-if="detailform.remarkCn" class="detailContent" v-html="detailform.remarkCn" />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="remarkEn">
+          <div v-if="detailform.remarkEn" class="detailContent" v-html="detailform.remarkEn" />
+        </el-form-item>
+      </el-form>
     </el-dialog>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
@@ -123,7 +146,9 @@ export default {
       rules: {
         commodityCn: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
         commodityEn: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
-      }
+      },
+      detailform: {},
+      detaildialog: false
     }
   },
   watch: {
@@ -146,6 +171,12 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    handleDetail(row) {
+      this.detailform = JSON.parse(JSON.stringify(row))
+      this.detailform.remarkCn = this.detailform.remarkCn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      this.detailform.remarkEn = this.detailform.remarkEn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      this.detaildialog = true
+    },
     async download() {
       const res = await sanctionExport(this.queryParams)
       window.open(res.data)

@@ -99,7 +99,7 @@ export default {
   },
   message: {
     index: '序号',
-    detail: '查看',
+    detail: '详情',
     edit: '编辑',
     delete: '删除',
     publish: '发布',

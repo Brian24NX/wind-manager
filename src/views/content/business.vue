@@ -32,15 +32,16 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
-        <el-table-column :label="$t('business.category')" prop="categoryEnName" />
-        <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
-        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('business.category')" prop="categoryEnName" align="center" width="180px" />
+        <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />
+        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" width="150px" />
+        <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" width="120px" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
+            <el-button v-if="scope.row.publish === 0" v-permission="[43]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.publish === 1" v-permission="[44]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.publish === 0" v-permission="[44]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
-            <el-button v-if="scope.row.publish === 0" v-permission="[43]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[43]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -81,14 +82,10 @@
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
-        <!--<el-form-item :label="$t('business.creator')" :label-width="formLabelWidth" prop="creator">
-          <el-input v-model="addform.creator" autocomplete="off" clearable @blur="addform.creator = $event.target.value.trim()" />
-        </el-form-item>-->
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
           <tinymce ref="editor" v-model="addform.content" :height="250" />
         </el-form-item>
         <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
-          <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
             class="upload-demo"
@@ -117,16 +114,47 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!--查看通告-->
+    <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
+      <el-form ref="addform" :model="detailform">
+        <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
+          <el-input v-model="detailform.title" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
+          <div class="detailContent" v-html="detailform.content" />
+        </el-form-item>
+        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
+          <el-upload
+            ref="upload"
+            disabled
+            class="upload-demo"
+            :headers="{
+              Authorization: cookies,
+            }"
+            action="/api/admin/uploadFile"
+            :on-preview="handPreview"
+            :on-remove="handRemove"
+            :on-success="handleSuccess"
+            :file-list="fileList"
+            :limit="1"
+          >
+            <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="categoryId">
+          <el-select v-model="addform.categoryId" placeholder="请选择" disabled>
+            <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
-// eslint-disable-next-line no-unused-vars
 import { businessAdd, businessDel, businessPublish, businessEdit } from '@/api/business.js'
-// eslint-disable-next-line no-unused-vars
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
-// eslint-disable-next-line no-unused-vars
 import { transList } from '@/utils'
 import Cookies from 'js-cookie'
 export default {
@@ -150,7 +178,7 @@ export default {
       deldialog: false,
       setdialog: false,
       fileList: [],
-      formLabelWidth: '130px',
+      formLabelWidth: '80px',
       addform: {
         title: '',
         creator: '',
@@ -162,7 +190,9 @@ export default {
       submitLoading: false,
       rules: {
         title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
-      }
+      },
+      detailform: {},
+      detaildialog: false
     }
   },
   watch: {
@@ -180,6 +210,12 @@ export default {
         }, 300)
         this.fileList = []
         this.submitLoading = false
+      }
+    },
+    detaildialog(newValue) {
+      if (!newValue) {
+        this.detailform = {}
+        this.fileList = []
       }
     },
     setdialog(val) {
@@ -285,6 +321,18 @@ export default {
       this.$message.success(res.message)
       this.$refs.pagination.pageRequest()
     },
+    // 查看详情
+    handleDetail(row) {
+      this.detailform = JSON.parse(JSON.stringify(row))
+      this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      if (row.filepath) {
+        this.fileList = [{
+          name: row.filepath.split('wind/')[1],
+          url: process.env.VUE_APP_FILE_BASE_API + row.filepath
+        }]
+      }
+      this.detaildialog = true
+    },
     // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
@@ -366,7 +414,10 @@ export default {
           })
         })
     },
-    handPreview() {},
+    handPreview(file) {
+      console.log(file)
+      window.open(file.url)
+    },
     handRemove(file, fileList) {
       console.log(file, fileList)
       this.fileList = fileList
