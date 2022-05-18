@@ -55,7 +55,7 @@
         </el-col>
       </el-row>
       <el-table v-loading="userLoading" :data="tabledata" style="width: 100%">
-        <el-table-column align="center" :label="$t('userrole.id')" prop="id" width="60px" />
+        <!--<el-table-column align="center" :label="$t('userrole.id')" prop="id" width="60px" />-->
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
         <!-- <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="60px">
