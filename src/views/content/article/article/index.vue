@@ -29,7 +29,7 @@
       <Pagination ref="pagination" uri="/api/admin/newsList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
           <template scope="scope">
-            <el-image :src="scope.row.frontCover" :preview-src-list="[scope.row.frontCover]" mode="aspectFit" />
+            <el-image v-if="scope.row.frontCover" :src="scope.row.frontCover" :preview-src-list="[scope.row.frontCover]" mode="aspectFit" />
           </template>
         </el-table-column>
         <el-table-column :label="$t('article.title')" prop="title" />
