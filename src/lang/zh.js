@@ -153,8 +153,8 @@ export default {
   },
   // 管制品
   sanctions: {
-    commodityzh: '商品（中文）',
-    commodityen: '商品（英文）',
+    commodityzh: '商品(中文)',
+    commodityen: '商品(英文)',
     referencenumber: '参考编号',
     remarkszh: '中文备注',
     remarksen: '英文备注',

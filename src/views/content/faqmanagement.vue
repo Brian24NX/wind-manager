@@ -289,7 +289,7 @@ export default {
     },
     downloadfile() {
       // const res = await faqTemplateDownload()
-      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx')
     },
     // 导出
     exporttemplate() {},

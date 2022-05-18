@@ -319,7 +319,7 @@ export default {
     // 下载文档
     downloadfile() {
       // const res = await usefulTemplateDownload()
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx')
     },
     // 取消
     Cancle() {

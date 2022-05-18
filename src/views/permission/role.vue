@@ -379,7 +379,7 @@ export default {
       console.log(parent, child)
     },
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx')
     },
     // 处理成功
     handleSuccess(res) {

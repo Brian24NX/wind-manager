@@ -271,7 +271,7 @@ export default {
     },
     // 下载模版
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Historical News 导入历史新闻.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Historical News 导入历史新闻.xlsx')
     },
     // 取消
     Cancle() {

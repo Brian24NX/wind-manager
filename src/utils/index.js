@@ -374,23 +374,6 @@ export function downLoad(url, filename) {
   a.remove()
 }
 /**
- *
- * @param {*} list
- * @returns
- */
-export function transNewsList(list) {
-  const arr = []
-  for (let i = 0; i < list.length; i++) {
-    const label = list[i].category + ' / ' + list[i].categoryCn
-    const obj = {
-      value: list[i].id,
-      label: label
-    }
-    arr.push(obj)
-  }
-  return arr
-}
-/**
  *  list转化为value-label
  *  @param {string}list
  */
@@ -399,7 +382,7 @@ export function transList(list) {
   for (let i = 0; i < list.length; i++) {
     const obj = {
       value: list[i].id,
-      label: list[i].category
+      label: list[i].category + (list[i].categoryCn ? ' / ' + list[i].categoryCn : '')
     }
     arr.push(obj)
   }

@@ -146,10 +146,10 @@ export default {
     this.getcategoryList()
   },
   methods: {
-    // async download() {
-    //   const res = await sanctionExport(this.queryParams)
-    //   window.location.href = res.data
-    // },
+    async download() {
+      const res = await sanctionExport(this.queryParams)
+      window.open(res.data)
+    },
     submitimport() {
       this.importdialog = false
       this.search()
@@ -245,7 +245,7 @@ export default {
       }, 200)
     },
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx')
     },
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq

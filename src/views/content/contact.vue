@@ -414,7 +414,7 @@ export default {
     },
     downloadfile() {
       // const res = await contactTemplateDownload()
-      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Contact Info Matrix导入联系人信息.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Contact Info Matrix导入联系人信息.xlsx')
     },
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq
