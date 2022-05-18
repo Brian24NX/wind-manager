@@ -47,7 +47,7 @@
           <template scope="scope">
             <el-button v-if="scope.row.active === 0" v-permission="[39]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[40]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[37]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[41]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -78,7 +78,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('contact.office')" :label-width="formLabelWidth" prop="office">
-                <el-select v-model="addform.office" style="width: 100%" placeholder="请选择">
+                <el-select v-model="addform.office" style="width: 100%" placeholder="请选择" @change="changebuiness">
                   <el-option v-for="item in newofficeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -185,9 +185,9 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit, contactTemplateDownload } from '@/api/contact.js'
+import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit, contactTemplateDownload, BusinessTypeList } from '@/api/contact.js'
 // eslint-disable-next-line no-unused-vars
-import { transdict } from '@/utils'
+import { transdict, transoffice, transbuiness } from '@/utils'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'Contact',
@@ -218,9 +218,6 @@ export default {
       ],
       deptList: [{ value: 1, label: 'Customer Service' }],
       buinessscopeList: [
-        { value: 1, label: '进口/Import' },
-        { value: 2, label: '出口/Export' },
-        { value: 3, label: '柜台业务/OBL & Telex Release' }
       ],
       dutylist: [
         { value: 'Monday', label: 'Monday' },
@@ -332,8 +329,9 @@ export default {
       this.addform.contactperson = row.contactPerson
       this.addform.region = row.region
       this.changeoffice()
-      this.addform.trade = row.trade
       this.addform.office = row.office
+      this.addform.trade = row.trade
+      this.changebuiness()
       this.addform.buinessscope = row.businessType
       this.addform.phone = row.phone
       this.addform.dept = row.department
@@ -345,8 +343,16 @@ export default {
     // region值改变
     async changeoffice() {
       const res = await BusinessList(this.addform.region)
-      this.newofficeList = transdict(res.data.office)
-      this.addform.office = ''
+      this.newofficeList = transoffice(res.data)
+    },
+    // 改变buinesssccope
+    async changebuiness() {
+      const data = {
+        regionKey: Number(this.addform.region),
+        officeKey: Number(this.addform.office)
+      }
+      const res = await BusinessTypeList(data)
+      this.buinessscopeList = transbuiness(res.data)
     },
     // 状态改变
     async handleUpdateStatus(row, active) {

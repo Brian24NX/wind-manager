@@ -418,3 +418,31 @@ export function transdict(list) {
   }
   return arr
 }
+/**
+ *  list转化label-value
+ */
+export function transoffice(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].office,
+      label: list[i].officeName
+    }
+    arr.push(obj)
+  }
+  return arr
+}
+/**
+ *  list转化label-value
+ */
+export function transbuiness(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].businessType,
+      label: list[i].businessName
+    }
+    arr.push(obj)
+  }
+  return arr
+}
