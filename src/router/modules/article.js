@@ -15,7 +15,7 @@ const articleRouter = {
   children: [{
     path: '/articlemanagement',
     component: () => import('@/views/content/article/index'),
-    name: 'Article Management',
+    name: 'Article Managements',
     meta: {
       title: 'articleManager'
     },

@@ -149,7 +149,6 @@ export default {
       },
       categoryadd: false,
       categoryedit: false,
-      isEdit: false,
       isAdd: false,
       categoryList: [],
       adddialog: false,
@@ -230,7 +229,6 @@ export default {
     },
     // 保存或者保存并发布新增数据
     async savebusiness(publish) {
-      console.log(this.isEdit)
       this.$refs['addform'].validate((valid) => {
         if (valid) {
           const businiessOpentional = {
@@ -242,27 +240,21 @@ export default {
             categoryId: this.addform.categoryId,
             publish: publish
           }
-          // eslint-disable-next-line eqeqeq
-          if (this.isAdd == true) {
+          if (this.isAdd) {
             this.submitLoading = true
             businiessOpentional.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessAdd(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
-              this.isEdit = false
-              this.isAdd = false
             })
-          // eslint-disable-next-line eqeqeq
-          } else if (this.isEdit == true) {
+          } else {
             this.submitLoading = true
             businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessEdit(businiessOpentional).then(res => {
               this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
-              this.isEdit = false
-              this.isAdd = false
             })
           }
         } else {
@@ -295,7 +287,6 @@ export default {
     },
     // 编辑
     handleEdit(row) {
-      console.log(row)
       this.addform = JSON.parse(JSON.stringify(row))
       if (row.filepath) {
         this.fileList = [{
@@ -307,19 +298,15 @@ export default {
       setTimeout(() => {
         this.$refs.editor.setContent(row.content)
       }, 200)
-      this.isEdit = true
       this.isAdd = false
     },
     // 新增
     handleAdd() {
       this.adddialog = true
       this.isAdd = true
-      this.isEdit = false
     },
     // 取消
     Cancle() {
-      this.isAdd = false
-      this.isEdit = false
       this.adddialog = false
     },
     // 添加种类
