@@ -78,7 +78,7 @@
             <el-col :span="12">
               <el-form-item :label="$t('contact.office')" :label-width="formLabelWidth" prop="office">
                 <el-select v-model="addform.office" style="width: 100%" placeholder="请选择" @change="changebuiness">
-                  <el-option v-for="item in newofficeList" :key="item.value" :label="item.label" :value="item.value" />
+                  <el-option v-for="item in officeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -176,7 +176,7 @@
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="loading" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -272,8 +272,15 @@ export default {
     this.regionLists()
     this.contradeList()
     this.deparementList()
+    this.buinesssList()
   },
   methods: {
+    Cancle() {
+      this.addform = {}
+      this.adddialog = false
+      this.isEdit = false
+      this.isAdd = false
+    },
     submitimport() {
       this.importdialog = false
       this.search()
@@ -308,24 +315,28 @@ export default {
       const res = await dictItem(dictName)
       this.deptList = transdict(res.data)
     },
+    async  buinesssList() {
+      const res = await dictItem('dict_business_scope')
+      this.buinessscopeList = transdict(res.data)
+    },
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
+      this.isEdit = false
     },
     handleEdit(row) {
       const startTime = row.dutyTime.split('-')[0]
       const endTime = row.dutyTime.split('-')[1]
       this.isEdit = true
+      this.isAdd = false
       this.adddialog = true
       this.addform.id = row.id
       this.addform.email = row.email
       this.addform.accountname = row.accountName
       this.addform.contactperson = row.contactPerson
       this.addform.region = row.region
-      this.changeoffice()
       this.addform.office = row.office
       this.addform.trade = row.trade
-      this.changebuiness()
       this.addform.buinessscope = row.businessType
       this.addform.phone = row.phone
       this.addform.dept = row.department
@@ -333,20 +344,6 @@ export default {
       this.addform.startTime = startTime
       this.addform.endTime = endTime
       this.addform.active = row.active
-    },
-    // region值改变
-    async changeoffice() {
-      const res = await BusinessList(this.addform.region)
-      this.newofficeList = transoffice(res.data)
-    },
-    // 改变buinesssccope
-    async changebuiness() {
-      const data = {
-        regionKey: Number(this.addform.region),
-        officeKey: Number(this.addform.office)
-      }
-      const res = await BusinessTypeList(data)
-      this.buinessscopeList = transbuiness(res.data)
     },
     // 状态改变
     async handleUpdateStatus(row, active) {
@@ -396,14 +393,16 @@ export default {
             this.$message.success(res.message)
             this.addform = {}
             this.isAdd = false
+            this.isEdit = false
             this.adddialog = false
             this.$refs.pagination.pageRequest()
-          } else {
+          } else if (this.isEdit) {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await contactEdit(data)
             this.$message.success(res.message)
             this.addform = {}
             this.isEdit = false
+            this.isAdd = false
             this.adddialog = false
             this.$refs.pagination.pageRequest()
           }
