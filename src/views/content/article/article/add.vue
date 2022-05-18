@@ -86,8 +86,8 @@
         </el-row>
         <el-row type="flex" justify="end">
           <el-form-item>
-            <el-button v-permission="[20]" type="danger" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
-            <el-button v-permission="[21]" type="danger" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
+            <el-button v-permission="[20]" type="danger" :loading="loading" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
+            <el-button v-permission="[21]" type="danger" :loading="loading" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
             <el-button v-permission="[20]" type="danger" plain @click="resetForm('articleForm')">{{ $t('addArticle.reset') }}</el-button>
           </el-form-item>
         </el-row>
@@ -97,7 +97,7 @@
 </template>
 <script>
 import Tinymce from '@/components/Tinymce'
-import { articleAdd, articleEdit, newsDetail } from '@/api/article.js'
+import { articleAdd, articleEdit, newsDetail } from '@/api/article'
 import { categoryList } from '@/api/article.js'
 import { transList } from '@/utils'
 import { getToken } from '@/utils/auth'
@@ -134,7 +134,8 @@ export default {
         publishIds: [{ required: true, message: this.$t('addArticle.publishIdstips'), trigger: 'change' }],
         publishDate: [{ required: true, message: this.$t('addArticle.publishDatetips'), trigger: 'change' }]
       },
-      uploadHeaders: { Authorization: getToken() }
+      uploadHeaders: { Authorization: getToken() },
+      loading: false
     }
   },
   created() {
@@ -187,7 +188,7 @@ export default {
       return true
     },
     saveForm(formName) {
-      this.$refs[formName].validate(async(valid) => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           const data = {
             id: this.articleForm.id,
@@ -204,14 +205,23 @@ export default {
             publish: 0,
             active: 1
           }
+          this.loading = true
           if (this.isAdd) {
-            const res = await articleAdd(data)
-            this.$message.success(res.message)
-            this.$router.push('/articlelist')
+            articleAdd(data).then(res => {
+              this.loading = false
+              this.$message.success(res.message)
+              this.$router.push('/articlelist')
+            }, () => {
+              this.loading = false
+            })
           } else {
-            const res = await articleEdit(data)
-            this.$message.success(res.message)
-            this.$router.push('/articlelist')
+            articleEdit(data).then(res => {
+              this.loading = false
+              this.$message.success(res.message)
+              this.$router.push('/articlelist')
+            }, () => {
+              this.loading = false
+            })
           }
         }
       })

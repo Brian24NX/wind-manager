@@ -183,7 +183,9 @@ export default {
     handleDetail(row) {
       this.isSelect = true
       this.detailForm = JSON.parse(JSON.stringify(row))
-      this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      if (this.detailForm.answer) {
+        this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
     },
     submitimport() {
       this.importdialog = false

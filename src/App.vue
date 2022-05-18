@@ -60,4 +60,10 @@ body {
 .el-dialog__headerbtn {
   top: 12px;
 }
+
+.iframe {
+  width: 100%;
+  border: none;
+  height: 600px;
+}
 </style>

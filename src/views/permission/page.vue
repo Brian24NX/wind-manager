@@ -73,7 +73,7 @@
           <el-input v-model="premissionform.funct" :disabled="isEdit" autocomplete="off" clearable @blur="premissionform.funct = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.description')" label-width="100px" prop="descri">
-          <el-input v-model="premissionform.descri" :disabled="isEdit" type="textarea" :row="2" autocomplete="off" clearable @blur="premissionform.descri = $event.target.value.trim()" />
+          <el-input v-model="premissionform.descri" type="textarea" :row="2" autocomplete="off" clearable @blur="premissionform.descri = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.permission')" label-width="100px" prop="menuButtons">
           <multi-check-list ref="multiCheckList" :data-list="dataList" :default-checked-keys="menuButtons" :invert="false" :is-check-all="false" />

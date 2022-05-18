@@ -173,8 +173,12 @@ export default {
   methods: {
     handleDetail(row) {
       this.detailform = JSON.parse(JSON.stringify(row))
-      this.detailform.remarkCn = this.detailform.remarkCn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
-      this.detailform.remarkEn = this.detailform.remarkEn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      if (this.detailform.remarkCn) {
+        this.detailform.remarkCn = this.detailform.remarkCn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
+      if (this.detailform.remarkEn) {
+        this.detailform.remarkEn = this.detailform.remarkEn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
       this.detaildialog = true
     },
     async download() {

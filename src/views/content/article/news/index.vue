@@ -38,6 +38,7 @@
         <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
             <el-button v-if="scope.row.status === 'Unpublish'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status === 'Published'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <!-- <el-button v-if="scope.row.status ==='Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>-->
@@ -117,6 +118,10 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+    <el-dialog :title="$t('message.detail')" :visible.sync="detailDialog" center width="500px" :close-on-click-modal="false" destroy-on-close top="50px">
+      <div v-if="!detailform.historyFlag" class="detailContent" v-html="detailform.content" />
+      <iframe v-else class="iframe" :src="detailform.originalLink" />
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -124,7 +129,7 @@ import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
 import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter.js'
 // eslint-disable-next-line no-unused-vars
-import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
+import { categoryList, categoryAdd, categoryDel, categoryEdit, newsDetail } from '@/api/article.js'
 import { transList } from '@/utils'
 import { getToken } from '@/utils/auth'
 export default {
@@ -161,7 +166,9 @@ export default {
         publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
       },
       tabledata: [],
-      loading: false
+      loading: false,
+      detailform: {},
+      detailDialog: false
     }
   },
   watch: {
@@ -186,6 +193,16 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    // 查看
+    handleDetail(id) {
+      newsDetail(id).then(res => {
+        this.detailform = res.data
+        if (this.detailform.content) {
+          this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+        }
+        this.detailDialog = true
+      })
+    },
     transactive(data) {
       // eslint-disable-next-line eqeqeq
       if (data.publish == 1) {
