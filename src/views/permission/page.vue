@@ -174,7 +174,7 @@ export default {
       rules: {
         name: { required: true, message: this.$t('forgetForm.namerequired') },
         email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
-        function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+        // function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
         password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
       }
     }
