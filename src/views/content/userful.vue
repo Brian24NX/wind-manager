@@ -102,7 +102,7 @@
             :headers="uploadHeaders"
             :on-preview="handPreview"
             :on-remove="handRemove"
-            :on-success="handleSuccess"
+            :on-success="handleupSuccess"
             :limit="1"
             :file-list="fileList"
           >
@@ -224,6 +224,7 @@ export default {
       }
     },
     handleupSuccess(res) {
+      console.log(res)
       this.addform.document = res.data.fileName
     },
     //
@@ -272,6 +273,12 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
+          console.log(this.addform.document)
+          // eslint-disable-next-line eqeqeq
+          if (this.addform.document == '') {
+            this.$message.error(this.$t('userful.documenttips'))
+            return
+          }
           this.loading = true
           // eslint-disable-next-line eqeqeq
           if (this.isAdd == true) {
