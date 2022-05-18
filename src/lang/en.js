@@ -244,6 +244,7 @@ export default {
     deactive: 'Deactive',
     active: 'Active',
     export: 'Export',
+    detail: 'Detail',
     deltitle: 'Please confirm if you want to delete this FAQ?',
     questiontips: 'question is required',
     answertips: 'answer is required',

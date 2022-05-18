@@ -251,6 +251,7 @@ export default {
     deactive: '禁用',
     active: '启用',
     export: '导出',
+    detail: '详情',
     deltitle: '是否确认删除该 FAQ ？',
     questiontips: '问题必填',
     answertips: '答案必填',

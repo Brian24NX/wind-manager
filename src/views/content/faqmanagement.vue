@@ -41,6 +41,7 @@
           <template scope="scope">
             <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
+            <el-button v-permission="[35]" size="small" type="text" @click="handleDetail(scope.row)">{{ $t('faq.detail' ) }}</el-button>
             <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[35]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
@@ -62,16 +63,16 @@
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
-          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.question = $event.target.value.trim()" />
+          <el-input v-model="addform.question" :disabled="isSelect" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.question = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
+        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer" :disabled="isSelect">
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
-          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable @blur="addform.faqKeywords = $event.target.value.trim()" />
+          <el-input v-model="addform.faqKeywords" :disabled="isSelect" autocomplete="off" clearable @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
-          <el-radio-group v-model="addform.active">
+          <el-radio-group v-model="addform.active" :disabled="isSelect">
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
           </el-radio-group>
@@ -128,6 +129,7 @@ export default {
         id: '',
         relatedquestion: ''
       },
+      isSelect: false,
       isEdit: false,
       isAdd: false,
       rules: {
@@ -159,6 +161,17 @@ export default {
     }
   },
   methods: {
+    handleDetail(row) {
+      this.isAdd = false
+      this.isEdit = false
+      this.isSelect = true
+      this.adddialog = true
+      this.addform = JSON.parse(JSON.stringify(row))
+      setTimeout(() => {
+        this.$refs.editor.setContent(row.answer)
+        this.$refs.editor.getBody().setAttribute('contenteditable', false)
+      }, 300)
+    },
     submitimport() {
       this.importdialog = false
       this.search()
@@ -197,18 +210,18 @@ export default {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqAdd(data).then(res => {
               this.$message.success(res.message)
-              this.isAdd = false
-              this.adddialog = false
+              this.Cancle()
               this.$refs.pagination.pageRequest()
             })
-          } else {
+          } else if (this.isEdit) {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqEdit(data).then(res => {
               this.$message.success(res.message)
-              this.isEdit = false
-              this.adddialog = false
+              this.Cancle()
               this.$refs.pagination.pageRequest()
             })
+          } else if (this.isSelect) {
+            this.Cancle()
           }
         } else {
           return false
@@ -241,6 +254,8 @@ export default {
     },
     // 编辑状态
     handleEdit(row) {
+      this.isAdd = false
+      this.isSelect = false
       this.isEdit = true
       this.adddialog = true
       this.addform = JSON.parse(JSON.stringify(row))
@@ -251,12 +266,15 @@ export default {
     // 新增状态
     handleAdd() {
       this.isAdd = true
+      this.isEdit = false
+      this.isSelect = false
       this.adddialog = true
     },
     // 取消
     Cancle() {
       this.isAdd = false
       this.isEdit = false
+      this.isSelect = false
       this.adddialog = false
     },
     // 编辑关联问题
