@@ -189,7 +189,7 @@ export default {
     id: '序号',
     title: '通知标题',
     category: '类别',
-    creator: '作者',
+    creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
     buinessupdate: '业务更新',
