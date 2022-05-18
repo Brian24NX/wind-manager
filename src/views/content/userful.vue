@@ -166,10 +166,8 @@ export default {
       },
       fileList: [],
       isAdd: false,
-      isEdit: false,
       adddialog: false,
       setdialog: false,
-      filePath: process.env.VUE_APP_FILE_BASE_API,
       typelist: [{
         label: 'Document', value: 1
       }, {
@@ -198,6 +196,7 @@ export default {
           internalReference: '',
           id: ''
         }
+        this.fileList = []
         this.loading = false
       }
     }
@@ -216,7 +215,7 @@ export default {
     transdocument(date) {
       // eslint-disable-next-line eqeqeq
       if (date.type == 1) {
-        return this.filePath + date.document
+        return process.env.VUE_APP_FILE_BASE_API + date.document
       } else {
         return date.document
       }
@@ -256,7 +255,7 @@ export default {
           }]
         }
       }
-      this.isEdit = true
+      this.isAdd = false
       this.adddialog = true
     },
     async save(formName) {
@@ -277,14 +276,12 @@ export default {
             return
           }
           this.loading = true
-          // eslint-disable-next-line eqeqeq
-          if (this.isAdd == true) {
+          if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             const res = await templateAdd(data)
             this.$message.success(res.message)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
-            this.isAdd = false
             this.loading = false
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
@@ -292,7 +289,6 @@ export default {
             this.$message.success(res.message)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
-            this.isEdit = false
             this.loading = false
           }
         } else {
@@ -323,8 +319,6 @@ export default {
     },
     // 取消
     Cancle() {
-      this.isAdd = false
-      this.isEdit = false
       this.$refs.addform.resetFields()
       this.adddialog = false
     },
@@ -393,7 +387,7 @@ export default {
       }
     },
     download(url) {
-      window.location.href = this.filePath + url
+      window.open(process.env.VUE_APP_FILE_BASE_API + url)
     },
     handPreview() {},
     handRemove(file, fileList) {
