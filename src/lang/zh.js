@@ -19,7 +19,14 @@ export default {
     businessOperationalUpdate: '服务信息',
     usefulTemplateAndLink: '模版链接',
     sanctionsAndCommodityList: '管制品',
-    materialLibrary: '素材库'
+    materialLibrary: '素材库',
+    usergroup: '用户和用户组管理',
+    programuser: '小程序用户',
+    labelManagement: '标签管理',
+    analyticsdashboard: '数据分析',
+    behavioranalysis: '用户行为分析',
+    userstatistics: '用户访问量分析',
+    faqevluation: 'faq数据分析'
   },
   // navbar翻译
   navbar: {
@@ -329,5 +336,28 @@ export default {
     confirmBtn: '确定',
     cancelBtn: '取消',
     uploadError: '请上传图片'
+  },
+  // 小程序用户
+  programuser: {
+    export: '导出excle',
+    username: '用户名',
+    account: 'ecom账号',
+    company: '公司',
+    companycategory: '公司种类',
+    partnercode: '合作号'
+  },
+  // label管理
+  label: {
+    add: '新增一个标签',
+    companyname: '公司名称',
+    companycategory: '公司种类',
+    description: '描述',
+    usersnumber: '用户',
+    labelname: '标签名称',
+    labeldescription: '标签描述',
+    id: '序号',
+    user: '用户',
+    ecomaccount: 'ecom账号',
+    labelnametips: '标签名称必填'
   }
 }

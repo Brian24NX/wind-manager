@@ -19,7 +19,14 @@ export default {
     businessOperationalUpdate: 'Business & Operational Update',
     usefulTemplateAndLink: 'Useful Template and Link',
     sanctionsAndCommodityList: 'Sanctions and Commodity List',
-    materialLibrary: 'Material Library'
+    materialLibrary: 'Material Library',
+    usergroup: 'User and User Group-CRM',
+    programuser: 'Mini-program User',
+    labelManagement: 'Label Management',
+    analyticsdashboard: 'Analytics Dashboard',
+    behavioranalysis: 'User Behavior Analysis',
+    userstatistics: 'User Statistics',
+    faqevluation: 'Faq Evaluation'
   },
   // navbar翻译
   navbar: {
@@ -322,5 +329,28 @@ export default {
     confirmBtn: 'confirm',
     cancelBtn: 'cancel',
     uploadError: 'Please upload image file!'
+  },
+  // 小程序用户
+  programuser: {
+    export: 'Export Excel',
+    username: 'User Name',
+    account: 'eCommerce Account',
+    company: 'Company',
+    companycategory: 'Company Category',
+    partnercode: 'Partner Code'
+  },
+  // 标签管理
+  label: {
+    add: 'Add A New Label',
+    companyname: 'Company Name',
+    companycategory: 'Company Category',
+    description: 'Description',
+    usersnumber: 'User',
+    labelname: 'Label Name',
+    labeldescription: 'Label Description',
+    id: 'No.',
+    user: 'User',
+    ecomaccount: 'eCommerce Account',
+    labelnametips: 'Label Name is required'
   }
 }
