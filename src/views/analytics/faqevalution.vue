@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'Faqevalution',
   data() {
     return {
       msg: ''

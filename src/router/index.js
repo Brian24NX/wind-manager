@@ -9,7 +9,8 @@ import Layout from '@/layout'
 /* Router Modules */
 import articleRouter from './modules/article'
 import permissionRouter from './modules/permission'
-
+import usergroupRouter from './modules/usergroup'
+import analyticsRouter from './modules/analyticsdashboard'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -91,7 +92,8 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  }
+  },
+  analyticsRouter
 ]
 
 /**
@@ -101,7 +103,8 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   permissionRouter,
-  articleRouter
+  articleRouter,
+  usergroupRouter
 ]
 
 const createRouter = () => new Router({

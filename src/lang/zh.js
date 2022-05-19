@@ -20,13 +20,13 @@ export default {
     usefulTemplateAndLink: '模版链接',
     sanctionsAndCommodityList: '管制品',
     materialLibrary: '素材库',
-    usergroup: '用户和用户组管理',
+    usergroup: '用户与用户组',
     programuser: '小程序用户',
     labelManagement: '标签管理',
-    analyticsdashboard: '数据分析',
+    analyticsdashboard: '分析看板',
     behavioranalysis: '用户行为分析',
-    userstatistics: '用户访问量分析',
-    faqevluation: 'faq数据分析'
+    userstatistics: '用户数据分析',
+    faqevluation: 'FAQ评估'
   },
   // navbar翻译
   navbar: {
