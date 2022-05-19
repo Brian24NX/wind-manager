@@ -27,52 +27,69 @@
         <el-button v-permission="[55]" type="danger" size="small" @click="download">{{ $t('sanctions.export') }}</el-button>
         <el-button v-permission="[53]" type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityCn" />
-
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
-
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
-
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
-
-        <!-- <el-table-column align="center" :label="$t('sanctions.remarkszh')" prop="remarkCn" />-->
-        <!-- <el-table-column align="center" :label="$t('sanctions.remarksen')" prop="remarkEn" />-->
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[56]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[58]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.active === 0" v-permission="[57]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[56]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[59]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
     </div>
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
-      <el-form ref="addform" :model="addform">
-        <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="title">
+      <el-form ref="addform" :model="addform" :rules="rules">
+        <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
           <el-input v-model="addform.commodityCn" autocomplete="off" clearable @blur="addform.commodityCn = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="creator">
+        <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="commodityEn">
           <el-input v-model="addform.commodityEn" autocomplete="off" clearable @blur="addform.commodityEn = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referencenumber">
+        <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referenceNo">
           <el-input v-model="addform.referenceNo" autocomplete="off" clearable @blur="addform.referenceNo = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
           <el-input v-model="addform.type" autocomplete="off" clearable @blur="addform.type = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="category">
+        <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="remarkCn">
           <tinymce ref="editor1" v-model="addform.remarkCn" :height="250" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="category">
+        <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="remarkEn">
           <tinymce ref="editor2" v-model="addform.remarkEn" :height="250" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="savesanctions">{{ $t('message.save') }}</el-button>
+        <el-button type="primary" @click="savesanctions('addform')">{{ $t('message.save') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
+    </el-dialog>
+    <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
+      <el-form ref="detailform" :model="detailform">
+        <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
+          <el-input v-model="detailform.commodityCn" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="commodityEn">
+          <el-input v-model="detailform.commodityEn" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referenceNo">
+          <el-input v-model="detailform.referenceNo" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
+          <el-input v-model="detailform.type" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="remarkCn">
+          <div v-if="detailform.remarkCn" class="detailContent" v-html="detailform.remarkCn" />
+        </el-form-item>
+        <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="remarkEn">
+          <div v-if="detailform.remarkEn" class="detailContent" v-html="detailform.remarkEn" />
+        </el-form-item>
+      </el-form>
     </el-dialog>
     <!--导入模版-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
@@ -114,7 +131,7 @@ export default {
       adddialog: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '130px',
+      formLabelWidth: '100px',
       importdialog: false,
       addform: {
         id: '',
@@ -125,7 +142,13 @@ export default {
         remarkCn: '',
         remarkEn: ''
       },
-      loading: false
+      loading: false,
+      rules: {
+        commodityCn: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
+        commodityEn: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
+      },
+      detailform: {},
+      detaildialog: false
     }
   },
   watch: {
@@ -148,9 +171,19 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    handleDetail(row) {
+      this.detailform = JSON.parse(JSON.stringify(row))
+      if (this.detailform.remarkCn) {
+        this.detailform.remarkCn = this.detailform.remarkCn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
+      if (this.detailform.remarkEn) {
+        this.detailform.remarkEn = this.detailform.remarkEn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
+      this.detaildialog = true
+    },
     async download() {
       const res = await sanctionExport(this.queryParams)
-      window.location.href = res.data
+      window.open(res.data)
     },
     submitimport() {
       this.importdialog = false
@@ -184,33 +217,33 @@ export default {
       this.categoryList = transList(res.data)
     },
     // 新增管制品
-    async savesanctions() {
-      const data = {
-        id: this.addform.id,
-        commodityCn: this.addform.commodityCn,
-        commodityEn: this.addform.commodityEn,
-        referenceNo: this.addform.referenceNo,
-        type: this.addform.type,
-        remarkCn: this.addform.remarkCn,
-        remarkEn: this.addform.remarkEn,
-        active: 1
-      }
-      if (this.isAdd) {
-        this.loading = true
-        const res = await sanctionAdd(data)
-        this.$message.success(res.message)
-        this.isAdd = false
-        this.adddialog = false
-        this.loading = false
-        this.$refs.pagination.pageRequest()
-      } else {
-        const res = await sanctionEdit(data)
-        this.$message.success(res.message)
-        this.isEdit = false
-        this.adddialog = false
-        this.loading = false
-        this.$refs.pagination.pageRequest()
-      }
+    async savesanctions(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        const data = {
+          id: this.addform.id,
+          commodityCn: this.addform.commodityCn,
+          commodityEn: this.addform.commodityEn,
+          referenceNo: this.addform.referenceNo,
+          type: this.addform.type,
+          remarkCn: this.addform.remarkCn,
+          remarkEn: this.addform.remarkEn,
+          active: 1
+        }
+        if (this.isAdd) {
+          this.loading = true
+          await sanctionAdd(data)
+          this.isAdd = false
+          this.adddialog = false
+          this.loading = false
+          this.$refs.pagination.pageRequest()
+        } else {
+          await sanctionEdit(data)
+          this.isEdit = false
+          this.adddialog = false
+          this.loading = false
+          this.$refs.pagination.pageRequest()
+        }
+      })
     },
     // 管制品激活
     async handleUpdateStatus(row, active) {
@@ -218,8 +251,7 @@ export default {
         id: row.id,
         active: active
       }
-      const res = await sanctionActive(data)
-      this.$message.success(res.message)
+      await sanctionActive(data)
       this.$refs.pagination.pageRequest()
     },
     // 管制品删除
@@ -245,7 +277,7 @@ export default {
       }, 200)
     },
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx')
     },
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq

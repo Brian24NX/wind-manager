@@ -30,24 +30,23 @@
         <el-button type="danger" size="small" @click="importdialog = true">{{ $t('contact.import') }}</el-button>
         <el-button v-permission="[38]" type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('contact.id')" prop="id" />
-        <el-table-column align="center" :label="$t('contact.region')" prop="regionName" />
-        <el-table-column :label="$t('contact.office')" prop="officeName" />
-        <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" />
-        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" />
-        <el-table-column align="center" :label="$t('contact.trade')" prop="tradeName" />
+      <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams">
+        <el-table-column align="center" :label="$t('contact.region')" prop="regionName" width="120px" />
+        <el-table-column :label="$t('contact.office')" prop="officeName" align="center" width="160px" />
+        <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" width="150px" />
+        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" width="120px" />
+        <el-table-column align="center" :label="$t('contact.trade')" prop="tradeName" width="180px" />
         <el-table-column align="center" :label="$t('contact.accountname')" prop="accountName" />
-        <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactPerson" />
-        <el-table-column align="center" :label="$t('contact.dutydate')" prop="dutyDate" />
-        <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" />
-        <el-table-column align="center" :label="$t('contact.phone')" prop="phone" />
-        <el-table-column align="center" :label="$t('contact.email')" prop="email" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactPerson" width="160px" />
+        <el-table-column align="center" :label="$t('contact.dutydate')" prop="dutyDate" width="160px" />
+        <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" width="160px" />
+        <el-table-column align="center" :label="$t('contact.phone')" prop="phone" width="160px" />
+        <el-table-column align="center" :label="$t('contact.email')" prop="email" width="180px" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="120px">
           <template scope="scope">
             <el-button v-if="scope.row.active === 0" v-permission="[39]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[40]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('contact.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[37]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.active === 0" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[41]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -71,7 +70,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('contact.region')" :label-width="formLabelWidth" prop="region">
-                <el-select v-model="addform.region" style="width: 100%" placeholder="请选择" @change="changeoffice">
+                <el-select v-model="addform.region" style="width: 100%" placeholder="请选择">
                   <el-option v-for="item in regionList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -79,23 +78,23 @@
             <el-col :span="12">
               <el-form-item :label="$t('contact.office')" :label-width="formLabelWidth" prop="office">
                 <el-select v-model="addform.office" style="width: 100%" placeholder="请选择">
-                  <el-option v-for="item in newofficeList" :key="item.value" :label="item.label" :value="item.value" />
+                  <el-option v-for="item in officeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.dept')" :label-width="formLabelWidth" prop="dept">
-                <el-select v-model="addform.dept" style="width: 100%" placeholder="请选择">
-                  <el-option v-for="item in deptList" :key="item.value" :label="item.label" :value="item.value" />
+              <el-form-item :label="$t('contact.buinessscope')" :label-width="formLabelWidth" prop="buinessscope">
+                <el-select v-model="addform.buinessscope" style="width: 100%" placeholder="请选择">
+                  <el-option v-for="item in buinessscopeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.buinessscope')" :label-width="formLabelWidth" prop="buinessscope">
-                <el-select v-model="addform.buinessscope" style="width: 100%" placeholder="请选择">
-                  <el-option v-for="item in buinessscopeList" :key="item.value" :label="item.label" :value="item.value" />
+              <el-form-item :label="$t('contact.dept')" :label-width="formLabelWidth" prop="dept">
+                <el-select v-model="addform.dept" style="width: 100%" placeholder="请选择">
+                  <el-option v-for="item in deptList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -177,7 +176,7 @@
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="loading" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -185,9 +184,9 @@
 <script>
 import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
-import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit, contactTemplateDownload } from '@/api/contact.js'
+import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit, contactTemplateDownload, BusinessTypeList } from '@/api/contact.js'
 // eslint-disable-next-line no-unused-vars
-import { transdict } from '@/utils'
+import { transdict, transoffice, transbuiness } from '@/utils'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'Contact',
@@ -207,30 +206,13 @@ export default {
       loading: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '100px',
+      formLabelWidth: '80px',
       officeList: [],
       tradeList: [],
       newofficeList: [],
-      regionList: [
-        { value: 1, label: 'Central China' },
-        { value: 2, label: 'North China' },
-        { value: 3, label: 'South China' }
-      ],
-      deptList: [{ value: 1, label: 'Customer Service' }],
-      buinessscopeList: [
-        { value: 1, label: '进口/Import' },
-        { value: 2, label: '出口/Export' },
-        { value: 3, label: '柜台业务/OBL & Telex Release' }
-      ],
-      dutylist: [
-        { value: 'Monday', label: 'Monday' },
-        { value: 'Tuesday', label: 'Tuesday' },
-        { value: 'Wednesday', label: 'Wednesday' },
-        { value: 'Thursday', label: 'Thursday' },
-        { value: 'Friday', label: 'Friday' },
-        { value: 'Saturday', label: 'Saturday' },
-        { value: 'Sunday', label: 'Sunday' }
-      ],
+      regionList: [],
+      deptList: [],
+      buinessscopeList: [],
       addform: {
         id: '',
         region: '',
@@ -259,7 +241,6 @@ export default {
         startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
         endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
         email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
-        // dutytime: { required: true, message: this.$t('contact.dutytimetips'), trigger: 'change' }
       }
     }
   },
@@ -287,10 +268,18 @@ export default {
     }
   },
   created() {
+    this.officeLists()
+    this.regionLists()
     this.contradeList()
-    this.conofficeList()
+    this.deparementList()
+    this.buinesssList()
   },
   methods: {
+    Cancle() {
+      this.adddialog = false
+      this.isEdit = false
+      this.isAdd = false
+    },
     submitimport() {
       this.importdialog = false
       this.search()
@@ -307,33 +296,46 @@ export default {
         this.search()
       }, 100)
     },
+    async officeLists() {
+      const res = await dictItem('dict_office')
+      this.officeList = transdict(res.data)
+    },
+    async regionLists() {
+      const res = await dictItem('dict_region')
+      this.regionList = transdict(res.data)
+    },
     async contradeList() {
       const dictName = 'dict_trade'
       const res = await dictItem(dictName)
       this.tradeList = transdict(res.data)
     },
-    async conofficeList() {
-      const dictName = 'dict_office'
+    async deparementList() {
+      const dictName = 'dict_department'
       const res = await dictItem(dictName)
-      this.officeList = transdict(res.data)
+      this.deptList = transdict(res.data)
+    },
+    async  buinesssList() {
+      const res = await dictItem('dict_business_scope')
+      this.buinessscopeList = transdict(res.data)
     },
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
+      this.isEdit = false
     },
     handleEdit(row) {
       const startTime = row.dutyTime.split('-')[0]
       const endTime = row.dutyTime.split('-')[1]
       this.isEdit = true
+      this.isAdd = false
       this.adddialog = true
       this.addform.id = row.id
       this.addform.email = row.email
       this.addform.accountname = row.accountName
       this.addform.contactperson = row.contactPerson
       this.addform.region = row.region
-      this.changeoffice()
-      this.addform.trade = row.trade
       this.addform.office = row.office
+      this.addform.trade = row.trade
       this.addform.buinessscope = row.businessType
       this.addform.phone = row.phone
       this.addform.dept = row.department
@@ -342,12 +344,6 @@ export default {
       this.addform.endTime = endTime
       this.addform.active = row.active
     },
-    // region值改变
-    async changeoffice() {
-      const res = await BusinessList(this.addform.region)
-      this.newofficeList = transdict(res.data.office)
-      this.addform.office = ''
-    },
     // 状态改变
     async handleUpdateStatus(row, active) {
       const data = {
@@ -355,9 +351,8 @@ export default {
         id: row.id,
         userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
-      const res = await contactActive(data)
-      this.$message.success(res.message)
-      this.$refs.pagination.refreshRequest()
+      await contactActive(data)
+      this.$refs.pagination.pageRequest()
     },
     // 删除操作
     handleDelete(id) {
@@ -367,7 +362,7 @@ export default {
         type: 'warning'
       }).then(async() => {
         await contactDel(id)
-        this.$refs.pagination.refreshRequest()
+        this.$refs.pagination.pageRequest()
       })
     },
     // 新增提交
@@ -392,20 +387,18 @@ export default {
           this.loading = true
           if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await contactAdd(data)
-            this.$message.success(res.message)
-            this.addform = {}
+            await contactAdd(data)
             this.isAdd = false
-            this.adddialog = false
-            this.$refs.pagination.refreshRequest()
-          } else {
-            data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await contactEdit(data)
-            this.$message.success(res.message)
-            this.addform = {}
             this.isEdit = false
             this.adddialog = false
-            this.$refs.pagination.refreshRequest()
+            this.$refs.pagination.pageRequest()
+          } else if (this.isEdit) {
+            data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
+            await contactEdit(data)
+            this.isEdit = false
+            this.isAdd = false
+            this.adddialog = false
+            this.$refs.pagination.pageRequest()
           }
         } else {
           return false
@@ -414,7 +407,7 @@ export default {
     },
     downloadfile() {
       // const res = await contactTemplateDownload()
-      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Contact Info Matrix导入联系人信息.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Contact Info Matrix导入联系人信息.xlsx')
     },
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq

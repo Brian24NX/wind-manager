@@ -24,7 +24,7 @@
         <el-button v-permission="[31]" type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('faq.id')" prop="id" />
+        <el-table-column align="center" :label="$t('faq.id')" prop="id" width="80px" />
         <el-table-column align="center" :label="$t('faq.question')" prop="question" />
         <el-table-column :label="$t('faq.keyword')" prop="faqKeywords" />
         <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center">
@@ -33,15 +33,15 @@
             <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <!-- <el-table-column align="center" :label="$t('faq.answer')" prop="answer" />-->
         <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
-        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" width="120px" />
+        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="100px" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[35]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -82,6 +82,26 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!-- 详情 -->
+    <el-dialog :title="$t('message.detail')" :visible.sync="isSelect" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
+      <el-form ref="addform" :model="detailForm">
+        <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
+          <el-input v-model="detailForm.question" disabled type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable />
+        </el-form-item>
+        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
+          <div class="detailContent" v-html="detailForm.answer" />
+        </el-form-item>
+        <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
+          <el-input v-model="detailForm.faqKeywords" disabled autocomplete="off" />
+        </el-form-item>
+        <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
+          <el-radio-group v-model="addform.active" disabled>
+            <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
+            <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
     <!--编辑relations-->
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center>
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
@@ -116,7 +136,7 @@ export default {
       adddialog: false,
       importdialog: false,
       relationsdialog: false,
-      formLabelWidth: '120px',
+      formLabelWidth: '70px',
       addform: {
         id: '',
         question: '',
@@ -124,11 +144,12 @@ export default {
         faqKeywords: '',
         active: 1
       },
+      detailForm: {},
       relationsform: {
         id: '',
         relatedquestion: ''
       },
-      isEdit: false,
+      isSelect: false,
       isAdd: false,
       rules: {
         question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
@@ -159,6 +180,13 @@ export default {
     }
   },
   methods: {
+    handleDetail(row) {
+      this.isSelect = true
+      this.detailForm = JSON.parse(JSON.stringify(row))
+      if (this.detailForm.answer) {
+        this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
+    },
     submitimport() {
       this.importdialog = false
       this.search()
@@ -196,17 +224,13 @@ export default {
           if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqAdd(data).then(res => {
-              this.$message.success(res.message)
-              this.isAdd = false
-              this.adddialog = false
+              this.Cancle()
               this.$refs.pagination.pageRequest()
             })
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqEdit(data).then(res => {
-              this.$message.success(res.message)
-              this.isEdit = false
-              this.adddialog = false
+              this.Cancle()
               this.$refs.pagination.pageRequest()
             })
           }
@@ -235,13 +259,12 @@ export default {
         active: active,
         userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
-      const res = await faqActive(data)
-      this.$message.success(res.message)
+      await faqActive(data)
       this.$refs.pagination.pageRequest()
     },
     // 编辑状态
     handleEdit(row) {
-      this.isEdit = true
+      this.isAdd = false
       this.adddialog = true
       this.addform = JSON.parse(JSON.stringify(row))
       setTimeout(() => {
@@ -255,8 +278,6 @@ export default {
     },
     // 取消
     Cancle() {
-      this.isAdd = false
-      this.isEdit = false
       this.adddialog = false
     },
     // 编辑关联问题
@@ -273,8 +294,7 @@ export default {
             faqRelations: this.relationsform.faqRelations,
             updateUser: JSON.parse(localStorage.getItem('userInfo')).id
           }
-          const res = await faqEditRelations(data)
-          this.$message.success(res.message)
+          await faqEditRelations(data)
           this.$refs.pagination.pageRequest()
           this.relationsform = {}
           this.relationsdialog = false
@@ -289,7 +309,7 @@ export default {
     },
     downloadfile() {
       // const res = await faqTemplateDownload()
-      window.location.href = window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx')
     },
     // 导出
     exporttemplate() {},

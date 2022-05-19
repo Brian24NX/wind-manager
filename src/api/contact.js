@@ -43,9 +43,17 @@ export function dictItem(dictName) {
 // 获取联动list
 export function BusinessList(regionKey) {
   return request({
-    url: '/api/admin/officeAndBusinessTypeList',
+    url: '/api/admin/officeList',
     method: 'get',
     params: { regionKey }
+  })
+}
+// 联动业务
+export function BusinessTypeList(data) {
+  return request({
+    url: '/api/admin/businessTypeList',
+    method: 'get',
+    params: data
   })
 }
 // 获取联系信息模版

@@ -210,7 +210,6 @@ export default {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
-      console.log(1, window.tinymce.get(this.tinymceId).getContent())
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {

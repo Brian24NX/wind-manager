@@ -25,7 +25,7 @@
         <el-button v-permission="[7]" type="danger" size="small" @click="exportlist">{{ $t('userrole.export') }}</el-button>
         <el-button v-permission="[3]" type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
         <el-table-column :label="$t('userrole.function')" prop="functions" />
@@ -51,20 +51,20 @@
       </div>
     </el-dialog>
     <!--新增弹窗-->
-    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
           <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
           <el-input v-model="addform.email" autocomplete="off" clearable @blur="addform.email = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="id">
-          <el-select v-model="addform.id" placeholder="请选择">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="id">
+          <el-select v-model="addform.id" placeholder="请选择" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth" prop="password">
+        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
           <el-input v-model="addform.password" type="password" autocomplete="off" clearable @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
@@ -74,16 +74,16 @@
       </div>
     </el-dialog>
     <!--查看和编辑角色-->
-    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="editform" :model="editform" :rules="editrules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
           <el-input v-model="editform.name" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="funid">
-          <el-select v-model="editform.funid" placeholder="请选择">
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="funid">
+          <el-select v-model="editform.funid" placeholder="请选择" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
@@ -131,6 +131,24 @@ export default {
     MultiCheckList
   },
   data() {
+    const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+      if (!passwordreg.test(value)) {
+        callback(new Error(this.$t('forgetForm.requirerule')))
+      } else {
+        callback()
+      }
+    }
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
       uploadHeaders: { 'Authorization': getToken() },
@@ -212,11 +230,12 @@ export default {
       editdialog: false,
       premissiondialog: false,
       formLabelWidth: '130px',
+      formLabelWidth1: '100px',
       rules: {
-        name: { required: true, message: this.$t('userrole.nametips'), trigger: 'blur' },
-        email: { required: true, message: this.$t('userrole.emailtips'), trigger: 'blur' },
-        id: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' },
-        password: { required: true, message: this.$t('userrole.passwordtips'), trigger: 'blur' }
+        name: { required: true, message: this.$t('forgetForm.namerequired') },
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+        id: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
       },
       editrules: {
         funid: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' }
@@ -264,8 +283,7 @@ export default {
         active: active,
         id: row.id
       }
-      const res = await userActive(data)
-      this.$message.success(res.message)
+      await userActive(data)
       this.$refs.pagination.refreshRequest()
     },
     // 新增操作
@@ -283,8 +301,7 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const res = await userAdd(data)
-          this.$message.success(res.message)
+          await userAdd(data)
           this.adddialog = false
           this.$refs.pagination.refreshRequest()
           this.addform = {
@@ -318,7 +335,7 @@ export default {
       }
     },
     // 提交操作
-    async submitview(formName) {
+    submitview(formName) {
       const role = [{
         id: this.editform.funid
       }]
@@ -331,8 +348,7 @@ export default {
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const res = await userEdit(data)
-          this.$message.success(res.message)
+          await userEdit(data)
           this.editdialog = false
           this.$refs.pagination.refreshRequest()
           this.editform = {
@@ -360,7 +376,7 @@ export default {
       console.log(parent, child)
     },
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx')
     },
     // 处理成功
     handleSuccess(res) {

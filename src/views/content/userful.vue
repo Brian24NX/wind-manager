@@ -22,22 +22,18 @@
         <el-button v-permission="[47]" type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
         <el-button v-permission="[48]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
         <el-button v-permission="[48]" type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
-        <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>
+        <!-- <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>-->
         <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams" :show-index="false" :selection-change="change" :show-check="true">
+      <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
-
-        <el-table-column :label="$t('userful.category')" prop="categoryName" />
-
+        <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
         <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
-
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
-            <!--<el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
-            <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>-->
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
+            <el-button v-if="scope.row.type==1" v-permission="[50]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
             <el-button v-permission="[51]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -45,7 +41,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -65,8 +61,8 @@
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
-            <el-button v-if="!scope.row.isSet" :disabled="scope.row.category ? false : true" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -154,7 +150,6 @@ export default {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: { keyWord: '' },
       categoryList: [],
-      categoryadd: false,
       categoryedit: false,
       importdialog: false,
       type: 1,
@@ -168,16 +163,14 @@ export default {
       },
       fileList: [],
       isAdd: false,
-      isEdit: false,
       adddialog: false,
       setdialog: false,
-      filePath: process.env.VUE_APP_FILE_BASE_API,
       typelist: [{
         label: 'Document', value: 1
       }, {
         label: 'Link', value: 2
       }],
-      formLabelWidth: '180px',
+      formLabelWidth: '110px',
       rules: {
         name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
         categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
@@ -200,7 +193,13 @@ export default {
           internalReference: '',
           id: ''
         }
+        this.fileList = []
         this.loading = false
+      }
+    },
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
       }
     }
   },
@@ -218,13 +217,12 @@ export default {
     transdocument(date) {
       // eslint-disable-next-line eqeqeq
       if (date.type == 1) {
-        return this.filePath + date.document
+        return process.env.VUE_APP_FILE_BASE_API + date.document
       } else {
         return date.document
       }
     },
     handleupSuccess(res) {
-      console.log(res)
       this.addform.document = res.data.fileName
     },
     //
@@ -259,7 +257,7 @@ export default {
           }]
         }
       }
-      this.isEdit = true
+      this.isAdd = false
       this.adddialog = true
     },
     async save(formName) {
@@ -280,22 +278,17 @@ export default {
             return
           }
           this.loading = true
-          // eslint-disable-next-line eqeqeq
-          if (this.isAdd == true) {
+          if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await templateAdd(data)
-            this.$message.success(res.message)
+            await templateAdd(data)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
-            this.isAdd = false
             this.loading = false
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-            const res = await templateEdit(data)
-            this.$message.success(res.message)
+            await templateEdit(data)
             this.adddialog = false
             this.$refs.pagination.pageRequest()
-            this.isEdit = false
             this.loading = false
           }
         } else {
@@ -322,12 +315,10 @@ export default {
     // 下载文档
     downloadfile() {
       // const res = await usefulTemplateDownload()
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx')
     },
     // 取消
     Cancle() {
-      this.isAdd = false
-      this.isEdit = false
       this.$refs.addform.resetFields()
       this.adddialog = false
     },
@@ -336,10 +327,10 @@ export default {
       const data = {
         category: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       this.tabledata.push(data)
-      this.categoryadd = true
     },
     // 添加种类
     async Save(row) {
@@ -350,16 +341,17 @@ export default {
         type: 3,
         isSet: false
       }
-      // eslint-disable-next-line eqeqeq
-      if (this.categoryadd == true) {
+      if (!data.category) {
+        this.$message.error('类别不能为空')
+        return
+      }
+      if (row.categoryadd) {
         const res = await categoryAdd(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryadd = false
+        data.id = res.data
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
+        await categoryEdit(data)
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
         this.categoryedit = false
       }
     },
@@ -377,7 +369,12 @@ export default {
       })
         .then(async() => {
           await categoryDel(id)
-          this.getcategoryList()
+          // 删除表格当前行
+          this.tabledata.map((i, index) => {
+            if (i.id === id) {
+              this.tabledata.splice(index, 1)
+            }
+          })
         })
     },
     change(selections) {
@@ -395,11 +392,8 @@ export default {
         })
       }
     },
-    download() {
-      console.log(this.selectcolumn)
-      this.selectcolumn.map((i) => {
-        window.location.href = this.filePath + i
-      })
+    download(url) {
+      window.open(process.env.VUE_APP_FILE_BASE_API + url)
     },
     handPreview() {},
     handRemove(file, fileList) {

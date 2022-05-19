@@ -46,7 +46,7 @@
     <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -167,8 +167,16 @@ export default {
       loading: false
     }
   },
+  watch: {
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
+      }
+    }
+  },
   created() {
-    this.getcategoryList(1)
+    this.getcategoryList()
+    this.getlist()
   },
   methods: {
     // 关闭获取list
@@ -192,8 +200,7 @@ export default {
       }
     },
     async handleDelAll() {
-      const res = await materialDelete(this.checkedList)
-      this.$message.success(res.message)
+      materialDelete(this.checkedList)
       this.getlist()
     },
     changeall() {
@@ -229,8 +236,7 @@ export default {
         id: this.editform.id,
         name: this.editform.title
       }
-      const res = await materialRename(data)
-      this.$message.success(res)
+      await materialRename(data)
       this.editdialog = false
       this.editform = {}
       this.getlist()
@@ -238,8 +244,7 @@ export default {
     // 修改类别
     async savecate() {
       this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-      const res = await materialChange(this.editcateform)
-      this.$message.success(res)
+      materialChange(this.editcateform)
       this.editcategorydialog = false
       this.editcateform.id = []
       this.editcateform.categoryId = ''
@@ -247,7 +252,7 @@ export default {
       this.getlist()
     },
     // 获取种类列表
-    async getcategoryList(first) {
+    async getcategoryList() {
       const type = 4
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
@@ -255,10 +260,6 @@ export default {
         i.isSet = false
       })
       this.tabledata = res.data
-      if (first) {
-        this.query.categoryId = ''
-        this.getlist()
-      }
     },
     changePagination(pagination) {
       this.pageNum = pagination.page
@@ -287,10 +288,10 @@ export default {
       const data = {
         category: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       this.tabledata.push(data)
-      this.categoryadd = true
     },
     // 添加种类
     async Save(row) {
@@ -301,23 +302,22 @@ export default {
         type: 4,
         isSet: false
       }
-      // eslint-disable-next-line eqeqeq
-      if (this.categoryadd == true) {
+      if (!data.category) {
+        this.$message.error('类别不能为空')
+        return
+      }
+      if (row.categoryadd) {
         const res = await categoryAdd(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryadd = false
+        data.id = res.data
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryedit = false
+        await categoryEdit(data)
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       }
     },
     // 编辑种类
     async Edit(row) {
       row.isSet = true
-      this.categoryedit = true
     },
     // 删除种类
     async Delete(id) {
@@ -335,8 +335,7 @@ export default {
     async handleDel(row) {
       const list = []
       list.push(row.id)
-      const res = await materialDelete(list)
-      this.$message.success(res.message)
+      await materialDelete(list)
       this.getlist()
     },
     handPreview() {},

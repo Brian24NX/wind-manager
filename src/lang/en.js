@@ -1,6 +1,7 @@
 export default {
   remindMessage: {
-    expired: 'Login has expired. Please login again'
+    expired: 'Login has expired. Please login again',
+    success: 'Operation is successful'
   },
   // 路由翻译
   route: {
@@ -58,7 +59,9 @@ export default {
     passwordtips: 'password is required',
     confirmpasswordtips: 'confirmpassword is required',
     verifycodetips: 'verifycode is required',
-    emailrequired: 'email is required'
+    emailrequired: 'email is required',
+    namerequired: 'name is required',
+    functionrequired: 'function is required'
   },
   // 登陆页面翻译
   login: {
@@ -96,7 +99,8 @@ export default {
     deltitle: 'Please confirm if you want to delete this article?'
   },
   message: {
-    detail: 'Details',
+    index: 'No.',
+    detail: 'Detail',
     edit: 'Edit',
     delete: 'Delete',
     publish: 'Published',
@@ -154,7 +158,9 @@ export default {
     import: 'Import',
     export: 'Export',
     newitem: 'Add A New Item',
-    deltitle: 'Please confirm if you want to delete this commodity list?'
+    deltitle: 'Please confirm if you want to delete this commodity list?',
+    commodityzhtips: 'commodityCn is required',
+    commodityentips: 'commodityEn is required'
   },
   // 用户模版
   userful: {
@@ -174,7 +180,8 @@ export default {
     nametips: 'name is required',
     categoryIdtips: 'categoryId is required',
     typetips: 'type is required',
-    documenttips: 'document is required'
+    documenttips: 'document is required',
+    download: 'Download'
   },
   // 业务和运营
   business: {
@@ -225,7 +232,7 @@ export default {
     dutytimetips: 'dutytime is required'
   },
   faq: {
-    id: 'No.',
+    id: 'Question No.',
     question: 'Question',
     keyword: 'Keyword(s)',
     relatedquestion: 'Related Question(s)',
@@ -238,6 +245,7 @@ export default {
     deactive: 'Deactive',
     active: 'Active',
     export: 'Export',
+    detail: 'Detail',
     deltitle: 'Please confirm if you want to delete this FAQ?',
     questiontips: 'question is required',
     answertips: 'answer is required',

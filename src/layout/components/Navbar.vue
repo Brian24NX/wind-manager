@@ -22,9 +22,11 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <el-avatar size="medium" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+          <!--<el-avatar size="medium" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />-->
           <!-- <img :src="" class="user-avatar"> -->
           <!-- <i class="el-icon-caret-bottom" /> -->
+          <!-- <span>{{ userName }}</span>-->
+          <span style="position:relative;top:-5px"> {{ userName }}</span>
         </div>
         <el-dropdown-menu slot="dropdown">
           <!--<router-link to="/profile/index">
@@ -74,6 +76,11 @@ export default {
     LangSelect
     // Search
   },
+  data() {
+    return {
+      userName: JSON.parse(localStorage.getItem('userInfo')).name
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -100,7 +107,6 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
   .hamburger-container {
     line-height: 46px;
     height: 100%;

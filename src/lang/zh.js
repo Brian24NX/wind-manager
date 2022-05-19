@@ -1,6 +1,7 @@
 export default {
   remindMessage: {
-    expired: '登录已过期，请重新登录'
+    expired: '登录已过期，请重新登录',
+    success: '操作成功'
   },
   // 路由翻译
   route: {
@@ -58,7 +59,9 @@ export default {
     passwordtips: '密码不能为空',
     confirmpasswordtips: '确认密码不能为空',
     verifycodetips: '验证码不能为空',
-    emailrequired: '邮箱不能为空'
+    emailrequired: '邮箱不能为空',
+    namerequired: '用户名不能为空',
+    functionrequired: '角色不能为空'
   },
   // 登陆翻译
   login: {
@@ -96,7 +99,8 @@ export default {
     deltitle: '请确认是否要删除该文章？'
   },
   message: {
-    detail: '查看',
+    index: '序号',
+    detail: '详情',
     edit: '编辑',
     delete: '删除',
     publish: '发布',
@@ -150,8 +154,8 @@ export default {
   },
   // 管制品
   sanctions: {
-    commodityzh: '商品（中文）',
-    commodityen: '商品（英文）',
+    commodityzh: '商品(中文)',
+    commodityen: '商品(英文)',
     referencenumber: '参考编号',
     remarkszh: '中文备注',
     remarksen: '英文备注',
@@ -159,7 +163,9 @@ export default {
     import: '导入',
     export: '导出',
     newitem: '添加新管制品',
-    deltitle: '是否确认删除该管制品记录'
+    deltitle: '是否确认删除该管制品记录',
+    commodityzhtips: '商品(中文)必填',
+    commodityentips: '商品(中文)必填'
   },
   // 用户模版
   userful: {
@@ -179,14 +185,15 @@ export default {
     nametips: '文档或者链接名必填',
     categoryIdtips: '类别必填',
     typetips: '类型必填',
-    documenttips: '文档或者链接必填'
+    documenttips: '文档或者链接必填',
+    download: '下载'
   },
   // 业务和运营
   business: {
     id: '序号',
     title: '通知标题',
     category: '类别',
-    creator: '作者',
+    creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
     buinessupdate: '业务更新',
@@ -232,12 +239,12 @@ export default {
   },
   // FAQ管理
   faq: {
-    id: '序号',
+    id: '问题编号',
     question: '问题',
     keyword: '关键词',
     relatedquestion: '关联问题',
     answer: '答案',
-    creator: '作者',
+    creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
     import: '导入',
@@ -245,6 +252,7 @@ export default {
     deactive: '禁用',
     active: '启用',
     export: '导出',
+    detail: '详情',
     deltitle: '是否确认删除该 FAQ ？',
     questiontips: '问题必填',
     answertips: '答案必填',
@@ -271,7 +279,7 @@ export default {
     titletips: '新闻标题必填',
     linktips: '链接必填',
     publishdatetips: '发布日期必填',
-    categorytips: '新增输入类别项不能为空'
+    categorytips: '种类英文和种类中文不能为空'
   },
   // CMA CGM
   vas: {

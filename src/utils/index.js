@@ -382,7 +382,7 @@ export function transList(list) {
   for (let i = 0; i < list.length; i++) {
     const obj = {
       value: list[i].id,
-      label: list[i].category
+      label: list[i].category + (list[i].categoryCn ? ' / ' + list[i].categoryCn : '')
     }
     arr.push(obj)
   }
@@ -412,7 +412,35 @@ export function transdict(list) {
   for (let i = 0; i < list.length; i++) {
     const obj = {
       value: list[i].key,
-      label: list[i].value
+      label: list[i].value + (list[i].valueCn ? ' / ' + list[i].valueCn : '')
+    }
+    arr.push(obj)
+  }
+  return arr
+}
+/**
+ *  list转化label-value
+ */
+export function transoffice(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].office,
+      label: list[i].officeName
+    }
+    arr.push(obj)
+  }
+  return arr
+}
+/**
+ *  list转化label-value
+ */
+export function transbuiness(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].businessType,
+      label: list[i].businessName
     }
     arr.push(obj)
   }

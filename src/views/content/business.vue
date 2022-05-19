@@ -30,21 +30,18 @@
         <el-button v-permission="[43]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
         <el-button v-permission="[43]" type="danger" size="small" @click="handleAdd">{{ $t('business.sendnotification') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('business.id')" prop="id" />
+      <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
-
-        <el-table-column :label="$t('business.category')" prop="categoryEnName" />
-
-        <el-table-column :label="$t('business.creator')" prop="creator" align="center" />
-
-        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('business.category')" prop="categoryEnName" align="center" width="180px" />
+        <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />
+        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" width="150px" />
+        <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" width="120px" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
+            <el-button v-if="scope.row.publish === 0" v-permission="[43]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.publish === 1" v-permission="[44]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-if="scope.row.publish === 0" v-permission="[44]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
-            <el-button v-if="scope.row.publish === 0" v-permission="[43]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
             <el-button v-permission="[43]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -52,7 +49,7 @@
     </div>
     <!--类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false" destroy-on-close>
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('business.category')">
           <template scope="scope">
@@ -85,14 +82,10 @@
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('business.creator')" :label-width="formLabelWidth" prop="creator">
-          <el-input v-model="addform.creator" autocomplete="off" clearable @blur="addform.creator = $event.target.value.trim()" />
-        </el-form-item>
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
           <tinymce ref="editor" v-model="addform.content" :height="250" />
         </el-form-item>
         <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
-          <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
             class="upload-demo"
@@ -121,16 +114,47 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!--查看通告-->
+    <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
+      <el-form ref="addform" :model="detailform">
+        <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
+          <el-input v-model="detailform.title" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
+          <div class="detailContent" v-html="detailform.content" />
+        </el-form-item>
+        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
+          <el-upload
+            ref="upload"
+            disabled
+            class="upload-demo"
+            :headers="{
+              Authorization: cookies,
+            }"
+            action="/api/admin/uploadFile"
+            :on-preview="handPreview"
+            :on-remove="handRemove"
+            :on-success="handleSuccess"
+            :file-list="fileList"
+            :limit="1"
+          >
+            <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="categoryId">
+          <el-select v-model="addform.categoryId" placeholder="请选择" disabled>
+            <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
-// eslint-disable-next-line no-unused-vars
 import { businessAdd, businessDel, businessPublish, businessEdit } from '@/api/business.js'
-// eslint-disable-next-line no-unused-vars
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
-// eslint-disable-next-line no-unused-vars
 import { transList } from '@/utils'
 import Cookies from 'js-cookie'
 export default {
@@ -148,15 +172,13 @@ export default {
         creator: ''
       },
       categoryadd: false,
-      categoryedit: false,
-      isEdit: false,
       isAdd: false,
       categoryList: [],
       adddialog: false,
       deldialog: false,
       setdialog: false,
       fileList: [],
-      formLabelWidth: '130px',
+      formLabelWidth: '80px',
       addform: {
         title: '',
         creator: '',
@@ -168,7 +190,9 @@ export default {
       submitLoading: false,
       rules: {
         title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
-      }
+      },
+      detailform: {},
+      detaildialog: false
     }
   },
   watch: {
@@ -186,6 +210,17 @@ export default {
         }, 300)
         this.fileList = []
         this.submitLoading = false
+      }
+    },
+    detaildialog(newValue) {
+      if (!newValue) {
+        this.detailform = {}
+        this.fileList = []
+      }
+    },
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
       }
     }
   },
@@ -230,7 +265,6 @@ export default {
     },
     // 保存或者保存并发布新增数据
     async savebusiness(publish) {
-      console.log(this.isEdit)
       this.$refs['addform'].validate((valid) => {
         if (valid) {
           const businiessOpentional = {
@@ -242,27 +276,19 @@ export default {
             categoryId: this.addform.categoryId,
             publish: publish
           }
-          // eslint-disable-next-line eqeqeq
-          if (this.isAdd == true) {
+          if (this.isAdd) {
             this.submitLoading = true
             businiessOpentional.createUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessAdd(businiessOpentional).then(res => {
-              this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
-              this.isEdit = false
-              this.isAdd = false
             })
-          // eslint-disable-next-line eqeqeq
-          } else if (this.isEdit == true) {
+          } else {
             this.submitLoading = true
             businiessOpentional.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             businessEdit(businiessOpentional).then(res => {
-              this.$message.success(res.message)
               this.adddialog = false
               this.$refs.pagination.pageRequest()
-              this.isEdit = false
-              this.isAdd = false
             })
           }
         } else {
@@ -289,13 +315,25 @@ export default {
         publish: publish,
         userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
-      const res = await businessPublish(data)
-      this.$message.success(res.message)
+      await businessPublish(data)
       this.$refs.pagination.pageRequest()
+    },
+    // 查看详情
+    handleDetail(row) {
+      this.detailform = JSON.parse(JSON.stringify(row))
+      if (this.detailform.content) {
+        this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+      }
+      if (row.filepath) {
+        this.fileList = [{
+          name: row.filepath.split('wind/')[1],
+          url: process.env.VUE_APP_FILE_BASE_API + row.filepath
+        }]
+      }
+      this.detaildialog = true
     },
     // 编辑
     handleEdit(row) {
-      console.log(row)
       this.addform = JSON.parse(JSON.stringify(row))
       if (row.filepath) {
         this.fileList = [{
@@ -307,19 +345,15 @@ export default {
       setTimeout(() => {
         this.$refs.editor.setContent(row.content)
       }, 200)
-      this.isEdit = true
       this.isAdd = false
     },
     // 新增
     handleAdd() {
       this.adddialog = true
       this.isAdd = true
-      this.isEdit = false
     },
     // 取消
     Cancle() {
-      this.isAdd = false
-      this.isEdit = false
       this.adddialog = false
     },
     // 添加种类
@@ -327,7 +361,8 @@ export default {
       const data = {
         category: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       // if (!this.tabledata[this.tabledata.length - 1].category) return
       this.tabledata.push(data)
@@ -342,23 +377,22 @@ export default {
         type: 2,
         isSet: false
       }
-      if (!data.category) return
-      if (this.categoryadd) {
+      if (!data.category) {
+        this.$message.error('类别不能为空')
+        return
+      }
+      if (row.categoryadd) {
         const res = await categoryAdd(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryadd = false
+        data.id = res.data
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       } else {
-        const res = await categoryEdit(data)
-        this.$message.success(res.message)
-        this.getcategoryList()
-        this.categoryedit = false
+        await categoryEdit(data)
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
       }
     },
     // 编辑种类
     async Edit(row) {
       row.isSet = true
-      this.categoryedit = true
     },
     // 删除种类
     async Delete(id) {
@@ -369,10 +403,18 @@ export default {
       })
         .then(async() => {
           await categoryDel(id)
-          this.getcategoryList()
+          // 删除表格当前行
+          this.tabledata.map((i, index) => {
+            if (i.id === id) {
+              this.tabledata.splice(index, 1)
+            }
+          })
         })
     },
-    handPreview() {},
+    handPreview(file) {
+      console.log(file)
+      window.open(file.url)
+    },
     handRemove(file, fileList) {
       console.log(file, fileList)
       this.fileList = fileList

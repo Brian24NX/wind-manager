@@ -14,9 +14,9 @@
       @selection-change="selectionChange"
     >
       <el-table-column v-if="showCheck" type="selection" width="55" />
-      <el-table-column v-if="getShowIndex" align="center" :label="$t('message.index')" width="80">
+      <el-table-column v-if="getShowIndex" align="center" :label="$t('message.index')" width="80px">
         <template scope="scope">
-          <span>{{ pagination.page * pagination.size + scope.$index + 1 }}</span>
+          <span>{{ (pagination.pageNum - 1) * pagination.pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
       <slot />

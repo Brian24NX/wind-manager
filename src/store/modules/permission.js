@@ -47,7 +47,7 @@ const actions = {
         menuArr.push(route.name)
         if (route.children) {
           route.children.forEach(item => {
-            if (item.name !== 'Article Management') {
+            if (item.name !== 'Article Managements') {
               if (item.children && item.children.findIndex(child => child.name === 'View') !== -1) {
                 menuArr.push(item.name)
               }
@@ -59,9 +59,11 @@ const actions = {
                 // })
               })
             } else {
+              let count = 0
               item.children.forEach(child => {
                 if (child.children && child.children.findIndex(secondChild => secondChild.name === 'View') !== -1) {
                   menuArr.push(child.name)
+                  count += 1
                 }
                 child.children.forEach(secondChild => {
                   buttonArr.push(secondChild.id)
@@ -71,6 +73,9 @@ const actions = {
                   // })
                 })
               })
+              if (count) {
+                menuArr.push(item.name)
+              }
             }
           })
         }

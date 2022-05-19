@@ -30,7 +30,7 @@
         <el-button v-permission="[23]" type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
         <el-button v-permission="[23]" type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams" :show-index="false">
+      <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
         <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
@@ -38,6 +38,7 @@
         <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
+            <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
             <el-button v-if="scope.row.status === 'Unpublish'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status === 'Published'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <!-- <el-button v-if="scope.row.status ==='Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>-->
@@ -77,12 +78,12 @@
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--文章类型修改-->
-    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center destroy-on-close :close-on-click-modal="false">
-      <el-button size="small" type="primary" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
+    <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center destroy-on-close :close-on-click-modal="false" top="50px">
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
         <el-table-column :label="$t('newscenter.categoryen')" prop="categoryen">
           <template scope="scope">
@@ -117,6 +118,9 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+    <el-dialog :title="$t('message.detail')" :visible.sync="detailDialog" center width="500px" :close-on-click-modal="false" destroy-on-close top="50px">
+      <div class="detailContent" v-html="detailform.content" />
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -124,7 +128,7 @@ import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
 import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter.js'
 // eslint-disable-next-line no-unused-vars
-import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
+import { categoryList, categoryAdd, categoryDel, categoryEdit, newsDetail } from '@/api/article.js'
 import { transList } from '@/utils'
 import { getToken } from '@/utils/auth'
 export default {
@@ -134,13 +138,11 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { 'Authorization': getToken() },
+      uploadHeaders: { Authorization: getToken() },
       queryParams: {
         categoryIds: '',
         keyword: ''
       },
-      categoryedit: false,
-      categoryadd: false,
       categoryList: [],
       // 新增历史新闻
       addhistorynewsdialog: false,
@@ -150,7 +152,7 @@ export default {
       importdialog: false,
       // 类别修改
       setdialog: false,
-      formLabelWidth: '130px',
+      formLabelWidth: '80px',
       historyform: {
         title: '',
         link: '',
@@ -163,7 +165,9 @@ export default {
         publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
       },
       tabledata: [],
-      loading: false
+      loading: false,
+      detailform: {},
+      detailDialog: false
     }
   },
   watch: {
@@ -177,14 +181,33 @@ export default {
         }
         this.loading = false
       }
+    },
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
+      }
     }
   },
   created() {
     this.getcategoryList()
   },
   methods: {
+    // 查看
+    handleDetail(id) {
+      newsDetail(id).then(res => {
+        this.detailform = res.data
+        if (this.detailform.historyFlag) {
+          window.open(this.detailform.originalLink)
+        } else {
+          if (this.detailform.content) {
+            this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+          }
+          this.detailDialog = true
+        }
+      })
+    },
     transactive(data) {
-    // eslint-disable-next-line eqeqeq
+      // eslint-disable-next-line eqeqeq
       if (data.publish == 1) {
         return 'Published'
       } else {
@@ -215,7 +238,7 @@ export default {
       const type = 1
       const res = await categoryList(type)
       this.categoryList = transList(res.data)
-      res.data.map(i => {
+      res.data.map((i) => {
         i.isSet = false
       })
       this.tabledata = res.data
@@ -232,8 +255,7 @@ export default {
             publishDate: this.$moment(this.historyform.publishdate).format('YYYY-MM-DD'),
             publish: 1
           }
-          newsAdd(data).then(res => {
-            this.$message.success(res.message)
+          newsAdd(data).then(() => {
             this.addhistorynewsdialog = false
             this.$refs.pagination.pageRequest()
           })
@@ -248,19 +270,17 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await newsDel(id)
+        this.$refs.pagination.pageRequest()
       })
-        .then(async() => {
-          await newsDel(id)
-          this.$refs.pagination.pageRequest()
-        })
     },
     async handleUpdateStatus(row, publish) {
       const data = {
         id: row.id,
         publish: publish
       }
-      const res = await newsPublish(data)
-      this.$message.success(res.message)
+      await newsPublish(data)
       this.$refs.pagination.pageRequest()
     },
     // 状态改变
@@ -271,7 +291,7 @@ export default {
     },
     // 下载模版
     downloadfile() {
-      window.location.href = process.env.VUE_APP_FILE_BASE_API + 'import/Import Historical News 导入历史新闻.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Historical News 导入历史新闻.xlsx')
     },
     // 取消
     Cancle() {
@@ -285,15 +305,14 @@ export default {
         category: '',
         categoryCn: '',
         creator: '',
-        isSet: true
+        isSet: true,
+        categoryadd: true
       }
       this.tabledata.push(data)
-      this.categoryadd = true
     },
     // 添加种类
     async Save(row) {
-      // eslint-disable-next-line eqeqeq
-      if (row.category == '' || row.categoryCn == '') {
+      if (!row.category || !row.categoryCn) {
         this.$message.error(this.$t('newscenter.categorytips'))
         return
       } else {
@@ -305,24 +324,19 @@ export default {
           type: 1,
           isSet: false
         }
-        // eslint-disable-next-line eqeqeq
-        if (this.categoryadd == true) {
+        if (row.categoryadd) {
           const res = await categoryAdd(data)
-          this.$message.success(res.message)
-          this.getcategoryList()
-          this.categoryadd = false
+          data.id = res.data
+          this.$set(this.tabledata, this.tabledata.indexOf(row), data)
         } else {
-          const res = await categoryEdit(data)
-          this.$message.success(res.message)
-          this.getcategoryList()
-          this.categoryedit = false
+          await categoryEdit(data)
+          this.$set(this.tabledata, this.tabledata.indexOf(row), data)
         }
       }
     },
     // 编辑种类
     async Edit(row) {
       row.isSet = true
-      this.categoryedit = true
     },
     // 删除种类
     async Delete(id) {
@@ -330,13 +344,16 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
-      })
-        .then(async() => {
-          await categoryDel(id)
-          this.getcategoryList()
+      }).then(async() => {
+        await categoryDel(id)
+        // 删除表格当前行
+        this.tabledata.map((i, index) => {
+          if (i.id === id) {
+            this.tabledata.splice(index, 1)
+          }
         })
+      })
     }
-
   }
 }
 </script>
