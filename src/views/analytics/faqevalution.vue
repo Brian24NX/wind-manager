@@ -1,13 +1,80 @@
 <template>
-  <div />
+  <div>
+    <div class="searchContainer">
+      <el-row style="width: 100%">
+        <el-col :span="16">
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-select v-model="queryParams.usertpye" placeholder="请选择" clearable filterable style="width: 100%">
+                <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-col>
+            <el-col :span="8">
+              <el-date-picker
+                v-model="queryParams.time"
+                type="daterange"
+                start-placeholder="StartTime"
+                end-placeholder="EndTime"
+                :default-time="['00:00:00', '23:59:59']"
+              />
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="8">
+          <el-row :gutter="20" type="flex" justify="end">
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+          </el-row>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="tableContainer">
+      <div class="operations">
+        <el-button type="danger" size="small" @click="download">Download</el-button>
+      </div>
+      <!--echart图表-->
+      <div class="chart-container">
+        <chart height="200px" width="100%" />
+      </div>
+      <div class="flex-card">
+        <div class="grey">
+          <chart id="id" height="200px" width="100%" class="class" />
+        </div>
+        <div class="grey">
+          <p>Total Questions Asked</p>
+          <p>10000</p>
+        </div>
+        <div class="grey">
+          <p>FAQS with positive evaluation</p>
+          <p>9000</p>
+        </div>
+        <div class="grey">
+          <p>FAQS with negative evaluation</p>
+          <p>1000</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import Chart from '@/components/Charts/LineMarker'
 export default {
   name: 'Faqevalution',
+  components: { Chart },
   data() {
     return {
-      msg: ''
+      id: 'chart1',
+      class: 'chart1',
+      queryParams: { usertpye: 2, time: '' },
+      userTypeList: [{ value: 1, label: 'Last Edit Time' }, { value: 2, label: 'Choose a FAQ' }, { value: 3, label: 'Published Time' }],
+      LineList: [
+        { UserScore: 1500, Name: '2022-04-08' },
+        { UserScore: 1300, Name: '2022-04-09' },
+        { UserScore: 1500, Name: '2022-04-10' },
+        { UserScore: 1800, Name: '2022-04-11' },
+        { UserScore: 2000, Name: '2022-04-12' }
+      ]
     }
   },
   created() {
@@ -17,11 +84,42 @@ export default {
 
   },
   methods: {
+    // 查询
+    search() {
 
+    },
+    // 置空
+    reset() {
+
+    },
+    // 下载
+    download() {
+
+    }
   }
 }
 </script>
 
 <style scoped>
-
+   .chart-container{
+     position:relative;
+     width:100%
+  }
+  .flex-card{
+    margin:40px;
+    display:flex;
+    flex-direction:row;
+    flex-wrap: nowrap;
+    justify-content:space-around;
+    align-items:center;
+    align-content:center;
+  }
+  .grey{
+    background-color:#f0f0f0;
+    font-size:18px;
+    font-weight:600;
+    height:200px;
+    width:23%;
+    text-align:center;
+  }
 </style>

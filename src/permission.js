@@ -15,7 +15,8 @@ const whiteList = [
   '/auth-redirect',
   '/forget/toemail',
   '/forget/topassword',
-  '/UserStatistics'
+  '/UserStatistics',
+  '/FaqEvalution'
 ] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
