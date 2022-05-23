@@ -10,13 +10,7 @@
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-date-picker
-                v-model="queryParams.time"
-                type="daterange"
-                start-placeholder="StartTime"
-                end-placeholder="EndTime"
-                :default-time="['00:00:00', '23:59:59']"
-              />
+              <el-date-picker v-model="queryParams.time" type="daterange" start-placeholder="StartTime" end-placeholder="EndTime" :default-time="['00:00:00', '23:59:59']" />
             </el-col>
           </el-row>
         </el-col>
@@ -33,50 +27,68 @@
         <el-button type="danger" size="small" @click="download">Download</el-button>
       </div>
       <!--echart图表-->
-      <div v-if="queryParams.usertpye==1">
+      <div v-if="queryParams.usertpye == 1">
         <!--图表1-->
+        <mostfrenquently />
       </div>
-      <div v-if="queryParams.usertpye==2">
-        <!--图表1-->
+      <div v-if="queryParams.usertpye == 2">
+        <!--图表2-->
       </div>
-      <div v-if="queryParams.usertpye==3">
-        <!--图表1-->
+      <div v-if="queryParams.usertpye == 3">
+        <!--图表3-->
       </div>
-      <div v-if="queryParams.usertpye==4">
-        <!--图表1-->
+      <div v-if="queryParams.usertpye == 4">
+        <!--图表4-->
       </div>
-      <div v-if="queryParams.usertpye==5">
-        <!--图表1-->
+      <div v-if="queryParams.usertpye == 5">
+        <!--图表5-->
+        <cmacgm />
       </div>
-      <div v-if="queryParams.usertpye==6">
-        <!--图表1-->
+      <div v-if="queryParams.usertpye == 6">
+        <!--图表6-->
+      </div>
+      <div v-if="queryParams.usertpye==7">
+        <!--图表7-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import mostfrenquently from './components/mostfrenquently'
+import cmacgm from './components/cmacgm'
 export default {
-  name: '',
+  name: 'Index',
+  // eslint-disable-next-line vue/no-unused-components
+  components: { mostfrenquently, cmacgm },
   data() {
     return {
-      msg: ''
+      userTypeList: [
+        { value: 1, label: 'Frequently searched routes' },
+        { value: 2, label: 'Business & Operational Updates' },
+        { value: 3, label: 'Useful Template & Link' },
+        { value: 4, label: 'News Center' },
+        { value: 5, label: 'CMA CGM+' },
+        { value: 6, label: 'Most Frenquently Used Functions' },
+        { value: 7, label: 'Instant Quotation & Booking' }
+      ],
+      queryParams: {
+        usertpye: 1,
+        time: ''
+      }
     }
   },
-  created() {
-
-  },
-  mounted() {
-
-  },
+  created() {},
+  mounted() {},
   methods: {
-    search() {
-
-    }
+    // 查询
+    search() {},
+    // 重置
+    reset() {},
+    // 下载
+    download() {}
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

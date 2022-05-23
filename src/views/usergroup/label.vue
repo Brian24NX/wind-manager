@@ -25,9 +25,9 @@
         <el-button type="danger" size="small" @click="handleAdd">  {{ $t('label.add') }} </el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
-        <el-table-column :label="$t('label.companyname')" prop="companyname" />
-        <el-table-column :label="$t('label.companycategory')" prop="companycategory" align="center" />
+        <el-table-column :label="$t('label.labelname')" prop="labelname" />
         <el-table-column align="center" :label="$t('label.description')" prop="description" />
+        <el-table-column :label="$t('label.companycategory')" prop="companycategory" align="center" />
         <el-table-column align="center" :label="$t('label.usersnumber')" prop="usersnumber">
           <template scope="scope">
             <el-button size="small" type="text" @click="viewuser(scope.row)">View Users({{ scope.row.usersnumber }})</el-button>
@@ -44,11 +44,16 @@
     <!--新增编辑label-->
     <el-dialog :title="$t('route.labelManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('faq.labelname')" :label-width="formLabelWidth" prop="labelname">
+        <el-form-item :label="$t('label.labelname')" :label-width="formLabelWidth" prop="labelname">
           <el-input v-model="addform.labelname" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.labelname = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('faq.labeldescription')" :label-width="formLabelWidth" prop="labeldescription">
+        <el-form-item :label="$t('label.description')" :label-width="formLabelWidth" prop="labeldescription">
           <el-input v-model="addform.labeldescription" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable @blur="addform.labeldescription = $event.target.value.trim()" />
+        </el-form-item>
+        <el-form-item v-if="isEdit" :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyid">
+          <el-select v-model="addform.companyId" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
+            <el-option v-for="item in companylist" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -102,8 +107,10 @@ export default {
       addform: {
         id: '',
         labelname: '',
-        labeldescription: ''
+        labeldescription: '',
+        companyId: []
       },
+      companylist: [],
       rules: {
         labelname: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
       }

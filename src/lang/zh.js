@@ -339,25 +339,25 @@ export default {
   },
   // 小程序用户
   programuser: {
-    export: '导出excle',
+    export: '导出',
     username: '用户名',
-    account: 'ecom账号',
+    account: '账号',
     company: '公司',
-    companycategory: '公司种类',
-    partnercode: '合作号'
+    companycategory: '公司分类',
+    partnercode: 'Partner Code'
   },
   // label管理
   label: {
-    add: '新增一个标签',
+    add: '添加新标签',
     companyname: '公司名称',
     companycategory: '公司种类',
     description: '描述',
-    usersnumber: '用户',
+    usersnumber: '用户名',
     labelname: '标签名称',
     labeldescription: '标签描述',
     id: '序号',
     user: '用户',
-    ecomaccount: 'ecom账号',
+    ecomaccount: '账号',
     labelnametips: '标签名称必填'
   }
 }
