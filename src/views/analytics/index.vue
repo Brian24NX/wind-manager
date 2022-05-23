@@ -29,7 +29,7 @@
       <!--echart图表-->
       <div v-if="queryParams.usertpye == 1">
         <!--图表1-->
-        <mostfrenquently />
+        <frenquentlyroutes />
       </div>
       <div v-if="queryParams.usertpye == 2">
         <buiness />
@@ -37,9 +37,11 @@
       </div>
       <div v-if="queryParams.usertpye == 3">
         <!--图表3-->
+        <useful />
       </div>
       <div v-if="queryParams.usertpye == 4">
         <!--图表4-->
+        <newscenter />
       </div>
       <div v-if="queryParams.usertpye == 5">
         <!--图表5-->
@@ -47,9 +49,11 @@
       </div>
       <div v-if="queryParams.usertpye == 6">
         <!--图表6-->
+        <mostfrenquently />
       </div>
       <div v-if="queryParams.usertpye==7">
         <!--图表7-->
+        <instantquotation />
       </div>
     </div>
   </div>
@@ -59,20 +63,25 @@
 import mostfrenquently from './components/mostfrenquently'
 import cmacgm from './components/cmacgm'
 import buiness from './components/buiness'
+import useful from './components/usefultemplate'
+import frenquentlyroutes from './components/frequentlyroutes'
+import newscenter from './components/newscenter'
+import instantquotation from './components/instantquotation'
 export default {
   name: 'Index',
   // eslint-disable-next-line vue/no-unused-components
-  components: { mostfrenquently, cmacgm, buiness },
+  components: { mostfrenquently, cmacgm, buiness, useful, frenquentlyroutes, instantquotation, newscenter },
   data() {
     return {
+      // 后续用字典查询
       userTypeList: [
         { value: 1, label: 'Frequently searched routes' },
         { value: 2, label: 'Business & Operational Updates' },
         { value: 3, label: 'Useful Template & Link' },
         { value: 4, label: 'News Center' },
         { value: 5, label: 'CMA CGM+' },
-        { value: 6, label: 'Most Frenquently Used Functions' },
-        { value: 7, label: 'Instant Quotation & Booking' }
+        { value: 6, label: 'Instant Quotation & Booking' },
+        { value: 7, label: 'Most Frenquently Used Functions' }
       ],
       queryParams: {
         usertpye: 1,

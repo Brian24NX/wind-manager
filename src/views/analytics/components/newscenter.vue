@@ -10,8 +10,10 @@
 </template>
 
 <script>
+import Pagination from '@/components/Pagination'
 export default {
-  name: 'NewsCenter',
+  name: 'NewCenter',
+  components: { Pagination },
   data() {
     return {
       queryParams: {}
