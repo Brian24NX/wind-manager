@@ -1,10 +1,10 @@
 <template>
   <div>
     <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
-      <el-table-column :label="$t('cmg.title')" prop="title" />
-      <el-table-column align="center" :label="$t('cmg.publishdate')" prop="publishdate" />
-      <el-table-column :label="$t('cmg.numberofviews')" prop="numberofviews" align="center" />
-      <el-table-column align="center" :label="$t('cmg.numberoflinkes')" prop="numberoflikes" />
+      <el-table-column :label="$t('cma.title')" prop="title" />
+      <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishdate" />
+      <el-table-column :label="$t('cma.numberofviews')" prop="numberofviews" align="center" />
+      <el-table-column align="center" :label="$t('cma.numberoflinkes')" prop="numberoflikes" />
     </Pagination>
   </div>
 </template>

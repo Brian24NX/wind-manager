@@ -359,5 +359,32 @@ export default {
     user: '用户',
     ecomaccount: '账号',
     labelnametips: '标签名称必填'
+  },
+  // 发布通知
+  buiness: {
+    title: '标题',
+    publishdate: '发布日期',
+    numberofviews: '浏览量',
+    numberofsendtoemail: '发送至邮箱数量'
+  },
+  // 模版
+  useful: {
+    title: '标题',
+    numberofviews: '浏览量',
+    numberofsendtoemail: '发送至邮箱数量'
+  },
+  // 新闻
+  news: {
+    title: '标题',
+    publishdate: '发布日期',
+    numberofviews: '浏览量',
+    numberoflinkes: '点赞量'
+  },
+  // cgm
+  cma: {
+    title: '标题',
+    publishdate: '发布日期',
+    numberofviews: '浏览量',
+    numberoflinkes: '点赞量'
   }
 }

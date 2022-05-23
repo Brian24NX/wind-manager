@@ -352,5 +352,32 @@ export default {
     user: 'User',
     ecomaccount: 'eCommerce Account',
     labelnametips: 'Label Name is required'
+  },
+  // 发布通知
+  buiness: {
+    title: 'Title',
+    publishdate: 'Publish Date',
+    numberofviews: 'Number of Views',
+    numberofsendtoemail: 'Number of Send to Email'
+  },
+  // 模版
+  useful: {
+    title: 'Title',
+    numberofviews: 'Number of Views/Copies',
+    numberofsendtoemail: 'Number of Send to Email'
+  },
+  // 新闻
+  news: {
+    title: 'Title',
+    publishdate: 'Publish Date',
+    numberofviews: 'Number of Views',
+    numberoflinkes: 'Number of Send to Email'
+  },
+  // cgm
+  cma: {
+    title: 'Title',
+    publishdate: 'Publish Date',
+    numberofviews: 'Number of Views',
+    numberoflinkes: 'Number of Send to Email'
   }
 }

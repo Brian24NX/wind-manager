@@ -32,6 +32,7 @@
         <mostfrenquently />
       </div>
       <div v-if="queryParams.usertpye == 2">
+        <buiness />
         <!--图表2-->
       </div>
       <div v-if="queryParams.usertpye == 3">
@@ -57,10 +58,11 @@
 <script>
 import mostfrenquently from './components/mostfrenquently'
 import cmacgm from './components/cmacgm'
+import buiness from './components/buiness'
 export default {
   name: 'Index',
   // eslint-disable-next-line vue/no-unused-components
-  components: { mostfrenquently, cmacgm },
+  components: { mostfrenquently, cmacgm, buiness },
   data() {
     return {
       userTypeList: [
