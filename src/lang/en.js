@@ -379,5 +379,16 @@ export default {
     publishdate: 'Publish Date',
     numberofviews: 'Number of Views',
     numberoflinkes: 'Number of Send to Email'
+  },
+  // 更多功能
+  most: {
+    cma: 'CMA CGM+',
+    about: 'About Us',
+    news: 'News Center',
+    online: 'Online Service',
+    customer: 'Customer Advisory',
+    useful: 'Useful Template & Link',
+    sanction: 'Sanction Check',
+    contant: 'Contact Us'
   }
 }

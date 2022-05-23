@@ -2,34 +2,34 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="12">
-        <span class="center">CMA CGM+</span><span class="center">{{ frenquenylylist.cma }}views</span>
-      </el-col>
+        <span class="center">{{ this.$t('most.cma') }}/span><span class="center">{{ frenquenylylist.cma }}views</span>
+        </span></el-col>
       <el-col :span="12">
-        <span class="center">About Us</span><span class="center">{{ frenquenylylist.abountus }}views</span>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <span class="center">News Center</span><span class="center">{{ frenquenylylist.newscenter }}views</span>
-      </el-col>
-      <el-col :span="12">
-        <span class="center">Online Service</span><span class="center">{{ frenquenylylist.onlineService }}views</span>
+        <span class="center">{{ this.$t('most.about') }}</span><span class="center">{{ frenquenylylist.abountus }}views</span>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="12">
-        <span class="center">Customer Advisory</span><span class="center">{{ frenquenylylist.customerad }}views</span>
+        <span class="center">{{ this.$t('most.news') }}</span><span class="center">{{ frenquenylylist.newscenter }}views</span>
       </el-col>
       <el-col :span="12">
-        <span class="center">Useful Template and Link</span><span class="center">{{ frenquenylylist.userfultemplate }}views</span>
+        <span class="center">{{ this.$t('most.online') }}</span><span class="center">{{ frenquenylylist.onlineService }}views</span>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="12">
-        <span class="center">Sanction Check</span><span class="center">{{ frenquenylylist.sanctioncheck }}views</span>
+        <span class="center">{{ this.$t('most.customer') }}</span><span class="center">{{ frenquenylylist.customerad }}views</span>
       </el-col>
       <el-col :span="12">
-        <span class="center">Contant Us</span><span class="center">{{ frenquenylylist.contantus }}views</span>
+        <span class="center">{{ this.$t('most.useful') }}</span><span class="center">{{ frenquenylylist.userfultemplate }}views</span>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <span class="center">{{ this.$t('most.sanction') }}</span><span class="center">{{ frenquenylylist.sanctioncheck }}views</span>
+      </el-col>
+      <el-col :span="12">
+        <span class="center">{{ this.$t('most.contant') }}</span><span class="center">{{ frenquenylylist.contantus }}views</span>
       </el-col>
     </el-row>
   </div>

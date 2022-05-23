@@ -386,5 +386,16 @@ export default {
     publishdate: '发布日期',
     numberofviews: '浏览量',
     numberoflinkes: '点赞量'
+  },
+  // 更多功能
+  most: {
+    cma: 'CMA CGM+',
+    about: '集团介绍',
+    news: '新闻中心',
+    online: '在线服务',
+    customer: '客户公告',
+    useful: '常用模版及链接',
+    sanction: '管制品查询',
+    contant: '联系我们'
   }
 }
