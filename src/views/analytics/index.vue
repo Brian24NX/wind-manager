@@ -28,14 +28,14 @@
     </div>
     <!--内容部分-->
     <div class="tableContainer">
-      <div class="operations">
+      <div v-if="queryParams.usertpye!=6" class="operations">
         <el-button type="danger" size="small" @click="downloaddialog=true">{{ $t('label.download') }}</el-button>
       </div>
-      <!--echart图表-->
+      <!--Frequently searched routes-->
       <div v-if="queryParams.usertpye == 1">
-        <!--图表1-->
         <div id="mychart" class="echart" :style="myChartStyle" />
       </div>
+      <!--Business & Operational Updates-->
       <div v-if="queryParams.usertpye == 2">
         <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
           <el-table-column :label="$t('buiness.title')" prop="title" />
@@ -44,6 +44,7 @@
           <el-table-column align="center" :label="$t('buiness.numberofsendtoemail')" prop="numberofsendtoemail" />
         </Pagination>
       </div>
+      <!--Useful Template & Link-->
       <div v-if="queryParams.usertpye == 3">
         <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
           <el-table-column :label="$t('useful.title')" prop="title" />
@@ -51,6 +52,7 @@
           <el-table-column :label="$t('useful.numberofsendtoemail')" prop="numberofsendtoemail" align="center" />
         </Pagination>
       </div>
+      <!--News Center-->
       <div v-if="queryParams.usertpye == 4">
         <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
           <el-table-column :label="$t('news.title')" prop="title" />
@@ -59,6 +61,7 @@
           <el-table-column align="center" :label="$t('news.numberoflinkes')" prop="numberoflikes" />
         </Pagination>
       </div>
+      <!--CMA CGM+-->
       <div v-if="queryParams.usertpye == 5">
         <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
           <el-table-column :label="$t('cma.title')" prop="title" />
@@ -67,10 +70,15 @@
           <el-table-column align="center" :label="$t('cma.numberoflinkes')" prop="numberoflikes" />
         </Pagination>
       </div>
+      <!--转化分析-->
       <div v-if="queryParams.usertpye == 6">
+        功能升级中，敬请期待
+      </div>
+      <!--更多模版点击次数-->
+      <div v-if="queryParams.usertpye==7">
         <el-row :gutter="20">
           <el-col :span="12">
-            <span class="center">{{ this.$t('most.cma') }}/span><span class="center">{{ frenquenylylist.cma }}views</span>
+            <span class="center">{{ this.$t('most.cma') }}</span><span class="center">{{ frenquenylylist.cma }}views</span>
             </span></el-col>
           <el-col :span="12">
             <span class="center">{{ this.$t('most.about') }}</span><span class="center">{{ frenquenylylist.abountus }}views</span>
@@ -100,9 +108,6 @@
             <span class="center">{{ this.$t('most.contant') }}</span><span class="center">{{ frenquenylylist.contantus }}views</span>
           </el-col>
         </el-row>
-      </div>
-      <div v-if="queryParams.usertpye==7">
-        功能升级中，敬请期待
       </div>
     </div>
     <!--下载弹窗-->
