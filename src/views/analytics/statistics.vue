@@ -31,7 +31,7 @@
       </div>
       <!--echart图表-->
       <div class="chart-container">
-        <chart height="400px" width="100%" />
+        <div id="mychart" class="echart" :style="myChartStyle" />
       </div>
       <div class="total"><span class="total">Total followers:</span><span class="total">12,000</span></div>
     </div>
@@ -53,10 +53,10 @@
 </template>
 
 <script>
-import Chart from '@/components/Charts/LineMarker'
+import * as echarts from 'echarts'
 export default {
   name: 'Statistics',
-  components: { Chart },
+  components: { },
   data() {
     return {
       queryParams: { usertpye: 8, StartTime: this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD'), EndTime: new Date() },
@@ -86,13 +86,40 @@ export default {
         const minTime = this.queryParams.EndTime.getTime() - one
         console.log(minTime)
         return this.queryParams.EndTime.getTime() < minTime
-      }
+      },
+      myChart: {},
+      xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
+      yData: [23, 24, 18, 25, 27, 28, 25], // 人数数据
+      myChartStyle: { float: 'left', width: '100%', height: '400px' } // 图表样式
     }
   },
   created() {
   },
-  mounted() {},
+  mounted() {
+    this.initEcharts()
+  },
   methods: {
+    // 初始化折线图
+    initEcharts() {
+      const option = {
+        xAxis: {
+          data: this.xData
+        },
+        yAxis: {},
+        series: [
+          {
+            data: this.yData,
+            type: 'line' // 类型设置为折线图
+          }
+        ]
+      }
+      this.myChart = echarts.init(document.getElementById('mychart'))
+      this.myChart.setOption(option)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        this.myChart.resize()
+      })
+    },
     search() {
 
     },
