@@ -10,10 +10,10 @@
               </el-select>
             </el-col>
             <el-col :span="5">
-              <el-date-picker v-model="queryParams.StartTime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
+              <el-date-picker v-model="queryParams.StartTime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" :picker-options="StartDatetions" />
             </el-col>
             <el-col :span="4" style="margin-left:20px">
-              <el-date-picker v-model="queryParams.EndTime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
+              <el-date-picker v-model="queryParams.EndTime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" :picker-options="EndDatetions" />
             </el-col>
           </el-row>
         </el-col>
@@ -27,7 +27,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="download">Download</el-button>
+        <el-button type="danger" size="small" @click="download">{{ $t('label.download') }}</el-button>
       </div>
       <!--echart图表-->
       <div v-if="queryParams.usertpye == 1">
@@ -88,12 +88,25 @@ export default {
       ],
       queryParams: {
         usertpye: 1,
-        StartTime: '',
+        StartTime: this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD'),
         EndTime: new Date()
+      },
+      StartDatetions: () => {
+        const one = 30 * 24 * 3600 * 1000
+        const minTime = this.queryParams.StartTime.getTime() - one
+        console.log(minTime)
+        return this.queryParams.StartTime.getTime() < minTime
+      },
+      EndDatetions: () => {
+        const one = 30 * 24 * 3600 * 1000
+        const minTime = this.queryParams.EndTime.getTime() - one
+        console.log(minTime)
+        return this.queryParams.EndTime.getTime() < minTime
       }
     }
   },
-  created() {},
+  created() {
+  },
   mounted() {},
   methods: {
     // 查询

@@ -358,7 +358,8 @@ export default {
     id: '序号',
     user: '用户',
     ecomaccount: '账号',
-    labelnametips: '标签名称必填'
+    labelnametips: '标签名称必填',
+    download: '下载'
   },
   // 发布通知
   buiness: {
