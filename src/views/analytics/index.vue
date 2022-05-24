@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--搜索部分-->
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
@@ -25,6 +26,7 @@
         </el-col>
       </el-row>
     </div>
+    <!--内容部分-->
     <div class="tableContainer">
       <div class="operations">
         <el-button type="danger" size="small" @click="downloaddialog=true">{{ $t('label.download') }}</el-button>
@@ -59,6 +61,7 @@
         <instantquotation />
       </div>
     </div>
+    <!--下载弹窗-->
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="downloadform" :model="downloadform" :rules="rules">
         <el-form-item :label="$t('download.starttime')" :label-width="formLabelWidth1" prop="starttime">
