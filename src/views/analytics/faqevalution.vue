@@ -9,14 +9,11 @@
                 <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
-            <el-col :span="8">
-              <el-date-picker
-                v-model="queryParams.time"
-                type="daterange"
-                start-placeholder="StartTime"
-                end-placeholder="EndTime"
-                :default-time="['00:00:00', '23:59:59']"
-              />
+            <el-col :span="5">
+              <el-date-picker v-model="queryParams.StartTime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
+            </el-col>
+            <el-col :span="4" style="margin-left:20px">
+              <el-date-picker v-model="queryParams.EndTime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
             </el-col>
           </el-row>
         </el-col>
@@ -66,8 +63,12 @@ export default {
     return {
       id: 'chart1',
       class: 'chart1',
-      queryParams: { usertpye: 2, time: '' },
-      userTypeList: [{ value: 1, label: 'Last Edit Time' }, { value: 2, label: 'Choose a FAQ' }, { value: 3, label: 'Published Time' }],
+      queryParams: { usertpye: 2, StartTime: '', EndTime: new Date() },
+      userTypeList: [
+        { value: 1, label: 'Last Edit Time' },
+        { value: 2, label: 'Choose a FAQ' },
+        { value: 3, label: 'Published Time' }
+      ],
       LineList: [
         { UserScore: 1500, Name: '2022-04-08' },
         { UserScore: 1300, Name: '2022-04-09' },
@@ -77,49 +78,39 @@ export default {
       ]
     }
   },
-  created() {
-
-  },
-  mounted() {
-
-  },
+  created() {},
+  mounted() {},
   methods: {
     // 查询
-    search() {
-
-    },
+    search() {},
     // 置空
-    reset() {
-
-    },
+    reset() {},
     // 下载
-    download() {
-
-    }
+    download() {}
   }
 }
 </script>
 
 <style scoped>
-   .chart-container{
-     position:relative;
-     width:100%
-  }
-  .flex-card{
-    margin:40px;
-    display:flex;
-    flex-direction:row;
-    flex-wrap: nowrap;
-    justify-content:space-around;
-    align-items:center;
-    align-content:center;
-  }
-  .grey{
-    background-color:#f0f0f0;
-    font-size:18px;
-    font-weight:600;
-    height:200px;
-    width:23%;
-    text-align:center;
-  }
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+.flex-card {
+  margin: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+.grey {
+  background-color: #f0f0f0;
+  font-size: 18px;
+  font-weight: 600;
+  height: 200px;
+  width: 23%;
+  text-align: center;
+}
 </style>

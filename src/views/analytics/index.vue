@@ -9,8 +9,11 @@
                 <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
-            <el-col :span="8">
-              <el-date-picker v-model="queryParams.time" type="daterange" start-placeholder="StartTime" end-placeholder="EndTime" :default-time="['00:00:00', '23:59:59']" />
+            <el-col :span="5">
+              <el-date-picker v-model="queryParams.StartTime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
+            </el-col>
+            <el-col :span="4" style="margin-left:20px">
+              <el-date-picker v-model="queryParams.EndTime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
             </el-col>
           </el-row>
         </el-col>
@@ -85,7 +88,8 @@ export default {
       ],
       queryParams: {
         usertpye: 1,
-        time: ''
+        StartTime: '',
+        EndTime: new Date()
       }
     }
   },

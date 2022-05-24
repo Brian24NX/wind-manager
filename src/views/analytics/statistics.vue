@@ -9,14 +9,11 @@
                 <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
-            <el-col :span="8">
-              <el-date-picker
-                v-model="queryParams.time"
-                type="daterange"
-                start-placeholder="StartTime"
-                end-placeholder="EndTime"
-                :default-time="['00:00:00', '23:59:59']"
-              />
+            <el-col :span="5">
+              <el-date-picker v-model="queryParams.StartTime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
+            </el-col>
+            <el-col :span="4" style="margin-left:20px">
+              <el-date-picker v-model="queryParams.EndTime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
             </el-col>
           </el-row>
         </el-col>
@@ -36,9 +33,7 @@
       <div class="chart-container">
         <chart height="400px" width="100%" />
       </div>
-      <div class="total">
-        <span class="total">Total followers:</span><span class="total">12,000</span>
-      </div>
+      <div class="total"><span class="total">Total followers:</span><span class="total">12,000</span></div>
     </div>
   </div>
 </template>
@@ -50,27 +45,27 @@ export default {
   components: { Chart },
   data() {
     return {
-      queryParams: { usertpye: 1, time: '' },
-      userTypeList: [{ value: 1, label: 'Mini-Program Users' }, { value: 2, label: 'WeChat Official Account Followers' }, { value: 3, label: 'Mini-Program Number of Visits' }]
+      queryParams: { usertpye: 8, StartTime: '', EndTime: new Date() },
+      userTypeList: [
+        { value: 8, label: 'Mini-Program Users' },
+        { value: 9, label: 'WeChat Official Account Followers' },
+        { value: 10, label: 'Mini-Program Number of Visits' }
+      ]
     }
   },
-  created() {
-
-  },
-  mounted() {
-  },
-  methods: {
-  }
+  created() {},
+  mounted() {},
+  methods: {}
 }
 </script>
 
 <style scoped>
-  .chart-container{
-     position:relative;
-     width:100%
-  }
-  .total{
-    font-size:18px;
-    font-weight:600;
-  }
+.chart-container {
+  position: relative;
+  width: 100%;
+}
+.total {
+  font-size: 18px;
+  font-weight: 600;
+}
 </style>
