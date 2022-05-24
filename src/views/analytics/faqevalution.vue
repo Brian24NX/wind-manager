@@ -27,7 +27,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="download">{{ $t('label.download') }}</el-button>
+        <el-button type="danger" size="small" @click="downloaddialog=true">{{ $t('label.download') }}</el-button>
       </div>
       <!--echart图表-->
       <div class="chart-container">
@@ -35,22 +35,44 @@
       </div>
       <div class="flex-card">
         <div class="grey">
-          <chart id="id" height="200px" width="100%" class="class" />
+          <el-card shadow="hover">
+            <chart id="id" height="200px" width="100%" class="class" />
+          </el-card>
         </div>
         <div class="grey">
-          <p>Total Questions Asked</p>
-          <p>10000</p>
+          <el-card shadow="hover" body-style="height:240px">
+            <p>Total Questions Asked</p>
+            <p>10000</p>
+          </el-card>
         </div>
         <div class="grey">
-          <p>FAQS with positive evaluation</p>
-          <p>9000</p>
+          <el-card shadow="hover" body-style="height:240px">
+            <p>FAQS with positive evaluation</p>
+            <p>9000</p>
+          </el-card>
         </div>
         <div class="grey">
-          <p>FAQS with negative evaluation</p>
-          <p>1000</p>
+          <el-card shadow="hover" body-style="height:240px">
+            <p>FAQS with negative evaluation</p>
+            <p>1000</p>
+          </el-card>
         </div>
       </div>
     </div>
+    <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
+      <el-form ref="downloadform" :model="downloadform" :rules="rules">
+        <el-form-item :label="$t('download.starttime')" :label-width="formLabelWidth1" prop="starttime">
+          <el-date-picker v-model="downloadform.starttime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
+        </el-form-item>
+        <el-form-item :label="$t('download.endtime')" :label-width="formLabelWidth1" prop="endtime">
+          <el-date-picker v-model="downloadform.endtime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submit('downloadform')">{{ $t('label.download') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,6 +91,12 @@ export default {
         { value: 2, label: 'Choose a FAQ' },
         { value: 3, label: 'Published Time' }
       ],
+      formLabelWidth1: '100px',
+      downloadform: {
+        starttime: '',
+        endtime: new Date()
+      },
+      downloaddialog: false,
       LineList: [
         { UserScore: 1500, Name: '2022-04-08' },
         { UserScore: 1300, Name: '2022-04-09' },
@@ -87,6 +115,10 @@ export default {
         const minTime = this.queryParams.EndTime.getTime() - one
         console.log(minTime)
         return this.queryParams.EndTime.getTime() < minTime
+      },
+      rules: {
+        starttime: { required: true, message: this.$t('download.starttimetips'), trigger: 'change' },
+        endtime: { required: true, message: this.$t('download.endtimetips'), trigger: 'change' }
       }
     }
   },
@@ -97,8 +129,19 @@ export default {
     search() {},
     // 置空
     reset() {},
-    // 下载
-    download() {}
+    submit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 提交下载
+        }
+      })
+    },
+    // 重置
+    Cancle() {
+      this.downloadform.starttime = ''
+      this.downloadform.endtime = this.$moment(new Date()).format('YYYY-MM-DD')
+      this.downloaddialog = false
+    }
   }
 }
 </script>
