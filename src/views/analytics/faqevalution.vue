@@ -31,12 +31,12 @@
       </div>
       <!--echart图表-->
       <div class="chart-container">
-        <chart height="200px" width="100%" />
+        <div id="mychart" class="echart" :style="myChartStyle" />
       </div>
       <div class="flex-card">
         <div class="grey">
           <el-card shadow="hover">
-            <chart id="id" height="200px" width="100%" class="class" />
+            <div id="mypiechart" class="echartpie" :style="myPieChartStyle" />
           </el-card>
         </div>
         <div class="grey">
@@ -77,10 +77,10 @@
 </template>
 
 <script>
-import Chart from '@/components/Charts/LineMarker'
+import * as echarts from 'echarts'
 export default {
   name: 'Faqevalution',
-  components: { Chart },
+  components: { },
   data() {
     return {
       id: 'chart1',
@@ -119,12 +119,128 @@ export default {
       rules: {
         starttime: { required: true, message: this.$t('download.starttimetips'), trigger: 'change' },
         endtime: { required: true, message: this.$t('download.endtimetips'), trigger: 'change' }
-      }
+      },
+      xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
+      yData: [23, 24, 18, 25, 27, 28, 25], // 人数数据
+      taskDate: [10, 11, 9, 17, 14, 13, 14],
+      myChartStyle: { float: 'left', width: '100%', height: '300px' }, // 图表样式
+      myChart: {},
+      pieData: [
+        {
+          value: 463,
+          name: '江苏'
+        },
+        {
+          value: 395,
+          name: '浙江'
+        }
+      ],
+      pieName: [],
+      myPieChartStyle: { float: 'left', width: '100%', height: '200px' } // 图表样式
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.initEcharts()
+    this.initDate() // 数据初始化
+    this.initPieEcharts()
+  },
   methods: {
+    // 初始化饼图数据
+    initDate() {
+      for (let i = 0; i < this.pieData.length; i++) {
+        this.pieName[i] = this.pieData[i].name
+      }
+    },
+    initPieEcharts() {
+      // 饼图
+      const option = {
+        legend: {
+          // 图例
+          data: this.pieName,
+          top: '80%'
+        },
+        title: {
+          // 设置饼图标题，位置设为顶部居中
+          text: '',
+          top: '0%',
+          left: 'center'
+        },
+        series: [
+          {
+            type: 'pie',
+            label: {
+              show: true,
+              formatter: '{b} : {c} ({d}%)' // b代表名称，c代表对应值，d代表百分比
+            },
+            radius: '30%', // 饼图半径
+            data: this.pieData
+          }
+        ]
+      }
+      console.log(this.seriesData)
+      // eslint-disable-next-line no-unused-vars
+      const optionFree = {
+        xAxis: {},
+        yAxis: {},
+        series: [
+          {
+            data: this.seriesData,
+            type: 'line',
+            smooth: true
+          }
+        ]
+      }
+      this.myChart = echarts.init(document.getElementById('mypiechart'))
+      this.myChart.setOption(option)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        this.myChart.resize()
+      })
+    },
+    // 初始化多列柱状图
+    initEcharts() {
+      // 多列柱状图
+      const mulColumnZZTData = {
+        xAxis: {
+          data: this.xData
+        },
+        // 图例
+        legend: {
+          data: ['人数', '任务数'],
+          top: '0%'
+        },
+        yAxis: {},
+        series: [
+          {
+            type: 'bar', // 形状为柱状图
+            data: this.yData,
+            name: '人数', // legend属性
+            label: {
+              // 柱状图上方文本标签，默认展示数值信息
+              show: true,
+              position: 'top'
+            }
+          },
+          {
+            type: 'bar', // 形状为柱状图
+            data: this.taskDate,
+            name: '任务数', // legend属性
+            label: {
+              // 柱状图上方文本标签，默认展示数值信息
+              show: true,
+              position: 'top'
+            }
+          }
+        ]
+      }
+      const myChart = echarts.init(document.getElementById('mychart'))
+      myChart.setOption(mulColumnZZTData)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        myChart.resize()
+      })
+    },
     // 查询
     search() {},
     // 置空
@@ -152,13 +268,16 @@ export default {
   width: 100%;
 }
 .flex-card {
-  margin: 40px;
+  margin-top: 20px;
+  margin-bottom:20px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
   align-content: center;
+  width:100%;
+  padding-bottom:20px;
 }
 .grey {
   background-color: #f0f0f0;
