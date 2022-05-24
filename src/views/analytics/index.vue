@@ -28,7 +28,7 @@
     </div>
     <!--内容部分-->
     <div class="tableContainer">
-      <div v-if="queryParams.usertpye!=6" class="operations">
+      <div v-if="queryParams.usertpye!=5" class="operations">
         <el-button type="danger" size="small" @click="downloaddialog=true">{{ $t('label.download') }}</el-button>
       </div>
       <!--Frequently searched routes-->
@@ -79,7 +79,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <span class="center">{{ this.$t('most.cma') }}</span><span class="center">{{ frenquenylylist.cma }}views</span>
-            </span></el-col>
+          </el-col>
           <el-col :span="12">
             <span class="center">{{ this.$t('most.about') }}</span><span class="center">{{ frenquenylylist.abountus }}views</span>
           </el-col>
