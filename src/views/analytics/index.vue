@@ -34,31 +34,75 @@
       <!--echart图表-->
       <div v-if="queryParams.usertpye == 1">
         <!--图表1-->
-        <frenquentlyroutes />
+        <div id="mychart" class="echart" :style="myChartStyle" />
       </div>
       <div v-if="queryParams.usertpye == 2">
-        <buiness />
-        <!--图表2-->
+        <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
+          <el-table-column :label="$t('buiness.title')" prop="title" />
+          <el-table-column align="center" :label="$t('buiness.publishdate')" prop="publishdate" />
+          <el-table-column :label="$t('buiness.numberofviews')" prop="numberofviews" align="center" />
+          <el-table-column align="center" :label="$t('buiness.numberofsendtoemail')" prop="numberofsendtoemail" />
+        </Pagination>
       </div>
       <div v-if="queryParams.usertpye == 3">
-        <!--图表3-->
-        <useful />
+        <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
+          <el-table-column :label="$t('useful.title')" prop="title" />
+          <el-table-column align="center" :label="$t('useful.numberofviews')" prop="publishdate" />
+          <el-table-column :label="$t('useful.numberofsendtoemail')" prop="numberofsendtoemail" align="center" />
+        </Pagination>
       </div>
       <div v-if="queryParams.usertpye == 4">
-        <!--图表4-->
-        <newscenter />
+        <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
+          <el-table-column :label="$t('news.title')" prop="title" />
+          <el-table-column align="center" :label="$t('news.publishdate')" prop="publishdate" />
+          <el-table-column :label="$t('news.numberofviews')" prop="numberofviews" align="center" />
+          <el-table-column align="center" :label="$t('news.numberoflinkes')" prop="numberoflikes" />
+        </Pagination>
       </div>
       <div v-if="queryParams.usertpye == 5">
-        <!--图表5-->
-        <cmacgm />
+        <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
+          <el-table-column :label="$t('cma.title')" prop="title" />
+          <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishdate" />
+          <el-table-column :label="$t('cma.numberofviews')" prop="numberofviews" align="center" />
+          <el-table-column align="center" :label="$t('cma.numberoflinkes')" prop="numberoflikes" />
+        </Pagination>
       </div>
       <div v-if="queryParams.usertpye == 6">
-        <!--图表6-->
-        <mostfrenquently />
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.cma') }}/span><span class="center">{{ frenquenylylist.cma }}views</span>
+            </span></el-col>
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.about') }}</span><span class="center">{{ frenquenylylist.abountus }}views</span>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.news') }}</span><span class="center">{{ frenquenylylist.newscenter }}views</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.online') }}</span><span class="center">{{ frenquenylylist.onlineService }}views</span>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.customer') }}</span><span class="center">{{ frenquenylylist.customerad }}views</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.useful') }}</span><span class="center">{{ frenquenylylist.userfultemplate }}views</span>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.sanction') }}</span><span class="center">{{ frenquenylylist.sanctioncheck }}views</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="center">{{ this.$t('most.contant') }}</span><span class="center">{{ frenquenylylist.contantus }}views</span>
+          </el-col>
+        </el-row>
       </div>
       <div v-if="queryParams.usertpye==7">
-        <!--图表7-->
-        <instantquotation />
+        功能升级中，敬请期待
       </div>
     </div>
     <!--下载弹窗-->
@@ -80,17 +124,13 @@
 </template>
 
 <script>
-import mostfrenquently from './components/mostfrenquently'
-import cmacgm from './components/cmacgm'
-import buiness from './components/buiness'
-import useful from './components/usefultemplate'
+import Pagination from '@/components/Pagination'
 import frenquentlyroutes from './components/frequentlyroutes'
-import newscenter from './components/newscenter'
-import instantquotation from './components/instantquotation'
+import * as echarts from 'echarts'
 export default {
   name: 'Index',
   // eslint-disable-next-line vue/no-unused-components
-  components: { mostfrenquently, cmacgm, buiness, useful, frenquentlyroutes, instantquotation, newscenter },
+  components: { Pagination, frenquentlyroutes },
   data() {
     return {
       // 后续用字典查询
@@ -103,6 +143,16 @@ export default {
         { value: 6, label: 'Instant Quotation & Booking' },
         { value: 7, label: 'Most Frenquently Used Functions' }
       ],
+      frenquenylylist: {
+        cma: 1000,
+        abountus: 3000,
+        newcenter: 2000,
+        onlineService: 1100,
+        customerad: 1500,
+        userfultemplate: 1500,
+        sanctioncheck: 500,
+        contantus: 300
+      },
       queryParams: {
         usertpye: 1,
         StartTime: this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD'),
@@ -129,13 +179,38 @@ export default {
       rules: {
         starttime: { required: true, message: this.$t('download.starttimetips'), trigger: 'change' },
         endtime: { required: true, message: this.$t('download.endtimetips'), trigger: 'change' }
-      }
+      },
+      xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
+      yData: [23, 24, 18, 25, 27, 28, 25], // 数据
+      myChartStyle: { float: 'left', width: '100%', height: '400px' } // 图表样式
     }
   },
-  created() {
+  mounted() {
+    this.initEcharts()
   },
-  mounted() {},
   methods: {
+    // 初始化柱状图
+    initEcharts() {
+      // 基本柱状图
+      const option = {
+        xAxis: {
+          data: this.xData
+        },
+        yAxis: {},
+        series: [
+          {
+            type: 'bar', // 形状为柱状图
+            data: this.yData
+          }
+        ]
+      }
+      const myChart = echarts.init(document.getElementById('mychart'))
+      myChart.setOption(option)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        myChart.resize()
+      })
+    },
     // 查询
     search() {},
     // 重置
