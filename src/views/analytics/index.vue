@@ -27,7 +27,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="download">{{ $t('label.download') }}</el-button>
+        <el-button type="danger" size="small" @click="downloaddialog=true">{{ $t('label.download') }}</el-button>
       </div>
       <!--echart图表-->
       <div v-if="queryParams.usertpye == 1">
@@ -59,6 +59,20 @@
         <instantquotation />
       </div>
     </div>
+    <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
+      <el-form ref="downloadform" :model="downloadform" :rules="rules">
+        <el-form-item :label="$t('download.starttime')" :label-width="formLabelWidth1" prop="starttime">
+          <el-date-picker v-model="downloadform.starttime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
+        </el-form-item>
+        <el-form-item :label="$t('download.endtime')" :label-width="formLabelWidth1" prop="endtime">
+          <el-date-picker v-model="downloadform.endtime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submit('downloadform')">{{ $t('label.download') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -91,6 +105,12 @@ export default {
         StartTime: this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD'),
         EndTime: new Date()
       },
+      downloaddialog: false,
+      downloadform: {
+        starttime: '',
+        endtime: new Date()
+      },
+      formLabelWidth1: '100px',
       StartDatetions: () => {
         const one = 30 * 24 * 3600 * 1000
         const minTime = this.queryParams.StartTime.getTime() - one
@@ -102,6 +122,10 @@ export default {
         const minTime = this.queryParams.EndTime.getTime() - one
         console.log(minTime)
         return this.queryParams.EndTime.getTime() < minTime
+      },
+      rules: {
+        starttime: { required: true, message: this.$t('download.starttimetips'), trigger: 'change' },
+        endtime: { required: true, message: this.$t('download.endtimetips'), trigger: 'change' }
       }
     }
   },
@@ -113,8 +137,19 @@ export default {
     search() {},
     // 重置
     reset() {},
-    // 下载
-    download() {}
+    submit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 提交下载
+        }
+      })
+    },
+    // 重置
+    Cancle() {
+      this.downloadform.starttime = ''
+      this.downloadform.endtime = this.$moment(new Date()).format('YYYY-MM-DD')
+      this.downloaddialog = false
+    }
   }
 }
 </script>

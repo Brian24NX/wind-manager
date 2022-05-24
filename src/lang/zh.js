@@ -398,5 +398,12 @@ export default {
     useful: '常用模版及链接',
     sanction: '管制品查询',
     contant: '联系我们'
+  },
+  // 下载
+  download: {
+    starttime: '开始时间',
+    endtime: '结束时间',
+    starttimetips: '开始时间必填',
+    endtimetips: '结束时间必填'
   }
 }

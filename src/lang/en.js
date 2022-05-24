@@ -391,5 +391,11 @@ export default {
     useful: 'Useful Template & Link',
     sanction: 'Sanction Check',
     contant: 'Contact Us'
+  },
+  download: {
+    starttime: 'StartTime',
+    endtime: 'EndTime',
+    starttimetips: 'StartTime is required',
+    endtimetips: 'EndTime is required'
   }
 }
