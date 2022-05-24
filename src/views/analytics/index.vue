@@ -130,12 +130,11 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import frenquentlyroutes from './components/frequentlyroutes'
 import * as echarts from 'echarts'
 export default {
   name: 'Index',
   // eslint-disable-next-line vue/no-unused-components
-  components: { Pagination, frenquentlyroutes },
+  components: { Pagination },
   data() {
     return {
       // 后续用字典查询
@@ -198,6 +197,9 @@ export default {
     initEcharts() {
       // 基本柱状图
       const option = {
+        title: {
+          text: 'Most Frequently Searched Routes'
+        },
         xAxis: {
           data: this.xData
         },
@@ -237,4 +239,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.tableContainer{
+  height:500px;
+}
+</style>
