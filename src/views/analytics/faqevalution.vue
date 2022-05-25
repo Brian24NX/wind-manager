@@ -300,8 +300,7 @@ export default {
     },
     // 重置
     Cancle() {
-      this.downloadform.starttime = ''
-      this.downloadform.endtime = this.$moment(new Date()).format('YYYY-MM-DD')
+      this.downloadform.timeList = [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       this.downloaddialog = false
     }
   }
