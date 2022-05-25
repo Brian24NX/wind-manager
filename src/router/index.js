@@ -93,6 +93,7 @@ export const constantRoutes = [
       }
     ]
   },
+  usergroupRouter,
   analyticsRouter
 ]
 
@@ -104,7 +105,8 @@ export const constantRoutes = [
 export const asyncRoutes = [
   permissionRouter,
   articleRouter,
-  usergroupRouter
+  usergroupRouter,
+  analyticsRouter
 ]
 
 const createRouter = () => new Router({
