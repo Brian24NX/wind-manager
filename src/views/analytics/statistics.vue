@@ -1,33 +1,33 @@
 <template>
   <div>
     <div class="searchContainer">
-      <el-row style="width: 100%">
-        <el-col :span="16">
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-select v-model="queryParams.usertpye" placeholder="请选择" clearable filterable style="width: 100%">
-                <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              <el-date-picker v-model="queryParams.StartTime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" :picker-options="StartDatetions" />
-            </el-col>
-            <el-col :span="4" style="margin-left:20px">
-              <el-date-picker v-model="queryParams.EndTime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" :picker-options="EndDatetions" />
-            </el-col>
-          </el-row>
+      <el-row style="width: 100%" type="flex" justify="space-between">
+        <el-col :span="6">
+          <el-select v-model="queryParams.usertpye" placeholder="请选择" :clearable="false" filterable style="width: 100%">
+            <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" @change="changeType" />
+          </el-select>
         </el-col>
         <el-col :span="8">
-          <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
-          </el-row>
+          <el-date-picker
+            v-model="queryParams.timeList"
+            style="width: 100%"
+            :clearable="false"
+            type="daterange"
+            align="right"
+            range-separator="~"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+            :picker-options="pickerOptions"
+            btw
+            @change="search"
+          />
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="downloaddialog=true">{{ $t('label.download') }}</el-button>
+        <el-button type="danger" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
       </div>
       <!--echart图表-->
       <div class="chart-container">
@@ -37,11 +37,19 @@
     </div>
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="downloadform" :model="downloadform" :rules="rules">
-        <el-form-item :label="$t('download.starttime')" :label-width="formLabelWidth1" prop="starttime">
-          <el-date-picker v-model="downloadform.starttime" type="date" placeholder="StartTime" value-format="yyyy-MM-dd" />
-        </el-form-item>
-        <el-form-item :label="$t('download.endtime')" :label-width="formLabelWidth1" prop="endtime">
-          <el-date-picker v-model="downloadform.endtime" type="date" placeholder="EndTime" value-format="yyyy-MM-dd" />
+        <el-form-item :label="$t('download.downloadtime')" :label-width="formLabelWidth1" prop="timeList">
+          <el-date-picker
+            v-model="downloadform.timeList"
+            style="width: 100%"
+            :clearable="false"
+            type="daterange"
+            align="right"
+            range-separator="~"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+            :picker-options="downloadPickerOptions"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -56,36 +64,70 @@
 import * as echarts from 'echarts'
 export default {
   name: 'Statistics',
-  components: { },
+  components: {},
   data() {
     return {
-      queryParams: { usertpye: 8, StartTime: this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD'), EndTime: new Date() },
+      queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
       userTypeList: [
         { value: 8, label: 'Mini-Program Users' },
         { value: 9, label: 'WeChat Official Account Followers' },
         { value: 10, label: 'Mini-Program Number of Visits' }
       ],
+      timeOptionRange: '',
+      pickerOptions: {
+        onPick: (time) => {
+          // 当第一时间选中才设置禁用
+          if (time.minDate && !time.maxDate) {
+            this.timeOptionRange = time.minDate
+          }
+          if (time.maxDate) {
+            this.timeOptionRange = null
+          }
+        },
+        disabledDate: (time) => {
+          const timeOptionRange = this.timeOptionRange
+          const secondNum = 1000 * 60 * 60 * 24 * 30
+          const times = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1)
+          if (!timeOptionRange) {
+            return time.getTime() > times
+          }
+          if (timeOptionRange.getTime() + secondNum > times) {
+            return time.getTime() > times || time.getTime() <= timeOptionRange.getTime() - secondNum
+          }
+          return time.getTime() < timeOptionRange.getTime() || time.getTime() >= timeOptionRange.getTime() + secondNum
+        }
+      },
       downloaddialog: false,
       formLabelWidth1: '100px',
       downloadform: {
-        starttime: '',
-        endtime: new Date()
+        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       },
       rules: {
-        starttime: { required: true, message: this.$t('download.starttimetips'), trigger: 'change' },
-        endtime: { required: true, message: this.$t('download.endtimetips'), trigger: 'change' }
+        timeList: [{ required: true, message: this.$t('download.required'), trigger: 'change' }]
       },
-      StartDatetions: () => {
-        const one = 30 * 24 * 3600 * 1000
-        const minTime = this.queryParams.StartTime.getTime() - one
-        console.log(minTime)
-        return this.queryParams.StartTime.getTime() < minTime
-      },
-      EndDatetions: () => {
-        const one = 30 * 24 * 3600 * 1000
-        const minTime = this.queryParams.EndTime.getTime() - one
-        console.log(minTime)
-        return this.queryParams.EndTime.getTime() < minTime
+      downloadTimeOptionRange: '',
+      downloadPickerOptions: {
+        onPick: (time) => {
+          // 当第一时间选中才设置禁用
+          if (time.minDate && !time.maxDate) {
+            this.downloadTimeOptionRange = time.minDate
+          }
+          if (time.maxDate) {
+            this.downloadTimeOptionRange = null
+          }
+        },
+        disabledDate: (time) => {
+          const timeOptionRange = this.downloadTimeOptionRange
+          const secondNum = 1000 * 60 * 60 * 24 * 30
+          const times = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1)
+          if (!timeOptionRange) {
+            return time.getTime() > times
+          }
+          if (timeOptionRange.getTime() + secondNum > times) {
+            return time.getTime() > times || time.getTime() <= timeOptionRange.getTime() - secondNum
+          }
+          return time.getTime() < timeOptionRange.getTime() || time.getTime() >= timeOptionRange.getTime() + secondNum
+        }
       },
       myChart: {},
       xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
@@ -93,8 +135,7 @@ export default {
       myChartStyle: { float: 'left', width: '100%', height: '400px' } // 图表样式
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     this.initEcharts()
   },
@@ -120,11 +161,14 @@ export default {
         this.myChart.resize()
       })
     },
-    search() {
-
+    changeType() {
+      this.search()
+      this.downloadform = {
+        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
+      }
     },
-    reset() {
-
+    search() {
+      console.log('请求接口')
     },
     submit(formName) {
       this.$refs[formName].validate((valid) => {
@@ -135,8 +179,7 @@ export default {
     },
     // 重置
     Cancle() {
-      this.downloadform.starttime = ''
-      this.downloadform.endtime = this.$moment(new Date()).format('YYYY-MM-DD')
+      this.downloadform.timeList = [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       this.downloaddialog = false
     }
   }

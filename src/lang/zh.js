@@ -401,9 +401,7 @@ export default {
   },
   // 下载
   download: {
-    starttime: '开始时间',
-    endtime: '结束时间',
-    starttimetips: '开始时间必填',
-    endtimetips: '结束时间必填'
+    downloadtime: '数据时间',
+    required: '时间必须选择'
   }
 }
