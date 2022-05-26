@@ -393,9 +393,7 @@ export default {
     contant: 'Contact Us'
   },
   download: {
-    starttime: 'StartTime',
-    endtime: 'EndTime',
-    starttimetips: 'StartTime is required',
-    endtimetips: 'EndTime is required'
+    downloadtime: 'data time',
+    required: 'time is required'
   }
 }
