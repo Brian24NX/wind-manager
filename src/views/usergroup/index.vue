@@ -8,7 +8,7 @@
               <el-input v-model="queryParams.company" size="small" style="width: 100%" placeholder="Company" clearable />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.username" size="small" style="width: 100%" placeholder="UserName" clearable />
+              <el-input v-model="queryParams.name" size="small" style="width: 100%" placeholder="UserName" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -24,18 +24,20 @@
       <div class="operations">
         <el-button type="danger" size="small" @click="exportexcle">  {{ $t('programuser.export') }} </el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/usergroupList" :request-params="queryParams" show-index>
-        <el-table-column :label="$t('programuser.username')" prop="username" />
+      <Pagination ref="pagination" uri="/api/admin/miniUserList" :request-params="queryParams" show-index>
+        <el-table-column :label="$t('programuser.username')" prop="name" />
         <el-table-column :label="$t('programuser.account')" prop="ecomaccount" align="center" />
         <el-table-column align="center" :label="$t('programuser.company')" prop="company" />
-        <el-table-column align="center" :label="$t('programuser.companycategory')" prop="companycategory" />
-        <el-table-column align="center" :label="$t('programuser.partnercode')" prop="partnercode" />
+        <el-table-column align="center" :label="$t('programuser.companycategory')" prop="companyCategory" />
+        <el-table-column align="center" :label="$t('programuser.partnercode')" prop="partnerCode" />
       </Pagination>
     </div>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+// eslint-disable-next-line no-unused-vars
+import { userExport } from '@/api/miniuser.js'
 export default {
   name: 'Index',
   components: {
@@ -45,7 +47,7 @@ export default {
     return {
       queryParams: {
         company: '',
-        username: ''
+        name: ''
       }
     }
   },
@@ -59,16 +61,18 @@ export default {
     // 重置
     reset() {
       this.queryParams = {
-        categoryIds: '',
-        keyword: ''
+        company: '',
+        name: ''
       }
       setTimeout(() => {
         this.$refs.pagination.refreshRequest()
       }, 100)
     },
     // 导出excle
-    exportexcle() {
-
+    async exportexcle() {
+      const res = await userExport(this.queryParams)
+      // console.log(res.data)
+      window.location.href = res.data
     }
   }
 }
