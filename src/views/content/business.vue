@@ -61,6 +61,14 @@
             <span v-else>{{ scope.row.category }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('newscenter.categoryzh')">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input v-model="scope.row.categoryCn" size="mini" @blur="scope.row.categoryCn = $event.target.value.trim()" />
+            </span>
+            <span v-else>{{ scope.row.categoryCn }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('business.creator')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
@@ -363,6 +371,7 @@ export default {
     createcategory() {
       const data = {
         category: '',
+        categoryCn: '',
         creator: '',
         isSet: true,
         categoryadd: true
@@ -376,12 +385,13 @@ export default {
       const data = {
         id: row.id,
         category: row.category,
+        categoryCn: row.categoryCn,
         creator: row.creator,
         type: 2,
         isSet: false
       }
-      if (!data.category) {
-        this.$message.error('类别不能为空')
+      if (!data.category || !data.categoryCn) {
+        this.$message.error(this.$t('newscenter.categorytips'))
         return
       }
       if (row.categoryadd) {
