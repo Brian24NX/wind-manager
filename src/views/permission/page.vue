@@ -199,25 +199,30 @@ export default {
     this.roleList()
   },
   methods: {
+    //  启用状态
     transactive(data) {
     // eslint-disable-next-line eqeqeq
       if (data.active == 1) {
         return 'Active'
       }
     },
+    // 按钮初始化
     setRoleBtnList() {
       this.dataList = JSON.parse(localStorage.getItem('buttons')) || []
       this.dataList = this.dataList.filter(item => item.children.length)
     },
+    // 搜索
     search() {
       this.$refs.pagination.refreshRequest()
     },
+    // 重置
     reset() {
       this.queryParams.function = ''
       setTimeout(() => {
         this.$refs.pagination.refreshRequest()
       }, 100)
     },
+    // 新增
     async handleAdd() {
       this.premissionform = {
         id: null,
@@ -231,6 +236,7 @@ export default {
         this.$refs.multiCheckList.dealDatas()
       })
     },
+    // 提交新增角色
     submitaddRole() {
       this.$refs.premissionform.validate(async valid => {
         if (valid) {
@@ -259,10 +265,12 @@ export default {
         }
       })
     },
+    // 取消角色
     CancleRole() {
       this.adddialog = false
       this.isEdit = false
     },
+    // 编辑
     async handleEdit(row) {
       const res = await roleDetail(row.id)
       console.log(res)
@@ -292,6 +300,7 @@ export default {
         this.$refs.multiCheckList.dealDatas()
       })
     },
+    // 提交新增
     submitadd(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
@@ -312,9 +321,11 @@ export default {
         }
       })
     },
+    // 取消
     Cancle() {
       this.addemployeedialog = false
     },
+    // 获取角色列表
     async roleList() {
       const data = {
         roleViewId: JSON.parse(localStorage.getItem('role')).id
@@ -322,6 +333,7 @@ export default {
       const res = await roleDict(data)
       this.options = transroleList(res.data)
     },
+    //  新增员工
     handleAddEmployee(row) {
       this.addemployeeform.function = row.id
       this.addemployeedialog = true
@@ -329,6 +341,7 @@ export default {
     multipleSelection(val) {
       this.personSelecttion = val
     },
+    // 查看用户
     async viewuser(id) {
       this.viewdialog = true
       const data = {

@@ -247,6 +247,7 @@ export default {
     this.roleList()
   },
   methods: {
+    // 启用
     transactive(data) {
     // eslint-disable-next-line eqeqeq
       if (data.active == 1) {
@@ -255,6 +256,7 @@ export default {
         return ' Deactive'
       }
     },
+    // 角色名称
     async roleList() {
       const data = {
         roleViewId: JSON.parse(localStorage.getItem('role')).id
@@ -325,6 +327,7 @@ export default {
         funid: ''
       }
     },
+    // 取消编辑
     Cancleedit() {
       this.editdialog = false
       this.editform = {
@@ -375,6 +378,7 @@ export default {
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },
+    // 下载文件
     downloadfile() {
       window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx')
     },
@@ -385,13 +389,16 @@ export default {
         this.$message.error(res.message)
       }
     },
+    // 提交
     submitimport() {
       this.importdialog = false
       this.search()
     },
+    // 搜索
     search() {
       this.$refs.pagination.refreshRequest()
     },
+    // 重置
     reset() {
       this.queryParams.nameOrFunction = ''
       setTimeout(() => {
