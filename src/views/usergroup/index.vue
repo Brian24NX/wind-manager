@@ -26,7 +26,7 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/miniUserList" :request-params="queryParams" show-index>
         <el-table-column :label="$t('programuser.username')" prop="name" />
-        <el-table-column :label="$t('programuser.account')" prop="ecomaccount" align="center" />
+        <el-table-column :label="$t('programuser.account')" prop="email" align="center" />
         <el-table-column align="center" :label="$t('programuser.company')" prop="company" />
         <el-table-column align="center" :label="$t('programuser.companycategory')" prop="companyCategory" />
         <el-table-column align="center" :label="$t('programuser.partnercode')" prop="partnerCode" />
