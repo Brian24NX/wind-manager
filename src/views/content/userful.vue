@@ -214,6 +214,7 @@ export default {
         this.$refs.pagination.refreshRequest()
       }, 100)
     },
+    // 文档处理
     transdocument(date) {
       // eslint-disable-next-line eqeqeq
       if (date.type == 1) {
@@ -222,10 +223,11 @@ export default {
         return date.document
       }
     },
+    // 文件上传成功
     handleupSuccess(res) {
       this.addform.document = res.data.fileName
     },
-    //
+    // 提交导入
     submitimport() {
       this.importdialog = false
       this.search()
@@ -240,10 +242,12 @@ export default {
       })
       this.tabledata = res.data
     },
+    // 新增
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
     },
+    // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
       this.type = row.type
@@ -377,6 +381,7 @@ export default {
           })
         })
     },
+    // 改变
     change(selections) {
       if (selections.length < 2) {
         // eslint-disable-next-line eqeqeq
@@ -392,14 +397,18 @@ export default {
         })
       }
     },
+    // 下载
     download(url) {
       window.open(process.env.VUE_APP_FILE_BASE_API + url)
     },
+    // 预览
     handPreview() {},
+    // 移除
     handRemove(file, fileList) {
       console.log(file, fileList)
       this.fileList = fileList
     },
+    // 成功
     handleSuccess(response, file, fileList) {
       if (response.code === '200') {
         this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })

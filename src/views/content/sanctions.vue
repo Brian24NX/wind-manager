@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--查询模块-->
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
@@ -20,6 +21,7 @@
         </el-col>
       </el-row>
     </div>
+    <!--内容模块-->
     <div class="tableContainer">
       <div class="operations">
         <el-button v-permission="[54]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
@@ -43,6 +45,7 @@
         </el-table-column>
       </Pagination>
     </div>
+    <!--新增通告-->
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
@@ -69,6 +72,7 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
+    <!---->
     <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="detailform" :model="detailform">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
@@ -171,6 +175,7 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    // 处理详情
     handleDetail(row) {
       this.detailform = JSON.parse(JSON.stringify(row))
       if (this.detailform.remarkCn) {
@@ -181,22 +186,27 @@ export default {
       }
       this.detaildialog = true
     },
+    // 下载模版
     async download() {
       const res = await sanctionExport(this.queryParams)
       window.open(res.data)
     },
+    // 提交导入
     submitimport() {
       this.importdialog = false
       this.search()
     },
+    // 取消
     Cancle() {
       this.isAdd = false
       this.addform = {}
       this.adddialog = false
     },
+    // 查询
     search() {
       this.$refs.pagination.refreshRequest()
     },
+    // 重置
     reset() {
       this.queryParams = {
         referenceNo: '',
@@ -206,6 +216,7 @@ export default {
         this.$refs.pagination.refreshRequest()
       }, 100)
     },
+    // 处理新增
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
@@ -276,9 +287,11 @@ export default {
         this.$refs.editor2.setContent(row.remarkEn)
       }, 200)
     },
+    // 下载文件
     downloadfile() {
       window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx')
     },
+    // 处理完成
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq
       if (res.code != 200) {

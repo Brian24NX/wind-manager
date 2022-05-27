@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--查询条件-->
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
@@ -17,6 +18,7 @@
         </el-col>
       </el-row>
     </div>
+    <!--内容条件-->
     <div class="tableContainer">
       <div class="operations">
         <el-button v-permission="[32]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
@@ -180,6 +182,7 @@ export default {
     }
   },
   methods: {
+    // 处理详情
     handleDetail(row) {
       this.isSelect = true
       this.detailForm = JSON.parse(JSON.stringify(row))
@@ -187,22 +190,27 @@ export default {
         this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
       }
     },
+    // 导入
     submitimport() {
       this.importdialog = false
       this.search()
     },
+    // 查询
     search() {
       this.$refs.pagination.refreshRequest()
     },
+    // 重置
     reset() {
       this.queryParams = { keyWord: '' }
       setTimeout(() => {
         this.search()
       }, 100)
     },
+    // 时间转化
     formatDate(date) {
       return this.$moment(date.updateTime).format('YYYY-MM-DD')
     },
+    // 激活启用
     transactive(data) {
       // eslint-disable-next-line eqeqeq
       if (data.active == 1) {
@@ -211,6 +219,7 @@ export default {
         return 'Deactive'
       }
     },
+    // 提交faq
     async submitfaq() {
       this.$refs['addform'].validate((valid) => {
         if (valid) {
@@ -303,10 +312,12 @@ export default {
         }
       })
     },
+    // 去掉提交relations
     Canclerelations() {
       this.relationsform = {}
       this.relationsdialog = false
     },
+    // 下载文件
     downloadfile() {
       // const res = await faqTemplateDownload()
       window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx')

@@ -3,7 +3,7 @@
     <div slot="header" class="clearfix" style="margin-bottom: 20px">
       <span>{{ $t('library.title') }}</span>
     </div>
-
+    <!--资源中心-->
     <div class="greycontainer">
       <el-row style="width: 100%">
         <el-col :span="16">
@@ -188,10 +188,12 @@ export default {
     changesearch() {
       this.getlist()
     },
+    // 编辑
     handleEditAllCate() {
       this.editcateform.id = this.checkedList
       this.editcategorydialog = true
     },
+    // 改变选中
     changeCheck() {
       if (this.librarylist.length && this.checkedList.length === this.librarylist.length) {
         this.checked = true
@@ -199,10 +201,12 @@ export default {
         this.checked = false
       }
     },
+    // 全部清空
     async handleDelAll() {
       materialDelete(this.checkedList)
       this.getlist()
     },
+    // 全选定义
     changeall() {
       this.checkedList = []
       if (this.checked) {
@@ -211,15 +215,18 @@ export default {
         })
       }
     },
+    // 编辑种类弹窗
     Canclecate() {
       this.editcateform.id = []
       this.editcateform.categoryId = ''
       this.editcategorydialog = false
     },
+    // 取消
     Cancle() {
       this.editform = {}
       this.editdialog = false
     },
+    // 种类编辑
     handleEditCate(row) {
       this.editcateform.id.push(row.id)
       this.editcateform.categoryId = row.categoryId
@@ -261,12 +268,14 @@ export default {
       })
       this.tabledata = res.data
     },
+    // 改变分页
     changePagination(pagination) {
       this.pageNum = pagination.page
       this.pageSize = pagination.limit
       this.checkedList = []
       this.getlist()
     },
+    // 获取列表
     async getlist() {
       const data = {
         pageNum: this.pageNum,

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--搜索输入-->
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
@@ -25,6 +26,7 @@
         </el-col>
       </el-row>
     </div>
+    <!--table显示-->
     <div class="tableContainer">
       <div class="operations">
         <el-button v-permission="[43]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
@@ -253,6 +255,7 @@ export default {
     search() {
       this.$refs.pagination.refreshRequest()
     },
+    // 重置
     reset() {
       this.queryParams = {
         categoryId: '',

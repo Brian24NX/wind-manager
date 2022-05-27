@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--搜索功能-->
     <div class="searchContainer">
       <el-row style="width: 100%">
         <el-col :span="16">
@@ -24,6 +25,7 @@
         </el-col>
       </el-row>
     </div>
+    <!--table内容-->
     <div class="tableContainer">
       <div class="operations">
         <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
@@ -275,18 +277,22 @@ export default {
     this.buinesssList()
   },
   methods: {
+    // 取消
     Cancle() {
       this.adddialog = false
       this.isEdit = false
       this.isAdd = false
     },
+    // 提交下import
     submitimport() {
       this.importdialog = false
       this.search()
     },
+    // 搜索
     search() {
       this.$refs.pagination.refreshRequest()
     },
+    // 重置
     reset() {
       this.queryParams = {
         office: '',
@@ -318,11 +324,13 @@ export default {
       const res = await dictItem('dict_business_scope')
       this.buinessscopeList = transdict(res.data)
     },
+    // 新增
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
       this.isEdit = false
     },
+    // 编辑
     handleEdit(row) {
       const startTime = row.dutyTime.split('-')[0]
       const endTime = row.dutyTime.split('-')[1]
@@ -405,10 +413,12 @@ export default {
         }
       })
     },
+    // 下载文件
     downloadfile() {
       // const res = await contactTemplateDownload()
       window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Contact Info Matrix导入联系人信息.xlsx')
     },
+    // 处理成功
     handleSuccess(res) {
       // eslint-disable-next-line eqeqeq
       if (res.code != 200) {
