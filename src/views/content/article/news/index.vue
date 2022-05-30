@@ -48,7 +48,7 @@
       </Pagination>
     </div>
     <!--历史文章添加-->
-    <el-dialog :title="$t('newscenter.addtitle')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('newscenter.addtitle')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close width="600px">
       <el-form ref="historyform" :model="historyform" :rules="rules">
         <el-form-item :label="$t('newscenter.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="historyform.title" autocomplete="off" clearable @blur="historyform.title = $event.target.value.trim()" />
