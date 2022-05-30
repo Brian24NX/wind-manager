@@ -128,6 +128,7 @@ export default {
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
+        element_format: 'html',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,

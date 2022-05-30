@@ -187,7 +187,7 @@ export default {
       this.isSelect = true
       this.detailForm = JSON.parse(JSON.stringify(row))
       if (this.detailForm.answer) {
-        this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+        this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
       }
     },
     // 导入

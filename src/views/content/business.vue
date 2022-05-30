@@ -333,7 +333,7 @@ export default {
     handleDetail(row) {
       this.detailform = JSON.parse(JSON.stringify(row))
       if (this.detailform.content) {
-        this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+        this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
       }
       if (row.filepath) {
         this.fileList = [{
