@@ -8,7 +8,7 @@
               <el-input v-model="queryParams.company" size="small" style="width: 100%" placeholder="Company Name" clearable />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.companycategory" size="small" style="width: 100%" placeholder="Company Category" clearable />
+              <el-input v-model="queryParams.name" size="small" style="width: 100%" placeholder="Company Category" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -25,12 +25,12 @@
         <el-button type="danger" size="small" @click="handleAdd">  {{ $t('label.add') }} </el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
-        <el-table-column :label="$t('label.labelname')" prop="labelname" />
+        <el-table-column :label="$t('label.labelname')" prop="name" />
         <el-table-column align="center" :label="$t('label.description')" prop="description" />
-        <el-table-column :label="$t('label.companycategory')" prop="companycategory" align="center" />
-        <el-table-column align="center" :label="$t('label.usersnumber')" prop="usersnumber">
+        <el-table-column :label="$t('label.companycategory')" prop="companys" align="center" />
+        <el-table-column align="center" :label="$t('label.usersnumber')" prop="userCount">
           <template scope="scope">
-            <el-button size="small" type="text" @click="viewuser(scope.row)">View Users({{ scope.row.usersnumber }})</el-button>
+            <el-button size="small" type="text" @click="viewuser(scope.row)">View Users({{ scope.row.userCount }})</el-button>
           </template>
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
@@ -44,13 +44,13 @@
     <!--新增编辑label-->
     <el-dialog :title="$t('route.labelManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('label.labelname')" :label-width="formLabelWidth" prop="labelname">
-          <el-input v-model="addform.labelname" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.labelname = $event.target.value.trim()" />
+        <el-form-item :label="$t('label.labelname')" :label-width="formLabelWidth" prop="name">
+          <el-input v-model="addform.name" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('label.description')" :label-width="formLabelWidth" prop="labeldescription">
-          <el-input v-model="addform.labeldescription" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable @blur="addform.labeldescription = $event.target.value.trim()" />
+        <el-form-item :label="$t('label.description')" :label-width="formLabelWidth" prop="description">
+          <el-input v-model="addform.description" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable @blur="addform.description = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item v-if="isEdit" :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyid">
+        <el-form-item v-if="isEdit" :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyId">
           <el-select v-model="addform.companyId" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
             <el-option v-for="item in companylist" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -67,7 +67,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="15">
-              <el-input v-model="username" size="small" style="width: 100%" placeholder="Username" clearable />
+              <el-input v-model="name" size="small" style="width: 100%" placeholder="Username" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -82,14 +82,21 @@
         <el-table-column align="center" :label="$t('userrole.id')" prop="id" width="60px">
           <template scope="scope">{{ scope.$index + 1 }}</template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('label.user')" prop="user" />
-        <el-table-column align="center" :label="$t('label.companyname')" prop="companyname" />
-        <el-table-column align="center" :label="$t('label.ecomaccount')" prop="ecomaccount" />
+        <el-table-column align="center" :label="$t('label.user')" prop="name" />
+        <el-table-column align="center" :label="$t('label.companyname')" prop="company" />
+        <el-table-column align="center" :label="$t('label.ecomaccount')" prop="email" />
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="60px">
+          <template scope="scope">
+            <el-button size="small" type="text" class="danger" @click="remove(scope.row)">{{ $t('userrole.remove') }}</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-dialog>
   </div>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
+import { labelAdd, labelEdit, labelDelete, labelDetail, labelUserList, labelUserExport, labelUserDelete } from '@/api/usergroup.js'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'Label',
@@ -100,19 +107,24 @@ export default {
     return {
       queryParams: {
         company: '',
-        companycategory: ''
+        name: ''
       },
+      name: '',
+      tabledata: [],
+      userLoading: false,
       submitLoading: false,
+      viewuserdialog: false,
       adddialog: false,
       addform: {
         id: '',
-        labelname: '',
-        labeldescription: '',
+        name: '',
+        description: '',
         companyId: []
       },
+      formLabelWidth: '120px',
       companylist: [],
       rules: {
-        labelname: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
+        name: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
       }
     }
   },
@@ -133,15 +145,19 @@ export default {
     },
     // 提交表单
     submitlabel(formName) {
-      this.$refs[formName].validate((valid) => {
-        this.submitLoading = true
+      this.$refs[formName].validate(async(valid) => {
         // 提交表单
         // eslint-disable-next-line eqeqeq
         if (this.addform.id == '') {
           // 新增label
+
         } else {
           // 编辑label
         }
+        // this.submitLoading = true
+        // const res = await labelAdd(this.addform)
+        // this.submitLoading = false
+        // console.log(res.data)
       })
     },
     // 取消表单
@@ -158,6 +174,46 @@ export default {
     handleEdit(row) {
       this.adddialog = true
       this.addform = JSON.parse(JSON.stringify(row))
+    },
+    // 查看启用列表
+    async viewuser(row) {
+      this.addform.id = row.id
+      const data = {
+        id: Number(this.addform.id),
+        name: this.name
+      }
+      const res = await labelUserList(data)
+      this.tabledata = res.data
+      this.viewuserdialog = true
+    },
+    // 查询
+    async searchUser() {
+      this.viewuser(this.addform)
+    },
+    // 导出
+    async exportUser() {
+      const data = {
+        id: Number(this.addform.id),
+        name: this.name
+      }
+      const res = await labelUserExport(data)
+      window.location.href = res.data
+    },
+    // 删除
+    async remove(row) {
+      this.$confirm(this.$t('userrole.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          const data = {
+            companyId: row.companyId,
+            userId: row
+          }
+          await labelUserDelete(data)
+          this.viewuser(this.id)
+        })
     }
   }
 }
