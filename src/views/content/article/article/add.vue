@@ -20,6 +20,7 @@
           <el-col v-permission="[20]" :span="12">
             <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
               <el-upload
+                ref="upload"
                 class="avatar-uploader"
                 drag
                 action="/api/admin/uploadFile"
@@ -167,8 +168,9 @@ export default {
     handleProgress(event, file, fileList) {
       console.log(event)
     },
-    handleAvatarSuccess(res, file) {
-      this.articleForm.frontCover = file.response.data.fileUrl
+    handleAvatarSuccess(response, file) {
+      this.articleForm.frontCover = response.data.fileUrl
+      this.$refs.upload.clearFiles()
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2

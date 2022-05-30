@@ -22,6 +22,11 @@
         <el-button v-permission="[27]" type="danger" size="small" @click="adddialog = true">{{ $t('vas.addarticlelink') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/cmaNewsList" :request-params="queryParams">
+        <el-table-column align="center" :label="$t('article.thumb')" width="120">
+          <template scope="scope">
+            <el-image v-if="scope.row.frontCover" :src="scope.row.frontCover" :preview-src-list="[scope.row.frontCover]" mode="aspectFit" />
+          </template>
+        </el-table-column>
         <el-table-column align="center" :label="$t('vas.title')" prop="title" />
         <el-table-column :label="$t('vas.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('vas.link')" prop="originalLink" align="center" />
@@ -38,7 +43,7 @@
       </Pagination>
     </div>
     <!--添加vas弹窗-->
-    <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="600px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
@@ -48,6 +53,26 @@
         </el-form-item>
         <el-form-item :label="$t('vas.publishdate')" :label-width="formLabelWidth" prop="publishdate">
           <el-date-picker v-model="addform.publishdate" type="date" placeholder="" style="width: 100%" clearable />
+        </el-form-item>
+        <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover" :label-width="formLabelWidth">
+          <el-upload
+            ref="upload"
+            class="avatar-uploader"
+            drag
+            action="/api/admin/uploadFile"
+            :limit="1"
+            :headers="uploadHeaders"
+            :show-file-list="false"
+            :on-progress="handleProgress"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <el-image v-if="addform.frontCover" :src="addform.frontCover" fit="contain" class="avatar" />
+            <template v-else>
+              <i class="el-icon-upload" />
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            </template>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -65,6 +90,7 @@ import Pagination from '@/components/Pagination'
 // eslint-disable-next-line no-unused-vars
 import { cmaDel, cmaAdd, cmaPublish } from '@/api/cmacmg.js'
 import { newsDetail } from '@/api/article'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'CmaCgm',
   components: {
@@ -79,7 +105,8 @@ export default {
       addform: {
         title: '',
         link: '',
-        publishdate: ''
+        publishdate: '',
+        frontCover: ''
       },
       formLabelWidth: '80px',
       // 添加弹窗
@@ -91,7 +118,8 @@ export default {
       },
       loading: false,
       detailform: {},
-      detailDialog: false
+      detailDialog: false,
+      uploadHeaders: { Authorization: getToken() }
     }
   },
   watch: {
@@ -100,6 +128,7 @@ export default {
         this.addform = {
           title: '',
           link: '',
+          frontCover: '',
           publishdate: ''
         }
         this.loading = false
@@ -164,6 +193,30 @@ export default {
       await cmaPublish(data)
       this.$refs.pagination.pageRequest()
     },
+    handleProgress(event, file, fileList) {
+      console.log(event)
+    },
+    handleAvatarSuccess(res, file) {
+      this.addform.frontCover = res.data.fileUrl
+      this.$refs.upload.clearFiles()
+    },
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+        return isLt2M
+      }
+      const fileName = file.name
+      if (fileName.indexOf('jpg') === -1 && fileName.indexOf('png') === -1 && fileName.indexOf('jpeg') === -1) {
+        this.$message.error('上传图片格式不正确，请选择 jpg、png 或 jpeg 格式的图片!')
+        return false
+      }
+      if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
+        this.$message.error('上传图片名称不能包含空格或 #!')
+        return false
+      }
+      return true
+    },
     // 新增
     async submithistory() {
       this.$refs['addform'].validate((valid) => {
@@ -171,6 +224,7 @@ export default {
           this.loading = true
           const data = {
             title: this.addform.title,
+            frontCover: this.addform.frontCover,
             originalLink: this.addform.link,
             publishDate: this.$moment(this.addform.publishdate).format('YYYY-MM-DD'),
             publish: 1
@@ -192,4 +246,10 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .avatar {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
