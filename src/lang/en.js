@@ -395,5 +395,8 @@ export default {
   download: {
     downloadtime: 'data time',
     required: 'time is required'
+  },
+  table: {
+    createTime: 'createTime'
   }
 }

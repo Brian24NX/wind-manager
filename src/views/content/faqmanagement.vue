@@ -35,9 +35,9 @@
             <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
-        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" width="120px" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="100px" />
+        <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
@@ -187,7 +187,7 @@ export default {
       this.isSelect = true
       this.detailForm = JSON.parse(JSON.stringify(row))
       if (this.detailForm.answer) {
-        this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+        this.detailForm.answer = this.detailForm.answer.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
       }
     },
     // 导入
@@ -206,9 +206,8 @@ export default {
         this.search()
       }, 100)
     },
-    // 时间转化
-    formatDate(date) {
-      return this.$moment(date.updateTime).format('YYYY-MM-DD')
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
     },
     // 激活启用
     transactive(data) {

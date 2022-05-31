@@ -36,6 +36,7 @@
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
@@ -48,7 +49,7 @@
       </Pagination>
     </div>
     <!--历史文章添加-->
-    <el-dialog :title="$t('newscenter.addtitle')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('newscenter.addtitle')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close width="600px">
       <el-form ref="historyform" :model="historyform" :rules="rules">
         <el-form-item :label="$t('newscenter.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="historyform.title" autocomplete="off" clearable @blur="historyform.title = $event.target.value.trim()" />
@@ -200,7 +201,7 @@ export default {
           window.open(this.detailform.originalLink)
         } else {
           if (this.detailform.content) {
-            this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ').replaceAll('\n', '<br>').replaceAll('↵', '<br>')
+            this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
           }
           this.detailDialog = true
         }
@@ -230,8 +231,8 @@ export default {
     search() {
       this.$refs.pagination.refreshRequest()
     },
-    formatDate(date) {
-      return this.$moment(date.publishDate).format('YYYY-MM-DD')
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
     },
     // 获取种类列表
     async getcategoryList() {
