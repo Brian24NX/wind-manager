@@ -446,3 +446,17 @@ export function transbuiness(list) {
   }
   return arr
 }
+/**
+ *  companylist转化label-value
+ */
+export function transcompany(list) {
+  const arr = []
+  for (let i = 0; i < list.length; i++) {
+    const obj = {
+      value: list[i].companyId,
+      label: list[i].company
+    }
+    arr.push(obj)
+  }
+  return arr
+}

@@ -96,8 +96,10 @@
 </template>
 <script>
 // eslint-disable-next-line no-unused-vars
-import { labelAdd, labelEdit, labelDelete, labelDetail, labelUserList, labelUserExport, labelUserDelete } from '@/api/usergroup.js'
+import { labelAdd, labelEdit, labelDelete, labelDetail, labelUserList, labelUserExport, labelUserDelete, labelAllCompanyList } from '@/api/usergroup.js'
 import Pagination from '@/components/Pagination'
+// eslint-disable-next-line no-unused-vars
+import { transcompany } from '@/utils/index'
 export default {
   name: 'Label',
   components: {
@@ -115,6 +117,7 @@ export default {
       submitLoading: false,
       viewuserdialog: false,
       adddialog: false,
+      isEdit: false,
       addform: {
         id: '',
         name: '',
@@ -136,28 +139,46 @@ export default {
     // 重置
     reset() {
       this.queryParams = {
-        categoryIds: '',
-        keyword: ''
+        company: '',
+        name: ''
       }
       setTimeout(() => {
         this.$refs.pagination.refreshRequest()
       }, 100)
+    },
+    handleDel(id) {
+      this.$confirm(this.$t('faq.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          await labelDelete(id)
+          this.$refs.pagination.pageRequest()
+        })
     },
     // 提交表单
     submitlabel(formName) {
       this.$refs[formName].validate(async(valid) => {
         // 提交表单
         // eslint-disable-next-line eqeqeq
-        if (this.addform.id == '') {
+        if (this.addform.id == undefined) {
           // 新增label
-
+          this.submitLoading = true
+          await labelAdd(this.addform)
+          this.submitLoading = false
+          this.adddialog = false
+          this.submit()
         } else {
           // 编辑label
+          this.submitLoading = false
+          await labelEdit(this.addform)
+          this.addform = {}
+          this.submitLoading = false
+          this.adddialog = false
+          this.isEdit = false
+          this.submit()
         }
-        // this.submitLoading = true
-        // const res = await labelAdd(this.addform)
-        // this.submitLoading = false
-        // console.log(res.data)
       })
     },
     // 取消表单
@@ -171,9 +192,12 @@ export default {
       this.addform = {}
     },
     // 编辑
-    handleEdit(row) {
+    async handleEdit(row) {
       this.adddialog = true
+      this.isEdit = true
       this.addform = JSON.parse(JSON.stringify(row))
+      const res = await labelAllCompanyList()
+      console.log(res.data)
     },
     // 查看启用列表
     async viewuser(row) {

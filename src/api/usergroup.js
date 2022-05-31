@@ -55,3 +55,10 @@ export function labelUserDelete(data) {
     params: data
   })
 }
+// 标签公司列表
+export function labelAllCompanyList() {
+  return request({
+    url: '/api/admin/labelAllCompanyList',
+    method: 'get'
+  })
+}
