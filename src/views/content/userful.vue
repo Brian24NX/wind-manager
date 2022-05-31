@@ -30,6 +30,7 @@
         <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
         <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
@@ -207,6 +208,9 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
+    },
     // 置空列表
     reset() {
       this.queryParams = { keyWord: '' }

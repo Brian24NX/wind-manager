@@ -36,7 +36,7 @@
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
         <el-table-column :label="$t('business.category')" prop="categoryEnName" align="center" width="180px" />
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />
-        <el-table-column align="center" :label="$t('business.updatetime')" prop="updateTime" :formatter="formatDate" width="150px" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" width="150px" />
         <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
@@ -246,8 +246,8 @@ export default {
         return 'Draft'
       }
     },
-    formatDate(date) {
-      return this.$moment(date.updateTime).format('YYYY-MM-DD')
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
     },
     // 获取种类列表
     async getcategoryList() {

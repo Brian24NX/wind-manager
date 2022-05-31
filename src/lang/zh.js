@@ -403,5 +403,8 @@ export default {
   download: {
     downloadtime: '数据时间',
     required: '时间必须选择'
+  },
+  table: {
+    createTime: '创建时间'
   }
 }
