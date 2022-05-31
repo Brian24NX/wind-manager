@@ -36,6 +36,7 @@
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
@@ -230,8 +231,8 @@ export default {
     search() {
       this.$refs.pagination.refreshRequest()
     },
-    formatDate(date) {
-      return this.$moment(date.publishDate).format('YYYY-MM-DD')
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
     },
     // 获取种类列表
     async getcategoryList() {

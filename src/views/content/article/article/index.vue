@@ -37,6 +37,7 @@
         <el-table-column align="center" :label="$t('article.category')" prop="category" />
         <el-table-column align="center" :label="$t('article.platform')" prop="publishTos" />
         <el-table-column align="center" :label="$t('article.status')" prop="publish" :formatter="transactive" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
@@ -85,8 +86,8 @@ export default {
         return 'Draft'
       }
     },
-    formatDate(date) {
-      return this.$moment(date.publishDate).format('YYYY-MM-DD')
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
     },
     // 获取种类列表
     async getcategoryList() {

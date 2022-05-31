@@ -42,6 +42,7 @@
         <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" width="160px" />
         <el-table-column align="center" :label="$t('contact.phone')" prop="phone" width="160px" />
         <el-table-column align="center" :label="$t('contact.email')" prop="email" width="180px" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="120px">
           <template scope="scope">
             <el-button v-if="scope.row.active === 0" v-permission="[39]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('contact.active') }}</el-button>
@@ -275,6 +276,9 @@ export default {
     this.buinesssList()
   },
   methods: {
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
+    },
     Cancle() {
       this.adddialog = false
       this.isEdit = false

@@ -33,9 +33,9 @@
             <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
-        <el-table-column align="center" :label="$t('faq.updatetime')" prop="updateTime" :formatter="formatDate" width="120px" />
         <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="100px" />
+        <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
@@ -200,8 +200,8 @@ export default {
         this.search()
       }, 100)
     },
-    formatDate(date) {
-      return this.$moment(date.updateTime).format('YYYY-MM-DD')
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
     },
     transactive(data) {
       // eslint-disable-next-line eqeqeq

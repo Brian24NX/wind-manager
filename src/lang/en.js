@@ -322,5 +322,8 @@ export default {
     confirmBtn: 'confirm',
     cancelBtn: 'cancel',
     uploadError: 'Please upload image file!'
+  },
+  table: {
+    createTime: 'createTime'
   }
 }

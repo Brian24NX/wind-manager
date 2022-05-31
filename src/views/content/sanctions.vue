@@ -32,6 +32,7 @@
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
+        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
@@ -171,6 +172,9 @@ export default {
     this.getcategoryList()
   },
   methods: {
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
+    },
     handleDetail(row) {
       this.detailform = JSON.parse(JSON.stringify(row))
       if (this.detailform.remarkCn) {

@@ -329,5 +329,8 @@ export default {
     confirmBtn: '确定',
     cancelBtn: '取消',
     uploadError: '请上传图片'
+  },
+  table: {
+    createTime: '创建时间'
   }
 }
