@@ -30,7 +30,7 @@
         <el-table-column :label="$t('label.companycategory')" prop="companys" align="center" />
         <el-table-column align="center" :label="$t('label.usersnumber')" prop="userCount">
           <template scope="scope">
-            <el-button size="small" type="text" @click="viewuser(scope.row)">View Users({{ scope.row.userCount }})</el-button>
+            <el-button size="small" type="text" @click="viewuser(scope.row.id)">View Users({{ scope.row.userCount }})</el-button>
           </template>
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
@@ -51,7 +51,7 @@
           <el-input v-model="addform.description" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable @blur="addform.description = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item v-if="isEdit" :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyId">
-          <el-select v-model="addform.companyId" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
+          <el-select v-model="addform.companyList" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
             <el-option v-for="item in companylist" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -122,8 +122,10 @@ export default {
         id: '',
         name: '',
         description: '',
-        companyList: [{ companyId: 0 }]
+        companyList: []
       },
+      // 暂存数据
+      stagedata: [],
       formLabelWidth: '120px',
       companylist: [],
       rules: {
@@ -168,16 +170,25 @@ export default {
           await labelAdd(this.addform)
           this.submitLoading = false
           this.adddialog = false
-          this.submit()
+          this.$refs.pagination.refreshRequest()
         } else {
-          // 编辑label
+          this.addform.companyList.forEach(item => {
+            const data = { companyId: Number(item) }
+            this.stagedata.push(data)
+          })
+          this.addform.companyList = []
+          this.addform.companyList = this.stagedata
           this.submitLoading = false
           await labelEdit(this.addform)
-          this.addform = {}
+          this.addform.id = ''
+          this.addform.name = ''
+          this.addform.description = ''
+          this.addform.companyList = []
+          this.stagedata = []
           this.submitLoading = false
           this.adddialog = false
           this.isEdit = false
-          this.submit()
+          this.$refs.pagination.refreshRequest()
         }
       })
     },
@@ -185,6 +196,11 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
       this.adddialog = false
+      this.stagedata = []
+      this.addform.id = ''
+      this.addform.name = ''
+      this.addform.description = ''
+      this.addform.companyList = []
     },
     // 新增
     handleAdd() {
@@ -193,12 +209,21 @@ export default {
     },
     // 编辑
     async handleEdit(row) {
+      this.stagedata = []
       this.adddialog = true
       this.isEdit = true
+      //    name: '',
+      // description: '',
+      // companyList: []
       const labelres = await labelDetail(row.id)
-      console.log(labelres.data)
-      this.addform = labelres.data
-      this.addform.labelres
+      this.addform.id = labelres.data.id
+      this.addform.name = labelres.data.name
+      this.addform.description = labelres.data.description
+      labelres.data.companyList.forEach(item => {
+        this.stagedata.push(item.companyId)
+      })
+      this.addform.companyList = this.stagedata
+      this.stagedata = []
       const res = await labelAllCompanyList()
       this.companylist = transcompany(res.data)
     },
@@ -235,11 +260,11 @@ export default {
       })
         .then(async() => {
           const data = {
-            companyId: row.companyId,
-            userId: row
+            companyId: Number(row.companyId),
+            userId: Number(row.id)
           }
           await labelUserDelete(data)
-          this.viewuser(this.id)
+          this.search()
         })
     }
   }
