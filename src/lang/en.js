@@ -352,7 +352,8 @@ export default {
     user: 'User',
     ecomaccount: 'eCommerce Account',
     labelnametips: 'Label Name is required',
-    download: 'Download'
+    download: 'Download',
+    companys: 'Companys'
   },
   // 发布通知
   buiness: {

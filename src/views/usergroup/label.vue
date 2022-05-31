@@ -122,7 +122,7 @@ export default {
         id: '',
         name: '',
         description: '',
-        companyId: []
+        companyList: [{ companyId: 0 }]
       },
       formLabelWidth: '120px',
       companylist: [],
@@ -195,9 +195,12 @@ export default {
     async handleEdit(row) {
       this.adddialog = true
       this.isEdit = true
-      this.addform = JSON.parse(JSON.stringify(row))
+      const labelres = await labelDetail(row.id)
+      console.log(labelres.data)
+      this.addform = labelres.data
+      this.addform.labelres
       const res = await labelAllCompanyList()
-      console.log(res.data)
+      this.companylist = transcompany(res.data)
     },
     // 查看启用列表
     async viewuser(row) {

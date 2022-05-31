@@ -355,6 +355,7 @@ export default {
     usersnumber: '用户名',
     labelname: '标签名称',
     labeldescription: '标签描述',
+    companys: '公司',
     id: '序号',
     user: '用户',
     ecomaccount: '账号',
