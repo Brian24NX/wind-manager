@@ -10,47 +10,38 @@
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
-            <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
+            <el-form ref="forgetForm" :model="forgetForm" :rules="rules" class="login-form" autocomplete="on" label-position="left">
               <el-form-item prop="verifycode">
                 <el-input
-                  :key="verifyType"
                   ref="verifycode"
                   v-model="forgetForm.verifycode"
-                  :type="text"
+                  type="text"
                   :placeholder="$t('forgetForm.verifycode')"
                   name="verifycode"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
               <el-form-item prop="password">
                 <el-input
-                  :key="passwordType"
                   ref="password"
                   v-model="forgetForm.password"
-                  :type="passwordType"
+                  type="password"
                   :placeholder="$t('forgetForm.password')"
                   name="password"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
               <el-form-item prop="confirmpassword">
                 <el-input
-                  :key="passwordType"
                   ref="confirmpassword"
                   v-model="forgetForm.confirmpassword"
-                  :type="passwordType"
+                  type="password"
                   :placeholder="$t('forgetForm.confirmpassword')"
                   name="confirmpassword"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
             </el-form>
@@ -76,7 +67,7 @@
         </div>
         <div class="clearright">
           <el-button type="info" plain @click="cancel">取消</el-button>
-          <el-button plain @click="submit">提交</el-button>
+          <el-button plain @click="submit('forgetForm')">提交</el-button>
         </div>
       </div>
     </div>
@@ -91,21 +82,27 @@
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
-import { resetPwd } from '../../api/user.js'
-const validatePass2 = (rule, value, callback) => {
-  if (value === '') {
-    callback(new Error('请再次输入密码'))
-    // password 是表单上绑定的字段
-  } else if (value !== this.forgetForm.password) {
-    callback(new Error('两次输入密码不一致!'))
-  } else {
-    callback()
-  }
-}
+import { resetPwd } from '@/api/user.js'
 export default {
   name: 'Topassword',
   components: { LangSelect },
   data() {
+    const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+      if (!passwordreg.test(value)) {
+        callback(new Error(this.$t('forgetForm.requirerule')))
+      } else {
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (value !== this.forgetForm.password) {
+        callback(new Error(this.$t('forgetForm.passwordconsistent')))
+      } else {
+        callback()
+      }
+    }
     return {
       forgetForm: {
         verifycode: '',
@@ -114,34 +111,33 @@ export default {
         email: ''
       },
       src: logo,
-      forgetRules: {
-        verifycode: { required: true, message: 'verifycode is required' },
-        password: { required: true, message: 'password is required' },
-        confirmpassword: [{ validator: validatePass2, trigger: 'blur' }]
+      rules: {
+        verifycode: { required: true, message: this.$t('forgetForm.verifycodetips') },
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }],
+        confirmpassword: [{ required: true, message: this.$t('forgetForm.confirmpasswordtips') }, { trigger: blur, validator: validatePass2 }]
       }
     }
   },
   created() {
-    this.forgetForm.email = this.$route.params.email
+    this.forgetForm.email = this.$route.query.email
   },
   methods: {
     // 提交表单
-    submit() {
-      this.$refs['forgetForm'].validator((valid) => {
+    submit(formName) {
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const data = {
             email: this.forgetForm.email,
             newPwd: this.forgetForm.password,
             veriCode: this.forgetForm.verifycode
           }
-          this.resetPwd(data).then(res => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$router.push('/login')
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          const res = await resetPwd(data)
+          // eslint-disable-next-line eqeqeq
+          if (res.code == 200) {
+            this.$router.push('/login')
+          } else {
+            this.$message.error(res.message)
+          }
         } else {
           return false
         }

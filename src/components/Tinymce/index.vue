@@ -18,7 +18,7 @@ import toolbar from './toolbar'
 import load from './dynamicLoadScript'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+const tinymceCDN = 'https://lib.baomitu.com/tinymce/4.9.3/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
@@ -124,9 +124,11 @@ export default {
       window.tinymce.init({
         statusbar: false,
         language: this.language,
+        language_url: '/tinymce/langs/zh_CN.js',
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
+        element_format: 'html',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,
@@ -137,7 +139,7 @@ export default {
         code_dialog_width: 1000,
         advlist_bullet_styles: 'square',
         advlist_number_styles: 'default',
-        imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
+        imagetools_cors_hosts: [],
         default_link_target: '_blank',
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin

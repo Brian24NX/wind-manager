@@ -5,18 +5,18 @@
       v-loading="isLoading"
       :data="data"
       current-row-key="aaa"
-      element-loading-text="给我一点时间"
+      element-loading-text="loading"
       fit
       highlight-current-row
       class="tables"
       :show-header="showHeader"
-      :header-cell-style="{backgroundColor: '#FBFCFF'}"
+      :header-cell-style="{ backgroundColor: '#FBFCFF' }"
       @selection-change="selectionChange"
     >
       <el-table-column v-if="showCheck" type="selection" width="55" />
-      <el-table-column v-if="getShowIndex" align="center" :label="$t('message.index')" width="80">
+      <el-table-column v-if="getShowIndex" align="center" :label="$t('message.index')" width="80px">
         <template scope="scope">
-          <span>{{ pagination.page * pagination.size + scope.$index + 1 }}</span>
+          <span>{{ (pagination.pageNum - 1) * pagination.pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
       <slot />
@@ -28,9 +28,9 @@
         background
         :current-page="pagination.page"
         :page-sizes="pageSizes"
-        :page-size="pagination.size"
+        :page-size="pagination.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="pagination.total"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -40,7 +40,6 @@
 
 <script>
 import request from '@/utils/request'
-import { Message } from 'element-ui'
 
 export default {
   props: {
@@ -77,7 +76,7 @@ export default {
     },
     selectionChange: {
       type: Function,
-      default: function() { }
+      default: function() {}
     },
     showCheck: {
       type: Boolean,
@@ -89,10 +88,10 @@ export default {
       isLoading: true,
       // 分页参数
       pagination: {
-        page: this.page,
-        size: this.pageSize,
-        total: null
+        pageNum: this.page,
+        pageSize: this.pageSize
       },
+      total: 0,
       pageSizes: [],
       data: undefined
     }
@@ -104,18 +103,19 @@ export default {
   },
   created() {
     if (this.$route.query.page) {
-      this.pagination.page = this.$route.query.page
+      this.pagination.pageNum = this.$route.query.page
     }
     this.pageRequest()
-    this.pageSizes = [
-      this.pagination.size,
-      this.pagination.size * 2,
-      this.pagination.size * 5,
-      this.pagination.size * 10
-    ]
+    this.pageSizes = [this.pagination.pageSize, this.pagination.pageSize * 2, this.pagination.pageSize * 5, this.pagination.pageSize * 10]
   },
 
   methods: {
+    refreshRequest() {
+      this.pagination.pageNum = 1
+      this.total = 0
+      this.data = undefined
+      this.pageRequest()
+    },
     /**
      * 分页请求
      */
@@ -125,26 +125,23 @@ export default {
         url: this.uri,
         method: 'get',
         params: Object.assign(this.pagination, this.requestParams)
-      }).then(response => {
-        console.log(response)
-        this.pagination.total = response.data.total
-        this.data = response.data.list
-        this.isLoading = false
-      }).catch(error => {
-        Message({
-          message: error.message,
-          type: 'error'
-        })
-      }).finally(() => {
-        this.isLoading = false
       })
+        .then((response) => {
+          // console.log(response)
+          this.total = response.data.total
+          this.data = response.data.list
+          this.isLoading = false
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
     },
 
     /**
      * 切换页面
      */
     handleSizeChange(size) {
-      this.pagination.size = size
+      this.pagination.pageSize = size
       this.pageRequest()
     },
 
@@ -153,7 +150,7 @@ export default {
      */
     handleCurrentChange(currentPage) {
       this.$route.query.page = currentPage
-      this.pagination.page = currentPage
+      this.pagination.pageNum = currentPage
       this.pageRequest()
     },
 
@@ -169,7 +166,7 @@ export default {
 <style lang="scss">
 .tables {
   width: 100%;
-  border: 1px solid #EBEBEB;
+  border: 1px solid #ebebeb;
   border-bottom: none;
 }
 
@@ -182,12 +179,12 @@ export default {
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled).active {
-    background-color: #FFF8F8;
-    color: #E10202;
+    background-color: #fff8f8;
+    color: #e10202;
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled):hover {
-    color: #E10202;
+    color: #e10202;
   }
 }
 </style>

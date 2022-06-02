@@ -1,4 +1,8 @@
 export default {
+  remindMessage: {
+    expired: '登录已过期，请重新登录',
+    success: '操作成功'
+  },
   // 路由翻译
   route: {
     dashboard: '首页',
@@ -15,7 +19,14 @@ export default {
     businessOperationalUpdate: '服务信息',
     usefulTemplateAndLink: '模版链接',
     sanctionsAndCommodityList: '管制品',
-    materialLibrary: '素材库'
+    materialLibrary: '素材库',
+    usergroup: '用户与用户组',
+    programuser: '小程序用户',
+    labelManagement: '标签管理',
+    analyticsdashboard: '分析看板',
+    behavioranalysis: '用户行为分析',
+    userstatistics: '用户数据分析',
+    faqevluation: 'FAQ评估'
   },
   // navbar翻译
   navbar: {
@@ -24,7 +35,8 @@ export default {
     logOut: '退出登录',
     profile: '个人中心',
     theme: '换肤',
-    size: '布局大小'
+    size: '布局大小',
+    delcatetitle: '是否确认删除该类别？'
   },
   // 忘记密码页面翻译
   forgetForm: {
@@ -47,9 +59,16 @@ export default {
     confirmpassword: '确认新密码',
     resetpasssuccess: '重置密码成功',
     verifyerror: '验证码错误',
-    passwordconsistent: '密码不一致',
+    passwordconsistent: '两次输入密码不一致',
     terms: '法律条款',
-    yes: '确定'
+    yes: '确定',
+    emailtips: '邮箱格式不正确',
+    passwordtips: '密码不能为空',
+    confirmpasswordtips: '确认密码不能为空',
+    verifycodetips: '验证码不能为空',
+    emailrequired: '邮箱不能为空',
+    namerequired: '用户名不能为空',
+    functionrequired: '角色不能为空'
   },
   // 登陆翻译
   login: {
@@ -60,7 +79,9 @@ export default {
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
-    forgetpassword: '忘记密码？'
+    forgetpassword: '忘记密码？',
+    usernametips: '邮箱格式不正确',
+    passwordtips: '密码必填或者低于6位长度'
   },
   // 权限页面翻译
   permission: {
@@ -77,7 +98,7 @@ export default {
   article: {
     thumb: '封面图',
     title: '标题',
-    date: '日期',
+    date: '发布日期',
     category: '分类',
     platform: '发布平台',
     status: '状态',
@@ -85,12 +106,16 @@ export default {
     deltitle: '请确认是否要删除该文章？'
   },
   message: {
-    detail: '查看',
+    index: '序号',
+    detail: '详情',
     edit: '编辑',
     delete: '删除',
     publish: '发布',
     unPublish: '撤回',
-    download: '下载模版'
+    download: '下载模版',
+    save: '保存',
+    search: '搜索',
+    update: '修改'
   },
   addArticle: {
     pageTitle: '添加新推文',
@@ -105,8 +130,18 @@ export default {
     schedulePublish: '是否定时发布',
     scheduleTime: '定时发布时间',
     sendTo: '发送到',
-    submit: '保存',
-    reset: '重置'
+    save: '保存',
+    submit: '保存并发布',
+    reset: '重置',
+    addnew: '添加新文章',
+    titletips: '文章名称必填',
+    titlelengthtips: '长度在 3 到 100 个字符',
+    creatortips: '作者必填',
+    creatorlengthtips: '长度在 3 到 100 个字符',
+    frontCovertips: '封面图必填',
+    contenttips: '内容必填',
+    publishIdstips: '发布范围必填',
+    publishDatetips: '定时发布时间必填'
   },
   publishTo: {
     newsCenter: '小程序新闻中心',
@@ -121,19 +156,23 @@ export default {
     delete: '删除',
     upload: '上传',
     categorysetting: '分类设置',
-    addcategory: '添加新闻类别'
+    addcategory: '添加新闻类别',
+    name: '名称'
   },
   // 管制品
   sanctions: {
-    commodityzh: '商品（中文）',
-    commodityen: '商品（英文）',
+    commodityzh: '商品(中文)',
+    commodityen: '商品(英文)',
     referencenumber: '参考编号',
     remarkszh: '中文备注',
     remarksen: '英文备注',
     type: '类型',
     import: '导入',
     export: '导出',
-    newitem: '添加新管制品'
+    newitem: '添加新管制品',
+    deltitle: '是否确认删除该管制品记录',
+    commodityzhtips: '商品(中文)必填',
+    commodityentips: '商品(中文)必填'
   },
   // 用户模版
   userful: {
@@ -146,6 +185,14 @@ export default {
     categoryset: '类别设置',
     import: '导入',
     additem: '添加',
+    export: '导出',
+    link: '链接',
+    uploadfile: '选择文件',
+    type: '类型',
+    nametips: '文档或者链接名必填',
+    categoryIdtips: '类别必填',
+    typetips: '类型必填',
+    documenttips: '文档或者链接必填',
     download: '下载'
   },
   // 业务和运营
@@ -153,7 +200,7 @@ export default {
     id: '序号',
     title: '通知标题',
     category: '类别',
-    creator: '作者',
+    creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
     buinessupdate: '业务更新',
@@ -161,7 +208,8 @@ export default {
     sendnotification: '添加通知',
     deltitle: '是否确认删除该通知？',
     content: '文章',
-    uploadfile: '上传文件'
+    uploadfile: '上传文件',
+    titletips: '通知标题必填'
   },
   // 联系信息
   contact: {
@@ -180,16 +228,30 @@ export default {
     import: '导入',
     createinfo: '新建值班信息',
     deactive: '禁用',
-    active: '启用'
+    active: '启用',
+    deltitle: '是否确认删除该联系方式 ？',
+    createtitle: '值班信息',
+    regiontips: '区域必填',
+    officetips: '办事处必填',
+    depttips: '部门必填',
+    buinessscopetips: '业务范围必填',
+    tradetips: '航线必填',
+    contactpersontips: '联系人必填',
+    phonetips: '手机号必填',
+    dutydatetips: '值班日期必填',
+    startTimetips: '开始时间必填',
+    endTimetips: '结束时间必填',
+    emailtips: '邮箱必填',
+    dutytimetips: '值班时间必填'
   },
   // FAQ管理
   faq: {
-    id: '序号',
+    id: '问题编号',
     question: '问题',
     keyword: '关键词',
     relatedquestion: '关联问题',
     answer: '答案',
-    creator: '作者',
+    creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
     import: '导入',
@@ -197,7 +259,12 @@ export default {
     deactive: '禁用',
     active: '启用',
     export: '导出',
-    deltitle: '是否确认删除该 FAQ ？'
+    detail: '详情',
+    deltitle: '是否确认删除该 FAQ ？',
+    questiontips: '问题必填',
+    answertips: '答案必填',
+    faqKeywords: '关键字必填',
+    relatedquestiontips: '关联问题必填'
   },
   //  新闻中心
   newscenter: {
@@ -215,7 +282,11 @@ export default {
     del: '删除',
     categoryen: '种类英文',
     categoryzh: '种类中文',
-    creator: '作者'
+    creator: '作者',
+    titletips: '新闻标题必填',
+    linktips: '链接必填',
+    publishdatetips: '发布日期必填',
+    categorytips: '种类英文和种类中文不能为空'
   },
   // CMA CGM
   vas: {
@@ -225,7 +296,10 @@ export default {
     link: '链接',
     status: '状态',
     deltitle: '是否确认删除该文章？',
-    addtitle: '以链接形式添加增值服务介绍'
+    addtitle: '以链接形式添加增值服务介绍',
+    titletips: '标题必填',
+    linktips: '链接必填',
+    publishdatetips: '发布时间必填'
   },
   // 角色和权限
   userrole: {
@@ -247,6 +321,91 @@ export default {
     addnewfunction: '创建新角色',
     remove: '移除',
     deltitle: '请确认是否要删除该角色？',
-    permission: '权限'
+    permission: '权限',
+    nametips: '姓名必填',
+    emailtips: '邮箱必填',
+    idtips: '角色必选',
+    passwordtips: '密码必填',
+    functips: '角色和部门必填',
+    permissiontips: '权限必填'
+  },
+  // 富文本
+  tinymce: {
+    title: '上传',
+    uploadBtn: '点击上传',
+    confirmBtn: '确定',
+    cancelBtn: '取消',
+    uploadError: '请上传图片'
+  },
+  // 小程序用户
+  programuser: {
+    export: '导出',
+    username: '用户名',
+    account: '账号',
+    company: '公司',
+    companycategory: '公司分类',
+    partnercode: 'Partner Code'
+  },
+  // label管理
+  label: {
+    add: '添加新标签',
+    companyname: '公司名称',
+    companycategory: '公司种类',
+    description: '描述',
+    usersnumber: '用户名',
+    labelname: '标签名称',
+    labeldescription: '标签描述',
+    companys: '公司',
+    id: '序号',
+    user: '用户',
+    ecomaccount: '账号',
+    labelnametips: '标签名称必填',
+    download: '下载'
+  },
+  // 发布通知
+  buiness: {
+    title: '标题',
+    publishdate: '发布日期',
+    numberofviews: '浏览量',
+    numberofsendtoemail: '发送至邮箱数量'
+  },
+  // 模版
+  useful: {
+    title: '标题',
+    numberofviews: '浏览量',
+    numberofsendtoemail: '发送至邮箱数量'
+  },
+  // 新闻
+  news: {
+    title: '标题',
+    publishdate: '发布日期',
+    numberofviews: '浏览量',
+    numberoflinkes: '点赞量'
+  },
+  // cgm
+  cma: {
+    title: '标题',
+    publishdate: '发布日期',
+    numberofviews: '浏览量',
+    numberoflinkes: '点赞量'
+  },
+  // 更多功能
+  most: {
+    cma: 'CMA CGM+',
+    about: '集团介绍',
+    news: '新闻中心',
+    online: '在线服务',
+    customer: '客户公告',
+    useful: '常用模版及链接',
+    sanction: '管制品查询',
+    contant: '联系我们'
+  },
+  // 下载
+  download: {
+    downloadtime: '数据时间',
+    required: '时间必须选择'
+  },
+  table: {
+    createTime: '创建时间'
   }
 }

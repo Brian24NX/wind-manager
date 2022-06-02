@@ -7,12 +7,11 @@
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
-        :unique-opened="false"
+        unique-opened
         :active-text-color="variables.menuActiveText"
-        :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in user_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -26,10 +25,13 @@ import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
+  data() {
+    return {}
+  },
   computed: {
     ...mapGetters([
-      'permission_routes',
-      'sidebar'
+      'sidebar',
+      'user_routes'
     ]),
     activeMenu() {
       const route = this.$route
@@ -49,9 +51,6 @@ export default {
     isCollapse() {
       return !this.sidebar.opened
     }
-  },
-  // created(){
-  //   console.log(this.$store.getters.permission_routes);
-  // }
+  }
 }
 </script>

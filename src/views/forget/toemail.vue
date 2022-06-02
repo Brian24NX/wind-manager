@@ -20,16 +20,13 @@
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
               <el-form-item prop="email">
                 <el-input
-                  :key="email"
                   ref="email"
                   v-model="forgetForm.email"
-                  :type="text"
+                  type="text"
                   :placeholder="$t('forgetForm.email')"
                   name="email"
                   tabindex="2"
                   autocomplete="on"
-                  @keyup.native="checkCapslock"
-                  @blur="capsTooltip = false"
                 />
               </el-form-item>
             </el-form>
@@ -55,7 +52,7 @@
         </div>
         <div class="clearright">
           <el-button type="info" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
-          <el-button plain @click="submit">{{ $t('forgetForm.sendcode') }}</el-button>
+          <el-button plain @click="submit('forgetForm')">{{ $t('forgetForm.sendcode') }}</el-button>
         </div>
       </div>
     </div>
@@ -68,44 +65,46 @@
 import LangSelect from '@/components/LangSelect'
 import logo from '../../assets/logo.png'
 // eslint-disable-next-line no-unused-vars
-import { sendEmail } from '../../api/user.js'
+import { sendEmail } from '@/api/user.js'
 // eslint-disable-next-line no-unused-vars
-const checkemail = (rule, value, callback) => {
-  // eslint-disable-next-line no-unused-vars
-  const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  if (!email.test(value)) {
-    callback(new Error('email is Incorrect'))
-  } else {
-    callback()
-  }
-}
 export default {
   name: 'Toemail',
   components: { LangSelect },
   data() {
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
       forgetForm: {
         email: ''
       },
       src: logo,
       forgetRules: {
-        email: [{ required: true, message: 'email is required' }, { validator: checkemail, trigger: ['blur', 'change'] }]
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }]
       }
     }
   },
   methods: {
     // 提交表单
-    submit() {
-      this.$refs['forgetForm'].validator((valid) => {
+    submit(formName) {
+      const data = {
+        email: this.forgetForm.email
+      }
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          this.sendEmail(this.forgetForm.email).then(res => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.$router.push({ name: '/forget/topassword', params: { email: this.forgetForm.email }})
-            } else {
-              this.$message.error(res.message)
-            }
-          })
+          const res = await sendEmail(data)
+          // eslint-disable-next-line eqeqeq
+          if (res.code == 200) {
+            this.$router.push({ path: '/forget/topassword', query: { email: this.forgetForm.email }})
+          } else {
+            this.$message.error(res.message)
+          }
         } else {
           return false
         }

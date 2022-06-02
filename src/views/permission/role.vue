@@ -6,91 +6,99 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.name" size="small" style="width: 100%" placeholder="Name or Function" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.nameOrFunction" size="small" style="width: 100%" placeholder="Name or Function" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" plain @click="downloadfile">{{ $t('message.download') }}</el-button>
-            <el-button type="danger" size="small" plain @click="importdialog = true">{{ $t('userrole.import') }}</el-button>
-            <el-button type="danger" size="small" plain @click="exportlist">{{ $t('userrole.export') }}</el-button>
-            <el-button type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/wind-manager/userlist/list" :request-params="queryParams" :show-index="false">
+      <div class="operations">
+        <el-button v-permission="[6]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
+        <el-button v-permission="[6]" type="danger" size="small" @click="importdialog = true">{{ $t('userrole.import') }}</el-button>
+        <el-button v-permission="[7]" type="danger" size="small" @click="exportlist">{{ $t('userrole.export') }}</el-button>
+        <el-button v-permission="[3]" type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
+      </div>
+      <Pagination ref="pagination" uri="/api/admin/userList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
-        <el-table-column :label="$t('userrole.function')" prop="function" />
-        <el-table-column :label="$t('userrole.status')" prop="status" align="center" />
+        <el-table-column :label="$t('userrole.function')" prop="functions" />
+        <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
-            <el-button v-if="scope.row.status === 'Active'" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.deactive') }}</el-button>
-            <el-button v-if="scope.row.status === 'Deactive'" size="small" type="text" @click="handleUpdateStatus(scope.row)">{{ $t('userrole.active') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="editdialog = true">{{ $t('userrole.viewedit') }}</el-button>
+            <el-button v-if="scope.row.active === 1" v-permission="[4]" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('userrole.deactive') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[4]" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('userrole.active') }}</el-button>
+            <el-button v-permission="[2]" :disabled="scope.row.id == userId || scope.row.roleViewId == queryParams.roleViewId" size="small" type="text" class="danger" @click="Edit(scope.row)">{{ $t('userrole.viewedit') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
     </div>
     <!--文件上传弹窗-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center>
-      <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" :limit="1">
+    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
+      <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
     </el-dialog>
     <!--新增弹窗-->
-    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center>
+    <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
-          <el-input v-model="addform.name" autocomplete="off" />
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
+          <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
-          <el-input v-model="addform.email" autocomplete="off" />
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
+          <el-input v-model="addform.email" autocomplete="off" clearable @blur="addform.email = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="addform.function" multiple placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="id">
+          <el-select v-model="addform.id" placeholder="请选择" style="width: 100%">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth" prop="password">
-          <el-input v-model="addform.password" type="password" autocomplete="off" />
+        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
+          <el-input v-model="addform.password" type="password" autocomplete="off" clearable @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitadd">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="adddialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button type="primary" @click="submitadd('addform')">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--查看和编辑角色-->
-    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center>
+    <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="editform" :model="editform" :rules="editrules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth" prop="name">
+        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
           <el-input v-model="editform.name" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth" prop="email">
+        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
-          <el-select v-model="editform.function" multiple placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="funid">
+          <el-select v-model="editform.funid" placeholder="请选择" style="width: 100%">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <!--<el-form-item>
           <el-button type="text" plain @click="premissiondialog = true">Customize permission for the user</el-button>
-        </el-form-item>
+        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitview">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="editdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button type="primary" @click="submitview('editform')">{{ $t('forgetForm.yes') }}</el-button>
+        <el-button @click="Cancleedit">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
     <!--新增定制化权限-->
     <el-dialog :title="$t('userrole.editpremission')" :visible.sync="premissiondialog" center>
-      <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
+      <el-form ref="premissionform" :model="premissionform">
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
           <el-input v-model="premissionform.function" autocomplete="off" disabled />
         </el-form-item>
@@ -107,23 +115,15 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import path from 'path'
-// eslint-disable-next-line no-unused-vars
-import { deepClone } from '@/utils'
-// eslint-disable-next-line no-unused-vars
 import i18n from '@/lang'
 // eslint-disable-next-line no-unused-vars
-import { userActive, userExport, userAdd, userEdit } from '../../api/user.js'
+import { userActive, userExport, userAdd, userEdit, getInfo } from '@/api/user.js'
+import { roleDict } from '@/api/role.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 // eslint-disable-next-line no-unused-vars
-const defaultRole = {
-  key: '',
-  name: '',
-  description: '',
-  routes: []
-}
-
+import { transroleList } from '@/utils/index'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Role',
   components: {
@@ -131,7 +131,27 @@ export default {
     MultiCheckList
   },
   data() {
+    const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+      if (!passwordreg.test(value)) {
+        callback(new Error(this.$t('forgetForm.requirerule')))
+      } else {
+        callback()
+      }
+    }
+    const checkemail = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      if (!email.test(value)) {
+        callback(new Error(this.$t('forgetForm.emailtips')))
+      } else {
+        callback()
+      }
+    }
     return {
+      userId: JSON.parse(localStorage.getItem('userInfo')).id,
+      uploadHeaders: { 'Authorization': getToken() },
       dataList: [
         {
           code: 1001,
@@ -183,11 +203,14 @@ export default {
           ]
         }
       ],
-      queryParams: {},
+      queryParams: {
+        nameOrFunction: '',
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
+      },
       addform: {
         name: '',
         email: '',
-        function: '',
+        id: '',
         password: ''
       },
       premissionform: {
@@ -196,123 +219,191 @@ export default {
         function: ''
       },
       editform: {
+        id: '',
         name: '',
         email: '',
-        function: ''
+        funid: ''
       },
-      options: [
-        { value: '1', label: 'Normal User' },
-        { value: '2', label: 'sales' },
-        { value: '3', label: 'Communiication' }
-      ],
+      options: [],
       adddialog: false,
       importdialog: false,
       editdialog: false,
       premissiondialog: false,
       formLabelWidth: '130px',
+      formLabelWidth1: '100px',
       rules: {
-        name: { required: true, message: 'name is required', trigger: 'blur' },
-        email: { required: true, message: 'email is required', trigger: 'blur' },
-        function: { required: true, message: 'function is required', trigger: 'change' },
-        password: { required: true, message: 'password is required', trigger: 'blur' }
+        name: { required: true, message: this.$t('forgetForm.namerequired') },
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+        id: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
       },
       editrules: {
-        function: { required: true, message: 'function is required', trigger: 'change' }
+        funid: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' }
       }
     }
   },
   computed: {},
-  created() {},
+  created() {
+    this.roleList()
+  },
   methods: {
+    // 启用
+    transactive(data) {
+    // eslint-disable-next-line eqeqeq
+      if (data.active == 1) {
+        return 'Active'
+      } else {
+        return ' Deactive'
+      }
+    },
+    // 角色名称
+    async roleList() {
+      const data = {
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
+      }
+      const res = await roleDict(data)
+      this.options = transroleList(res.data)
+      console.log(this.options)
+    },
     // 导入列表
     import() {},
     // 导出列表
-    exportlist() {
+    async exportlist() {
       // eslint-disable-next-line no-unused-vars
-      const nameOrFunction = this.queryParams.name
-      this.userExport(nameOrFunction).then((res) => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          window.location.href = res.data
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      const res = await userExport(this.queryParams)
+      // eslint-disable-next-line eqeqeq
+      if (res.code == 200) {
+        window.location.href = res.data
+      } else {
+        this.$message.error(res.message)
+      }
     },
     // 状态改变
-    handleUpdateStatus(row) {
+    async handleUpdateStatus(row, active) {
       // eslint-disable-next-line no-unused-vars
       const data = {
-        active: row.active,
+        active: active,
         id: row.id
       }
-      this.userActive(data).then((res) => {
-        // eslint-disable-next-line eqeqeq
-        if (res.code == 200) {
-          this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      await userActive(data)
+      this.$refs.pagination.refreshRequest()
     },
-    // 提交add
-    submitadd() {
-      this.$refs['addform'].validator((valid) => {
+    // 新增操作
+    submitadd(formName) {
+      console.log(this.addform.id)
+      const role = [{
+        id: this.addform.id
+      }]
+      const data = {
+        email: this.addform.email,
+        password: this.addform.password,
+        name: this.addform.name,
+        active: 1,
+        roles: role
+      }
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const role = {
-            id: this.addform.function
+          await userAdd(data)
+          this.adddialog = false
+          this.$refs.pagination.refreshRequest()
+          this.addform = {
+            id: '',
+            name: '',
+            email: '',
+            funid: ''
           }
-          const data = {
-            email: this.addform.email,
-            newPwd: this.addform.password,
-            name: this.addform.name,
-            roles: role
-          }
-          this.userAdd(data).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.adddialog = false
-              // 页面刷新
-            } else {
-              this.$message.error(res.message)
-            }
-          })
         } else {
           return false
         }
       })
     },
-    // 提交edit
-    submitview() {
-      this.$refs['editform'].validator((valid) => {
+    // 取消操作
+    Cancle() {
+      this.adddialog = false
+      this.addform = {
+        id: '',
+        name: '',
+        email: '',
+        funid: ''
+      }
+    },
+    // 取消编辑
+    Cancleedit() {
+      this.editdialog = false
+      this.editform = {
+        id: '',
+        name: '',
+        email: '',
+        funid: ''
+      }
+    },
+    // 提交操作
+    submitview(formName) {
+      const role = [{
+        id: this.editform.funid
+      }]
+      const data = {
+        id: this.editform.id,
+        email: this.editform.email,
+        name: this.editform.name,
+        active: 1,
+        roles: role
+      }
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const role = {
-            id: this.editform.function
+          await userEdit(data)
+          this.editdialog = false
+          this.$refs.pagination.refreshRequest()
+          this.editform = {
+            id: '',
+            name: '',
+            email: '',
+            funid: ''
           }
-          const data = {
-            email: this.editform.email,
-            name: this.editform.name,
-            roles: role
-          }
-          this.userEdit(data).then((res) => {
-            // eslint-disable-next-line eqeqeq
-            if (res.code == 200) {
-              this.editdialog = false
-              // 页面刷新
-            } else {
-              this.$message.error(res.message)
-            }
-          })
         } else {
           return false
         }
       })
+    },
+    // 编辑权限
+    async Edit(row) {
+      this.editdialog = true
+      const res = await getInfo(row.id)
+      console.log(res.data)
+      this.editform.name = res.data.name
+      this.editform.email = res.data.email
+      this.editform.id = res.data.id
+      this.editform.funid = res.data.roles[0].id
     },
     handlerDataCheck(parent, child) {
       console.log(parent, child)
     },
+    // 下载文件
     downloadfile() {
-      window.location.href = 'https://uat.wind-admin.cma-cgm.com/api/admin/import/user_tm.xlsx'
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx')
+    },
+    // 处理成功
+    handleSuccess(res) {
+      // eslint-disable-next-line eqeqeq
+      if (res.code != 200) {
+        this.$message.error(res.message)
+      }
+    },
+    // 提交
+    submitimport() {
+      this.importdialog = false
+      this.search()
+    },
+    // 搜索
+    search() {
+      this.$refs.pagination.refreshRequest()
+    },
+    // 重置
+    reset() {
+      this.queryParams.nameOrFunction = ''
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
     }
   }
 }

@@ -1,105 +1,398 @@
 <template>
-  <div class="librarycontainer">
-    <div slot="header" class="clearfix">
+  <div v-loading="loading" class="librarycontainer">
+    <div slot="header" class="clearfix" style="margin-bottom: 20px">
       <span>{{ $t('library.title') }}</span>
     </div>
+    <!--资源中心-->
     <div class="greycontainer">
-      <div class="left">
-        <el-checkbox>{{$t('library.allselect')}}</el-checkbox>
-        <el-button>{{$t('library.category')}}</el-button>
-        <el-button>{{$t('library.delete')}}</el-button>
-      </div>
-      <div class="right">
-        <el-select v-model="value">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-        </el-select>
-        <el-button>{{$t('library.upload')}}</el-button>
-        <el-button>{{$t('library.categorysetting')}}</el-button>
-      </div>
+      <el-row style="width: 100%">
+        <el-col :span="16">
+          <el-row :gutter="20">
+            <el-col :span="3">
+              <el-checkbox v-model="checked" style="margin-top: 10px" @change="changeall">{{ $t('library.allselect') }}</el-checkbox>
+            </el-col>
+            <el-col :span="10">
+              <el-button type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
+              <el-button type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="8">
+          <el-row :gutter="20" type="flex" justify="end">
+            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" @change="changesearch">
+              <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+            <el-button type="danger" size="small" @click="uploaddialog = true">{{ $t('library.upload') }}</el-button>
+            <el-button type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
+          </el-row>
+        </el-col>
+      </el-row>
     </div>
-    <div class="listcontainer">
-      <div class="cardcontainer" v-for="(item, index) in librarylist" :key="index">
-        <el-image :src="item.src" mode="aspectFit" class="imgsrc"/>
-        <el-button class="table-cell" icon="el-icon-edit"></el-button>
-        <el-button class="table-cell" icon="el-icon-guide"></el-button>
-        <el-button class="table-cell" icon="el-icon-delete"></el-button>
-        <el-checkbox v-model="item.checked">{{ item.name }}</el-checkbox>
+    <el-checkbox-group v-model="checkedList">
+      <div class="listcontainer">
+        <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
+          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
+          <div>
+            <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
+            <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
+            <el-button class="table-cell" icon="el-icon-delete" @click="handleDel(item)" />
+          </div>
+          <el-checkbox :label="item.id" @change="changeCheck">
+            <span>{{ item.title }}</span>
+          </el-checkbox>
+        </div>
       </div>
-    </div>
-     <Pagination v-show="total > 0" :total="total" :page="page" :limit="limit" @pagination="getlist"></Pagination>
+    </el-checkbox-group>
+    <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
+    <!--类别设置-->
+    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
+      <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-table :data="tabledata" style="width: 100%">
+        <el-table-column :label="$t('business.category')">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input v-model="scope.row.category" size="mini" />
+            </span>
+            <span v-else>{{ scope.row.category }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('business.creator')" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input v-model="scope.row.creator" size="mini" />
+            </span>
+            <span v-else>{{ scope.row.creator }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+          <template scope="scope">
+            <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+            <el-button v-if="!scope.row.isSet" v-permission="[61]" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
+    <!--名称修改-->
+    <el-dialog :title="$t('message.update')" :visible.sync="editdialog" center :close-on-click-modal="false">
+      <el-form ref="editform" :model="editform" :rules="rules">
+        <el-form-item :label="$t('library.name')" :label-width="formLabelWidth" prop="title">
+          <el-input v-model="editform.title" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="savename">{{ $t('message.save') }}</el-button>
+        <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
+    <!--类别修改-->
+    <el-dialog :title="$t('message.update')" :visible.sync="editcategorydialog" center :close-on-click-modal="false">
+      <el-form ref="editcateform" :model="editcateform">
+        <el-form-item :label="$t('library.category')" :label-width="formLabelWidth" prop="categoryId">
+          <el-select v-model="editcateform.categoryId" placeholder="请选择" style="margin-right: 20px">
+            <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="savecate">{{ $t('message.save') }}</el-button>
+        <el-button @click="Canclecate">{{ $t('forgetForm.cancel') }}</el-button>
+      </div>
+    </el-dialog>
+    <!--批量文件上传-->
+    <el-dialog :title="$t('library.upload')" :visible.sync="uploaddialog" center @close="getMatlist">
+      <el-upload
+        ref="upload"
+        class="upload-demo"
+        :headers="uploadHeaders"
+        action="/api/admin/uploadImgList"
+        :on-preview="handPreview"
+        :on-remove="handRemove"
+        :on-success="handleSuccess"
+        :file-list="fileList"
+        :limit="10"
+      >
+        <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
+      </el-upload></el-dialog>
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination2'
+// eslint-disable-next-line no-unused-vars
+import { materialList, materialDelete, materialChange, materialRename } from '@/api/material'
+// eslint-disable-next-line no-unused-vars
+import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
+// eslint-disable-next-line no-unused-vars
+import { transList } from '@/utils'
+import Cookies from 'js-cookie'
+import { getToken } from '@/utils/auth'
 export default {
-  name: 'material',
+  name: 'Material',
   components: { Pagination },
   data() {
     return {
-      //全选参数
-
-      librarylist: [
-        {
-          src: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-          name: '1.jpeg',
-          checked: false,
-        },
-        {
-          src: " https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-          name: '2.jpeg',
-          checked: false,
-        },
-        {
-          src: " https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
-          name: '3.jpeg',
-          checked: false,
-        },
-      ],
-      total: 3,
-      page: 1,
-      limit: 10,
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
+      cookies: Cookies.get('Admin-Token'),
+      filePath: process.env.VUE_APP_FILE_BASE_API,
+      // 全选参数
+      query: {
+        category: ''
+      },
+      checked: false,
+      setdialog: false,
+      editdialog: false,
+      editcategorydialog: false,
+      uploaddialog: false,
+      tabledata: [],
+      librarylist: [],
+      categoryList: [],
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
+      editform: {
+        id: '',
+        title: ''
+      },
+      editcateform: {
+        id: [],
+        categoryId: ''
+      },
+      formLabelWidth: '130px',
+      rules: {
+        title: { required: true, message: 'title is required', trigger: 'blur' }
+      },
+      checkedList: [],
+      fileList: [],
+      loading: false
     }
   },
-  methods: {
-    getlist() {},
+  watch: {
+    setdialog(val) {
+      if (!val) {
+        this.getcategoryList()
+      }
+    }
   },
+  created() {
+    this.getcategoryList()
+    this.getlist()
+  },
+  methods: {
+    // 关闭获取list
+    getMatlist() {
+      this.uploaddialog = false
+      this.getlist()
+    },
+    // 种类变化搜索
+    changesearch() {
+      this.getlist()
+    },
+    // 编辑
+    handleEditAllCate() {
+      this.editcateform.id = this.checkedList
+      this.editcategorydialog = true
+    },
+    // 改变选中
+    changeCheck() {
+      if (this.librarylist.length && this.checkedList.length === this.librarylist.length) {
+        this.checked = true
+      } else {
+        this.checked = false
+      }
+    },
+    // 全部清空
+    async handleDelAll() {
+      materialDelete(this.checkedList)
+      this.getlist()
+    },
+    // 全选定义
+    changeall() {
+      this.checkedList = []
+      if (this.checked) {
+        this.librarylist.forEach(item => {
+          this.checkedList.push(item.id)
+        })
+      }
+    },
+    // 编辑种类弹窗
+    Canclecate() {
+      this.editcateform.id = []
+      this.editcateform.categoryId = ''
+      this.editcategorydialog = false
+    },
+    // 取消
+    Cancle() {
+      this.editform = {}
+      this.editdialog = false
+    },
+    // 种类编辑
+    handleEditCate(row) {
+      this.editcateform.id.push(row.id)
+      this.editcateform.categoryId = row.categoryId
+      this.editcategorydialog = true
+    },
+    // 处理编辑
+    handleEdit(row) {
+      this.editform = row
+      this.editdialog = true
+    },
+    // 修改名称
+    async savename() {
+      const data = {
+        id: this.editform.id,
+        name: this.editform.title
+      }
+      await materialRename(data)
+      this.editdialog = false
+      this.editform = {}
+      this.getlist()
+    },
+    // 修改类别
+    async savecate() {
+      this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
+      materialChange(this.editcateform)
+      this.editcategorydialog = false
+      this.editcateform.id = []
+      this.editcateform.categoryId = ''
+      this.checkedList = []
+      this.getlist()
+    },
+    // 获取种类列表
+    async getcategoryList() {
+      const type = 4
+      const res = await categoryList(type)
+      this.categoryList = transList(res.data)
+      res.data.map((i) => {
+        i.isSet = false
+      })
+      this.tabledata = res.data
+    },
+    // 改变分页
+    changePagination(pagination) {
+      this.pageNum = pagination.page
+      this.pageSize = pagination.limit
+      this.checkedList = []
+      this.getlist()
+    },
+    // 获取列表
+    async getlist() {
+      const data = {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        categoryId: this.query.categoryId
+      }
+      this.loading = true
+      this.librarylist = []
+      const res = await materialList(data)
+      this.loading = false
+      this.total = res.data.total
+      res.data.list.map((i) => {
+        i.checked = false
+      })
+      this.librarylist = res.data.list
+    },
+    // 添加种类
+    createcategory() {
+      const data = {
+        category: '',
+        creator: '',
+        isSet: true,
+        categoryadd: true
+      }
+      this.tabledata.push(data)
+    },
+    // 添加种类
+    async Save(row) {
+      const data = {
+        id: row.id,
+        category: row.category,
+        creator: row.creator,
+        type: 4,
+        isSet: false
+      }
+      if (!data.category) {
+        this.$message.error('类别不能为空')
+        return
+      }
+      if (row.categoryadd) {
+        const res = await categoryAdd(data)
+        data.id = res.data
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
+      } else {
+        await categoryEdit(data)
+        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
+      }
+    },
+    // 编辑种类
+    async Edit(row) {
+      row.isSet = true
+    },
+    // 删除种类
+    async Delete(id) {
+      this.$confirm(this.$t('navbar.delcatetitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          await categoryDel(id)
+          this.getcategoryList()
+        })
+    },
+    // 删除资源库文件
+    async handleDel(row) {
+      const list = []
+      list.push(row.id)
+      await materialDelete(list)
+      this.getlist()
+    },
+    handPreview() {},
+    handRemove() {},
+    handleSuccess() {}
+  }
 }
 </script>
 <style scoped>
-.librarycontainer{
-  width :100%;
+.librarycontainer {
+  width: 100%;
 }
-.greycontainer{
-   background-color:#f0f0f0;
-   margin:15px;
-   height: 50px;
-   line-height: 50px;
+.greycontainer {
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 24px;
 }
-.left{
-  float:left;
+.left {
+  float: left;
 }
-.right{
-   float:right;
+.right {
+  float: right;
 }
-.listcontainer{
-   display:flex;
-   flex-direction:row;
-   flex-wrap:wrap;
-   justify-content:flex-start;
+.listcontainer {
+  background-color: #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  min-height: 225px;
 }
-.cardcontainer{
-   width:200px;
-   height:225px;
+.cardcontainer {
+  width: 20%;
+  height: 225px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
-.cardcontainer:not(:first-child){
-    margin-left:25px;
+
+.imgsrc {
+  width: 190px;
+  height: 160px;
+  margin-bottom: 10px;
 }
-.imgsrc{
-  width:190px;
-  height:160px;
-}
-.table-cell{
-  display:table-cell;
+.table-cell {
+  display: table-cell;
 }
 </style>

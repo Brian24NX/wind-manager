@@ -4,3 +4,5 @@
 # Ada Library Information
 *.ali
 node_modules
+dist
+node_modules.zip

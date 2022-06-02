@@ -1,4 +1,8 @@
 export default {
+  remindMessage: {
+    expired: 'Login has expired. Please login again',
+    success: 'Operation is successful'
+  },
   // 路由翻译
   route: {
     dashboard: 'Dashboard',
@@ -15,7 +19,14 @@ export default {
     businessOperationalUpdate: 'Business & Operational Update',
     usefulTemplateAndLink: 'Useful Template and Link',
     sanctionsAndCommodityList: 'Sanctions and Commodity List',
-    materialLibrary: 'Material Library'
+    materialLibrary: 'Material Library',
+    usergroup: 'User and User Group-CRM',
+    programuser: 'Mini-program User',
+    labelManagement: 'Label Management',
+    analyticsdashboard: 'Analytics Dashboard',
+    behavioranalysis: 'User Behavior Analysis',
+    userstatistics: 'User Statistics',
+    faqevluation: 'Faq Evaluation'
   },
   // navbar翻译
   navbar: {
@@ -24,7 +35,8 @@ export default {
     logOut: 'Log Out',
     profile: 'Profile',
     theme: 'Theme',
-    size: 'Global Size'
+    size: 'Global Size',
+    delcatetitle: 'Please confirm if you want to delete this category?'
   },
   // 忘记密码页面翻译
   forgetForm: {
@@ -47,9 +59,16 @@ export default {
     confirmpassword: 'New Password Confirmation',
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
-    passwordconsistent: 'Password must be consistent',
+    passwordconsistent: 'The password entered twice does not match',
     terms: 'Legal Terms',
-    yes: 'Yes'
+    yes: 'Yes',
+    emailtips: 'email is Incorrect',
+    passwordtips: 'password is required',
+    confirmpasswordtips: 'confirmpassword is required',
+    verifycodetips: 'verifycode is required',
+    emailrequired: 'email is required',
+    namerequired: 'name is required',
+    functionrequired: 'function is required'
   },
   // 登陆页面翻译
   login: {
@@ -60,7 +79,9 @@ export default {
     any: 'any',
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !',
-    forgetpassword: 'Forgotten Password?'
+    forgetpassword: 'Forgotten Password?',
+    usernametips: 'Please enter the correct user name',
+    passwordtips: 'The password can not be less than 6 digits'
   },
   //  权限页面翻译
   permission: {
@@ -85,12 +106,16 @@ export default {
     deltitle: 'Please confirm if you want to delete this article?'
   },
   message: {
-    detail: 'Details',
+    index: 'No.',
+    detail: 'Detail',
     edit: 'Edit',
     delete: 'Delete',
     publish: 'Published',
     unPublish: 'Unpublish',
-    download: 'Template'
+    download: 'Template',
+    save: 'Save',
+    search: 'Search',
+    update: 'Update'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
@@ -105,8 +130,18 @@ export default {
     schedulePublish: 'Schedule Publish Date',
     scheduleTime: 'Schedule Publish Date',
     sendTo: 'Send to',
+    save: 'Save',
     submit: 'Save and Publish',
-    reset: 'Reset'
+    reset: 'Reset',
+    addnew: 'Add A New Article',
+    titletips: 'title is required',
+    titlelengthtips: 'It is between 3 and 100 characters in length',
+    creatortips: 'creator is required',
+    creatorlengthtips: 'It is between 3 and 100 characters in length',
+    frontCovertips: 'frontCover is required',
+    contenttips: 'content is required',
+    publishIdstips: 'publishids is required',
+    publishDatetips: 'publishdate is required'
   },
   // 素材库
   library: {
@@ -116,7 +151,8 @@ export default {
     delete: 'Delete',
     upload: 'Upload',
     categorysetting: 'Category Setting',
-    addcategory: 'Add A New Category'
+    addcategory: 'Add A New Category',
+    name: 'Name'
   },
   // 管制品
   sanctions: {
@@ -128,7 +164,10 @@ export default {
     type: 'Type',
     import: 'Import',
     export: 'Export',
-    newitem: 'Add A New Item'
+    newitem: 'Add A New Item',
+    deltitle: 'Please confirm if you want to delete this commodity list?',
+    commodityzhtips: 'commodityCn is required',
+    commodityentips: 'commodityEn is required'
   },
   // 用户模版
   userful: {
@@ -141,6 +180,14 @@ export default {
     categoryset: 'Category Setting',
     import: 'Import',
     additem: 'Add A New Item',
+    export: 'Export',
+    link: 'Link',
+    uploadfile: 'Uploadfile',
+    type: 'Type',
+    nametips: 'name is required',
+    categoryIdtips: 'categoryId is required',
+    typetips: 'type is required',
+    documenttips: 'document is required',
     download: 'Download'
   },
   // 业务和运营
@@ -156,7 +203,8 @@ export default {
     sendnotification: 'Send A Notification',
     deltitle: 'Please confirm if you want to delete this notification?',
     content: 'Content',
-    uploadfile: 'UploadFile'
+    uploadfile: 'UploadFile',
+    titletips: 'title is required'
   },
   contact: {
     id: 'No.',
@@ -174,10 +222,24 @@ export default {
     import: 'Import',
     createinfo: 'Create New Duty Info',
     deactive: 'Deactive',
-    active: 'Active'
+    active: 'Active',
+    deltitle: 'Please confirm if you want to delete this Contact?',
+    createtitle: 'Duty Info',
+    regiontips: 'region is required',
+    officetips: 'office is required',
+    depttips: 'dept is required',
+    buinessscopetips: 'buinessscope is required',
+    tradetips: 'trade is required',
+    contactpersontips: 'contactperson is required',
+    phonetips: 'phone is required',
+    dutydatetips: 'dutydate is required',
+    startTimetips: 'starttime is required',
+    endTimetips: 'endtime is required',
+    emailtips: 'email is required',
+    dutytimetips: 'dutytime is required'
   },
   faq: {
-    id: 'No.',
+    id: 'Question No.',
     question: 'Question',
     keyword: 'Keyword(s)',
     relatedquestion: 'Related Question(s)',
@@ -190,7 +252,12 @@ export default {
     deactive: 'Deactive',
     active: 'Active',
     export: 'Export',
-    deltitle: 'Please confirm if you want to delete this FAQ?'
+    detail: 'Detail',
+    deltitle: 'Please confirm if you want to delete this FAQ?',
+    questiontips: 'question is required',
+    answertips: 'answer is required',
+    faqKeywords: 'To add more key words, please enter key words or phrases separated by a comma',
+    relatedquestiontips: 'relatedquestion is required'
   },
   //  新闻中心
   newscenter: {
@@ -208,7 +275,11 @@ export default {
     del: 'Delete',
     categoryen: 'Category-EN',
     categoryzh: 'Category-ZH',
-    creator: 'Creator'
+    creator: 'Creator',
+    titletips: 'title is required',
+    linktips: 'link is required',
+    publishdatetips: 'publishdate is required',
+    categorytips: 'New input category items cannot be empty'
   },
   //  vas
   vas: {
@@ -218,7 +289,10 @@ export default {
     link: 'Link',
     status: 'Status',
     deltitle: 'Please confirm if you want to delete this article?',
-    addtitle: 'Add A CMA CGM+ Intro by Link'
+    addtitle: 'Add A CMA CGM+ Intro by Link',
+    titletips: 'title is required',
+    linktips: 'link is required',
+    publishdatetips: 'publishdate is required'
   },
   // 用户角色和权限
   userrole: {
@@ -240,6 +314,90 @@ export default {
     addnewfunction: 'Add A New Function',
     remove: 'Remove',
     deltitle: 'Please confirm if you want to delete this function?',
-    permission: 'Permission'
+    permission: 'Permission',
+    nametips: 'name is required',
+    emailtips: 'email is required',
+    idtips: 'roleviewid is required',
+    passwordtips: 'password is required',
+    functips: 'role and department is required',
+    permissiontips: 'premission is required'
+  },
+  // 富文本
+  timymce: {
+    title: 'upload',
+    uploadBtn: 'Click upload',
+    confirmBtn: 'confirm',
+    cancelBtn: 'cancel',
+    uploadError: 'Please upload image file!'
+  },
+  // 小程序用户
+  programuser: {
+    export: 'Export Excel',
+    username: 'User Name',
+    account: 'eCommerce Account',
+    company: 'Company',
+    companycategory: 'Company Category',
+    partnercode: 'Partner Code'
+  },
+  // 标签管理
+  label: {
+    add: 'Add A New Label',
+    companyname: 'Company Name',
+    companycategory: 'Company Category',
+    description: 'Description',
+    usersnumber: 'User',
+    labelname: 'Label Name',
+    labeldescription: 'Label Description',
+    id: 'No.',
+    user: 'User',
+    ecomaccount: 'eCommerce Account',
+    labelnametips: 'Label Name is required',
+    download: 'Download',
+    companys: 'Companys'
+  },
+  // 发布通知
+  buiness: {
+    title: 'Title',
+    publishdate: 'Publish Date',
+    numberofviews: 'Number of Views',
+    numberofsendtoemail: 'Number of Send to Email'
+  },
+  // 模版
+  useful: {
+    title: 'Title',
+    numberofviews: 'Number of Views/Copies',
+    numberofsendtoemail: 'Number of Send to Email'
+  },
+  // 新闻
+  news: {
+    title: 'Title',
+    publishdate: 'Publish Date',
+    numberofviews: 'Number of Views',
+    numberoflinkes: 'Number of Send to Email'
+  },
+  // cgm
+  cma: {
+    title: 'Title',
+    publishdate: 'Publish Date',
+    numberofviews: 'Number of Views',
+    numberoflinkes: 'Number of Send to Email'
+  },
+  // 更多功能
+  most: {
+    cma: 'CMA CGM+',
+    about: 'About Us',
+    news: 'News Center',
+    online: 'Online Service',
+    customer: 'Customer Advisory',
+    useful: 'Useful Template & Link',
+    sanction: 'Sanction Check',
+    contant: 'Contact Us'
+  },
+  download: {
+    downloadtime: 'data time',
+    required: 'time is required'
+  },
+  table: {
+    createTime: 'createTime'
   }
 }

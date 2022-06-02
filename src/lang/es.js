@@ -1,4 +1,7 @@
 export default {
+  remindMessage: {
+    expired: '登录已过期，请重新登录'
+  },
   route: {
     dashboard: 'Panel de control',
     documentation: 'Documentación',
@@ -77,7 +80,7 @@ export default {
     logIn: 'Acceso',
     username: 'Usuario',
     password: 'Contraseña',
-    any: 'nada',
+    // any: 'nada',
     thirdparty: 'Conectar con',
     thirdpartyTips: 'No se puede simular en local, así que combine su propia simulación de negocios. ! !'
   },

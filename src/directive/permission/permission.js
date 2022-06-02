@@ -2,13 +2,13 @@ import store from '@/store'
 
 function checkPermission(el, binding) {
   const { value } = binding
-  const roles = store.getters && store.getters.roles
+  const buttons = store.getters && store.getters.buttons
 
   if (value && value instanceof Array) {
     if (value.length > 0) {
       const permissionRoles = value
 
-      const hasPermission = roles.some(role => {
+      const hasPermission = buttons.some(role => {
         return permissionRoles.includes(role)
       })
 
@@ -17,7 +17,7 @@ function checkPermission(el, binding) {
       }
     }
   } else {
-    throw new Error(`need roles! Like v-permission="['admin','editor']"`)
+    throw new Error(`need buttonIds! Like v-permission="[1, 2]"`)
   }
 }
 

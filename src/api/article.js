@@ -49,7 +49,7 @@ export function articleImport() {
 // 文章信息删除
 export function articleDel(id) {
   return request({
-    url: '/api/admin/miniNewsDelete',
+    url: '/api/admin/newsDelete',
     method: 'get',
     params: {
       id
@@ -61,13 +61,21 @@ export function articleExport(data) {
   return request({
     url: '/api/admin/miniNewsExport',
     method: 'get',
-    data: data
+    params: data
   })
 }
 // 文章信息添加
 export function articleAdd(data) {
   return request({
-    url: '/api/admin/miniNewsHisAdd',
+    url: '/api/admin/newsAdd',
+    method: 'post',
+    data
+  })
+}
+// 文章修改
+export function articleEdit(data) {
+  return request({
+    url: '/api/admin/newsEdit',
     method: 'post',
     data
   })
@@ -75,9 +83,17 @@ export function articleAdd(data) {
 // 文章信息发布
 export function articlePublish(data) {
   return request({
-    url: '/api/admin/miniNewsPublish',
+    url: '/api/admin/newsPublish',
     method: 'get',
-    data
+    params: data
+  })
+}
+// 文章信息获取详情
+export function newsDetail(id) {
+  return request({
+    url: '/api/admin/newsDetail',
+    method: 'get',
+    params: { id }
   })
 }
 // 添加类别  type：1 小程序news center 2 business 3 useful 4 metail资源库 5 article
@@ -89,11 +105,11 @@ export function categoryAdd(data) {
   })
 }
 // 删除类别
-export function categoryDel(data) {
+export function categoryDel(id) {
   return request({
     url: '/api/admin/categoryDelete',
     method: 'get',
-    data
+    params: { id }
   })
 }
 // 修改类别

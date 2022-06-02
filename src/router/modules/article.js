@@ -5,7 +5,7 @@ import Layout from '@/layout'
 const articleRouter = {
   path: '/content',
   component: Layout,
-  redirect: '/content/articlemanagement/articlelist',
+  redirect: '/articlelist',
   name: 'contentManager',
   meta: {
     title: 'contentManager',
@@ -13,45 +13,45 @@ const articleRouter = {
     affix: true
   },
   children: [{
-    path: 'article',
+    path: '/articlemanagement',
     component: () => import('@/views/content/article/index'),
-    name: 'articleManager',
+    name: 'Article Managements',
     meta: {
       title: 'articleManager'
     },
-    redirect: '/content/article/articlelist',
+    redirect: '/articlelist',
     children: [{
-      path: 'articlelist',
+      path: '/articlelist',
       component: () => import('@/views/content/article/article'),
       name: 'Article Management',
       meta: {
         title: 'articleManager'
       }
     }, {
-      path: 'addarticle',
+      path: '/addarticle',
       component: () => import('@/views/content/article/article/add'),
       name: 'Create A New Article',
       meta: {
         title: 'createArticle'
       }
     }, {
-      path: 'newscenter',
+      path: '/newscenter',
       component: () => import('@/views/content/article/news'),
       name: 'Mini-Program News Center',
       meta: {
         title: 'newsCenter'
       }
     }, {
-      path: 'vas',
+      path: '/vas',
       component: () => import('@/views/content/article/vas/index'),
-      name: 'Mini-Program CMA CGM+',
+      name: 'Mini-Program Vas',
       meta: {
         title: 'cmaCgm'
       }
     }]
   },
   {
-    path: 'faq',
+    path: '/faq',
     component: () => import('@/views/content/faqmanagement'),
     name: 'FAQ Management',
     meta: {
@@ -59,7 +59,7 @@ const articleRouter = {
     }
   },
   {
-    path: 'contact',
+    path: '/contact',
     component: () => import('@/views/content/contact'),
     name: 'Contact Information Matrix',
     meta: {
@@ -67,7 +67,7 @@ const articleRouter = {
     }
   },
   {
-    path: 'buiness',
+    path: '/buiness',
     component: () => import('@/views/content/business'),
     name: 'Business & Operational Update',
     meta: {
@@ -75,7 +75,7 @@ const articleRouter = {
     }
   },
   {
-    path: 'userful',
+    path: '/userful',
     component: () => import('@/views/content/userful'),
     name: 'Useful Template and Link',
     meta: {
@@ -83,7 +83,7 @@ const articleRouter = {
     }
   },
   {
-    path: 'sanctions',
+    path: '/sanctions',
     component: () => import('@/views/content/sanctions'),
     name: 'Sanctions and Commodity List',
     meta: {
@@ -91,7 +91,7 @@ const articleRouter = {
     }
   },
   {
-    path: 'material',
+    path: '/material',
     component: () => import('@/views/content/material'),
     name: 'Material Library',
     meta: {

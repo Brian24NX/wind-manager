@@ -1,27 +1,5 @@
 import request from '@/utils/request'
 
-// export function login(data) {
-//   return request({
-//     url: '/wind-manager/user/login',
-//     method: 'post',
-//     data
-//   })
-// }
-
-// export function getInfo(token) {
-//   return request({
-//     url: '/wind-manager/user/info',
-//     method: 'get',
-//     params: { token }
-//   })
-// }
-
-// export function logout() {
-//   return request({
-//     url: '/wind-manager/user/logout',
-//     method: 'post'
-//   })
-// }
 // 远端登陆
 export function login(data) {
   return request({
@@ -48,13 +26,11 @@ export function logout() {
   })
 }
 // 远端发送邮箱验证码
-export function sendEmail(email) {
+export function sendEmail(data) {
   return request({
     url: '/api/admin/sendEmail',
-    method: 'post',
-    params: {
-      email
-    }
+    method: 'get',
+    params: data
   })
 }
 // 远端重置密码
@@ -86,17 +62,26 @@ export function userActive(data) {
   return request({
     url: '/api/admin/userActive',
     method: 'get',
-    data
+    params: data
   })
 }
 // 远端用户导出
-export function userExport(nameOrFunction) {
+export function userExport(data) {
   return request({
     url: '/api/admin/userExport',
     method: 'get',
-    params: {
-      nameOrFunction
+    params: data
+  })
+}
+// 文件上传
+export function fileExport(file) {
+  return request({
+    url: '/api/admin/uploadFile',
+    data: {
+      file
+    },
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
   })
 }
-

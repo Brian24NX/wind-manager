@@ -8,7 +8,9 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import articleRouter from './modules/article'
-
+import permissionRouter from './modules/permission'
+import usergroupRouter from './modules/usergroup'
+import analyticsRouter from './modules/analyticsdashboard'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -52,6 +54,21 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
   // forgetToEmail  desc:忘记密码
   {
     path: '/forget/toemail',
@@ -59,7 +76,7 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/forget/topassword:email',
+    path: '/forget/topassword',
     component: () => import('@/views/forget/topassword'),
     hidden: true
   },
@@ -76,7 +93,6 @@ export const constantRoutes = [
       }
     ]
   }
-
 ]
 
 /**
@@ -85,37 +101,10 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  permissionRouter,
   articleRouter,
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: 'permission',
-      icon: 'lock'
-    },
-    children: [
-      {
-        path: 'UserManagement',
-        component: () => import('@/views/permission/role'),
-        name: 'UserManagement',
-        meta: {
-          title: 'userManagement'
-        }
-      },
-      {
-        path: 'RolePermission',
-        component: () => import('@/views/permission/page'),
-        name: 'Role & Permission',
-        meta: {
-          title: 'rolePermission'
-        }
-      }
-    ]
-  }
-  // { path: '*', redirect: '/404', hidden: true }
+  usergroupRouter,
+  analyticsRouter
 ]
 
 const createRouter = () => new Router({

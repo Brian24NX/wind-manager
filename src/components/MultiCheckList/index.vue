@@ -1,180 +1,298 @@
 <template>
-  <div class="multi-check" :style="{ width: width }">
-      <div class="multi-check-item" v-if="isCheckAll">
-            <el-checkbox label="全选" :indeterminate="isIndeterminate" v-model="checkAll" @change="handlerChange(0, null, $event)">全选 {{totalLabel}}</el-checkbox>
-			      <el-checkbox label="反选" v-model="checkInvert" @change="handlerChange(-1, null, $event)">反选</el-checkbox>
-      </div>
-    <div class="multi-check-item" v-for="item in newDataList" :key="item.code">
-      <el-checkbox v-model="item.isChecked" :indeterminate="item.isIndeterminate" :label="item.code" :value="item.value" @change="handlerChange(1, item, $event)">{{ item.label }}</el-checkbox>
-      <div class="multi-check-item" style="display: inline-block">
-        <el-checkbox v-model="child.isChecked" @change="handlerChange(2, item, $event)" v-for="child in item.children || []" :key="child.code" :label="child.value">{{ child.label }}</el-checkbox>
+  <div v-loading="loading" class="multi-check" :style="{ width: width }">
+    <div v-for="item in newDataList" :key="item.id" class="multi-check-item">
+      <el-checkbox v-model="item.buttonFlag" :indeterminate="item.isIndeterminate" :label="item.name" :value="item.id" @change="handlerChange(1, item, $event)">{{ item.name }}</el-checkbox>
+      <div v-for="firstChild in item.children || []" :key="firstChild.id" class="multi-check-item" style="display: inline-block">
+        <el-checkbox v-model="firstChild.buttonFlag" :indeterminate="firstChild.isIndeterminate" :label="firstChild.name" @change="handlerChange(2, firstChild, $event, item)">{{
+          firstChild.name
+        }}</el-checkbox>
+        <template v-if="firstChild.isLast">
+          <div class="multi-check-item" style="display: inline-block">
+            <el-checkbox
+              v-for="secondChild in firstChild.children"
+              :key="secondChild.id"
+              v-model="secondChild.buttonFlag"
+              :label="secondChild.name"
+              @change="handlerChange(3, secondChild, $event, item, firstChild)"
+            >{{ secondChild.name }}</el-checkbox>
+          </div>
+        </template>
+        <template v-else>
+          <div
+            v-for="secondChild in firstChild.children"
+            :key="secondChild.id"
+            class="multi-check-item"
+            style="display: inline-block"
+          >
+            <el-checkbox v-model="secondChild.buttonFlag" :indeterminate="secondChild.isIndeterminate" :label="secondChild.name" @change="handlerChange(3, secondChild, $event, item, firstChild)">{{
+              secondChild.name
+            }}</el-checkbox>
+            <div class="multi-check-item" style="display: inline-block">
+              <el-checkbox
+                v-for="thirdChild in secondChild.children || []"
+                :key="thirdChild.id"
+                v-model="thirdChild.buttonFlag"
+                :label="thirdChild.name"
+                @change="handlerChange(4, thirdChild, $event, item, firstChild, secondChild)"
+              >{{ thirdChild.name }}</el-checkbox>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-    name:'multiCheckList',
-    props: {
-        isCheckAll: {			//是否显示全选
-            type: Boolean,
-            default: false
-        },
-        invert:{		//是否显示反选(2021-07-06更新)
-			type:Boolean,
-			default:false
-		},
-        dataList:{			//数据集合
-            type: Array,
-            required: true
-        },
-        width:{
-            type: String,
-            default:'100%'
-        },
-        defaultCheckedKeys:{		//默认选中项
-			type:Array,
-			default:() => ([])
-		}
+  name: 'MultiCheckList',
+  props: {
+    dataList: {
+      // 数据集合
+      type: Array,
+      required: true
     },
-    data() {
-        return {
-            checkAll:false,
-            checkInvert:false,	//反选(2021-07-06更新)
-            isIndeterminate:false,
-            totalLabel:'',
-            newDataList:[]	//为了不污染prop dataList
-        }
+    width: {
+      type: String,
+      default: '100%'
     },
-    watch: {
-        newDataList: {
-            handler() {
-				const isChangeSum = this.newDataList.reduce((prev, cur) => {
-					return prev + (+(cur.isChange || 0));
-				}, 0);
-				const isCheckSum = this.newDataList.reduce((prev, cur) => {
-					return prev + (+(cur.isChecked || 0));
-				}, 0);
-				this.checkAll = (isCheckSum && isCheckSum === this.newDataList.length);
-				this.isIndeterminate = !!isChangeSum;
-				if(isCheckSum && isCheckSum === this.newDataList.length) {
-					this.isIndeterminate = false;
-				}
-                this.totalLabel = isChangeSum === 0 ? "" : `已选择(${isChangeSum})个分类`;
-			},
-			immediate: true,
-			deep:true
-        },
-        dataList: {
-            handler:function(val) {
-            	//这里只做简单的拷贝，深拷贝需要自己实现,这里只是为了演示
-                this.newDataList = JSON.parse(JSON.stringify(val))
-                this.initCheckedKeys()
-            },
-            immediate:true,
-            deep:true
-        }
-    },
-    computed: {
-        getDataList() {
-            let parentList = []
-            let childList = []
-            this.newDataList.forEach(item => {
-                if(item.isChecked) parentList.push(item.value)
-				;(item.children || []).forEach(child => {
-					if(child.isChecked) {
-						childList.push(child.value);
-					}
-				})
-            })
-            return [parentList, childList]
-        }
-    },
-    methods: {
-    	initCheckedKeys() {		//初始化默认选中项
-            ;(this.newDataList || []).forEach(item => {
-                if(!item.children || !Array.isArray(item.children)) item.children = []
-                item.children.forEach(child => {
-                    if(this.defaultCheckedKeys.includes(child.value)) {
-                        this.$set(child, 'isChecked', true);
-                    }
-                });
-                if(item.children.length) {
-                    const every = item.children.every(it => it.isChecked)   //子集全部选中
-                    const some = item.children.some(it => it.isChecked)   //子集没有全部选中
-                    this.$set(item, 'isChecked', every);
-                    this.$set(item, 'isIndeterminate', some && !every);
-                    this.$set(item, 'isChange', some)
-                }
-            })
-        },
-        handlerCheckAll(isChecked) {
-            this.newDataList.forEach(item => {
-				this.$set(item, 'isChecked', isChecked);
-				this.$set(item, 'isChange', isChecked);
-				if(isChecked) this.$set(item, 'isIndeterminate', false);
-				item.children.forEach(child => {
-					this.$set(child, 'isChecked', isChecked);
-				})
-			});
-        },
-        handlerInvertCheck() {		//反选(2021-07-06更新)
-			this.newDataList.forEach(item => {
-				this.$set(item, 'isChange', !item.isChecked);
-				this.$set(item, 'isChecked', !item.isChecked);
-				item.children.forEach(child => {
-					this.$set(child, 'isChecked', !child.isChecked);
-					if(child.isChecked) this.$set(item, 'isChange', true);
-				})
-			});
-		},
-        handlerChange($type, $row, $event) {
-            let isChecked = !$event.target ? $event: $event.target.checked;
-            if($type === 0) {		//全选
-                this.handlerCheckAll(isChecked)
-                this.$emit('change', this.getDataList[0],this.getDataList[1])
-                return
-            }
-            if($type === 1) {
-                $row.children.forEach((item) => {
-                    this.$set(item, 'isChecked', isChecked);
-                })
-            }
-            if($type === -1) {	//反选(2021-07-06更新)
-				this.handlerInvertCheck()
-				this.$emit('change', this.getDataList[0],this.getDataList[1])
-				return
-			}
-            const checkCount = $row.children.reduce((prev, cur)=> {
-				let check = 0;
-				if(cur.isChecked === undefined) {
-					check = 0;
-				}else {
-					check = +cur.isChecked
-				}
-				return prev + (+check);
-            },0);	//统计选择的次数
-            this.$set($row, 'isChange', checkCount === 0 ? false: true);
-            this.$set($row, 'isChecked', (checkCount && checkCount === $row.children.length) ? true: false);
-            this.$set($row, 'isIndeterminate', (checkCount && checkCount < $row.children.length) ? true:false);
-
-            this.$emit('change', this.getDataList[0],this.getDataList[1])
-        }
+    defaultCheckedKeys: {
+      // 默认选中项
+      type: Array,
+      default: () => []
     }
+  },
+  data() {
+    return {
+      loading: false,
+      newDataList: [] // 为了不污染prop dataList
+    }
+  },
+  methods: {
+    dealDatas() {
+      console.log(this.defaultCheckedKeys)
+      this.loading = true
+      const newList = JSON.parse(JSON.stringify(this.dataList))
+      newList.forEach(item => {
+        item.children.forEach((child) => {
+          child.children.forEach((secondChild) => {
+            if (!secondChild.children) {
+              child.isLast = true
+              secondChild.buttonFlag = this.defaultCheckedKeys.includes(secondChild.id)
+            } else {
+              child.isLast = false
+              secondChild.children.forEach(thirdChild => {
+                thirdChild.buttonFlag = this.defaultCheckedKeys.includes(thirdChild.id)
+              })
+              const length = secondChild.children.filter(secondChild => secondChild.buttonFlag).length
+              secondChild.isIndeterminate = !!(length < secondChild.children.length && length > 0)
+              secondChild.buttonFlag = length === secondChild.children.length
+            }
+          })
+          const length = child.children.filter(secondChild => secondChild.buttonFlag).length
+          child.isIndeterminate = !!(length < child.children.length && length > 0)
+          child.buttonFlag = length === child.children.length
+          const length2 = item.children.filter(firstChild => firstChild.buttonFlag).length
+          const length3 = item.children.filter(firstChild => firstChild.isIndeterminate).length
+          console.log(length, length2, length3)
+          item.buttonFlag = length2 === item.children.length
+          item.isIndeterminate = !!(((length2 || length3) && (length2 < item.children.length && length3 <= item.children.length)))
+        })
+      })
+      this.newDataList = newList
+      console.log(this.newDataList)
+      this.loading = false
+    },
+    handlerChange($type, $row, $event, item, firstItem, secondItem) {
+      const buttonFlag = !$event.target ? $event : $event.target.checked
+      if ($type === 1) {
+        $row.children.forEach((item) => {
+          this.$set(item, 'buttonFlag', !!buttonFlag)
+          this.$set(item, 'isIndeterminate', false)
+          item.children.forEach((child) => {
+            this.$set(child, 'buttonFlag', !!buttonFlag)
+            if (child.children) {
+              child.children.forEach((secondChild) => {
+                this.$set(secondChild, 'buttonFlag', !!buttonFlag)
+              })
+            }
+          })
+        })
+        this.$set($row, 'isIndeterminate', false)
+      } else if ($type === 2) {
+        $row.children.forEach((item) => {
+          this.$set(item, 'buttonFlag', !!buttonFlag)
+          if (item.children) {
+            item.children.forEach((secondChild) => {
+              this.$set(secondChild, 'buttonFlag', !!buttonFlag)
+            })
+          }
+        })
+        this.$set($row, 'isIndeterminate', false)
+        const checkCount = item.children.reduce((prev, cur) => {
+          let check = 0
+          if (cur.buttonFlag === undefined) {
+            check = 0
+          } else {
+            check = +cur.buttonFlag
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        const checkCount1 = item.children.reduce((prev, cur) => {
+          let check = 0
+          if (!cur.isIndeterminate) {
+            check = 0
+          } else {
+            check = +cur.isIndeterminate
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        console.log(checkCount, checkCount1)
+        this.$set(item, 'isIndeterminate', !!(((checkCount || checkCount1) && (checkCount < item.children.length && checkCount1 < item.children.length))))
+        this.$set(item, 'buttonFlag', checkCount && checkCount === item.children.length)
+      } else if ($type === 3) {
+        this.$set($row, 'buttonFlag', !!buttonFlag)
+        this.$set($row, 'isIndeterminate', false)
+        if ($row.children) {
+          $row.children.forEach((secondChild) => {
+            this.$set(secondChild, 'buttonFlag', !!buttonFlag)
+          })
+        }
+        // 二级按钮判断
+        const checkCount2 = firstItem.children.reduce((prev, cur) => {
+          let check = 0
+          if (cur.buttonFlag === undefined) {
+            check = 0
+          } else {
+            check = +cur.buttonFlag
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        if (checkCount2 === firstItem.children.length) {
+          this.$set(firstItem, 'buttonFlag', true)
+          this.$set(firstItem, 'isIndeterminate', false)
+        } else {
+          this.$set(firstItem, 'buttonFlag', false)
+          this.$set(firstItem, 'isIndeterminate', !!checkCount2)
+        }
+        // 一级按钮判断
+        const checkCount1 = item.children.reduce((prev, cur) => {
+          let check = 0
+          if (cur.buttonFlag === undefined) {
+            check = 0
+          } else {
+            check = +cur.buttonFlag
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        const checkCount0 = item.children.reduce((prev, cur) => {
+          let check = 0
+          if (!cur.isIndeterminate) {
+            check = 0
+          } else {
+            check = +cur.isIndeterminate
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        console.log(checkCount0, checkCount1)
+        this.$set(item, 'isIndeterminate', !!(((checkCount1 || checkCount0) && (checkCount1 < item.children.length && checkCount0 <= item.children.length))))
+        this.$set(item, 'buttonFlag', !!(checkCount1 && checkCount1 === item.children.length))
+      } else if ($type === 4) {
+        // 四级按钮
+        this.$set($row, 'buttonFlag', !!buttonFlag)
+        // 三级按钮判断
+        const checkCount4 = secondItem.children.reduce((prev, cur) => {
+          let check = 0
+          if (cur.buttonFlag === undefined) {
+            check = 0
+          } else {
+            check = +cur.buttonFlag
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        if (checkCount4 === secondItem.children.length) {
+          this.$set(secondItem, 'buttonFlag', true)
+          this.$set(secondItem, 'isIndeterminate', false)
+        } else {
+          this.$set(secondItem, 'buttonFlag', false)
+          this.$set(secondItem, 'isIndeterminate', !!checkCount4)
+        }
+        // 二级按钮判断
+        const checkCount3 = firstItem.children.reduce((prev, cur) => {
+          let check = 0
+          if (cur.buttonFlag === undefined) {
+            check = 0
+          } else {
+            check = +cur.buttonFlag
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        const checkCount2 = firstItem.children.reduce((prev, cur) => {
+          let check = 0
+          if (!cur.isIndeterminate) {
+            check = 0
+          } else {
+            check = +cur.isIndeterminate
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        console.log(checkCount2, checkCount3)
+        if (checkCount3 === firstItem.children.length) {
+          this.$set(firstItem, 'buttonFlag', true)
+          this.$set(firstItem, 'isIndeterminate', false)
+        } else {
+          this.$set(firstItem, 'buttonFlag', false)
+          // this.$set(firstItem, 'isIndeterminate', !!checkCount2)
+          this.$set(firstItem, 'isIndeterminate', !!(((checkCount3 || checkCount2) && (checkCount3 < firstItem.children.length && checkCount2 <= firstItem.children.length))))
+        }
+        // 一级按钮判断
+        const checkCount1 = item.children.reduce((prev, cur) => {
+          let check = 0
+          if (cur.buttonFlag === undefined) {
+            check = 0
+          } else {
+            check = +cur.buttonFlag
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        const checkCount0 = item.children.reduce((prev, cur) => {
+          let check = 0
+          if (!cur.isIndeterminate) {
+            check = 0
+          } else {
+            check = +cur.isIndeterminate
+          }
+          return prev + +check
+        }, 0) // 统计选择的次数
+        console.log(checkCount0, checkCount1)
+        this.$set(item, 'isIndeterminate', !!(((checkCount1 || checkCount0) && (checkCount1 < item.children.length && checkCount0 <= item.children.length))))
+        this.$set(item, 'buttonFlag', !!(checkCount1 && checkCount1 === item.children.length))
+      }
+    },
+    getCheckedKeys() {
+      const length = this.newDataList.filter(item => (item.buttonFlag || item.isIndeterminate)).length
+      if (!length) {
+        this.$message.error('请选择权限')
+        return []
+      }
+      return this.newDataList
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
 .multi-check {
-    position: relative;
-    text-align:left;
-    
-    .multi-check-item {
-        width: 100%;
-        background-color: #F9FAFB;
-        padding: 10px 0;
-        padding-left: 25px;
-        margin-bottom: 10px;
-        border-radius: 6px;
-    }
+  position: relative;
+  text-align: left;
+	max-height: 550px;
+	overflow-y: scroll;
+
+  .multi-check-item {
+    width: 100%;
+    background-color: #f9fafb;
+    padding: 10px 0;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+  }
 }
 </style>

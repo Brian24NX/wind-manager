@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 消息添加
 export function newsAdd(data) {
   return request({
-    url: '/api/admin/newsAdd',
+    url: '/api/admin/miniNewsHisAdd',
     method: 'post',
     data
   })
@@ -11,7 +11,7 @@ export function newsAdd(data) {
 // 消息删除
 export function newsDel(id) {
   return request({
-    url: '/api/admin/newsDelete',
+    url: '/api/admin/miniNewsDelete',
     method: 'get',
     params: { id }
   })
@@ -27,7 +27,15 @@ export function newsEdit(data) {
 // 消息发布
 export function newsPublish(data) {
   return request({
-    url: '/api/admin/newsPublish',
+    url: '/api/admin/miniNewsPublish',
+    method: 'get',
+    params: data
+  })
+}
+// 消息导出
+export function newsExport(data) {
+  return request({
+    url: '/api/admin/miniNewsExport',
     method: 'get',
     params: data
   })

@@ -10,7 +10,7 @@
 
         <!--<error-log class="errLog-container right-menu-item hover-effect" />-->
 
-       <!-- <screenfull id="screenfull" class="right-menu-item hover-effect" />-->
+        <!-- <screenfull id="screenfull" class="right-menu-item hover-effect" />-->
 
         <!--<el-tooltip :content="$t('navbar.size')" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
@@ -22,8 +22,11 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-            <i class="el-icon-caret-bottom" />
+          <!--<el-avatar size="medium" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />-->
+          <!-- <img :src="" class="user-avatar"> -->
+          <!-- <i class="el-icon-caret-bottom" /> -->
+          <!-- <span>{{ userName }}</span>-->
+          <span style="position:relative;top:-5px"> {{ userName }}</span>
         </div>
         <el-dropdown-menu slot="dropdown">
           <!--<router-link to="/profile/index">
@@ -44,7 +47,7 @@
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>-->
-          <el-dropdown-item  @click.native="logout">
+          <el-dropdown-item @click.native="logout">
             <span style="display:block;">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -57,21 +60,26 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
-import Screenfull from '@/components/Screenfull'
-import SizeSelect from '@/components/SizeSelect'
+// import ErrorLog from '@/components/ErrorLog'
+// import Screenfull from '@/components/Screenfull'
+// import SizeSelect from '@/components/SizeSelect'
 import LangSelect from '@/components/LangSelect'
-import Search from '@/components/HeaderSearch'
+// import Search from '@/components/HeaderSearch'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    ErrorLog,
-    Screenfull,
-    SizeSelect,
-    LangSelect,
-    Search
+    // ErrorLog,
+    // Screenfull,
+    // SizeSelect,
+    LangSelect
+    // Search
+  },
+  data() {
+    return {
+      userName: JSON.parse(localStorage.getItem('userInfo')).name
+    }
   },
   computed: {
     ...mapGetters([
@@ -99,7 +107,6 @@ export default {
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
   .hamburger-container {
     line-height: 46px;
     height: 100%;

@@ -19,6 +19,14 @@ export function faqDel(id) {
 // faq问题修改
 export function faqEdit(data) {
   return request({
+    url: '/api/admin/faqEdit',
+    method: 'post',
+    data
+  })
+}
+// faq问题修改
+export function faqEditRelations(data) {
+  return request({
     url: '/api/admin/faqRelationEdit',
     method: 'post',
     data
@@ -30,5 +38,12 @@ export function faqActive(data) {
     url: '/api/admin/faqActive',
     method: 'get',
     params: data
+  })
+}
+// faq模版下载
+export function faqTemplateDownload() {
+  return request({
+    url: '/api/admin/faqTemplateDownload',
+    method: 'get'
   })
 }
