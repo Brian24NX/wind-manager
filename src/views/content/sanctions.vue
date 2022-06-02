@@ -170,6 +170,10 @@ export default {
           remarkCn: '',
           remarkEn: ''
         }
+        setTimeout(() => {
+          this.$refs.editor1.setContent('')
+          this.$refs.editor2.setContent('')
+        }, 200)
         this.loading = false
       }
     }

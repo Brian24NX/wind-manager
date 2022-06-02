@@ -306,7 +306,7 @@ export default {
     },
     // 删除数据
     handleDelete(id) {
-      this.$confirm(this.$t('business.deltitle'), this.$t('message.delete'), {
+      this.$confirm(this.$t('userful.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'

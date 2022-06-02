@@ -192,6 +192,7 @@ export default {
     import: 'Import',
     additem: 'Add A New Item',
     export: 'Export',
+    deltitle: 'Please confirm if you want to delete this document or link?',
     link: 'Link',
     uploadfile: 'Uploadfile',
     type: 'Type',
