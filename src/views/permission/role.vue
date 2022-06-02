@@ -6,14 +6,14 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.nameOrFunction" size="small" style="width: 100%" placeholder="Name or Function" suffix-icon="el-icon-search" clearable />
+              <el-input v-model="queryParams.nameOrFunction" size="small" style="width: 100%" :placeholder="$t('userrole.keyword')" suffix-icon="el-icon-search" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -43,7 +43,7 @@
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
@@ -54,18 +54,18 @@
     <el-dialog :title="$t('userrole.newuser')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
-          <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
+          <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
-          <el-input v-model="addform.email" autocomplete="off" clearable @blur="addform.email = $event.target.value.trim()" />
+          <el-input v-model="addform.email" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.email = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="id">
-          <el-select v-model="addform.id" placeholder="请选择" style="width: 100%">
+          <el-select v-model="addform.id" :placeholder="$t('general.choose')" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
-          <el-input v-model="addform.password" type="password" autocomplete="off" clearable @blur="addform.password = $event.target.value.trim()" />
+          <el-input v-model="addform.password" type="password" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -6,22 +6,19 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryId" placeholder="请选择" clearable filterable style="width: 100%">
+              <el-select v-model="queryParams.categoryId" :placeholder="$t('business.category')" clearable filterable style="width: 100%">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" placeholder="Keyword" clearable />
-            </el-col>
-            <el-col :span="8">
-              <el-input v-model="queryParams.creator" size="small" style="width: 100%" placeholder="Creator" clearable />
+              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('business.title')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -36,7 +33,7 @@
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
         <el-table-column :label="$t('business.category')" prop="categoryEnName" align="center" width="180px" />
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" width="150px" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="150px" />
         <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
@@ -90,7 +87,7 @@
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
+          <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
           <tinymce ref="editor" v-model="addform.content" :height="250" />
@@ -113,7 +110,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="categoryId">
-          <el-select v-model="addform.categoryId" placeholder="请选择">
+          <el-select v-model="addform.categoryId" :placeholder="$t('general.choose')">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>

@@ -5,14 +5,14 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="Keyword" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('vas.title')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -31,7 +31,7 @@
         <el-table-column :label="$t('vas.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('vas.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('vas.status')" prop="publish" :formatter="transactive" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
@@ -47,13 +47,13 @@
     <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="600px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="addform.title" autocomplete="off" clearable @blur="addform.title = $event.target.value.trim()" />
+          <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('vas.link')" :label-width="formLabelWidth" prop="link">
-          <el-input v-model="addform.link" autocomplete="off" clearable @blur="addform.link = $event.target.value.trim()" />
+          <el-input v-model="addform.link" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.link = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('vas.publishdate')" :label-width="formLabelWidth" prop="publishdate">
-          <el-date-picker v-model="addform.publishdate" type="date" placeholder="" style="width: 100%" clearable />
+          <el-date-picker v-model="addform.publishdate" type="date" :placeholder="$t('general.chooseDate')" style="width: 100%" clearable />
         </el-form-item>
         <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover" :label-width="formLabelWidth">
           <el-upload
@@ -71,7 +71,7 @@
             <el-image v-if="addform.frontCover" :src="addform.frontCover" fit="contain" class="avatar" />
             <template v-else>
               <i class="el-icon-upload" />
-              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
             </template>
           </el-upload>
         </el-form-item>

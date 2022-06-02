@@ -5,14 +5,14 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" placeholder="Keyword" clearable />
+              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('userful.name')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -30,7 +30,7 @@
         <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
         <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
@@ -73,10 +73,10 @@
     <el-dialog :title="$t('userful.additem')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="650px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userful.name')" :label-width="formLabelWidth" prop="name">
-          <el-input v-model="addform.name" autocomplete="off" clearable @blur="addform.name = $event.target.value.trim()" />
+          <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.category')" :label-width="formLabelWidth" prop="categoryId">
-          <el-select v-model="addform.categoryId" placeholder="请选择">
+          <el-select v-model="addform.categoryId" :placeholder="$t('general.choose')">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -107,7 +107,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
-          <el-input v-model="addform.document" autocomplete="off" clearable @blur="addform.document = $event.target.value.trim()" />
+          <el-input v-model="addform.document" autocomplete="off" type="textarea" clearable @blur="addform.document = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
           <el-input v-model="addform.internalReference" autocomplete="off" clearable @blur="addform.internalReference = $event.target.value.trim()" />
@@ -123,7 +123,7 @@
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="loading" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>

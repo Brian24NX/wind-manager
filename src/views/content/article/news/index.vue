@@ -5,19 +5,19 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryIds" clearable filterable placeholder="请选择" style="width: 100%">
+              <el-select v-model="queryParams.categoryIds" clearable filterable :placeholder="$t('article.category')" style="width: 100%">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="Keyword" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('newscenter.title')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -36,7 +36,7 @@
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
@@ -52,18 +52,18 @@
     <el-dialog :title="$t('newscenter.addtitle')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close width="600px">
       <el-form ref="historyform" :model="historyform" :rules="rules">
         <el-form-item :label="$t('newscenter.title')" :label-width="formLabelWidth" prop="title">
-          <el-input v-model="historyform.title" autocomplete="off" clearable @blur="historyform.title = $event.target.value.trim()" />
+          <el-input v-model="historyform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="historyform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('newscenter.link')" :label-width="formLabelWidth" prop="link">
-          <el-input v-model="historyform.link" autocomplete="off" clearable @blur="historyform.link = $event.target.value.trim()" />
+          <el-input v-model="historyform.link" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="historyform.link = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('newscenter.category')" :label-width="formLabelWidth" prop="category">
-          <el-select v-model="historyform.categoryIds" style="width: 100%" multiple collapse-tags clearable placeholder="请选择">
+          <el-select v-model="historyform.categoryIds" style="width: 100%" multiple collapse-tags clearable :placeholder="$t('general.choose')">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('newscenter.publishdate')" :label-width="formLabelWidth" prop="publishdate">
-          <el-date-picker v-model="historyform.publishdate" type="date" placeholder="选择日期" style="width: 100%" />
+          <el-date-picker v-model="historyform.publishdate" type="date" :placeholder="$t('general.chooseDate')" style="width: 100%" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -75,7 +75,7 @@
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/miniNewsImport" :limit="1" :headers="uploadHeaders">
         <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>

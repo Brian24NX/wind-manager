@@ -5,19 +5,19 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable filterable placeholder="请选择">
+              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable filterable :placeholder="$t('article.category')">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('article.title')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="submit">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -37,7 +37,7 @@
         <el-table-column align="center" :label="$t('article.category')" prop="category" />
         <el-table-column align="center" :label="$t('article.platform')" prop="publishTos" />
         <el-table-column align="center" :label="$t('article.status')" prop="publish" :formatter="transactive" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>

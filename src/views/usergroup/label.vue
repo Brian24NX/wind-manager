@@ -5,17 +5,17 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.company" size="small" style="width: 100%" placeholder="Company Name" clearable />
+              <el-input v-model="queryParams.company" size="small" style="width: 100%" :placeholder="$t('label.labelname')" clearable />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.name" size="small" style="width: 100%" placeholder="Company Category" clearable />
+              <el-input v-model="queryParams.name" size="small" style="width: 100%" :placeholder="$t('label.companyname')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="submit">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -45,10 +45,10 @@
     <el-dialog :title="$t('route.labelManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('label.labelname')" :label-width="formLabelWidth" prop="name">
-          <el-input v-model="addform.name" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.name = $event.target.value.trim()" />
+          <el-input v-model="addform.name" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('label.description')" :label-width="formLabelWidth" prop="description">
-          <el-input v-model="addform.description" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable @blur="addform.description = $event.target.value.trim()" />
+          <el-input v-model="addform.description" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.description = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item v-if="isEdit" :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyId">
           <el-select v-model="addform.companyList" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">

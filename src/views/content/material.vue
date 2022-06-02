@@ -1,8 +1,8 @@
 <template>
   <div v-loading="loading" class="librarycontainer">
-    <div slot="header" class="clearfix" style="margin-bottom: 20px">
+    <!-- <div slot="header" class="clearfix" style="margin-bottom: 20px">
       <span>{{ $t('library.title') }}</span>
-    </div>
+    </div> -->
     <!--资源中心-->
     <div class="greycontainer">
       <el-row style="width: 100%">

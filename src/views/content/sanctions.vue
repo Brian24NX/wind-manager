@@ -6,17 +6,17 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('sanctions.keyword')" clearable />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" placeholder="请输入内容" clearable />
+              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" :placeholder="$t('sanctions.referencenumber')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -34,7 +34,7 @@
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
@@ -50,16 +50,16 @@
     <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
-          <el-input v-model="addform.commodityCn" autocomplete="off" clearable @blur="addform.commodityCn = $event.target.value.trim()" />
+          <el-input v-model="addform.commodityCn" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.commodityCn = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="commodityEn">
-          <el-input v-model="addform.commodityEn" autocomplete="off" clearable @blur="addform.commodityEn = $event.target.value.trim()" />
+          <el-input v-model="addform.commodityEn" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.commodityEn = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referenceNo">
-          <el-input v-model="addform.referenceNo" autocomplete="off" clearable @blur="addform.referenceNo = $event.target.value.trim()" />
+          <el-input v-model="addform.referenceNo" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.referenceNo = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
-          <el-input v-model="addform.type" autocomplete="off" clearable @blur="addform.type = $event.target.value.trim()" />
+          <el-input v-model="addform.type" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.type = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="remarkCn">
           <tinymce ref="editor1" v-model="addform.remarkCn" :height="250" />
@@ -150,7 +150,9 @@ export default {
       loading: false,
       rules: {
         commodityCn: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
-        commodityEn: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
+        commodityEn: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' },
+        remarkCn: { required: true, message: this.$t('userful.remarkszhtips'), trigger: 'blur' },
+        remarkEn: { required: true, message: this.$t('userful.remarksentips'), trigger: 'blur' }
       },
       detailform: {},
       detaildialog: false
@@ -234,29 +236,31 @@ export default {
     // 新增管制品
     async savesanctions(formName) {
       this.$refs[formName].validate(async(valid) => {
-        const data = {
-          id: this.addform.id,
-          commodityCn: this.addform.commodityCn,
-          commodityEn: this.addform.commodityEn,
-          referenceNo: this.addform.referenceNo,
-          type: this.addform.type,
-          remarkCn: this.addform.remarkCn,
-          remarkEn: this.addform.remarkEn,
-          active: 1
-        }
-        if (this.isAdd) {
-          this.loading = true
-          await sanctionAdd(data)
-          this.isAdd = false
-          this.adddialog = false
-          this.loading = false
-          this.$refs.pagination.pageRequest()
-        } else {
-          await sanctionEdit(data)
-          this.isEdit = false
-          this.adddialog = false
-          this.loading = false
-          this.$refs.pagination.pageRequest()
+        if (valid) {
+          const data = {
+            id: this.addform.id,
+            commodityCn: this.addform.commodityCn,
+            commodityEn: this.addform.commodityEn,
+            referenceNo: this.addform.referenceNo,
+            type: this.addform.type,
+            remarkCn: this.addform.remarkCn,
+            remarkEn: this.addform.remarkEn,
+            active: 1
+          }
+          if (this.isAdd) {
+            this.loading = true
+            await sanctionAdd(data)
+            this.isAdd = false
+            this.adddialog = false
+            this.loading = false
+            this.$refs.pagination.pageRequest()
+          } else {
+            await sanctionEdit(data)
+            this.isEdit = false
+            this.adddialog = false
+            this.loading = false
+            this.$refs.pagination.pageRequest()
+          }
         }
       })
     },

@@ -6,14 +6,14 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" placeholder="Keyword" clearable />
+              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('faq.searchKeyword')" clearable />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
-            <el-button type="danger" size="small" plain @click="reset">{{ $t('addArticle.reset') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="100px" />
         <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
-        <el-table-column align="center" :label="$t('table.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
@@ -64,13 +64,13 @@
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
-          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable @blur="addform.question = $event.target.value.trim()" />
+          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.question = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
-          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable @blur="addform.faqKeywords = $event.target.value.trim()" />
+          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
           <el-radio-group v-model="addform.active">

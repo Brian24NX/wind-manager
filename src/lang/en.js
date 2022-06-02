@@ -94,6 +94,15 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
+  general: {
+    choose: 'Please choose',
+    input: 'Please input',
+    startTime: 'Start Time',
+    endTime: 'End Time',
+    chooseDate: 'Choose Date',
+    upload: 'Drag the file here, ',
+    uploadTips: 'or click to upload'
+  },
   // 文章相关
   article: {
     thumb: 'Front Cover',
@@ -115,7 +124,9 @@ export default {
     download: 'Template',
     save: 'Save',
     search: 'Search',
-    update: 'Update'
+    reset: 'Reset',
+    update: 'Update',
+    createTime: 'createTime'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
@@ -132,7 +143,6 @@ export default {
     sendTo: 'Send to',
     save: 'Save',
     submit: 'Save and Publish',
-    reset: 'Reset',
     addnew: 'Add A New Article',
     titletips: 'title is required',
     titlelengthtips: 'It is between 3 and 100 characters in length',
@@ -156,6 +166,7 @@ export default {
   },
   // 管制品
   sanctions: {
+    keyword: 'Commodity',
     commodityzh: 'Commodity (Chinese)',
     commodityen: 'Commodity (English)',
     referencenumber: 'Reference Number',
@@ -188,6 +199,8 @@ export default {
     categoryIdtips: 'categoryId is required',
     typetips: 'type is required',
     documenttips: 'document is required',
+    remarkszhtips: 'remarks(Chinese) is required',
+    remarksentips: 'remarks(English) is required',
     download: 'Download'
   },
   // 业务和运营
@@ -239,6 +252,7 @@ export default {
     dutytimetips: 'dutytime is required'
   },
   faq: {
+    searchKeyword: 'Question / Keyword',
     id: 'Question No.',
     question: 'Question',
     keyword: 'Keyword(s)',
@@ -296,6 +310,7 @@ export default {
   },
   // 用户角色和权限
   userrole: {
+    keyword: 'Name / Function',
     name: 'Name',
     email: 'Email Address',
     function: 'Function',
@@ -323,7 +338,7 @@ export default {
     permissiontips: 'premission is required'
   },
   // 富文本
-  timymce: {
+  tinymce: {
     title: 'upload',
     uploadBtn: 'Click upload',
     confirmBtn: 'confirm',
@@ -396,8 +411,5 @@ export default {
   download: {
     downloadtime: 'data time',
     required: 'time is required'
-  },
-  table: {
-    createTime: 'createTime'
   }
 }

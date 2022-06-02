@@ -8,13 +8,13 @@
         <el-row :gutter="80">
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.title')" prop="title">
-              <el-input v-model="articleForm.title" size="small" clearable @blur="articleForm.title = $event.target.value.trim()" />
+              <el-input v-model="articleForm.title" size="small" clearable :placeholder="$t('general.input')" @blur="articleForm.title = $event.target.value.trim()" />
             </el-form-item>
             <el-form-item :label="$t('addArticle.creator')" prop="creator">
-              <el-input v-model="articleForm.creator" size="small" clearable @blur="articleForm.creator = $event.target.value.trim()" />
+              <el-input v-model="articleForm.creator" size="small" clearable :placeholder="$t('general.input')" @blur="articleForm.creator = $event.target.value.trim()" />
             </el-form-item>
             <el-form-item :label="$t('addArticle.description')" prop="description">
-              <el-input v-model="articleForm.description" type="textarea" :rows="4" clearable size="small" @blur="articleForm.description = $event.target.value.trim()" />
+              <el-input v-model="articleForm.description" type="textarea" :rows="4" clearable :placeholder="$t('general.input')" size="small" @blur="articleForm.description = $event.target.value.trim()" />
             </el-form-item>
           </el-col>
           <el-col v-permission="[20]" :span="12">
@@ -35,7 +35,7 @@
                 <el-image v-if="articleForm.frontCover" :src="articleForm.frontCover" fit="contain" class="avatar" />
                 <template v-else>
                   <i class="el-icon-upload" />
-                  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                  <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
                 </template>
               </el-upload>
             </el-form-item>
@@ -51,14 +51,14 @@
         <el-row>
           <el-col :span="10">
             <el-form-item :label="$t('addArticle.orginalArticleLink')">
-              <el-input v-model="articleForm.orginalArticleLink" size="small" clearable @blur="articleForm.orginalArticleLink = $event.target.value.trim()" />
+              <el-input v-model="articleForm.orginalArticleLink" size="small" clearable :placeholder="$t('general.input')" @blur="articleForm.orginalArticleLink = $event.target.value.trim()" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.publishTo')" prop="publishIds">
-              <el-select v-model="articleForm.publishIds" multiple clearable placeholder="请选择" style="width: 100%" size="small">
+              <el-select v-model="articleForm.publishIds" multiple clearable :placeholder="$t('general.choose')" style="width: 100%" size="small">
                 <el-option :label="$t('publishTo.newsCenter')" :value="1" />
                 <el-option :label="$t('publishTo.CMACGM')" :value="2" />
                 <el-option :label="$t('publishTo.weChatAccount')" :value="3" />
@@ -67,7 +67,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('addArticle.category')">
-              <el-select v-model="articleForm.categoryIds" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
+              <el-select v-model="articleForm.categoryIds" multiple collapse-tags filterable clearable style="width: 100%" :placeholder="$t('general.choose')">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
@@ -81,7 +81,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item :label="$t('addArticle.scheduleTime')" prop="publishDate" :rules="articleForm.schedule ? articleRules.publishDate : [{ required: false }]">
-              <el-date-picker v-model="articleForm.publishDate" type="datetime" placeholder="选择日期" :default-time="'09:00:00'" style="width: 100%" size="small" />
+              <el-date-picker v-model="articleForm.publishDate" type="datetime" :placeholder="$t('general.chooseDate')" :default-time="'09:00:00'" style="width: 100%" size="small" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -89,7 +89,7 @@
           <el-form-item>
             <el-button v-permission="[20]" type="danger" :loading="loading" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
             <el-button v-permission="[21]" type="danger" :loading="loading" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
-            <el-button v-permission="[20]" type="danger" plain @click="resetForm('articleForm')">{{ $t('addArticle.reset') }}</el-button>
+            <el-button v-permission="[20]" type="danger" plain @click="resetForm('articleForm')">{{ $t('message.reset') }}</el-button>
           </el-form-item>
         </el-row>
       </el-form>

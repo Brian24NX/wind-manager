@@ -94,6 +94,17 @@ export default {
     confirm: '确定',
     cancel: '取消'
   },
+  general: {
+    choose: '请选择',
+    input: '请输入',
+    search: '搜索',
+    reset: '重置',
+    startTime: '开始时间',
+    endTime: '结束时间',
+    chooseDate: '选择日期',
+    upload: '将文件拖到此处，',
+    uploadTips: '或点击上传'
+  },
   // 文章相关
   article: {
     thumb: '封面图',
@@ -115,7 +126,9 @@ export default {
     download: '下载模版',
     save: '保存',
     search: '搜索',
-    update: '修改'
+    reset: '重置',
+    update: '修改',
+    createTime: '创建时间'
   },
   addArticle: {
     pageTitle: '添加新推文',
@@ -132,7 +145,6 @@ export default {
     sendTo: '发送到',
     save: '保存',
     submit: '保存并发布',
-    reset: '重置',
     addnew: '添加新文章',
     titletips: '文章名称必填',
     titlelengthtips: '长度在 3 到 100 个字符',
@@ -161,6 +173,7 @@ export default {
   },
   // 管制品
   sanctions: {
+    keyword: '商品名称',
     commodityzh: '商品(中文)',
     commodityen: '商品(英文)',
     referencenumber: '参考编号',
@@ -193,6 +206,8 @@ export default {
     categoryIdtips: '类别必填',
     typetips: '类型必填',
     documenttips: '文档或者链接必填',
+    remarkszhtips: '中文备注必填',
+    remarksentips: '英文备注必填',
     download: '下载'
   },
   // 业务和运营
@@ -246,6 +261,7 @@ export default {
   },
   // FAQ管理
   faq: {
+    searchKeyword: '问题 / 关键词',
     id: '问题编号',
     question: '问题',
     keyword: '关键词',
@@ -272,7 +288,7 @@ export default {
     export: '导出',
     import: '导入',
     addhistoynews: '添加历史新闻',
-    title: '新闻标题',
+    title: '标题',
     category: '类别名称',
     publishdate: '发布日期',
     link: '链接',
@@ -303,6 +319,7 @@ export default {
   },
   // 角色和权限
   userrole: {
+    keyword: '姓名 / 角色与部门',
     name: '姓名',
     email: '邮箱地址',
     function: '角色与部门',
@@ -404,8 +421,5 @@ export default {
   download: {
     downloadtime: '数据时间',
     required: '时间必须选择'
-  },
-  table: {
-    createTime: '创建时间'
   }
 }
