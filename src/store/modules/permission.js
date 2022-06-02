@@ -1,41 +1,23 @@
-/**
- *   author:Jason
- *   date:2022-04-01 14:31
- *   desc:角色权限设置
- */
 import { asyncRoutes, constantRoutes } from '@/router'
-
-/**
- * Use meta.role to determine if the current user has permission
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
-    return true
-  }
-}
 
 /**
  * Filter asynchronous routing tables by recursion
  * @param routes asyncRoutes
- * @param roles
+ * @param routesMap
  */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRoutes(routes, menuButtonArr) {
   const res = []
-
   routes.forEach(route => {
     const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
+    if (tmp.path === '*') {
+      res.push(tmp)
+    } else if (menuButtonArr.includes(tmp.name)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+        tmp.children = filterAsyncRoutes(tmp.children, menuButtonArr)
       }
       res.push(tmp)
     }
   })
-
   return res
 }
 
@@ -48,21 +30,69 @@ const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+  },
+  REMOVE_ROUTES: (state) => {
+    state.addRoutes = []
+    state.routes = []
   }
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit, state, dispatch }, menuButtons) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+      const menuArr = []
+      const buttonArr = []
+      // const a = []
+      menuButtons.forEach(route => {
+        menuArr.push(route.name)
+        if (route.children) {
+          route.children.forEach(item => {
+            if (item.name !== 'Article Managements') {
+              if (item.children && item.children.findIndex(child => child.name === 'View') !== -1) {
+                menuArr.push(item.name)
+              }
+              item.children.forEach(child => {
+                buttonArr.push(child.id)
+                // a.push({
+                //   id: child.id,
+                //   name: item.name + ',' + child.name
+                // })
+              })
+            } else {
+              let count = 0
+              item.children.forEach(child => {
+                if (child.children && child.children.findIndex(secondChild => secondChild.name === 'View') !== -1) {
+                  menuArr.push(child.name)
+                  count += 1
+                }
+                child.children.forEach(secondChild => {
+                  buttonArr.push(secondChild.id)
+                  // a.push({
+                  //   id: secondChild.id,
+                  //   name: child.name + ',' + secondChild.name
+                  // })
+                })
+              })
+              if (count) {
+                menuArr.push(item.name)
+              }
+            }
+          })
+        }
+      })
+      // console.log(JSON.stringify(a))
+      // console.log(buttonArr)
+      const accessedRoutes = filterAsyncRoutes(asyncRoutes, menuArr)
+      dispatch('user/setRoutes', JSON.parse(JSON.stringify(accessedRoutes)), { root: true })
+      dispatch('user/setButtons', buttonArr, { root: true })
+      accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
+      // console.log(accessedRoutes)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
+  },
+  removeRoute({ commit }) {
+    commit('REMOVE_ROUTES')
   }
 }
 
