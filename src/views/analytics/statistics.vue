@@ -3,8 +3,8 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.usertpye" placeholder="请选择" :clearable="false" filterable style="width: 100%">
-            <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" @change="changeType" />
+          <el-select v-model="queryParams.usertpye" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="changeType">
+            <el-option v-for="item in userTypeList" :key="item.value" :label="item.value" :value="item.key" />
           </el-select>
         </el-col>
         <el-col :span="8">
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { analysisList, dictItem, analysisExport} from "@/api/analysis";
 import * as echarts from 'echarts'
 export default {
   name: 'Statistics',
@@ -69,9 +70,9 @@ export default {
     return {
       queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
       userTypeList: [
-        { value: 8, label: 'Mini-Program Users' },
-        { value: 9, label: 'WeChat Official Account Followers' },
-        { value: 10, label: 'Mini-Program Number of Visits' }
+        // { value: 8, label: 'Mini-Program Users' },
+        // { value: 9, label: 'WeChat Official Account Followers' },
+        // { value: 10, label: 'Mini-Program Number of Visits' }
       ],
       timeOptionRange: '',
       pickerOptions: {
@@ -130,8 +131,9 @@ export default {
         }
       },
       myChart: {},
-      xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
-      yData: [23, 24, 18, 25, 27, 28, 25], // 人数数据
+      analysisType: 8,
+      xData: [], // 横坐标
+      yData: [], // 人数数据
       myChartStyle: { float: 'left', width: '100%', height: '400px' } // 图表样式
     }
   },
@@ -142,9 +144,25 @@ export default {
   methods: {
     // 初始化折线图
     initEcharts() {
+      let datas = {dictName: 'dict_analysis_type'}
+      dictItem(datas).then(res => {
+        this.userTypeList = res.data.slice(7);
+      })
+      const data = {
+        analysisType: this.analysisType,
+        startDate: this.queryParams.timeList[0],
+        endDate: this.queryParams.timeList[1],
+      }
+      analysisList(data).then(res =>{
+        this.yData = res.data.map((item) => {
+          return item.num;
+        });
+        this.xData = res.data.map((item) => {
+          return item.analyDate;
+        });
       const option = {
         xAxis: {
-          data: this.xData
+          data: this.xData,
         },
         yAxis: {},
         series: [
@@ -160,20 +178,60 @@ export default {
       window.addEventListener('resize', () => {
         this.myChart.resize()
       })
+      })
     },
-    changeType() {
+    changeType(value) {
+      this.analysisType = value;
       this.search()
       this.downloadform = {
         timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       }
     },
     search() {
-      console.log('请求接口')
+      const data = {
+        analysisType: this.analysisType,
+        startDate: this.queryParams.timeList[0],
+        endDate: this.queryParams.timeList[1],
+      }
+      analysisList(data).then(res =>{
+        this.yData = res.data.map((item) => {
+          return item.num;
+        });
+        this.xData = res.data.map((item) => {
+          return item.analyDate;
+        });
+              const option = {
+        xAxis: {
+          data: this.xData,
+        },
+        yAxis: {},
+        series: [
+          {
+            data: this.yData,
+            type: 'line' // 类型设置为折线图
+          }
+        ]
+      }
+      this.myChart = echarts.init(document.getElementById('mychart'))
+      this.myChart.setOption(option)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        this.myChart.resize()
+      })
+      })
     },
     submit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 提交下载
+        const dataes = {
+            analysisType: this.analysisType,
+            startDate: this.downloadform.timeList[1],
+            endDate: this.downloadform.timeList[0],
+          }
+          analysisExport(dataes).then(res=>{
+            window.location.href = res.data
+          })
         }
       })
     },
