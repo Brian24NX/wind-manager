@@ -101,7 +101,9 @@ export default {
     endTime: 'End Time',
     chooseDate: 'Choose Date',
     upload: 'Drag the file here, ',
-    uploadTips: 'or click to upload'
+    uploadTips: 'or click to upload',
+    add: 'Add',
+    edit: 'Edit'
   },
   // 文章相关
   article: {
@@ -175,7 +177,8 @@ export default {
     type: 'Type',
     import: 'Import',
     export: 'Export',
-    newitem: 'Add A New Item',
+    newitem: 'Add A sanction',
+    editItem: 'Edit sanction',
     deltitle: 'Please confirm if you want to delete this commodity list?',
     commodityzhtips: 'commodityCn is required',
     commodityentips: 'commodityEn is required'
@@ -190,7 +193,7 @@ export default {
     delete: 'Delete',
     categoryset: 'Category Setting',
     import: 'Import',
-    additem: 'Add A New Item',
+    additem: 'Add A New Document or Link',
     export: 'Export',
     deltitle: 'Please confirm if you want to delete this document or link?',
     link: 'Link',
@@ -369,7 +372,8 @@ export default {
     ecomaccount: 'eCommerce Account',
     labelnametips: 'Label Name is required',
     download: 'Download',
-    companys: 'Companys'
+    companys: 'Companys',
+    viewuser: 'Look Company'
   },
   // 发布通知
   buiness: {

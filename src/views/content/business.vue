@@ -84,7 +84,7 @@
       </el-table>
     </el-dialog>
     <!--添加通告-->
-    <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
+    <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />

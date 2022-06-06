@@ -67,7 +67,7 @@
       </el-table>
     </el-dialog>
     <!--新增角色和权限-->
-    <el-dialog :title="$t('userrole.addnewfunction')" :visible.sync="adddialog" center :close-on-click-modal="false" width="1000px" top="20px">
+    <el-dialog :title="premissionform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center :close-on-click-modal="false" width="1000px" top="20px">
       <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
         <el-form-item :label="$t('userrole.function')" label-width="100px" prop="funct">
           <el-input v-model="premissionform.funct" :disabled="isEdit" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="premissionform.funct = $event.target.value.trim()" />

@@ -44,7 +44,7 @@
       </Pagination>
     </div>
     <!--添加vas弹窗-->
-    <el-dialog :title="$t('vas.addtitle')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="600px">
+    <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="600px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />

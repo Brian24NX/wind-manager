@@ -47,7 +47,7 @@
       </Pagination>
     </div>
     <!--新增通告-->
-    <el-dialog :title="$t('business.sendnotification')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
+    <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
           <el-input v-model="addform.commodityCn" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.commodityCn = $event.target.value.trim()" />

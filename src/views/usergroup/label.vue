@@ -42,7 +42,7 @@
       </Pagination>
     </div>
     <!--新增编辑label-->
-    <el-dialog :title="$t('route.labelManagement')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
+    <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('label.labelname')" :label-width="formLabelWidth" prop="name">
           <el-input v-model="addform.name" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
@@ -67,7 +67,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="15">
-              <el-input v-model="name" size="small" style="width: 100%" placeholder="Username" clearable />
+              <el-input v-model="name" size="small" style="width: 100%" :placeholder="$t('label.user')" clearable />
             </el-col>
           </el-row>
         </el-col>
@@ -228,12 +228,12 @@ export default {
       this.companylist = transcompany(res.data)
     },
     // 查看启用列表
-    async viewuser(row) {
-      this.addform.id = row.id
+    async viewuser(id) {
       const data = {
-        id: Number(this.addform.id),
+        id: id,
         name: this.name
       }
+      console.log(data)
       const res = await labelUserList(data)
       this.tabledata = res.data
       this.viewuserdialog = true

@@ -103,7 +103,9 @@ export default {
     endTime: '结束时间',
     chooseDate: '选择日期',
     upload: '将文件拖到此处，',
-    uploadTips: '或点击上传'
+    uploadTips: '或点击上传',
+    add: '新增',
+    edit: '编辑'
   },
   // 文章相关
   article: {
@@ -182,7 +184,8 @@ export default {
     type: '类型',
     import: '导入',
     export: '导出',
-    newitem: '添加新管制品',
+    newitem: '添加管制品',
+    editItem: '编辑管制品',
     deltitle: '是否确认删除该管制品记录',
     commodityzhtips: '商品(中文)必填',
     commodityentips: '商品(中文)必填'
@@ -197,7 +200,7 @@ export default {
     delete: '删除',
     categoryset: '类别设置',
     import: '导入',
-    additem: '添加',
+    additem: '添加文档或链接名',
     export: '导出',
     link: '链接',
     uploadfile: '选择文件',
@@ -378,7 +381,8 @@ export default {
     user: '用户',
     ecomaccount: '账号',
     labelnametips: '标签名称必填',
-    download: '下载'
+    download: '下载',
+    viewuser: '查看公司'
   },
   // 发布通知
   buiness: {

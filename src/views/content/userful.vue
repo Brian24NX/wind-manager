@@ -70,7 +70,7 @@
       </el-table>
     </el-dialog>
     <!--添加通告-->
-    <el-dialog :title="$t('userful.additem')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="650px">
+    <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="650px">
       <el-form ref="addform" :model="addform" :rules="rules">
         <el-form-item :label="$t('userful.name')" :label-width="formLabelWidth" prop="name">
           <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
