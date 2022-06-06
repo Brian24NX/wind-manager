@@ -324,7 +324,7 @@ export default {
     deactive: 'Deactive',
     import: 'Import',
     export: 'Export',
-    newuser: 'Add a new user',
+    newuser: 'Add A New User',
     id: 'No.',
     description: 'Description',
     viewuser: 'View Active User',

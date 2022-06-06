@@ -28,7 +28,12 @@
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
         <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
-        <el-table-column :label="$t('userful.document')" prop="document" :formatter="transdocument" />
+        <el-table-column :label="$t('userful.document')" prop="document">
+          <template scope="scope">
+            <span v-if="scope.row.type === 2" style="white-space: pre-line">{{ scope.row.document }}}</span>
+            <span v-else>{{ transdocument(scope.row.document) }}</span>
+          </template>
+        </el-table-column>
         <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
@@ -107,7 +112,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
-          <el-input v-model="addform.document" autocomplete="off" type="textarea" clearable @blur="addform.document = $event.target.value.trim()" />
+          <el-input v-model="addform.document" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.document = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
           <el-input v-model="addform.internalReference" autocomplete="off" clearable @blur="addform.internalReference = $event.target.value.trim()" />
@@ -219,13 +224,8 @@ export default {
       }, 100)
     },
     // 文档处理
-    transdocument(date) {
-      // eslint-disable-next-line eqeqeq
-      if (date.type == 1) {
-        return process.env.VUE_APP_FILE_BASE_API + date.document
-      } else {
-        return date.document
-      }
+    transdocument(document) {
+      return process.env.VUE_APP_FILE_BASE_API + document
     },
     // 文件上传成功
     handleupSuccess(res) {

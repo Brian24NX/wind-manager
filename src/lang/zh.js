@@ -186,7 +186,7 @@ export default {
     export: '导出',
     newitem: '添加管制品',
     editItem: '编辑管制品',
-    deltitle: '是否确认删除该管制品记录',
+    deltitle: '是否确认删除该管制品记录？',
     commodityzhtips: '商品(中文)必填',
     commodityentips: '商品(中文)必填'
   },
@@ -205,7 +205,7 @@ export default {
     link: '链接',
     uploadfile: '选择文件',
     type: '类型',
-    deltitle: '是否确认删除该模板或链接',
+    deltitle: '是否确认删除该模板或链接？',
     nametips: '文档或者链接名必填',
     categoryIdtips: '类别必填',
     typetips: '类型必填',
