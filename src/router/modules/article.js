@@ -6,7 +6,7 @@ const articleRouter = {
   path: '/content',
   component: Layout,
   redirect: '/articlelist',
-  name: 'contentManager',
+  name: 'Content Management',
   meta: {
     title: 'contentManager',
     icon: 'documentation',
@@ -44,7 +44,7 @@ const articleRouter = {
     }, {
       path: '/vas',
       component: () => import('@/views/content/article/vas/index'),
-      name: 'Mini-Program Vas',
+      name: 'Mini-Program CMA CGM+',
       meta: {
         title: 'cmaCgm'
       }
@@ -69,7 +69,7 @@ const articleRouter = {
   {
     path: '/buiness',
     component: () => import('@/views/content/business'),
-    name: 'Business & Operational Update',
+    name: 'Business and Operational Update',
     meta: {
       title: 'businessOperationalUpdate'
     }

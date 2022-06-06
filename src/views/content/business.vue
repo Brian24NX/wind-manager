@@ -185,7 +185,7 @@ export default {
       deldialog: false,
       setdialog: false,
       fileList: [],
-      formLabelWidth: '80px',
+      formLabelWidth: '90px',
       addform: {
         title: '',
         creator: '',

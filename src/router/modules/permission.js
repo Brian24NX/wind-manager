@@ -16,7 +16,7 @@ const permissionRouter = {
     {
       path: '/UserManagement',
       component: () => import('@/views/permission/role'),
-      name: 'UserManagement',
+      name: 'User Management',
       meta: {
         title: 'userManagement'
       }
@@ -24,7 +24,7 @@ const permissionRouter = {
     {
       path: '/RolePermission',
       component: () => import('@/views/permission/page'),
-      name: 'Role & Permission',
+      name: 'Role and Permission',
       meta: {
         title: 'rolePermission'
       }

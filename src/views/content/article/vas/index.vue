@@ -109,7 +109,7 @@ export default {
         publishdate: '',
         frontCover: ''
       },
-      formLabelWidth: '80px',
+      formLabelWidth: '90px',
       // 添加弹窗
       adddialog: false,
       rules: {

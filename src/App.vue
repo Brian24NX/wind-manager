@@ -61,9 +61,7 @@ body {
   top: 12px;
 }
 
-.iframe {
-  width: 100%;
-  border: none;
-  height: 600px;
+.el-form-item__label {
+  word-break: break-word;
 }
 </style>

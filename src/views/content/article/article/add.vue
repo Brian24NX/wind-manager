@@ -74,7 +74,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item :label="$t('addArticle.schedulePublish')" prop="schedule">
               <el-switch v-model="articleForm.schedule" size="small" />
             </el-form-item>

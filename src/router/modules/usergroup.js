@@ -5,7 +5,7 @@ const usergroupRouter = {
   component: Layout,
   redirect: '/usergroup/index',
   alwaysShow: true, // will always show the root menu
-  name: 'User and User Group-CRM',
+  name: 'User and User Group',
   meta: {
     title: 'usergroup',
     icon: 'peoples'

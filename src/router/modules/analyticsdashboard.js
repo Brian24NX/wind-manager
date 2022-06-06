@@ -30,7 +30,7 @@ const analyticsRouter = {
     {
       path: '/FaqEvalution',
       component: () => import('@/views/analytics/faqevalution'),
-      name: 'Faq Evaluation',
+      name: 'FAQ Evaluation',
       meta: {
         title: 'faqevluation'
       }

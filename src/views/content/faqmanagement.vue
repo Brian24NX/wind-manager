@@ -138,7 +138,7 @@ export default {
       adddialog: false,
       importdialog: false,
       relationsdialog: false,
-      formLabelWidth: '70px',
+      formLabelWidth: '90px',
       addform: {
         id: '',
         question: '',

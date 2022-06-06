@@ -7,16 +7,16 @@ export default {
   route: {
     dashboard: 'Dashboard',
     permission: 'Role and Permission Management',
-    rolePermission: 'Role & Permission',
+    rolePermission: 'Role and Permission',
     userManagement: 'User Management',
-    contentManager: 'Content Manager',
+    contentManager: 'Content Management',
     articleManager: 'Article Management',
     createArticle: 'Create A New Article',
     newsCenter: 'Mini-Program News Center',
     cmaCgm: 'Mini-Program CMA CGM+',
     faqManagement: 'FAQ Management',
     contactInformation: 'Contact Information Matrix',
-    businessOperationalUpdate: 'Business & Operational Update',
+    businessOperationalUpdate: 'Business and Operational Update',
     usefulTemplateAndLink: 'Useful Template and Link',
     sanctionsAndCommodityList: 'Sanctions and Commodity List',
     materialLibrary: 'Material Library',
@@ -26,7 +26,7 @@ export default {
     analyticsdashboard: 'Analytics Dashboard',
     behavioranalysis: 'User Behavior Analysis',
     userstatistics: 'User Statistics',
-    faqevluation: 'Faq Evaluation'
+    faqevluation: 'FAQ Evaluation'
   },
   // navbar翻译
   navbar: {
@@ -120,13 +120,13 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     publish: 'Published',
-    unPublish: 'Unpublish',
+    unPublish: 'Withdraw',
     download: 'Template',
     save: 'Save',
     search: 'Search',
     reset: 'Reset',
     update: 'Update',
-    createTime: 'createTime'
+    createTime: 'created Time'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
@@ -138,7 +138,7 @@ export default {
     orginalArticleLink: 'Original Article Link',
     publishTo: 'Publish to',
     category: 'News Category',
-    schedulePublish: 'Schedule Publish Date',
+    schedulePublish: 'Schedule Publish',
     scheduleTime: 'Schedule Publish Date',
     sendTo: 'Send to',
     save: 'Save',
@@ -194,7 +194,7 @@ export default {
     export: 'Export',
     deltitle: 'Please confirm if you want to delete this document or link?',
     link: 'Link',
-    uploadfile: 'Uploadfile',
+    uploadfile: 'UploadFile',
     type: 'Type',
     nametips: 'name is required',
     categoryIdtips: 'categoryId is required',
@@ -256,7 +256,7 @@ export default {
     searchKeyword: 'Question / Keyword',
     id: 'Question No.',
     question: 'Question',
-    keyword: 'Keyword(s)',
+    keyword: 'Keywords',
     relatedquestion: 'Related Question(s)',
     answer: 'Answer',
     creator: 'Creator',
@@ -340,10 +340,10 @@ export default {
   },
   // 富文本
   tinymce: {
-    title: 'upload',
+    title: 'Upload',
     uploadBtn: 'Click upload',
-    confirmBtn: 'confirm',
-    cancelBtn: 'cancel',
+    confirmBtn: 'Confirm',
+    cancelBtn: 'Cancel',
     uploadError: 'Please upload image file!'
   },
   // 小程序用户
