@@ -226,11 +226,12 @@ export default {
           // 提交下载
           const dataes = {
             analysisType: this.analysisType,
-            startDate: this.downloadform.timeList[1],
-            endDate: this.downloadform.timeList[0]
+            startDate: this.downloadform.timeList[1] + ' 00:00:00',
+            endDate: this.downloadform.timeList[0] + ' 23:59:59'
           }
           analysisExport(dataes).then((res) => {
-            window.location.href = res.data
+            this.downloaddialog = false
+            window.open(res.data)
           })
         }
       })
