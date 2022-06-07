@@ -27,43 +27,57 @@
               />
             </el-col>
             <el-col :span="4">
-              <el-button style="width: 100%;" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+              <el-button style="width: 100%" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
             </el-col>
           </el-row>
         </el-col>
       </el-row>
     </div>
-    <div class="tableContainer">
-      <!--echart图表-->
-      <div class="chart-container">
-        <div id="mychart" class="echart" :style="myChartStyle" />
+    <!--echart图表-->
+    <el-card>
+      <div class="title">
+        <div class="dto" />
+        <div>Number of FAQs</div>
       </div>
-      <div class="flex-card">
-        <div class="grey">
-          <el-card shadow="hover">
-            <div id="mypiechart" class="echartpie" :style="myPieChartStyle" />
-          </el-card>
-        </div>
-        <div class="grey">
-          <el-card shadow="hover" body-style="height:240px">
-            <p>Total Questions Asked</p>
-            <p>{{ total.likes }}</p>
-          </el-card>
-        </div>
-        <div class="grey">
-          <el-card shadow="hover" body-style="height:240px">
-            <p>FAQS with positive evaluation</p>
-            <p>{{ total.dislikes }}</p>
-          </el-card>
-        </div>
-        <div class="grey">
-          <el-card shadow="hover" body-style="height:240px">
-            <p>FAQS with negative evaluation</p>
-            <p>{{ total.total }}</p>
-          </el-card>
-        </div>
-      </div>
-    </div>
+      <div id="mychart" class="echart" :style="myChartStyle" />
+    </el-card>
+    <el-row :gutter="20" style="margin-top: 24px">
+      <el-col :span="8">
+        <el-card style="height: 340px">
+          <div class="title">
+            <div class="dto" />
+            <div>FAQ Evaluation</div>
+          </div>
+          <div id="mypiechart" class="echartpie" :style="myPieChartStyle" />
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card style="height: 340px; position: relative">
+          <div class="title">
+            <div class="dto" />
+            <div>Total FAQS</div>
+          </div>
+          <img class="icon" src="@/assets/most/online2.png">
+          <div class="count">1,000</div>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card style="height: 158px; margin-bottom: 24px; position: relative;">
+          <div class="title">
+            <div class="dto" />
+            <div>FAQs with positive evaluation</div>
+          </div>
+          <div class="count">1,000</div>
+        </el-card>
+        <el-card style="height: 158px; position: relative;">
+          <div class="title">
+            <div class="dto" />
+            <div>FAQs with negative evaluation</div>
+          </div>
+          <div class="count">1,000</div>
+        </el-card>
+      </el-col>
+    </el-row>
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="downloadform" :model="downloadform" :rules="rules">
         <el-form-item :label="$t('download.downloadtime')" :label-width="formLabelWidth1" prop="timeList">
@@ -175,20 +189,19 @@ export default {
       xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
       yData: [23, 24, 18, 25, 27, 28, 25], // 点赞数据
       taskDate: [10, 11, 9, 17, 14, 13, 14],
-      myChartStyle: { float: 'left', width: '100%', height: '300px' }, // 图表样式
-      myChart: {},
+      myChartStyle: { width: '100%', height: '300px' }, // 图表样式
       pieData: [
         {
           value: 0,
-          name: '点赞'
+          name: '赞'
         },
         {
           value: 0,
-          name: '不点赞'
+          name: '踩'
         }
       ],
       pieName: [],
-      myPieChartStyle: { float: 'left', width: '100%', height: '200px' } // 图表样式
+      myPieChartStyle: { width: '100%', height: '280px' } // 图表样式
     }
   },
   created() {},
@@ -220,17 +233,21 @@ export default {
           xAxis: {
             data: this.xData
           },
+          color: ['#E20101', '#071E5D'],
           // 图例
           legend: {
-            data: ['点赞', '不点赞'],
-            top: '0%'
+            orient: 'vertical',
+            data: ['赞', '踩'],
+            x: 'right',
+            y: 'center'
           },
           yAxis: {},
           series: [
             {
               type: 'bar', // 形状为柱状图
               data: this.yData,
-              name: '点赞', // legend属性
+              barWidth: '20%',
+              name: '赞', // legend属性
               label: {
                 // 柱状图上方文本标签，默认展示数值信息
                 show: true,
@@ -240,7 +257,8 @@ export default {
             {
               type: 'bar', // 形状为柱状图
               data: this.taskDate,
-              name: '不点赞', // legend属性
+              barWidth: '20%',
+              name: '踩', // legend属性
               label: {
                 // 柱状图上方文本标签，默认展示数值信息
                 show: true,
@@ -296,46 +314,48 @@ export default {
         }
         // 饼图
         const option = {
-          legend: {
-            // 图例
-            data: this.pieName,
-            top: '80%'
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
           },
-          title: {
-            // 设置饼图标题，位置设为顶部居中
-            text: '',
-            top: '0%',
-            left: 'center'
+          color: ['#071E5D', '#E20101'],
+          legend: {
+            orient: 'horizontal',
+            x: 'center',
+            y: 'bottom',
+            data: ['赞', '踩']
           },
           series: [
             {
               type: 'pie',
+              radius: ['50%', '70%'],
+              avoidLabelOverlap: false,
               label: {
-                show: true,
-                formatter: '{b} : {c} ({d}%)' // b代表名称，c代表对应值，d代表百分比
+                show: false,
+                position: 'center'
               },
-              radius: '30%', // 饼图半径
-              data: this.pieData
+              emphasis: {
+                label: {
+                  show: false,
+                  fontSize: '30',
+                  fontWeight: 'bold'
+                }
+              },
+              labelLine: {
+                show: false
+              },
+              data: [
+                { value: 310, name: '踩' },
+                { value: 35, name: '赞' }
+              ]
             }
           ]
         }
-        // eslint-disable-next-line no-unused-vars
-        const optionFree = {
-          xAxis: {},
-          yAxis: {},
-          series: [
-            {
-              data: this.seriesData,
-              type: 'line',
-              smooth: true
-            }
-          ]
-        }
-        this.myChart = echarts.init(document.getElementById('mypiechart'))
-        this.myChart.setOption(option)
+        const myChart2 = echarts.init(document.getElementById('mypiechart'))
+        myChart2.setOption(option)
         // 随着屏幕大小调节图表
         window.addEventListener('resize', () => {
-          this.myChart.resize()
+          myChart2.resize()
         })
       })
     },
@@ -374,29 +394,35 @@ export default {
 }
 </script>
 
-<style scoped>
-.chart-container {
-  position: relative;
-  width: 100%;
-}
-.flex-card {
-  margin-top: 20px;
-  margin-bottom: 20px;
+<style scoped lang="scss">
+.title {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-around;
   align-items: center;
-  align-content: center;
-  width: 100%;
-  padding-bottom: 20px;
+  font-size: 20px;
+  font-family: Antonio-Bold, Antonio;
+  font-weight: bold;
+  color: #04246a;
+  .dto {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #e20101;
+    margin-right: 10px;
+  }
 }
-.grey {
-  background-color: #f0f0f0;
-  font-size: 18px;
-  font-weight: 600;
-  height: 200px;
-  width: 23%;
-  text-align: center;
+.icon {
+  width: 120px;
+  height: 120px;
+  margin-top: 17px;
+  margin-left: 30px;
+}
+.count {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 40px;
+  font-family: Antonio-Regular, Antonio;
+  font-weight: 400;
+  color: #071e5d;
 }
 </style>

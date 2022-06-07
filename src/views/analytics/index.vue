@@ -484,7 +484,6 @@ export default {
       margin-right: 10px;
     }
   }
-
   .bottoms {
     display: flex;
     justify-content: space-between;
