@@ -18,19 +18,19 @@ export function analysisPageList(data) {
 }
 
 //下载
-export function analysisExport(dataes) {
+export function analysisExport(data) {
   return request({
     url: '/api/admin/analysisExport',
     method: 'get',
-    params: dataes
+    params: data
   })
 }
 
 //查询字典
-export function dictItem(datas) {
+export function dictItem(data) {
   return request({
     url: '/api/admin/dictItem',
     method: 'get',
-    params: datas
+    params: data
   })
 }
