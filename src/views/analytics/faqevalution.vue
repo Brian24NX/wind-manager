@@ -8,27 +8,32 @@
           </el-select>
         </el-col>
         <el-col :span="8">
-          <el-date-picker
-            v-model="queryParams.timeList"
-            style="width: 100%"
-            :clearable="false"
-            type="daterange"
-            align="right"
-            range-separator="~"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="yyyy-MM-dd"
-            :default-time="['00:00:00', '23:59:59']"
-            :picker-options="pickerOptions"
-            @change="search"
-          />
+          <el-row :gutter="20" type="flex" justify="space-between">
+            <el-col :span="20">
+              <el-date-picker
+                v-model="queryParams.timeList"
+                size="small"
+                style="width: 100%"
+                :clearable="false"
+                type="daterange"
+                align="right"
+                range-separator="~"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']"
+                :picker-options="pickerOptions"
+                @change="search"
+              />
+            </el-col>
+            <el-col :span="4">
+              <el-button style="width: 100%;" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </div>
     <div class="tableContainer">
-      <div class="operations">
-        <el-button type="danger" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
-      </div>
       <!--echart图表-->
       <div class="chart-container">
         <div id="mychart" class="echart" :style="myChartStyle" />
@@ -200,7 +205,7 @@ export default {
         startDate: this.queryParams.timeList[0],
         endDate: this.queryParams.timeList[1]
       }
-       faqEvaList(data).then((res) => {
+      faqEvaList(data).then((res) => {
         this.yData = res.data.map((item) => {
           return item.likes
         })
@@ -277,11 +282,11 @@ export default {
         if (_res.length === 0) {
           this.pieData[0].value = this.pieData[1].value = 0
         } else {
-          //求和
-          var sum = 0
+          // 求和
+          var sum0 = 0
           for (let i = 0; i < this.yData.length; i++) {
             const b = this.yData[i]
-            this.pieData[0].value += sum + b
+            this.pieData[0].value += sum0 + b
           }
           var sum = 0
           for (let i = 0; i < this.taskDate.length; i++) {

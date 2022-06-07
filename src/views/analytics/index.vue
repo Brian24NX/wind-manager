@@ -9,32 +9,37 @@
           </el-select>
         </el-col>
         <el-col :span="8">
-          <el-date-picker
-            v-model="queryParams.timeList"
-            style="width: 100%"
-            :clearable="false"
-            type="daterange"
-            align="right"
-            range-separator="~"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="yyyy-MM-dd"
-            :default-time="['00:00:00', '23:59:59']"
-            :picker-options="pickerOptions"
-            @change="search"
-          />
+          <el-row :gutter="20" type="flex" justify="space-between">
+            <el-col :span="20">
+              <el-date-picker
+                v-model="queryParams.timeList"
+                size="small"
+                style="width: 100%"
+                :clearable="false"
+                type="daterange"
+                align="right"
+                range-separator="~"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']"
+                :picker-options="pickerOptions"
+                @change="search"
+              />
+            </el-col>
+            <el-col :span="4">
+              <el-button style="width: 100%;" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </div>
     <!--内容部分-->
-    <div class="tableContainer">
-      <div v-if="queryParams.analysisType != 5" class="operations">
-        <el-button type="danger" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
-      </div>
+    <div v-if="queryParams.analysisType !== 7" class="tableContainer">
       <!--Frequently searched routes-->
       <div v-if="queryParams.analysisType == 1">
         <div id="mychart" class="echart" :style="myChartStyle" />
-        <div class="nodata" v-show="isshow"><span>暂无数据</span></div>
+        <div v-show="isshow" class="nodata"><span>暂无数据</span></div>
       </div>
       <!--Business & Operational Updates-->
       <div v-if="queryParams.analysisType == 2">
@@ -73,43 +78,151 @@
       </div>
       <!--转化分析-->
       <div v-if="queryParams.analysisType == 6">功能升级中，敬请期待</div>
-      <!--更多模版点击次数-->
-      <div v-if="queryParams.analysisType == 7">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <span><img src="../../assets/most/cma.png" /></span><span class="center">{{ this.$t('most.cma') }}</span
-            ><span class="center">{{ frenquenylylist.cma }}views</span>
-          </el-col>
-          <el-col :span="12">
-            <span><img src="../../assets/most/about.png" /></span><span class="center">{{ this.$t('most.about') }}</span
-            ><span class="center">{{ frenquenylylist.abountus }}views</span>
-          </el-col>
-        </el-row>
-        <!--  <el-row :gutter="20">
-          <el-col :span="12">
-            <span><img src="../../assets/most/news.png"></span><span class="center">{{ this.$t('most.news') }}</span><span class="center">{{ frenquenylylist.newscenter }}views</span>
-          </el-col>
-          <el-col :span="12">
-            <span><img src="../../assets/most/online.png"></span><span class="center">{{ this.$t('most.online') }}</span><span class="center">{{ frenquenylylist.onlineService }}views</span>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <span><img src="../../assets/most/custom.png"></span><span class="center">{{ this.$t('most.customer') }}</span><span class="center">{{ frenquenylylist.customerad }}views</span>
-          </el-col>
-          <el-col :span="12">
-            <span><img src="../../assets/most/useful.png"></span><span class="center">{{ this.$t('most.useful') }}</span><span class="center">{{ frenquenylylist.userfultemplate }}views</span>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <span><img src="../../assets/most/sanction.png"></span><span class="center">{{ this.$t('most.sanction') }}</span><span class="center">{{ frenquenylylist.sanctioncheck }}views</span>
-          </el-col>
-          <el-col :span="12">
-            <span><img src="../../assets/most/contact.png"></span><span class="center">{{ this.$t('most.contant') }}</span><span class="center">{{ frenquenylylist.contantus }}views</span>
-          </el-col>
-        </el-row>-->
-      </div>
+    </div>
+    <!--更多模版点击次数-->
+    <div v-if="queryParams.analysisType == 7">
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.cma') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/cma.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.cma }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.about') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/about.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.abountus }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.news') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/news.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.newscenter }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 24px">
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.online') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/online.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.onlineService }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.customer') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/customer.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.customerad }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.useful') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/useful.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.userfultemplate }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" style="margin-top: 24px">
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.sanction') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/sanction.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.sanctioncheck }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card>
+            <div class="oneContainer">
+              <div class="containerTitle">
+                <div class="dto" />
+                <div>{{ this.$t('most.contact') }}</div>
+              </div>
+              <div class="bottoms">
+                <img src="@/assets/most/contact.png">
+                <div class="right">
+                  <div class="count">{{ frenquenylylist.contantus }}</div>
+                  <div>Views</div>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
     <!--下载弹窗-->
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
@@ -151,17 +264,17 @@ export default {
       // 后续用字典查询
       userTypeList: [],
       frenquenylylist: {
-        cma: 1000,
-        abountus: 3000,
-        newcenter: 2000,
-        onlineService: 1100,
-        customerad: 1500,
-        userfultemplate: 1500,
-        sanctioncheck: 500,
-        contantus: 300
+        cma: '1,000',
+        abountus: '3,000',
+        newscenter: '2,000',
+        onlineService: '1,100',
+        customerad: '1,500',
+        userfultemplate: '1,500',
+        sanctioncheck: '500',
+        contantus: '300'
       },
       queryParams: {
-        analysisType: 1,
+        analysisType: 7,
         timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')],
         endDate: '',
         startDate: ''
@@ -232,7 +345,7 @@ export default {
   },
   watch: {
     queryParams: {
-      handler: function (val) {
+      handler: function(val) {
         this.requestParams = {
           analysisType: val.analysisType,
           startDate: val.timeList[0],
@@ -307,9 +420,9 @@ export default {
       if (value === 1) {
         this.initEcharts()
       } else {
-        this.$nextTick(() => {
-          this.$refs.pagination.refreshRequest()
-        })
+        // this.$nextTick(() => {
+        //   this.$refs.pagination.refreshRequest()
+        // })
       }
       // this.downloadform = {
       //   timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
@@ -348,13 +461,54 @@ export default {
 }
 </script>
 
-<style scoped>
-.tableContainer {
-  height: 500px;
-}
+<style lang="scss" scoped>
 .nodata {
   position: absolute;
   right: 50%;
   top: 50%;
+}
+
+.oneContainer {
+  .containerTitle {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-family: Antonio-Bold, Antonio;
+    font-weight: bold;
+    color: #04246a;
+    .dto {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #e20101;
+      margin-right: 10px;
+    }
+  }
+
+  .bottoms {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
+
+    .right {
+      text-align: right;
+      font-size: 14px;
+      font-family: Antonio-Bold, Antonio;
+      font-weight: bold;
+      color: #6b7790;
+      .count {
+        font-size: 30px;
+        font-family: Antonio-Regular, Antonio;
+        font-weight: 400;
+        color: #071e5d;
+      }
+    }
+  }
 }
 </style>

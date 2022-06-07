@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-//faqEva列表
+// faqEva列表
 export function faqEvaList(data) {
   return request({
     url: '/api/admin/faqEvaList',
@@ -9,7 +9,7 @@ export function faqEvaList(data) {
   })
 }
 
-//饼图数据
+// 饼图数据
 export function faqEvaTotal(data) {
   return request({
     url: '/api/admin/faqEvaTotal',
@@ -18,7 +18,7 @@ export function faqEvaTotal(data) {
   })
 }
 
-//下载
+// 下载
 export function faqEvaExport(data) {
   return request({
     url: '/api/admin/faqEvaExport',
