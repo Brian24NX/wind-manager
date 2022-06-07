@@ -13,13 +13,13 @@
             style="width: 100%"
             :clearable="false"
             type="daterange"
+            value-format="yyyy-MM-dd"
             align="right"
             range-separator="~"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :default-time="['00:00:00', '23:59:59']"
             :picker-options="pickerOptions"
-            btw
             @change="search"
           />
         </el-col>
@@ -61,14 +61,14 @@
 </template>
 
 <script>
-import { analysisList, dictItem, analysisExport} from "@/api/analysis";
+import { analysisList, dictItem, analysisExport } from '@/api/analysis'
 import * as echarts from 'echarts'
 export default {
   name: 'Statistics',
   components: {},
   data() {
     return {
-      queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
+      queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD'), this.$moment(new Date()).format('YYYY-MM-DD')] },
       userTypeList: [
         // { value: 8, label: 'Mini-Program Users' },
         // { value: 9, label: 'WeChat Official Account Followers' },
@@ -101,7 +101,7 @@ export default {
       downloaddialog: false,
       formLabelWidth1: '100px',
       downloadform: {
-        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
+        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD'), this.$moment(new Date()).format('YYYY-MM-DD')]
       },
       rules: {
         timeList: [{ required: true, message: this.$t('download.required'), trigger: 'change' }]
@@ -144,92 +144,92 @@ export default {
   methods: {
     // 初始化折线图
     initEcharts() {
-      let datas = {dictName: 'dict_analysis_type'}
-      dictItem(datas).then(res => {
-        this.userTypeList = res.data.slice(7);
+      const datas = { dictName: 'dict_analysis_type' }
+      dictItem(datas).then((res) => {
+        this.userTypeList = res.data.slice(7)
       })
       const data = {
         analysisType: this.analysisType,
-        startDate: this.queryParams.timeList[0],
-        endDate: this.queryParams.timeList[1],
+        startDate: this.queryParams.timeList[0] + ' 00:00:00',
+        endDate: this.queryParams.timeList[1] + ' 23:59:59'
       }
-      analysisList(data).then(res =>{
+      analysisList(data).then((res) => {
         this.yData = res.data.map((item) => {
-          return item.num;
-        });
+          return item.num
+        })
         this.xData = res.data.map((item) => {
-          return item.analyDate;
-        });
-      const option = {
-        xAxis: {
-          data: this.xData,
-        },
-        yAxis: {},
-        series: [
-          {
-            data: this.yData,
-            type: 'line' // 类型设置为折线图
-          }
-        ]
-      }
-      this.myChart = echarts.init(document.getElementById('mychart'))
-      this.myChart.setOption(option)
-      // 随着屏幕大小调节图表
-      window.addEventListener('resize', () => {
-        this.myChart.resize()
-      })
+          return item.analyDate
+        })
+        const option = {
+          xAxis: {
+            data: this.xData
+          },
+          yAxis: {},
+          series: [
+            {
+              data: this.yData,
+              type: 'line' // 类型设置为折线图
+            }
+          ]
+        }
+        this.myChart = echarts.init(document.getElementById('mychart'))
+        this.myChart.setOption(option)
+        // 随着屏幕大小调节图表
+        window.addEventListener('resize', () => {
+          this.myChart.resize()
+        })
       })
     },
     changeType(value) {
-      this.analysisType = value;
+      this.analysisType = value
       this.search()
       this.downloadform = {
-        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
+        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD'), this.$moment(new Date()).format('YYYY-MM-DD')]
       }
     },
     search() {
       const data = {
         analysisType: this.analysisType,
-        startDate: this.queryParams.timeList[0],
-        endDate: this.queryParams.timeList[1],
+        startDate: this.queryParams.timeList[0] + ' 00:00:00',
+        endDate: this.queryParams.timeList[1] + ' 23:59:59'
       }
-      analysisList(data).then(res =>{
+      analysisList(data).then((res) => {
         this.yData = res.data.map((item) => {
-          return item.num;
-        });
+          return item.num
+        })
         this.xData = res.data.map((item) => {
-          return item.analyDate;
-        });
-              const option = {
-        xAxis: {
-          data: this.xData,
-        },
-        yAxis: {},
-        series: [
-          {
-            data: this.yData,
-            type: 'line' // 类型设置为折线图
-          }
-        ]
-      }
-      this.myChart = echarts.init(document.getElementById('mychart'))
-      this.myChart.setOption(option)
-      // 随着屏幕大小调节图表
-      window.addEventListener('resize', () => {
-        this.myChart.resize()
-      })
+          return item.analyDate
+        })
+        const option = {
+          xAxis: {
+            data: this.xData
+          },
+          yAxis: {},
+          series: [
+            {
+              data: this.yData,
+              type: 'line' // 类型设置为折线图
+            }
+          ]
+        }
+        this.myChart = echarts.init(document.getElementById('mychart'))
+        this.myChart.setOption(option)
+        // 随着屏幕大小调节图表
+        window.addEventListener('resize', () => {
+          this.myChart.resize()
+        })
       })
     },
     submit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 提交下载
-        const dataes = {
+          const dataes = {
             analysisType: this.analysisType,
             startDate: this.downloadform.timeList[1],
-            endDate: this.downloadform.timeList[0],
+            endDate: this.downloadform.timeList[0]
           }
-          analysisExport(dataes).then(res=>{
+          analysisExport(dataes).then((res) => {
             window.location.href = res.data
           })
         }
@@ -237,7 +237,7 @@ export default {
     },
     // 重置
     Cancle() {
-      this.downloadform.timeList = [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
+      this.downloadform.timeList = [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD'), this.$moment(new Date()).format('YYYY-MM-DD')]
       this.downloaddialog = false
     }
   }
