@@ -24,7 +24,7 @@ body {
 
 .searchContainer {
   margin-bottom: 20px;
-  padding: 15px 24px;
+  padding: 15px 34px 15px 24px;
   background-color: #fff;
 }
 

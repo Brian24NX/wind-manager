@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="searchContainer">
-      <el-row style="width: 100%">
+      <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">

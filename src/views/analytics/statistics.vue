@@ -27,7 +27,9 @@
               />
             </el-col>
             <el-col :span="4">
-              <el-button style="width: 100%;" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+              <el-row type="flex" justify="end">
+                <el-button type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+              </el-row>
             </el-col>
           </el-row>
         </el-col>
@@ -244,6 +246,9 @@ export default {
 </script>
 
 <style scoped>
+.searchContainer {
+  padding-right: 24px;
+}
 .chart-container {
   position: relative;
   width: 100%;
