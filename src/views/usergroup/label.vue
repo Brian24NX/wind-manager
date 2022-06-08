@@ -116,6 +116,7 @@ export default {
       userLoading: false,
       submitLoading: false,
       viewuserdialog: false,
+      currentId: '',
       adddialog: false,
       isEdit: false,
       addform: {
@@ -229,18 +230,19 @@ export default {
     },
     // 查看启用列表
     async viewuser(id) {
+      this.currentId = id
+      this.viewuserdialog = true
+      this.searchUser()
+    },
+    // 查询
+    async searchUser() {
       const data = {
-        id: id,
+        id: this.currentId,
         name: this.name
       }
       console.log(data)
       const res = await labelUserList(data)
       this.tabledata = res.data
-      this.viewuserdialog = true
-    },
-    // 查询
-    async searchUser() {
-      this.viewuser(this.addform)
     },
     // 导出
     async exportUser() {
@@ -261,10 +263,11 @@ export default {
         .then(async() => {
           const data = {
             companyId: Number(row.companyId),
-            userId: Number(row.id)
+            labelId: this.currentId
           }
           await labelUserDelete(data)
-          this.search()
+          this.searchUser()
+          this.$refs.pagination.pageRequest()
         })
     }
   }
