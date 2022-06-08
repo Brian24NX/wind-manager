@@ -382,7 +382,9 @@ export default {
     ecomaccount: '账号',
     labelnametips: '标签名称必填',
     download: '下载',
-    viewuser: '查看公司'
+    viewuser: '查看公司',
+    deltitle: '是否确认删除该标签？',
+    delUsertitle: '是否确认删除该公司？'
   },
   // 发布通知
   buiness: {

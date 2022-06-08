@@ -30,7 +30,7 @@
         <el-table-column :label="$t('label.companycategory')" prop="companys" align="center" />
         <el-table-column align="center" :label="$t('label.usersnumber')" prop="userCount">
           <template scope="scope">
-            <el-button size="small" type="text" @click="viewuser(scope.row.id)">View Users({{ scope.row.userCount }})</el-button>
+            <el-button size="small" type="text" @click="viewuser(scope.row.id)">{{ $t('label.viewuser') }}({{ scope.row.userCount }})</el-button>
           </template>
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
@@ -150,7 +150,7 @@ export default {
       }, 100)
     },
     handleDel(id) {
-      this.$confirm(this.$t('faq.deltitle'), this.$t('message.delete'), {
+      this.$confirm(this.$t('label.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
@@ -255,7 +255,7 @@ export default {
     },
     // 删除
     async remove(row) {
-      this.$confirm(this.$t('userrole.deltitle'), this.$t('message.delete'), {
+      this.$confirm(this.$t('label.delUsertitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'

@@ -373,7 +373,9 @@ export default {
     labelnametips: 'Label Name is required',
     download: 'Download',
     companys: 'Companys',
-    viewuser: 'Look Company'
+    viewuser: 'Look Company',
+    deltitle: 'Please confirm if you want to delete this label?',
+    delUsertitle: 'Please confirm if you want to delete this company?'
   },
   // 发布通知
   buiness: {
