@@ -91,7 +91,7 @@
                 <div>{{ this.$t('most.cma') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/cma.png" />
+                <img src="@/assets/most/cma.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[0].num }}</div>
                   <div>Views</div>
@@ -108,7 +108,7 @@
                 <div>{{ this.$t('most.about') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/about.png" />
+                <img src="@/assets/most/about.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[4].num }}</div>
                   <div>Views</div>
@@ -125,7 +125,7 @@
                 <div>{{ this.$t('most.news') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/news.png" />
+                <img src="@/assets/most/news.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[1].num }}</div>
                   <div>Views</div>
@@ -144,7 +144,7 @@
                 <div>{{ this.$t('most.online') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/online.png" />
+                <img src="@/assets/most/online.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[5].num }}</div>
                   <div>Views</div>
@@ -161,7 +161,7 @@
                 <div>{{ this.$t('most.customer') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/customer.png" />
+                <img src="@/assets/most/customer.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[2].num }}</div>
                   <div>Views</div>
@@ -178,7 +178,7 @@
                 <div>{{ this.$t('most.useful') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/useful.png" />
+                <img src="@/assets/most/useful.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[6].num }}</div>
                   <div>Views</div>
@@ -197,7 +197,7 @@
                 <div>{{ this.$t('most.sanction') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/sanction.png" />
+                <img src="@/assets/most/sanction.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[3].num }}</div>
                   <div>Views</div>
@@ -214,7 +214,7 @@
                 <div>{{ this.$t('most.contact') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/contact.png" />
+                <img src="@/assets/most/contact.png">
                 <div class="right">
                   <div class="count">{{ frenquenylylist[7].num }}</div>
                   <div>Views</div>
@@ -377,7 +377,7 @@ export default {
       }
       if (this.queryParams.analysisType === 6) {
         analysisList(data).then((res) => {
-          //返回数据处理
+          // 返回数据处理
           var lists = [
             { createUser: 0, updateUser: 0, statisti: 1, num: 0 },
             { createUser: 0, updateUser: 0, statisti: 2, num: 0 },
@@ -389,17 +389,17 @@ export default {
             { createUser: 0, updateUser: 0, statisti: 8, num: 0 }
           ]
           var list = [...res.data, ...lists]
-          //合并返回参数但statisti没有时
-          let map = new Map()
-          for (let item of list) {
+          // 合并返回参数但statisti没有时
+          const map = new Map()
+          for (const item of list) {
             if (!map.has(item.statisti)) {
               map.set(item.statisti, item)
             }
           }
           var arr = [...map.values()]
-          //对合并后的参数重新排序
-          let compare = function (k) {
-            return function (a, b) {
+          // 对合并后的参数重新排序
+          const compare = function(k) {
+            return function(a, b) {
               var M = a[k]
               var N = b[k]
               return M - N // 从低向高排
@@ -410,6 +410,7 @@ export default {
         })
       } else {
         analysisList(data).then((res) => {
+          // eslint-disable-next-line eqeqeq
           if (res.data.length == 0) {
             this.isshow = true
           } else {
@@ -452,7 +453,7 @@ export default {
     },
     changeType(value) {
       this.queryParams.analysisType = value
-      if (value === 1 || value ===6) {
+      if (value === 1 || value === 6) {
         this.initEcharts()
       } else {
         this.$nextTick(() => {
