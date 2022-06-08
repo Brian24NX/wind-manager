@@ -31,7 +31,11 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/businiessOpentionalList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
-        <el-table-column :label="$t('business.category')" prop="categoryEnName" align="center" width="180px" />
+        <el-table-column :label="$t('business.category')" align="center" width="180px">
+          <template slot-scope="scope">
+            {{ scope.row.categoryEnName + '/' + scope.row.categoryCnName }}
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="150px" />
         <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" width="120px" />
@@ -343,6 +347,9 @@ export default {
     // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
+      if (this.categoryList.findIndex(i => i.id === row.categoryId) === -1) {
+        this.addform.categoryId = ''
+      }
       if (row.filepath) {
         this.fileList = [{
           name: row.filepath.split('wind/')[1],

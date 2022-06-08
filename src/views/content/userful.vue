@@ -255,7 +255,9 @@ export default {
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
       this.type = row.type
-      console.log(process.env.VUE_APP_FILE_BASE_API + row.document)
+      if (this.categoryList.findIndex(i => i.id === row.categoryId) === -1) {
+        this.addform.categoryId = ''
+      }
       // eslint-disable-next-line eqeqeq
       if (this.type == 1) {
         if (row.document) {
