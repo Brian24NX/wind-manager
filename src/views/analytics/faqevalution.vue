@@ -382,7 +382,7 @@ export default {
             endDate: this.downloadform.timeList[1]
           }
           faqEvaExport(data).then((res) => {
-            window.location.href = res.data
+            window.open(res.data)
           })
         }
       })

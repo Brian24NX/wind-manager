@@ -236,7 +236,7 @@ export default {
             endDate: this.downloadform.timeList[1]
           }
           analysisExport(dataes).then((res) => {
-            window.location.href = res.data
+            window.open(res.data)
           })
         }
       })

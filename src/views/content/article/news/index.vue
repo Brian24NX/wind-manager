@@ -288,7 +288,7 @@ export default {
     // 导出
     async exporttemplate() {
       const res = await newsExport(this.queryParams)
-      window.location.href = res.data
+      window.open(res.data)
     },
     // 下载模版
     downloadfile() {

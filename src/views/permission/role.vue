@@ -273,7 +273,7 @@ export default {
       const res = await userExport(this.queryParams)
       // eslint-disable-next-line eqeqeq
       if (res.code == 200) {
-        window.location.href = res.data
+        window.open(res.data)
       } else {
         this.$message.error(res.message)
       }

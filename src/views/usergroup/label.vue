@@ -247,11 +247,11 @@ export default {
     // 导出
     async exportUser() {
       const data = {
-        id: Number(this.addform.id),
+        id: this.currentId,
         name: this.name
       }
       const res = await labelUserExport(data)
-      window.location.href = res.data
+      window.open(res.data)
     },
     // 删除
     async remove(row) {

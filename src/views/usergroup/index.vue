@@ -72,7 +72,7 @@ export default {
     async exportexcle() {
       const res = await userExport(this.queryParams)
       // console.log(res.data)
-      window.location.href = res.data
+      window.open(res.data)
     }
   }
 }
