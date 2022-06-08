@@ -420,7 +420,7 @@ export default {
     customer: '客户公告',
     useful: '常用模版及链接',
     sanction: '管制品查询',
-    contant: '联系我们'
+    contact: '联系我们'
   },
   // 下载
   download: {

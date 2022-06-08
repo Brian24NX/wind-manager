@@ -411,7 +411,7 @@ export default {
     customer: 'Customer Advisory',
     useful: 'Useful Template & Link',
     sanction: 'Sanction Check',
-    contant: 'Contact Us'
+    contact: 'Contact Us'
   },
   download: {
     downloadtime: 'data time',

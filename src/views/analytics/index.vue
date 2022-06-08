@@ -44,7 +44,7 @@
       </div>
       <!--Business & Operational Updates-->
       <div v-if="queryParams.analysisType == 2">
-        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
+        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('buiness.title')" prop="title" />
           <el-table-column align="center" :label="$t('buiness.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('buiness.numberofviews')" prop="views" align="center" />
@@ -53,7 +53,7 @@
       </div>
       <!--Useful Template & Link-->
       <div v-if="queryParams.analysisType == 3">
-        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
+        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('useful.title')" prop="title" />
           <el-table-column align="center" :label="$t('useful.numberofviews')" prop="views" />
           <el-table-column :label="$t('useful.numberofsendtoemail')" prop="email" align="center" />
@@ -61,7 +61,7 @@
       </div>
       <!--News Center-->
       <div v-if="queryParams.analysisType == 4">
-        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
+        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('news.title')" prop="title" />
           <el-table-column align="center" :label="$t('news.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('news.numberofviews')" prop="views" align="center" />
@@ -70,7 +70,7 @@
       </div>
       <!--CMA CGM+-->
       <div v-if="queryParams.analysisType == 5">
-        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
+        <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('cma.title')" prop="title" />
           <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('cma.numberofviews')" prop="views" align="center" />
@@ -78,7 +78,7 @@
         </Pagination>
       </div>
       <!--转化分析-->
-      <div v-if="queryParams.analysisType == 7">功能升级中，敬请期待</div>
+      <div v-if="queryParams.analysisType == 7" style="width: 100%;height: 400px;text-align: center;line-height: 380px;font-size: 30px;">功能升级中，敬请期待</div>
     </div>
     <!--更多模版点击次数-->
     <div v-if="queryParams.analysisType == 6">

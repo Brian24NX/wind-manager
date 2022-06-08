@@ -81,6 +81,10 @@ export default {
     showCheck: {
       type: Boolean,
       default: false
+    },
+    needAuto: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -105,7 +109,9 @@ export default {
     if (this.$route.query.page) {
       this.pagination.pageNum = this.$route.query.page
     }
-    this.pageRequest()
+    if (this.needAuto) {
+      this.pageRequest()
+    }
     this.pageSizes = [this.pagination.pageSize, this.pagination.pageSize * 2, this.pagination.pageSize * 5, this.pagination.pageSize * 10]
   },
 

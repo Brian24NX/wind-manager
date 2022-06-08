@@ -59,7 +59,7 @@
             <div class="dto" />
             <div>Total FAQS</div>
           </div>
-          <img class="icon" src="@/assets/most/online2.png" />
+          <img class="icon" src="@/assets/most/online2.png">
           <div class="count">{{ total.total }}</div>
         </el-card>
       </el-col>
@@ -210,6 +210,7 @@ export default {
   created() {},
   mounted() {
     this.init()
+    this.initTotal()
   },
   methods: {
     init() {
