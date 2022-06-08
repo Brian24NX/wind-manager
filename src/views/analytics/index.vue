@@ -29,7 +29,7 @@
             </el-col>
             <el-col :span="4">
               <el-row type="flex" justify="end">
-                <el-button type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+                <el-button type="danger" :disabled="queryParams.analysisType === 7" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
               </el-row>
             </el-col>
           </el-row>
@@ -37,7 +37,7 @@
       </el-row>
     </div>
     <!--内容部分-->
-    <div v-if="queryParams.analysisType !== 7" class="tableContainer">
+    <div v-if="queryParams.analysisType !== 6" class="tableContainer">
       <!--Frequently searched routes-->
       <div v-if="queryParams.analysisType == 1">
         <div id="mychart" class="echart" :style="myChartStyle" />
@@ -79,10 +79,10 @@
         </Pagination>
       </div>
       <!--转化分析-->
-      <div v-if="queryParams.analysisType == 6">功能升级中，敬请期待</div>
+      <div v-if="queryParams.analysisType == 7">功能升级中，敬请期待</div>
     </div>
     <!--更多模版点击次数-->
-    <div v-if="queryParams.analysisType == 7">
+    <div v-if="queryParams.analysisType == 6">
       <el-row :gutter="20">
         <el-col :span="8">
           <el-card>
@@ -276,7 +276,7 @@ export default {
         contantus: '300'
       },
       queryParams: {
-        analysisType: 7,
+        analysisType: 6,
         timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')],
         endDate: '',
         startDate: ''
@@ -338,11 +338,10 @@ export default {
           return time.getTime() < timeOptionRange.getTime() || time.getTime() >= timeOptionRange.getTime() + secondNum
         }
       },
-      // analysisType: 1,
       isshow: false,
       xData: [], // 横坐标
       yData: [], // 数据
-      myChartStyle: { float: 'left', width: '100%', height: '400px' } // 图表样式
+      myChartStyle: { width: '100%', height: '400px' } // 图表样式
     }
   },
   watch: {
@@ -422,13 +421,10 @@ export default {
       if (value === 1) {
         this.initEcharts()
       } else {
-        // this.$nextTick(() => {
-        //   this.$refs.pagination.refreshRequest()
-        // })
+        this.$nextTick(() => {
+          this.$refs.pagination.refreshRequest()
+        })
       }
-      // this.downloadform = {
-      //   timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
-      // }
     },
     search() {
       if (this.queryParams.analysisType === 1) {
