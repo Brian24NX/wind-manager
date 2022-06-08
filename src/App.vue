@@ -32,6 +32,7 @@ body {
   background: #ffffff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
   padding: 20px;
+  height: 535px;
 
   .operations {
     display: flex;

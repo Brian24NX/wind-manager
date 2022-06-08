@@ -59,24 +59,24 @@
             <div class="dto" />
             <div>Total FAQS</div>
           </div>
-          <img class="icon" src="@/assets/most/online2.png">
-          <div class="count">1,000</div>
+          <img class="icon" src="@/assets/most/online2.png" />
+          <div class="count">{{ total.total }}</div>
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card style="height: 158px; margin-bottom: 24px; position: relative;">
+        <el-card style="height: 158px; margin-bottom: 24px; position: relative">
           <div class="title">
             <div class="dto" />
             <div>FAQs with positive evaluation</div>
           </div>
-          <div class="count">1,000</div>
+          <div class="count">{{ total.likes }}</div>
         </el-card>
-        <el-card style="height: 158px; position: relative;">
+        <el-card style="height: 158px; position: relative">
           <div class="title">
             <div class="dto" />
             <div>FAQs with negative evaluation</div>
           </div>
-          <div class="count">1,000</div>
+          <div class="count">{{ total.dislikes }}</div>
         </el-card>
       </el-col>
     </el-row>
@@ -203,78 +203,94 @@ export default {
         }
       ],
       pieName: [],
+      totalList: [],
       myPieChartStyle: { width: '100%', height: '280px' } // 图表样式
     }
   },
   created() {},
   mounted() {
-    this.initEcharts()
-    this.initDate() // 数据初始化
-    this.initPieEcharts()
+    this.init()
   },
   methods: {
-    // 初始化多列柱状图
-    initEcharts() {
-      // 数据列表
+    init() {
       const data = {
         startDate: this.queryParams.timeList[0],
         endDate: this.queryParams.timeList[1]
       }
       faqEvaList(data).then((res) => {
-        this.yData = res.data.map((item) => {
-          return item.likes
-        })
-        this.taskDate = res.data.map((item) => {
-          return item.dislikes
-        })
-        this.xData = res.data.map((item) => {
-          return item.analyDate
-        })
-        // 多列柱状图
-        const mulColumnZZTData = {
-          xAxis: {
-            data: this.xData
-          },
-          color: ['#E20101', '#071E5D'],
-          // 图例
-          legend: {
-            orient: 'vertical',
-            data: ['赞', '踩'],
-            x: 'right',
-            y: 'center'
-          },
-          yAxis: {},
-          series: [
-            {
-              type: 'bar', // 形状为柱状图
-              data: this.yData,
-              barWidth: '20%',
-              name: '赞', // legend属性
-              label: {
-                // 柱状图上方文本标签，默认展示数值信息
-                show: true,
-                position: 'top'
-              }
-            },
-            {
-              type: 'bar', // 形状为柱状图
-              data: this.taskDate,
-              barWidth: '20%',
-              name: '踩', // legend属性
-              label: {
-                // 柱状图上方文本标签，默认展示数值信息
-                show: true,
-                position: 'top'
-              }
+        this.totalList = res.data
+      })
+      setTimeout(() => {
+        this.initEcharts()
+        this.initDate() // 数据初始化
+        this.initPieEcharts()
+      }, 1000)
+    },
+    initTotal() {
+      const data = {
+        startDate: this.queryParams.timeList[0],
+        endDate: this.queryParams.timeList[1]
+      }
+      faqEvaTotal(data).then((res) => {
+        this.total = res.data
+      })
+    },
+    // 初始化多列柱状图
+    initEcharts() {
+      var _res = this.totalList
+      this.yData = _res.map((item) => {
+        return item.likes
+      })
+      this.taskDate = _res.map((item) => {
+        return item.dislikes
+      })
+      this.xData = _res.map((item) => {
+        return item.analyDate
+      })
+      // 多列柱状图
+      const mulColumnZZTData = {
+        xAxis: {
+          data: this.xData
+        },
+        color: ['#E20101', '#071E5D'],
+        // 图例
+        legend: {
+          orient: 'vertical',
+          data: ['赞', '踩'],
+          x: 'right',
+          y: 'center'
+        },
+        yAxis: {},
+        series: [
+          {
+            type: 'bar', // 形状为柱状图
+            data: this.yData,
+            barWidth: '20%',
+            name: '赞', // legend属性
+            label: {
+              // 柱状图上方文本标签，默认展示数值信息
+              show: true,
+              position: 'top'
             }
-          ]
-        }
-        const myChart = echarts.init(document.getElementById('mychart'))
-        myChart.setOption(mulColumnZZTData)
-        // 随着屏幕大小调节图表
-        window.addEventListener('resize', () => {
-          myChart.resize()
-        })
+          },
+          {
+            type: 'bar', // 形状为柱状图
+            data: this.taskDate,
+            barWidth: '20%',
+            name: '踩', // legend属性
+            label: {
+              // 柱状图上方文本标签，默认展示数值信息
+              show: true,
+              position: 'top'
+            }
+          }
+        ]
+      }
+      const myChart = echarts.init(document.getElementById('mychart'))
+      myChart.setOption(mulColumnZZTData)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        myChart.resize()
       })
     },
     // 初始化饼图数据
@@ -284,81 +300,66 @@ export default {
       }
     },
     initPieEcharts() {
-      const data = {
-        startDate: this.queryParams.timeList[0],
-        endDate: this.queryParams.timeList[1]
-      }
-      faqEvaTotal(data).then((res) => {
-        this.total = res.data
+      var _res = this.totalList
+      this.yData = _res.map((item) => {
+        return item.likes
       })
-      faqEvaList(data).then((res) => {
-        var _res = res.data
-        this.yData = _res.map((item) => {
-          return item.likes
-        })
-        this.taskDate = _res.map((item) => {
-          return item.dislikes
-        })
-        if (_res.length === 0) {
-          this.pieData[0].value = this.pieData[1].value = 0
-        } else {
-          // 求和
-          var sum0 = 0
-          for (let i = 0; i < this.yData.length; i++) {
-            const b = this.yData[i]
-            this.pieData[0].value += sum0 + b
-          }
-          var sum = 0
-          for (let i = 0; i < this.taskDate.length; i++) {
-            const b = this.taskDate[i]
-            this.pieData[1].value += sum + b
-          }
-        }
-        // 饼图
-        const option = {
-          tooltip: {
-            trigger: 'item',
-            formatter: '{b}: {c} ({d}%)'
-          },
-          color: ['#071E5D', '#E20101'],
-          legend: {
-            orient: 'horizontal',
-            x: 'center',
-            y: 'bottom',
-            data: ['赞', '踩']
-          },
-          series: [
-            {
-              type: 'pie',
-              radius: ['50%', '70%'],
-              avoidLabelOverlap: false,
+      this.taskDate = _res.map((item) => {
+        return item.dislikes
+      })
+      // 求和
+      this.pieData[0].value = this.pieData[1].value = 0
+      var sum0 = 0
+      for (let i = 0; i < this.yData.length; i++) {
+        const b = this.yData[i]
+        this.pieData[0].value += sum0 + b
+      }
+      var sum = 0
+      for (let i = 0; i < this.taskDate.length; i++) {
+        const b = this.taskDate[i]
+        this.pieData[1].value += sum + b
+      }
+      // 饼图
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c} ({d}%)'
+        },
+        color: ['#E20101', '#071E5D'],
+        legend: {
+          orient: 'horizontal',
+          x: 'center',
+          y: 'bottom',
+          data: ['赞', '踩']
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
               label: {
                 show: false,
-                position: 'center'
-              },
-              emphasis: {
-                label: {
-                  show: false,
-                  fontSize: '30',
-                  fontWeight: 'bold'
-                }
-              },
-              labelLine: {
-                show: false
-              },
-              data: [
-                { value: 310, name: '踩' },
-                { value: 35, name: '赞' }
-              ]
-            }
-          ]
-        }
-        const myChart2 = echarts.init(document.getElementById('mypiechart'))
-        myChart2.setOption(option)
-        // 随着屏幕大小调节图表
-        window.addEventListener('resize', () => {
-          myChart2.resize()
-        })
+                fontSize: '30',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: this.pieData
+          }
+        ]
+      }
+      const myChart2 = echarts.init(document.getElementById('mypiechart'))
+      myChart2.setOption(option)
+      // 随着屏幕大小调节图表
+      window.addEventListener('resize', () => {
+        myChart2.resize()
       })
     },
     changeType() {
@@ -368,9 +369,7 @@ export default {
       }
     },
     search() {
-      console.log('请求接口')
-      this.initEcharts()
-      this.initPieEcharts()
+      this.init()
     },
     submit(formName) {
       this.$refs[formName].validate((valid) => {

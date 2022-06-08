@@ -21,7 +21,6 @@
                 range-separator="~"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                value-format="yyyy-MM-dd"
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="pickerOptions"
                 @change="search"
@@ -47,7 +46,7 @@
       <div v-if="queryParams.analysisType == 2">
         <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
           <el-table-column :label="$t('buiness.title')" prop="title" />
-          <!-- <el-table-column align="center" :label="$t('buiness.publishdate')" prop="publishdate" /> -->
+          <el-table-column align="center" :label="$t('buiness.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('buiness.numberofviews')" prop="views" align="center" />
           <el-table-column align="center" :label="$t('buiness.numberofsendtoemail')" prop="email" />
         </Pagination>
@@ -64,7 +63,7 @@
       <div v-if="queryParams.analysisType == 4">
         <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
           <el-table-column :label="$t('news.title')" prop="title" />
-          <!-- <el-table-column align="center" :label="$t('news.publishdate')" prop="publishdate" /> -->
+          <el-table-column align="center" :label="$t('news.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('news.numberofviews')" prop="views" align="center" />
           <el-table-column align="center" :label="$t('news.numberoflinkes')" prop="likes" />
         </Pagination>
@@ -73,7 +72,7 @@
       <div v-if="queryParams.analysisType == 5">
         <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" show-index>
           <el-table-column :label="$t('cma.title')" prop="title" />
-          <!-- <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishdate" /> -->
+          <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('cma.numberofviews')" prop="views" align="center" />
           <el-table-column align="center" :label="$t('cma.numberoflinkes')" prop="likes" />
         </Pagination>
@@ -92,9 +91,9 @@
                 <div>{{ this.$t('most.cma') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/cma.png">
+                <img src="@/assets/most/cma.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.cma }}</div>
+                  <div class="count">{{ frenquenylylist[0].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -109,9 +108,9 @@
                 <div>{{ this.$t('most.about') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/about.png">
+                <img src="@/assets/most/about.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.abountus }}</div>
+                  <div class="count">{{ frenquenylylist[4].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -126,9 +125,9 @@
                 <div>{{ this.$t('most.news') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/news.png">
+                <img src="@/assets/most/news.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.newscenter }}</div>
+                  <div class="count">{{ frenquenylylist[1].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -145,9 +144,9 @@
                 <div>{{ this.$t('most.online') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/online.png">
+                <img src="@/assets/most/online.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.onlineService }}</div>
+                  <div class="count">{{ frenquenylylist[5].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -162,9 +161,9 @@
                 <div>{{ this.$t('most.customer') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/customer.png">
+                <img src="@/assets/most/customer.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.customerad }}</div>
+                  <div class="count">{{ frenquenylylist[2].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -179,9 +178,9 @@
                 <div>{{ this.$t('most.useful') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/useful.png">
+                <img src="@/assets/most/useful.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.userfultemplate }}</div>
+                  <div class="count">{{ frenquenylylist[6].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -198,9 +197,9 @@
                 <div>{{ this.$t('most.sanction') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/sanction.png">
+                <img src="@/assets/most/sanction.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.sanctioncheck }}</div>
+                  <div class="count">{{ frenquenylylist[3].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -215,9 +214,9 @@
                 <div>{{ this.$t('most.contact') }}</div>
               </div>
               <div class="bottoms">
-                <img src="@/assets/most/contact.png">
+                <img src="@/assets/most/contact.png" />
                 <div class="right">
-                  <div class="count">{{ frenquenylylist.contantus }}</div>
+                  <div class="count">{{ frenquenylylist[7].num }}</div>
                   <div>Views</div>
                 </div>
               </div>
@@ -265,18 +264,18 @@ export default {
     return {
       // 后续用字典查询
       userTypeList: [],
-      frenquenylylist: {
-        cma: '1,000',
-        abountus: '3,000',
-        newscenter: '2,000',
-        onlineService: '1,100',
-        customerad: '1,500',
-        userfultemplate: '1,500',
-        sanctioncheck: '500',
-        contantus: '300'
-      },
+      frenquenylylist: [
+        { createUser: 0, updateUser: 0, statisti: 1, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 2, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 3, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 4, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 5, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 6, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 7, num: 0 },
+        { createUser: 0, updateUser: 0, statisti: 8, num: 0 }
+      ],
       queryParams: {
-        analysisType: 6,
+        analysisType: 1,
         timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')],
         endDate: '',
         startDate: ''
@@ -376,49 +375,84 @@ export default {
         startDate: this.queryParams.timeList[0],
         endDate: this.queryParams.timeList[1]
       }
-      analysisList(data).then((res) => {
-        if (res.data.length === 0) {
-          this.isshow = true
-        } else {
-          this.isshow = false
-        }
-        this.yData = res.data.map((item) => {
-          return item.num
-        })
-        this.xData = res.data.map((item) => {
-          return item.loading
-        })
-        // 基本柱状图
-        const option = {
-          title: {
-            text: 'Most Frequently Searched Routes'
-          },
-          xAxis: {
-            data: this.xData
-          },
-          yAxis: {},
-          series: [
-            {
-              type: 'bar', // 形状为柱状图
-              data: this.yData,
-              barWidth: '20%',
-              itemStyle: {
-                color: '#04246A'
-              }
-            }
+      if (this.queryParams.analysisType === 6) {
+        analysisList(data).then((res) => {
+          //返回数据处理
+          var lists = [
+            { createUser: 0, updateUser: 0, statisti: 1, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 2, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 3, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 4, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 5, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 6, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 7, num: 0 },
+            { createUser: 0, updateUser: 0, statisti: 8, num: 0 }
           ]
-        }
-        const myChart = echarts.init(document.getElementById('mychart'))
-        myChart.setOption(option)
-        // 随着屏幕大小调节图表
-        window.addEventListener('resize', () => {
-          myChart.resize()
+          var list = [...res.data, ...lists]
+          //合并返回参数但statisti没有时
+          let map = new Map()
+          for (let item of list) {
+            if (!map.has(item.statisti)) {
+              map.set(item.statisti, item)
+            }
+          }
+          var arr = [...map.values()]
+          //对合并后的参数重新排序
+          let compare = function (k) {
+            return function (a, b) {
+              var M = a[k]
+              var N = b[k]
+              return M - N // 从低向高排
+              // return N - M;   // 从高向低排
+            }
+          }
+          this.frenquenylylist = arr.sort(compare('statisti'))
         })
-      })
+      } else {
+        analysisList(data).then((res) => {
+          if (res.data.length == 0) {
+            this.isshow = true
+          } else {
+            this.isshow = false
+          }
+          this.yData = res.data.map((item) => {
+            return item.num
+          })
+          this.xData = res.data.map((item) => {
+            return item.loading
+          })
+          // 基本柱状图
+          const option = {
+            title: {
+              text: 'Most Frequently Searched Routes'
+            },
+            xAxis: {
+              data: this.xData
+            },
+            yAxis: {},
+            series: [
+              {
+                type: 'bar', // 形状为柱状图
+                data: this.yData,
+                barWidth: '20%',
+                itemStyle: {
+                  color: '#04246A'
+                }
+              }
+            ]
+          }
+          const myChart = echarts.init(document.getElementById('mychart'))
+          myChart.setOption(option)
+          // 随着屏幕大小调节图表
+          window.addEventListener('resize', () => {
+            myChart.resize()
+          })
+        })
+      }
     },
     changeType(value) {
       this.queryParams.analysisType = value
-      if (value === 1) {
+      if (value === 1 || value ===6) {
         this.initEcharts()
       } else {
         this.$nextTick(() => {
@@ -427,7 +461,7 @@ export default {
       }
     },
     search() {
-      if (this.queryParams.analysisType === 1) {
+      if (this.queryParams.analysisType === 1 || this.queryParams.analysisType === 6) {
         this.initEcharts()
       } else {
         this.$nextTick(() => {
