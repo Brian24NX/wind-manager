@@ -347,7 +347,7 @@ export default {
     // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
-      if (this.categoryList.findIndex(i => i.id === row.categoryId) === -1) {
+      if (this.categoryList.findIndex(i => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
       if (row.filepath) {

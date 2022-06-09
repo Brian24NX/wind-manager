@@ -30,11 +30,15 @@
         <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
         <el-table-column :label="$t('userful.document')" prop="document">
           <template scope="scope">
-            <span v-if="scope.row.type === 2" style="white-space: pre-line">{{ scope.row.document }}}</span>
+            <span v-if="scope.row.type === 2" style="white-space: pre-line">{{ scope.row.document }}</span>
             <span v-else>{{ transdocument(scope.row.document) }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference" />
+        <el-table-column align="center" :label="$t('userful.reference')" prop="internalReference">
+          <template scope="scope">
+            <span style="white-space: pre-line">{{ scope.row.internalReference }}</span>
+          </template>
+        </el-table-column>
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
@@ -86,7 +90,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('userful.type')" :label-width="formLabelWidth" prop="type">
-          <el-radio-group v-model="type">
+          <el-radio-group v-model="addform.type">
             <el-radio
               v-for="item in typelist"
               :key="item.value"
@@ -95,7 +99,7 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="document">
+        <el-form-item v-show="addform.type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="document">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
@@ -111,11 +115,11 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-show="type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
+        <el-form-item v-show="addform.type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
           <el-input v-model="addform.document" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.document = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
-          <el-input v-model="addform.internalReference" autocomplete="off" clearable @blur="addform.internalReference = $event.target.value.trim()" />
+          <el-input v-model="addform.internalReference" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.internalReference = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -158,11 +162,10 @@ export default {
       categoryList: [],
       categoryedit: false,
       importdialog: false,
-      type: 1,
       addform: {
         name: '',
         categoryId: '',
-        type: '',
+        type: 1,
         document: '',
         internalReference: '',
         id: ''
@@ -194,7 +197,7 @@ export default {
         this.addform = {
           name: '',
           categoryId: '',
-          type: '',
+          type: 1,
           document: '',
           internalReference: '',
           id: ''
@@ -254,12 +257,10 @@ export default {
     // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
-      this.type = row.type
-      if (this.categoryList.findIndex(i => i.id === row.categoryId) === -1) {
+      if (this.categoryList.findIndex(i => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
-      // eslint-disable-next-line eqeqeq
-      if (this.type == 1) {
+      if (this.addform.type === 1) {
         if (row.document) {
           this.fileList = [{
             name: row.document.split('wind/')[1],
@@ -273,7 +274,7 @@ export default {
     async save(formName) {
       const data = {
         name: this.addform.name,
-        type: parseInt(this.type),
+        type: this.addform.type,
         categoryId: this.addform.categoryId,
         internalReference: this.addform.internalReference,
         document: this.addform.document,
@@ -282,8 +283,7 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
           console.log(this.addform.document)
-          // eslint-disable-next-line eqeqeq
-          if (this.addform.document == '') {
+          if (!this.addform.document) {
             this.$message.error(this.$t('userful.documenttips'))
             return
           }
@@ -416,13 +416,13 @@ export default {
     },
     // 成功
     handleSuccess(response, file, fileList) {
-      if (response.code === '200') {
-        this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
-        this.addform.uploadfile = response.data.fileName
-      } else {
-        this.$message.error(response.message)
-        this.fileList = []
-      }
+      // if (response.code === '200') {
+      //   this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
+      //   this.addform.uploadfile = response.data.fileName
+      // } else {
+      //   this.$message.error(response.message)
+      //   this.fileList = []
+      // }
     }
   }
 }
