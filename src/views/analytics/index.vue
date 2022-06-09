@@ -455,7 +455,7 @@ export default {
       this.queryParams.analysisType = value
       if (value === 1 || value === 6) {
         this.initEcharts()
-      } else {
+      } else if (value !== 7) {
         this.$nextTick(() => {
           this.$refs.pagination.refreshRequest()
         })
