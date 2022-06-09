@@ -39,7 +39,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
-            <el-button v-if="scope.row.type==1" v-permission="[50]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
+            <el-button v-if="scope.row.type==1" v-permission="[49]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
             <el-button v-permission="[51]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>
           </template>
         </el-table-column>
