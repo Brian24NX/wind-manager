@@ -33,7 +33,7 @@
         <el-table-column align="center" :label="$t('business.title')" prop="title" />
         <el-table-column :label="$t('business.category')" align="center" width="180px">
           <template slot-scope="scope">
-            {{ scope.row.categoryEnName + '/' + scope.row.categoryCnName }}
+            {{ scope.row.categoryEnName ? (scope.row.categoryEnName + '/' + scope.row.categoryCnName) : '' }}
           </template>
         </el-table-column>
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />

@@ -224,11 +224,11 @@ export default {
     status: '状态',
     buinessupdate: '业务更新',
     categoryset: '类别设置',
-    sendnotification: '添加通知',
-    deltitle: '是否确认删除该通知？',
+    sendnotification: '添加服务信息',
+    deltitle: '是否确认删除该服务信息？',
     content: '文章',
     uploadfile: '上传文件',
-    titletips: '通知标题必填'
+    titletips: '服务信息标题必填'
   },
   // 联系信息
   contact: {
