@@ -1,5 +1,25 @@
 <template>
   <div class="upload-container">
+    <el-button :style="{ background: color, borderColor: color}" icon="el-icon-upload" size="mini" type="primary" @click="materials">{{ $t('tinymce.material')}}</el-button>
+    <el-dialog :title="$t('tinymce.title')" :visible.sync="material" center width="1000px" destroy-on-close append-to-body :modal-append-to-body="false">
+    <div style="margin-left: -12px;">
+    <el-checkbox-group v-model="checkedList" >
+      <div class="listcontainer">
+        <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
+          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
+          <el-checkbox :label="item.id" @change="changeCheck">
+            <span style="text-overflow: ellipsis; white-space: break-spaces;">{{ item.title }}</span>
+          </el-checkbox>
+        </div>
+      </div>
+    </el-checkbox-group>
+    <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
+    </div>
+      <div style="display: flex; justify-content: center;">
+        <el-button @click="cancelBtn"> {{ $t('tinymce.cancelBtn') }} </el-button>
+        <el-button type="primary" @click="materialSubmit"> {{ $t('tinymce.confirmBtn') }} </el-button>
+      </div>
+    </el-dialog>
     <el-button :style="{ background: color, borderColor: color }" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible = true"> {{ $t('tinymce.title') }} </el-button>
     <el-dialog :title="$t('tinymce.title')" :visible.sync="dialogVisible" center width="800px" destroy-on-close append-to-body :modal-append-to-body="false">
       <el-upload
@@ -28,10 +48,13 @@
 
 <script>
 // import { getToken } from 'api/qiniu'
+import { materialList } from "@/api/material";
+import Pagination from '@/components/Pagination2'
 import Cookies from 'js-cookie'
 
 export default {
   name: 'EditorSlideUpload',
+  components: { Pagination },
   props: {
     color: {
       type: String,
@@ -40,9 +63,17 @@ export default {
   },
   data() {
     return {
+      material: false,
       dialogVisible: false,
       cookies: Cookies.get('Admin-Token'),
       listObj: {},
+      filePath: process.env.VUE_APP_FILE_BASE_API,
+      checkedList: [],
+      librarylist: [],
+      materialObj: [],
+      total: 0,
+      pageNum: 1,
+      pageSize: 10,
       fileList: []
     }
   },
@@ -64,6 +95,7 @@ export default {
         this.$message('Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!')
         return
       }
+      console.log(arr,777777);
       this.$emit('successCBK', arr)
       this.listObj = {}
       this.fileList = []
@@ -115,6 +147,49 @@ export default {
           resolve(true)
         })
       }
+    },
+    changePagination(pagination) {
+      this.pageNum = pagination.page
+      this.pageSize = pagination.limit
+      this.materials()
+    },
+    materials() {
+      this.material = true
+      const data = {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+      }
+      materialList(data).then(res => {
+        this.librarylist = res.data.list
+        this.total = res.data.total
+      })
+    },
+    changeCheck() {
+      var list = []
+      for (let i = 0; i < this.checkedList.length; i++) {
+        const v = this.checkedList[i];
+        var b= this.librarylist.filter(items => items.id == v);
+        list.push(b)
+      }
+      var obj = []
+      for (let i = 0; i < list.length; i++) {
+        var http = 'https://uat.wind-admin.cma-cgm.com/api/admin/'
+        var Url = http + list[i][0].filePath;
+        var data = {hasSuccess: true, url: Url, uid: list[i][0].id,}
+        obj.push(data)
+      }
+      this.materialObj = obj
+    },
+    materialSubmit() {
+      const arr = Object.keys(this.materialObj).map((v) => this.materialObj[v])
+      this.$emit('successCBK', arr)
+      this.cancelBtn()
+    },
+    cancelBtn() {
+      this.checkedList = []
+      this.pageNum = 1
+      this.pageSize = 10
+      this.material = false
     }
   }
 }
@@ -126,5 +201,26 @@ export default {
   ::v-deep .el-upload--picture-card {
     width: 100%;
   }
+}
+
+.listcontainer {
+   overflow: hidden;
+  margin-right: -20px;
+  margin-bottom: -40px;
+  margin-top: 0;
+}
+
+.cardcontainer {
+  float: left;
+  width: 190px;
+  height: 200px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+}
+
+.imgsrc {
+  width: 190px;
+  height: 160px;
+  margin-bottom: 10px;
 }
 </style>

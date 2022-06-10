@@ -353,6 +353,7 @@ export default {
   // 富文本
   tinymce: {
     title: '上传',
+    material: '素材库',
     uploadBtn: '点击上传',
     confirmBtn: '确定',
     cancelBtn: '取消',

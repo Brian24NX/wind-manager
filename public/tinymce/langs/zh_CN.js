@@ -56,6 +56,7 @@ window.tinymce.addI18n('zh_CN',{
   "Browse for an image": "浏览图像",
   "OR": "或",
   "Drop an image here": "拖放一张图片文件至此",
+  "Material library": "素材库",
   "Upload": "上传",
   "Block": "块",
   "Align": "对齐",

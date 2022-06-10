@@ -344,6 +344,7 @@ export default {
   // 富文本
   tinymce: {
     title: 'Upload',
+    material: 'Material library',
     uploadBtn: 'Click upload',
     confirmBtn: 'Confirm',
     cancelBtn: 'Cancel',
