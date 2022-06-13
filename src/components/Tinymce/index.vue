@@ -123,6 +123,7 @@ export default {
       const _this = this
       window.tinymce.init({
         statusbar: false,
+        fontsize_formats: '12px 14px 16px 18px 20px 24px 36px',
         language: this.language,
         language_url: '/tinymce/langs/zh_CN.js',
         selector: `#${this.tinymceId}`,
