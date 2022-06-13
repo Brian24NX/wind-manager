@@ -67,7 +67,7 @@
       </el-table>
     </el-dialog>
     <!--新增角色和权限-->
-    <el-dialog :title="premissionform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center :close-on-click-modal="false" width="1000px" top="20px">
+    <el-dialog :title="premissionform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="1000px" top="20px">
       <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
         <el-form-item :label="$t('userrole.function')" label-width="100px" prop="funct">
           <el-input v-model="premissionform.funct" :disabled="isEdit" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="premissionform.funct = $event.target.value.trim()" />
@@ -192,6 +192,18 @@ export default {
         }
         this.loading = false
       }
+    },
+    adddialog(val) {
+      if (!val) {
+        this.premissionform = {
+          id: null,
+          roleViewId: JSON.parse(localStorage.getItem('role')).id,
+          descri: '',
+          funct: ''
+        }
+        this.menuButtons = []
+        this.isEdit = false
+      }
     }
   },
   created() {
@@ -230,6 +242,7 @@ export default {
         descri: '',
         funct: ''
       }
+      this.isEdit = false
       this.menuButtons = []
       this.adddialog = true
       this.$nextTick(() => {
