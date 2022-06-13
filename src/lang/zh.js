@@ -284,7 +284,8 @@ export default {
     questiontips: '问题必填',
     answertips: '答案必填',
     faqKeywords: '关键字必填',
-    relatedquestiontips: '关联问题必填'
+    relatedquestiontips: '关联问题必填',
+    input: '请输入，多个关键词用,隔开'
   },
   //  新闻中心
   newscenter: {

@@ -70,7 +70,7 @@
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
         <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
-          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.faqKeywords = $event.target.value.trim()" />
+          <el-input v-model="addform.faqKeywords" autocomplete="off" clearable :placeholder="$t('faq.input')" @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
           <el-radio-group v-model="addform.active">

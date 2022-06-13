@@ -275,7 +275,8 @@ export default {
     questiontips: 'question is required',
     answertips: 'answer is required',
     faqKeywords: 'To add more key words, please enter key words or phrases separated by a comma',
-    relatedquestiontips: 'relatedquestion is required'
+    relatedquestiontips: 'relatedquestion is required',
+    input: 'Please enter, separate multiple keywords with,'
   },
   //  新闻中心
   newscenter: {
