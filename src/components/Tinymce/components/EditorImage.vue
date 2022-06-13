@@ -1,26 +1,7 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{ background: color, borderColor: color}" icon="el-icon-upload" size="mini" type="primary" @click="materials">{{ $t('tinymce.material')}}</el-button>
-    <el-dialog :title="$t('tinymce.title')" :visible.sync="material" center width="1000px" destroy-on-close append-to-body :modal-append-to-body="false">
-    <div style="margin-left: -12px;">
-    <el-checkbox-group v-model="checkedList" >
-      <div class="listcontainer">
-        <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
-          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
-          <el-checkbox :label="item.id" @change="changeCheck">
-            <span style="text-overflow: ellipsis; white-space: break-spaces;">{{ item.title }}</span>
-          </el-checkbox>
-        </div>
-      </div>
-    </el-checkbox-group>
-    <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
-    </div>
-      <div style="display: flex; justify-content: center;">
-        <el-button @click="cancelBtn"> {{ $t('tinymce.cancelBtn') }} </el-button>
-        <el-button type="primary" @click="materialSubmit"> {{ $t('tinymce.confirmBtn') }} </el-button>
-      </div>
-    </el-dialog>
-    <el-button :style="{ background: color, borderColor: color }" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible = true"> {{ $t('tinymce.title') }} </el-button>
+    <el-button :style="{ background: color, borderColor: color}" icon="el-icon-upload" size="mini" type="primary" @click="materials">{{ $t('tinymce.material') }}</el-button>
+    <el-button :style="{ background: color, borderColor: color, marginLeft: '10px' }" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible = true"> {{ $t('tinymce.title') }} </el-button>
     <el-dialog :title="$t('tinymce.title')" :visible.sync="dialogVisible" center width="800px" destroy-on-close append-to-body :modal-append-to-body="false">
       <el-upload
         :multiple="true"
@@ -43,12 +24,31 @@
         <el-button type="primary" @click="handleSubmit"> {{ $t('tinymce.confirmBtn') }} </el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="$t('tinymce.title')" :visible.sync="material" center width="1000px" destroy-on-close append-to-body :modal-append-to-body="false">
+      <div style="margin-left: -12px;">
+        <el-checkbox-group v-model="checkedList">
+          <div class="listcontainer">
+            <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
+              <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
+              <el-checkbox :label="item.id" @change="changeCheck">
+                <span style="text-overflow: ellipsis; white-space: break-spaces;">{{ item.title }}</span>
+              </el-checkbox>
+            </div>
+          </div>
+        </el-checkbox-group>
+        <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <el-button type="primary" @click="materialSubmit"> {{ $t('tinymce.confirmBtn') }} </el-button>
+        <el-button @click="cancelBtn"> {{ $t('tinymce.cancelBtn') }} </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 // import { getToken } from 'api/qiniu'
-import { materialList } from "@/api/material";
+import { materialList } from '@/api/material'
 import Pagination from '@/components/Pagination2'
 import Cookies from 'js-cookie'
 
@@ -95,7 +95,7 @@ export default {
         this.$message('Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!')
         return
       }
-      console.log(arr,777777);
+      console.log(arr, 777777)
       this.$emit('successCBK', arr)
       this.listObj = {}
       this.fileList = []
@@ -157,7 +157,7 @@ export default {
       this.material = true
       const data = {
         pageNum: this.pageNum,
-        pageSize: this.pageSize,
+        pageSize: this.pageSize
       }
       materialList(data).then(res => {
         this.librarylist = res.data.list
@@ -167,15 +167,14 @@ export default {
     changeCheck() {
       var list = []
       for (let i = 0; i < this.checkedList.length; i++) {
-        const v = this.checkedList[i];
-        var b= this.librarylist.filter(items => items.id == v);
+        const v = this.checkedList[i]
+        var b = this.librarylist.filter(items => items.id === v)
         list.push(b)
       }
       var obj = []
       for (let i = 0; i < list.length; i++) {
-        var http = 'https://uat.wind-admin.cma-cgm.com/api/admin/'
-        var Url = http + list[i][0].filePath;
-        var data = {hasSuccess: true, url: Url, uid: list[i][0].id,}
+        var Url = process.env.VUE_APP_FILE_BASE_API + list[i][0].filePath
+        var data = { hasSuccess: true, url: Url, uid: list[i][0].id }
         obj.push(data)
       }
       this.materialObj = obj

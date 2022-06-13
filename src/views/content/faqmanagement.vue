@@ -108,7 +108,14 @@
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
         <el-form-item :label="$t('faq.relatedquestion')" :label-width="formLabelWidth" prop="faqRelations">
-          <el-input v-model="relationsform.faqRelations" autocomplete="off" />
+          <el-select v-model="relationsform.faqRelations" multiple clearable filterable style="width: 100%" placeholder="请选择">
+            <el-option
+              v-for="item in faqLists"
+              :key="item.value"
+              :label="item.question"
+              :value="item.id"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -122,7 +129,7 @@
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
 // eslint-disable-next-line no-unused-vars
-import { faqAdd, faqDel, faqEdit, faqEditRelations, faqActive, faqTemplateDownload } from '@/api/faq'
+import { faqList, faqAdd, faqDel, faqEdit, faqEditRelations, faqActive } from '@/api/faq'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'FaqManagement',
@@ -161,7 +168,8 @@ export default {
       relationsrules: {
         relatedquestion: { required: true, message: this.$t('faq.relatedquestiontips'), trigger: 'blur' }
       },
-      submitLoading: false
+      submitLoading: false,
+      faqLists: []
     }
   },
   watch: {
@@ -181,7 +189,19 @@ export default {
       }
     }
   },
+  created() {
+    this.getFaqLists()
+  },
   methods: {
+    getFaqLists() {
+      faqList({
+        pageNum: 1,
+        pageSize: 9999,
+        keyWord: ''
+      }).then(res => {
+        this.faqLists = res.data.list
+      })
+    },
     // 处理详情
     handleDetail(row) {
       this.isSelect = true
@@ -234,12 +254,14 @@ export default {
             faqAdd(data).then(res => {
               this.Cancle()
               this.$refs.pagination.pageRequest()
+              this.getFaqLists()
             })
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
             faqEdit(data).then(res => {
               this.Cancle()
               this.$refs.pagination.pageRequest()
+              this.getFaqLists()
             })
           }
         } else {
@@ -258,6 +280,7 @@ export default {
         .then(async() => {
           await faqDel(id)
           this.$refs.pagination.pageRequest()
+          this.getFaqLists()
         })
     },
     // 状态改变
@@ -291,6 +314,7 @@ export default {
     // 编辑关联问题
     editrelations(row) {
       this.relationsform = JSON.parse(JSON.stringify(row))
+      this.relationsform.faqRelations = this.relationsform.faqRelations ? this.relationsform.faqRelations.split(',').map(Number) : []
       this.relationsdialog = true
     },
     // 编辑并修改问题
@@ -299,11 +323,12 @@ export default {
         if (valid) {
           const data = {
             id: this.relationsform.id,
-            faqRelations: this.relationsform.faqRelations,
+            faqRelations: this.relationsform.faqRelations.join(','),
             updateUser: JSON.parse(localStorage.getItem('userInfo')).id
           }
           await faqEditRelations(data)
           this.$refs.pagination.pageRequest()
+          this.getFaqLists()
           this.relationsform = {}
           this.relationsdialog = false
         } else {

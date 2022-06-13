@@ -1,5 +1,12 @@
 // // faq逻辑处理
 import request from '@/utils/request'
+export function faqList(params) {
+  return request({
+    url: '/api/admin/getFaqList',
+    method: 'get',
+    params
+  })
+}
 // faq添加
 export function faqAdd(data) {
   return request({
