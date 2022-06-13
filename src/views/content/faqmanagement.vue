@@ -97,7 +97,7 @@
           <el-input v-model="detailForm.faqKeywords" disabled autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
-          <el-radio-group v-model="addform.active" disabled>
+          <el-radio-group v-model="detailForm.active" disabled>
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
           </el-radio-group>
@@ -105,7 +105,7 @@
       </el-form>
     </el-dialog>
     <!--编辑relations-->
-    <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center>
+    <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
         <el-form-item :label="$t('faq.relatedquestion')" :label-width="formLabelWidth" prop="faqRelations">
           <el-input v-model="relationsform.faqRelations" autocomplete="off" />
