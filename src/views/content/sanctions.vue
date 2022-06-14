@@ -38,8 +38,8 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
-            <el-button v-if="!scope.row.active" v-permission="[56]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
-            <el-button v-if="scope.row.active" v-permission="[58]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
+            <el-button v-show="!scope.row.active" v-permission="[56]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-show="scope.row.active" v-permission="[58]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <el-button v-show="!scope.row.active" v-permission="[57]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
             <el-button v-permission="[59]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
