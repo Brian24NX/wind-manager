@@ -3,6 +3,11 @@ export default {
     expired: 'Login has expired. Please login again',
     success: 'Operation is successful'
   },
+  notFound: {
+    message: 'The webmaster said that you can not enter this page.',
+    desc: 'Please check that the URL you entered is correct, or click the button below to return to the homepage.',
+    back: 'Back to home'
+  },
   // 路由翻译
   route: {
     dashboard: 'Dashboard',

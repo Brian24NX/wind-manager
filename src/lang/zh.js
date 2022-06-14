@@ -3,6 +3,11 @@ export default {
     expired: '登录已过期，请重新登录',
     success: '操作成功'
   },
+  notFound: {
+    message: '网站管理员说你不能进入这个页面。',
+    desc: '请检查您输入的网址是否正确，或点击下面的按钮返回主页。',
+    back: '返回主页'
+  },
   // 路由翻译
   route: {
     dashboard: '首页',
