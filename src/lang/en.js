@@ -128,7 +128,7 @@ export default {
     search: 'Search',
     reset: 'Reset',
     update: 'Update',
-    createTime: 'created Time'
+    createTime: 'Created Time'
   },
   addArticle: {
     pageTitle: 'Create A New Article',
