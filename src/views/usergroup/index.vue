@@ -22,7 +22,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="exportexcle">  {{ $t('programuser.export') }} </el-button>
+        <el-button v-permission="[63]" type="danger" size="small" @click="exportexcle">{{ $t('programuser.export') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/miniUserList" :request-params="queryParams" show-index>
         <el-table-column :label="$t('programuser.username')" prop="name" />
@@ -51,8 +51,7 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
     // 搜索
     submit() {

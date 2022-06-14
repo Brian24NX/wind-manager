@@ -22,7 +22,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="handleAdd">  {{ $t('label.add') }} </el-button>
+        <el-button v-permission="[68]" type="danger" size="small" @click="handleAdd">{{ $t('label.add') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
         <el-table-column :label="$t('label.labelname')" prop="name" />
@@ -30,13 +30,13 @@
         <el-table-column :label="$t('label.companycategory')" prop="companys" align="center" />
         <el-table-column align="center" :label="$t('label.usersnumber')" prop="userCount">
           <template scope="scope">
-            <el-button size="small" type="text" @click="viewuser(scope.row.id)">{{ $t('label.viewuser') }}({{ scope.row.userCount }})</el-button>
+            <el-button v-permission="[65]" size="small" type="text" @click="viewuser(scope.row.id)">{{ $t('label.viewuser') }}({{ scope.row.userCount }})</el-button>
           </template>
         </el-table-column>
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
-            <el-button size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
-            <el-button size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
+            <el-button v-permission="[66]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-permission="[67]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
       </Pagination>
@@ -48,7 +48,15 @@
           <el-input v-model="addform.name" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('label.description')" :label-width="formLabelWidth" prop="description">
-          <el-input v-model="addform.description" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.description = $event.target.value.trim()" />
+          <el-input
+            v-model="addform.description"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            autocomplete="off"
+            clearable
+            :placeholder="$t('general.input')"
+            @blur="addform.description = $event.target.value.trim()"
+          />
         </el-form-item>
         <el-form-item v-if="isEdit" :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyId">
           <el-select v-model="addform.companyList" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
@@ -154,11 +162,10 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await labelDelete(id)
+        this.$refs.pagination.pageRequest()
       })
-        .then(async() => {
-          await labelDelete(id)
-          this.$refs.pagination.pageRequest()
-        })
     },
     // 提交表单
     submitlabel(formName) {
@@ -173,7 +180,7 @@ export default {
           this.adddialog = false
           this.$refs.pagination.refreshRequest()
         } else {
-          this.addform.companyList.forEach(item => {
+          this.addform.companyList.forEach((item) => {
             const data = { companyId: Number(item) }
             this.stagedata.push(data)
           })
@@ -220,7 +227,7 @@ export default {
       this.addform.id = labelres.data.id
       this.addform.name = labelres.data.name
       this.addform.description = labelres.data.description
-      labelres.data.companyList.forEach(item => {
+      labelres.data.companyList.forEach((item) => {
         this.stagedata.push(item.companyId)
       })
       this.addform.companyList = this.stagedata
@@ -259,16 +266,15 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        const data = {
+          companyId: Number(row.companyId),
+          labelId: this.currentId
+        }
+        await labelUserDelete(data)
+        this.searchUser()
+        this.$refs.pagination.pageRequest()
       })
-        .then(async() => {
-          const data = {
-            companyId: Number(row.companyId),
-            labelId: this.currentId
-          }
-          await labelUserDelete(data)
-          this.searchUser()
-          this.$refs.pagination.pageRequest()
-        })
     }
   }
 }

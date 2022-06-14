@@ -28,7 +28,7 @@
             </el-col>
             <el-col :span="4">
               <el-row type="flex" justify="end">
-                <el-button type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+                <el-button v-permission="[74]" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
               </el-row>
             </el-col>
           </el-row>
