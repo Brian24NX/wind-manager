@@ -156,7 +156,7 @@ export default {
       detailForm: {},
       relationsform: {
         id: '',
-        relatedquestion: ''
+        faqRelations: []
       },
       isSelect: false,
       isAdd: false,
@@ -186,6 +186,14 @@ export default {
           this.$refs.editor.setContent('')
         }, 300)
         this.submitLoading = false
+      }
+    },
+    relationsdialog(newValue) {
+      if (!newValue) {
+        this.relationsform = {
+          id: '',
+          faqRelations: []
+        }
       }
     }
   },
@@ -313,8 +321,11 @@ export default {
     },
     // 编辑关联问题
     editrelations(row) {
-      this.relationsform = JSON.parse(JSON.stringify(row))
-      this.relationsform.faqRelations = this.relationsform.faqRelations ? this.relationsform.faqRelations.split(',').map(Number) : []
+      const relationsform = JSON.parse(JSON.stringify(row))
+      this.relationsform = {
+        id: relationsform.id,
+        faqRelations: relationsform.faqRelations ? relationsform.faqRelations.split(',').map(Number) : []
+      }
       this.relationsdialog = true
     },
     // 编辑并修改问题
@@ -329,7 +340,6 @@ export default {
           await faqEditRelations(data)
           this.$refs.pagination.pageRequest()
           this.getFaqLists()
-          this.relationsform = {}
           this.relationsdialog = false
         } else {
           return false
@@ -338,7 +348,6 @@ export default {
     },
     // 去掉提交relations
     Canclerelations() {
-      this.relationsform = {}
       this.relationsdialog = false
     },
     // 下载文件
