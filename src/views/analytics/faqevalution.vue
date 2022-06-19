@@ -115,8 +115,6 @@ export default {
   components: {},
   data() {
     return {
-      id: 'chart1',
-      class: 'chart1',
       queryParams: { faqId: '', timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
       faqLists: [],
       timeOptionRange: '',
@@ -145,13 +143,6 @@ export default {
       },
       formLabelWidth1: '100px',
       downloaddialog: false,
-      LineList: [
-        { UserScore: 1500, Name: '2022-04-08' },
-        { UserScore: 1300, Name: '2022-04-09' },
-        { UserScore: 1500, Name: '2022-04-10' },
-        { UserScore: 1800, Name: '2022-04-11' },
-        { UserScore: 2000, Name: '2022-04-12' }
-      ],
       downloadform: {
         timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 364).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       },
@@ -182,7 +173,7 @@ export default {
           return time.getTime() < timeOptionRange.getTime() || time.getTime() >= timeOptionRange.getTime() + secondNum
         }
       },
-      total: '',
+      total: 0,
       likes: 0,
       dislikes: 0,
       xData: [], // 横坐标
@@ -229,20 +220,13 @@ export default {
       }
       faqEvaList(data).then((res) => {
         this.totalList = res.data
-      })
-      setTimeout(() => {
         this.initEcharts()
-        this.initDate() // 数据初始化
-        this.initPieEcharts()
-      }, 1000)
+      })
     },
     initTotal() {
-      const data = {
-        startDate: this.queryParams.timeList[0],
-        endDate: this.queryParams.timeList[1]
-      }
-      faqEvaTotal(data).then((res) => {
+      faqEvaTotal().then((res) => {
         this.total = res.data
+        this.initPieEcharts()
       })
     },
     // 初始化多列柱状图
@@ -270,12 +254,14 @@ export default {
           x: 'right',
           y: 'center'
         },
-        yAxis: {},
+        yAxis: {
+          interval: 1
+        },
         series: [
           {
             type: 'bar', // 形状为柱状图
             data: this.yData,
-            barWidth: '20%',
+            barWidth: '25px',
             name: '赞', // legend属性
             label: {
               // 柱状图上方文本标签，默认展示数值信息
@@ -286,7 +272,7 @@ export default {
           {
             type: 'bar', // 形状为柱状图
             data: this.taskDate,
-            barWidth: '20%',
+            barWidth: '25px',
             name: '踩', // legend属性
             label: {
               // 柱状图上方文本标签，默认展示数值信息
@@ -304,31 +290,41 @@ export default {
       })
     },
     // 初始化饼图数据
-    initDate() {
-      for (let i = 0; i < this.pieData.length; i++) {
-        this.pieName[i] = this.pieData[i].name
-      }
-    },
+    // initDate() {
+    //   for (let i = 0; i < this.pieData.length; i++) {
+    //     this.pieName[i] = this.pieData[i].name
+    //   }
+    // },
     initPieEcharts() {
-      var _res = this.totalList
-      this.yData = _res.map((item) => {
-        return item.likes
-      })
-      this.taskDate = _res.map((item) => {
-        return item.dislikes
-      })
-      // 求和
-      this.pieData[0].value = this.pieData[1].value = 0
-      var sum0 = 0
-      for (let i = 0; i < this.yData.length; i++) {
-        const b = this.yData[i]
-        this.pieData[0].value += sum0 + b
-      }
-      var sum = 0
-      for (let i = 0; i < this.taskDate.length; i++) {
-        const b = this.taskDate[i]
-        this.pieData[1].value += sum + b
-      }
+      // var _res = this.totalList
+      // this.yData = _res.map((item) => {
+      //   return item.likes
+      // })
+      // this.taskDate = _res.map((item) => {
+      //   return item.dislikes
+      // })
+      // // 求和
+      // this.pieData[0].value = this.pieData[1].value = 0
+      // var sum0 = 0
+      // for (let i = 0; i < this.yData.length; i++) {
+      //   const b = this.yData[i]
+      //   this.pieData[0].value += sum0 + b
+      // }
+      // var sum = 0
+      // for (let i = 0; i < this.taskDate.length; i++) {
+      //   const b = this.taskDate[i]
+      //   this.pieData[1].value += sum + b
+      // }
+      this.pieData = [
+        {
+          value: this.total.likes,
+          name: '赞'
+        },
+        {
+          value: this.total.dislikes,
+          name: '踩'
+        }
+      ]
       // 饼图
       const option = {
         tooltip: {

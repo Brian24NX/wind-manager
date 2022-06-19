@@ -195,7 +195,9 @@ export default {
           xAxis: {
             data: this.xData
           },
-          yAxis: {},
+          yAxis: {
+            minInterval: 1
+          },
           series: [
             {
               data: this.yData,

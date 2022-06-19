@@ -435,7 +435,7 @@ export default {
               {
                 type: 'bar', // 形状为柱状图
                 data: this.yData,
-                barWidth: '20%',
+                barWidth: '25px',
                 itemStyle: {
                   color: '#04246A'
                 }
