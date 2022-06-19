@@ -6,12 +6,12 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryId" :placeholder="$t('business.category')" clearable filterable style="width: 100%">
+              <el-select v-model="queryParams.categoryId" :placeholder="$t('business.category')" clearable filterable style="width: 100%" @clear="search" @change="search">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('business.title')" clearable />
+              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('business.title')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>

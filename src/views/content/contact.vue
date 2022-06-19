@@ -6,12 +6,12 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.office" :placeholder="$t('contact.region')" clearable filterable style="width: 100%">
+              <el-select v-model="queryParams.office" :placeholder="$t('contact.region')" clearable filterable style="width: 100%" @clear="search" @change="search">
                 <el-option v-for="item in officeList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-select v-model="queryParams.trade" :placeholder="$t('contact.trade')" clearable filterable style="width: 100%">
+              <el-select v-model="queryParams.trade" :placeholder="$t('contact.trade')" clearable filterable style="width: 100%" @clear="search" @change="search">
                 <el-option v-for="item in tradeList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>

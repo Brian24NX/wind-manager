@@ -6,10 +6,10 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('sanctions.keyword')" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('sanctions.keyword')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" :placeholder="$t('sanctions.referencenumber')" clearable />
+              <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" :placeholder="$t('sanctions.referencenumber')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>

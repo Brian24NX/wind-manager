@@ -5,7 +5,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('vas.title')" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('vas.title')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>

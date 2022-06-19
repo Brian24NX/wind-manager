@@ -5,12 +5,12 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable filterable :placeholder="$t('article.category')">
+              <el-select v-model="queryParams.categoryIds" size="small" style="width: 100%" clearable filterable :placeholder="$t('article.category')" @change="submit" @clear="submit">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('article.title')" clearable />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('article.title')" clearable @clear="submit" @keyup.enter.native="submit" />
             </el-col>
           </el-row>
         </el-col>

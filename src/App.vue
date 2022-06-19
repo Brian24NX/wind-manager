@@ -64,4 +64,8 @@ body {
 .el-form-item__label {
   word-break: break-word;
 }
+
+.el-icon-search {
+  cursor: pointer;
+}
 </style>

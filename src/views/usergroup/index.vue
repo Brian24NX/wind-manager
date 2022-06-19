@@ -5,16 +5,16 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.company" size="small" style="width: 100%" :placeholder="$t('programuser.company')" clearable />
+              <el-input v-model="queryParams.company" size="small" style="width: 100%" :placeholder="$t('programuser.company')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
             <el-col :span="8">
-              <el-input v-model="queryParams.name" size="small" style="width: 100%" :placeholder="$t('programuser.username')" clearable />
+              <el-input v-model="queryParams.name" size="small" style="width: 100%" :placeholder="$t('programuser.username')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-button type="danger" size="small" @click="submit">{{ $t('message.search') }}</el-button>
+            <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
           </el-row>
         </el-col>
@@ -54,7 +54,7 @@ export default {
   created() {},
   methods: {
     // 搜索
-    submit() {
+    search() {
       this.$refs.pagination.refreshRequest()
     },
     // 重置
