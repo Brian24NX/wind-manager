@@ -3,8 +3,8 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.usertpye" placeholder="请选择" :clearable="false" filterable style="width: 100%">
-            <el-option v-for="item in userTypeList" :key="item.value" :label="item.label" :value="item.value" @change="changeType" />
+          <el-select v-model="queryParams.faqId" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="search">
+            <el-option v-for="item in faqLists" :key="item.value" :label="item.question" :value="item.id" />
           </el-select>
         </el-col>
         <el-col :span="8">
@@ -28,7 +28,7 @@
             </el-col>
             <el-col :span="4">
               <el-row type="flex" justify="end">
-                <el-button v-permission="[74]" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
+                <el-button v-permission="[74]" type="danger" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
               </el-row>
             </el-col>
           </el-row>
@@ -109,6 +109,7 @@
 <script>
 import * as echarts from 'echarts'
 import { faqEvaList, faqEvaTotal, faqEvaExport } from '@/api/faqeva.js'
+import { faqList } from '@/api/faq'
 export default {
   name: 'Faqevalution',
   components: {},
@@ -116,12 +117,8 @@ export default {
     return {
       id: 'chart1',
       class: 'chart1',
-      queryParams: { usertpye: 2, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
-      userTypeList: [
-        { value: 1, label: 'Last Edit Time' },
-        { value: 2, label: 'Choose a FAQ' },
-        { value: 3, label: 'Published Time' }
-      ],
+      queryParams: { faqId: '', timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
+      faqLists: [],
       timeOptionRange: '',
       pickerOptions: {
         onPick: (time) => {
@@ -188,9 +185,9 @@ export default {
       total: '',
       likes: 0,
       dislikes: 0,
-      xData: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // 横坐标
-      yData: [23, 24, 18, 25, 27, 28, 25], // 点赞数据
-      taskDate: [10, 11, 9, 17, 14, 13, 14],
+      xData: [], // 横坐标
+      yData: [], // 点赞数据
+      taskDate: [],
       myChartStyle: { width: '100%', height: '300px' }, // 图表样式
       pieData: [
         {
@@ -207,14 +204,26 @@ export default {
       myPieChartStyle: { width: '100%', height: '280px' } // 图表样式
     }
   },
-  created() {},
+  created() {
+    this.getFaqLists()
+  },
   mounted() {
     this.init()
     this.initTotal()
   },
   methods: {
+    getFaqLists() {
+      faqList({
+        pageNum: 1,
+        pageSize: 9999,
+        keyWord: ''
+      }).then(res => {
+        this.faqLists = res.data.list
+      })
+    },
     init() {
       const data = {
+        faqId: this.queryParams.faqId,
         startDate: this.queryParams.timeList[0],
         endDate: this.queryParams.timeList[1]
       }
@@ -363,12 +372,6 @@ export default {
         myChart2.resize()
       })
     },
-    changeType() {
-      this.search()
-      this.downloadform = {
-        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
-      }
-    },
     search() {
       this.init()
     },
@@ -378,6 +381,7 @@ export default {
           // 提交下载
           console.log(this.downloadform.timeList, 5464)
           const data = {
+            faqId: this.queryParams.faqId,
             startDate: this.downloadform.timeList[0],
             endDate: this.downloadform.timeList[1]
           }

@@ -1,5 +1,3 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-unused-vars */
 <template>
   <div class="passwordcontainer">
     <div class="passwordheader">
@@ -8,32 +6,24 @@
     </div>
     <hr>
     <div class="passwordcontent">
-      <h1> {{ $t('forgetForm.forgotpassword') }}</h1>
+      <div class="forgetTitle">{{ $t('forgetForm.forgotpassword') }}</div>
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
-            <h2>{{ $t('forgetForm.identi') }}</h2>
-            <p>
-              <span>{{ $t('forgetForm.tip') }}</span><br>
-              <span>{{ $t('forgetForm.tips') }}</span>
-            </p>
+            <div class="titles">{{ $t('forgetForm.identi') }}</div>
+            <div style="font-size: 12px; margin-bottom: 20px">
+              <div style="margin-bottom: 5px">{{ $t('forgetForm.tip') }}</div>
+              <div>{{ $t('forgetForm.tips') }}</div>
+            </div>
             <el-form ref="forgetForm" :model="forgetForm" :rules="forgetRules" class="login-form" autocomplete="on" label-position="left">
-              <el-form-item prop="email">
-                <el-input
-                  ref="email"
-                  v-model="forgetForm.email"
-                  type="text"
-                  :placeholder="$t('forgetForm.email')"
-                  name="email"
-                  tabindex="2"
-                  autocomplete="on"
-                />
+              <el-form-item prop="email" :label="$t('forgetForm.email')">
+                <el-input ref="email" v-model="forgetForm.email" size="small" style="width: 250px" type="text" :placeholder="$t('forgetForm.email')" name="email" tabindex="2" autocomplete="on" />
               </el-form-item>
             </el-form>
           </div>
           <hr class="contentSeparqtor">
           <div class="rightcontent">
-            <h2>{{ $t('forgetForm.safe') }}</h2>
+            <div class="titles">{{ $t('forgetForm.safe') }}</div>
             <ul class="checklist">
               <li>
                 <i class="icon left" aria-hidden="true">✅</i>
@@ -51,13 +41,15 @@
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
-          <el-button plain @click="submit('forgetForm')">{{ $t('forgetForm.sendcode') }}</el-button>
+          <el-button type="info" size="small" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
+          <el-button type="primary" size="small" @click="submit('forgetForm')">{{ $t('forgetForm.sendcode') }}</el-button>
         </div>
       </div>
     </div>
     <div class="passwordfooter">
-      <p class="inner">© 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span></p>
+      <p class="inner">
+        © 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span>
+      </p>
     </div>
   </div>
 </template>
@@ -86,7 +78,10 @@ export default {
       },
       src: logo,
       forgetRules: {
-        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }]
+        email: [
+          { required: true, message: this.$t('forgetForm.emailrequired') },
+          { validator: checkemail, trigger: blur }
+        ]
       }
     }
   },
@@ -116,26 +111,36 @@ export default {
   }
 }
 </script>
-<style scoped>
-.set-language{
-  float:right;
+<style lang="scss" scoped>
+.set-language {
+  float: right;
 }
 .passwordcontainer {
   min-height: 100%;
-  width: 1200px;
+  width: 1180px;
   margin: 0 auto;
   overflow: hidden;
 }
 .passwordheader {
-  margin-top: 20px;
+  margin: 20px 0 10px;
+
   image {
     width: 79px;
     height: 48px;
   }
 }
+
+.forgetTitle {
+  font-size: 28px;
+  font-weight: 400;
+  margin: 12px 0;
+  color: #184894;
+}
+
 .passwordfooter {
   margin-top: 70px;
   color: #656565;
+  font-size: 12px;
 }
 .inner {
   padding: 8px 0 20px;
@@ -156,63 +161,70 @@ export default {
   background: #f5f5f5 none repeat scroll 0 0;
   padding: 15px;
 }
-.leftcontent{
-  display:table-cell;
-  padding-left:25px;
-  padding-bottom:10px;
-  border-right:1px solid #dfdfdf;
-  width:463px;
-  padding-top:10px;
-}
-.rightcontent{
-   display:table-cell;
-   width:606px;
-   padding-left:20px;
-}
-.contentSeparqtor{
-  display:none;
-}
-hr{
-  top:10px;
-  margin:auto;
-  clear:both;
-  height:1px;
-  padding:0;
-  border:0;
-  color:#cecece;
-  background-color:#cecece;
-  line-height:1;
-}
-h2{
-  font-size:1.818em;
-  font-weight:normal;
-}
-.checklist{
-   padding-left:0;
-}
-i{
-  font-style:normal;
-}
-ul{
-  list-style:none;
-}
-.checklist li{
-  margin-top:7px;
-  line-height:1.5;
-}
-.checklist .icon{
-  width:15px;
-  margin-right:5px;
-  position:relative;
-  font-size:0.8em;
-  color:#000;
-}
-.icon{
-  font-family:'MustIcons';
+.leftcontent {
+  display: table-cell;
+  padding-left: 25px;
+  padding-bottom: 10px;
+  border-right: 1px solid #dfdfdf;
+  width: 463px;
+  color: #111111;
 }
 
-.login-form{
-  width:360px;
+.titles {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 15px 0;
+}
+.rightcontent {
+  display: table-cell;
+  width: 606px;
+  padding-left: 20px;
+}
+.contentSeparqtor {
+  display: none;
+}
+hr {
+  top: 10px;
+  margin: auto;
+  clear: both;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  color: #cecece;
+  background-color: #cecece;
+  line-height: 1;
+}
+h2 {
+  font-size: 1.818em;
+  font-weight: normal;
+}
+.checklist {
+  padding-left: 0;
+  font-size: 12px;
+}
+i {
+  font-style: normal;
+}
+ul {
+  list-style: none;
+}
+.checklist li {
+  margin-top: 7px;
+  line-height: 1.5;
+}
+.checklist .icon {
+  width: 15px;
+  margin-right: 5px;
+  position: relative;
+  font-size: 12px;
+  color: #000;
+}
+.icon {
+  font-family: 'MustIcons';
+}
+
+.login-form {
+  width: 360px;
 }
 </style>
 <style lang="scss" scoped>

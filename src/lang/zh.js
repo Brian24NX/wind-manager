@@ -11,9 +11,9 @@ export default {
   // 路由翻译
   route: {
     dashboard: '首页',
-    permission: '角色和权限管理',
+    permission: '角色与权限管理',
     userManagement: '用户管理',
-    rolePermission: '角色和权限管理',
+    rolePermission: '角色与权限管理',
     contentManager: '内容管理',
     articleManager: '文章管理',
     createArticle: '创建文章',
@@ -45,13 +45,13 @@ export default {
   },
   // 忘记密码页面翻译
   forgetForm: {
-    email: '邮箱',
+    email: '电子邮箱',
     forgotpassword: '忘记密码',
     identi: '验证',
     tip: '忘记密码了?',
     tips: '请填写邮件以获得您新的密码',
     safe: '安全',
-    safedetailone: '填写您的邮箱地址并点击"收到验证安全码"',
+    safedetailone: '填写您的邮箱地址并点击"收到验证安全码"。',
     safedetailtwo: '为了保护您的账号安全，我们将会发送验证码至您的邮箱中。',
     safedetailthree: '在此页填入验证码并重设您的新密码。',
     sendcode: '发送验证码',
@@ -181,8 +181,8 @@ export default {
   // 管制品
   sanctions: {
     keyword: '商品名称',
-    commodityzh: '商品(中文)',
-    commodityen: '商品(英文)',
+    commodityzh: '商品（中文）',
+    commodityen: '商品（英文）',
     referencenumber: '编码',
     remarkszh: '中文备注',
     remarksen: '英文备注',
@@ -353,7 +353,7 @@ export default {
     emailtips: '邮箱必填',
     idtips: '角色必选',
     passwordtips: '密码必填',
-    functips: '角色和部门必填',
+    functips: '角色与部门必填',
     permissiontips: '权限必填'
   },
   // 富文本
