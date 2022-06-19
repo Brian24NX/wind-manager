@@ -138,7 +138,7 @@ export default {
     createTime: '创建时间'
   },
   addArticle: {
-    pageTitle: '添加新推文',
+    pageTitle: '添加新文章',
     title: '标题',
     creator: '作者',
     forntCover: '封面图',
