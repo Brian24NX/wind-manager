@@ -10,7 +10,7 @@ export default {
   },
   // 路由翻译
   route: {
-    dashboard: 'Dashboard',
+    dashboard: 'HomePage',
     permission: 'Role and Permission Management',
     rolePermission: 'Role and Permission',
     userManagement: 'User Management',
