@@ -6,7 +6,7 @@
     </div>
     <hr>
     <div class="passwordcontent">
-      <h1>{{ $t('forgetForm.forgotpassword') }}</h1>
+      <h1 class="forgetTitle">{{ $t('forgetForm.forgotpassword') }}</h1>
       <div class="content">
         <div class="clearleft">
           <div class="leftcontent">
@@ -159,6 +159,14 @@ export default {
   margin: 0 auto;
   overflow: hidden;
 }
+
+.forgetTitle {
+  font-size: 28px;
+  font-weight: 400;
+  margin: 12px 0;
+  color: #184894;
+}
+
 .passwordheader {
   margin-top: 20px;
   image {
