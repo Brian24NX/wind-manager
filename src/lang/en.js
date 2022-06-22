@@ -39,6 +39,7 @@ export default {
     github: 'Github',
     logOut: 'Log Out',
     profile: 'Profile',
+    changePass: 'Change Pass',
     theme: 'Theme',
     size: 'Global Size',
     delcatetitle: 'Please confirm if you want to delete this category?'
@@ -58,22 +59,26 @@ export default {
     cancel: 'Cancel',
     require: 'All fields must be filled in.',
     requiresix: 'Please enter at least 6 characters.',
-    requirerule: 'Password should contain at least 1 number, 1 capital letter and 1 lower case letter.',
+    requirerule: 'The password must contain at least 6 to 20 characters including one digit, one uppercase letter, and one lowercase letter',
     verifycode: 'Validation Code',
+    oldPass: 'Old Password',
     password: 'New Password',
-    confirmpassword: 'New Password Confirmation',
+    confirmpassword: 'Confirm Password',
     resetpasssuccess: 'Password reset successful',
     verifyerror: 'Validation code error',
     passwordconsistent: 'The password entered twice does not match',
     terms: 'Legal Terms',
     yes: 'Yes',
     emailtips: 'email is Incorrect',
+    oldPasswordtips: 'old password is required',
+    newPasswordtips: 'new password is required',
     passwordtips: 'password is required',
     confirmpasswordtips: 'confirmpassword is required',
     verifycodetips: 'verifycode is required',
     emailrequired: 'email is required',
     namerequired: 'name is required',
-    functionrequired: 'function is required'
+    functionrequired: 'function is required',
+    changeTitle: 'Change Password'
   },
   // 登陆页面翻译
   login: {

@@ -149,7 +149,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .set-language {
   float: right;
 }

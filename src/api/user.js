@@ -41,6 +41,14 @@ export function resetPwd(data) {
     data
   })
 }
+// 远端修改密码
+export function changePwd(data) {
+  return request({
+    url: '/api/admin/changePwd',
+    method: 'post',
+    data
+  })
+}
 // 远端用户添加
 export function userAdd(data) {
   return request({

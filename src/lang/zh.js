@@ -39,6 +39,7 @@ export default {
     github: '项目地址',
     logOut: '退出登录',
     profile: '个人中心',
+    changePass: '修改密码',
     theme: '换肤',
     size: '布局大小',
     delcatetitle: '是否确认删除该类别？'
@@ -58,7 +59,7 @@ export default {
     cancel: '取消',
     require: '请填写所有信息',
     requiresix: '请填写至少6个字符',
-    requirerule: '密码必须包含至少1个数字，1个大写字母和1个小写字母。',
+    requirerule: '密码必须为包含至少1个数字，1个大写字母和1个小写字母的6~20位。',
     verifycode: '验证码',
     password: '新密码',
     confirmpassword: '确认新密码',
@@ -68,12 +69,16 @@ export default {
     terms: '法律条款',
     yes: '确定',
     emailtips: '邮箱格式不正确',
+    oldPasswordtips: '旧密码不能为空',
     passwordtips: '密码不能为空',
+    newPasswordtips: '新密码不能为空',
     confirmpasswordtips: '确认密码不能为空',
     verifycodetips: '验证码不能为空',
     emailrequired: '邮箱不能为空',
     namerequired: '用户名不能为空',
-    functionrequired: '角色不能为空'
+    functionrequired: '角色不能为空',
+    oldPass: '旧密码',
+    changeTitle: '修改密码'
   },
   // 登陆翻译
   login: {

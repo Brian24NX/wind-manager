@@ -41,7 +41,7 @@
     </div>
     <!--文件上传弹窗-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
-      <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" :data="exportData" accept=".xlsx, .xls">
+      <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
       </el-upload>
@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="id">
           <el-select v-model="addform.id" :placeholder="$t('general.choose')" style="width: 100%">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == roleViewId" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
@@ -84,7 +84,7 @@
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="funid">
           <el-select v-model="editform.funid" placeholder="请选择" style="width: 100%">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == userId" />
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == roleViewId" />
           </el-select>
         </el-form-item>
         <!--<el-form-item>
@@ -150,62 +150,10 @@ export default {
       }
     }
     return {
-      exportData: {
-        roleViewId: JSON.parse(localStorage.getItem('role')).id
-      },
+      roleViewId: JSON.parse(localStorage.getItem('role')).id,
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
       uploadHeaders: { 'Authorization': getToken() },
-      dataList: [
-        {
-          code: 1001,
-          label: '电商',
-          value: 'a001',
-          children: [
-            {
-              code: 1002,
-              label: '淘宝',
-              value: 'a002'
-            },
-            {
-              code: 1003,
-              label: '京东',
-              value: 'a003'
-            },
-            {
-              code: 1004,
-              label: '亚马逊',
-              value: 'a002'
-            }
-          ]
-        },
-        {
-          code: 1005,
-          label: '生活服务',
-          value: 'a005',
-          children: [
-            {
-              code: 1006,
-              label: '美团',
-              value: 'a006'
-            },
-            {
-              code: 1007,
-              label: '大众点评',
-              value: 'a007'
-            },
-            {
-              code: 1008,
-              label: '滴滴',
-              value: 'a008'
-            },
-            {
-              code: 1009,
-              label: '饿了么',
-              value: 'a009'
-            }
-          ]
-        }
-      ],
+      dataList: [],
       queryParams: {
         nameOrFunction: '',
         roleViewId: JSON.parse(localStorage.getItem('role')).id
@@ -262,7 +210,7 @@ export default {
     // 角色名称
     async roleList() {
       const data = {
-        roleViewId: JSON.parse(localStorage.getItem('role')).id
+        roleViewId: this.roleViewId
       }
       const res = await roleDict(data)
       this.options = transroleList(res.data)
