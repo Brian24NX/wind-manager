@@ -41,7 +41,7 @@
     </div>
     <!--文件上传弹窗-->
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
-      <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
+      <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" :data="exportData" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
       </el-upload>
@@ -150,6 +150,9 @@ export default {
       }
     }
     return {
+      exportData: {
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
+      },
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
       uploadHeaders: { 'Authorization': getToken() },
       dataList: [
