@@ -35,7 +35,9 @@
           <div>
             <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
             <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
-            <el-button class="table-cell" icon="el-icon-delete" @click="handleDel(item)" />
+            <el-popconfirm :title="$t('popconfirm.text')" :confirm-button-text="$t('popconfirm.ture')" :cancel-button-text="$t('popconfirm.false')" @onConfirm="handleDel(item)">
+            <el-button style="margin-left: 10px;" icon="el-icon-delete" slot="reference" />
+            </el-popconfirm>
           </div>
           <el-checkbox :label="item.id" @change="changeCheck">
             <span>{{ item.title }}</span>

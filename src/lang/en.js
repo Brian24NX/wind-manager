@@ -431,5 +431,11 @@ export default {
   download: {
     downloadtime: 'data time',
     required: 'time is required'
+  },
+  //确认框
+  popconfirm: {
+    text: 'Do you want to delete this picture ?',
+    ture: 'ture',
+    false: 'cancel'
   }
 }
