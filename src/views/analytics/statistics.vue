@@ -42,7 +42,7 @@
         <div v-show="isshow" class="nodata"><span>暂无数据</span></div>
       </div>
       <div class="total">
-        <span class="total">Total followers:</span><span class="total">{{ total }}</span>
+        <span class="total">Total followers: </span><span class="total">{{ total }}</span>
       </div>
     </div>
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
@@ -79,7 +79,7 @@ export default {
   components: {},
   data() {
     return {
-      queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
+      queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 30).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
       userTypeList: [
         // { value: 8, label: 'Mini-Program Users' },
         // { value: 9, label: 'WeChat Official Account Followers' },
@@ -142,7 +142,7 @@ export default {
         }
       },
       isshow: false,
-      total: '',
+      total: 0,
       myChart: {},
       analysisType: 8,
       xData: [], // 横坐标
@@ -185,23 +185,43 @@ export default {
         if (!res.data.length) {
           this.total = 0
         } else {
-          var sum = 0
           for (let i = 0; i < this.yData.length; i++) {
             const b = this.yData[i]
-            this.total = sum + b
+            this.total += b
           }
         }
         const option = {
           xAxis: {
-            data: this.xData
+            data: this.xData,
+            axisLabel: {
+              interval: 0,
+              rotate: 15
+            }
           },
-          yAxis: {
-            minInterval: 1
+          color: ['#3B76E1'],
+          yAxis: {},
+          // An highlighted block
+          tooltip: {
+            trigger: 'axis'
           },
           series: [
             {
               data: this.yData,
-              type: 'line' // 类型设置为折线图
+              type: 'line', // 类型设置为折线图
+              smooth: true,
+              areaStyle: {
+                opacity: 0.5,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  {
+                    offset: 0,
+                    color: 'rgba(0, 97, 211, 1)'
+                  },
+                  {
+                    offset: 1,
+                    color: 'rgba(254, 244, 242, 0)'
+                  }
+                ])
+              }
             }
           ]
         }

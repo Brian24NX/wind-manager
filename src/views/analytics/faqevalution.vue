@@ -3,7 +3,7 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.faqId" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="search">
+          <el-select v-model="queryParams.faqId" placeholder="请选择" clearable filterable style="width: 100%" @change="search">
             <el-option v-for="item in faqLists" :key="item.value" :label="item.question" :value="item.id" />
           </el-select>
         </el-col>
@@ -115,7 +115,7 @@ export default {
   components: {},
   data() {
     return {
-      queryParams: { faqId: '', timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
+      queryParams: { faqId: '', timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 30).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
       faqLists: [],
       timeOptionRange: '',
       pickerOptions: {
@@ -244,7 +244,14 @@ export default {
       // 多列柱状图
       const mulColumnZZTData = {
         xAxis: {
-          data: this.xData
+          data: this.xData,
+          axisLabel: {
+            interval: 0,
+            rotate: 15
+          }
+        },
+        tooltip: {
+          trigger: 'axis'
         },
         color: ['#E20101', '#071E5D'],
         // 图例
@@ -254,9 +261,7 @@ export default {
           x: 'right',
           y: 'center'
         },
-        yAxis: {
-          interval: 1
-        },
+        yAxis: {},
         series: [
           {
             type: 'bar', // 形状为柱状图

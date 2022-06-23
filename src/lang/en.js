@@ -374,7 +374,7 @@ export default {
   label: {
     add: 'Add A New Label',
     companyname: 'Company Name',
-    companycategory: 'Company Category',
+    companycategory: 'Company',
     description: 'Description',
     usersnumber: 'User',
     labelname: 'Label Name',
@@ -385,7 +385,8 @@ export default {
     labelnametips: 'Label Name is required',
     download: 'Download',
     companys: 'Companys',
-    viewuser: 'Look Company',
+    viewcompany: 'Look Company',
+    viewuser: 'Look Company User',
     deltitle: 'Please confirm if you want to delete this label?',
     delUsertitle: 'Please confirm if you want to delete this company?'
   },

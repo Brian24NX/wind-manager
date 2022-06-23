@@ -383,9 +383,9 @@ export default {
   label: {
     add: '添加新标签',
     companyname: '公司名称',
-    companycategory: '公司种类',
+    companycategory: '公司',
     description: '描述',
-    usersnumber: '用户名',
+    usersnumber: '用户',
     labelname: '标签名称',
     labeldescription: '标签描述',
     companys: '公司',
@@ -394,7 +394,8 @@ export default {
     ecomaccount: '账号',
     labelnametips: '标签名称必填',
     download: '下载',
-    viewuser: '查看公司',
+    viewcompany: '查看公司',
+    viewuser: '查看公司用户',
     deltitle: '是否确认删除该标签？',
     delUsertitle: '是否确认删除该公司？'
   },

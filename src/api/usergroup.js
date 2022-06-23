@@ -39,6 +39,14 @@ export function labelUserList(data) {
     params: data
   })
 }
+// 标签用户获取
+export function labelCompanyList(data) {
+  return request({
+    url: '/api/admin/labelViewCompanyList',
+    method: 'get',
+    params: data
+  })
+}
 // 标签用户导出
 export function labelUserExport(data) {
   return request({

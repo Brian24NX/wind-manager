@@ -1,8 +1,12 @@
 <template>
   <div class="dashboard-container">
-    <el-card body-style="height: calc(100vh - 100px);">
-      <el-image style="width: 100%;height: 100%;" :src="require('@/assets/welcome.png')" fit="contain" />
-    </el-card>
+    <div v-if="show" class="homepageContainer">
+      <el-image style="width: 100%;height: 100%;" :src="require('@/assets/welcome_1.png')" fit="contain" />
+    </div>
+    <div v-else class="homepageContainer2">
+      <el-image style="width: 100%;height: 100%;" :src="require('@/assets/welcome_2.png')" fit="cover" />
+      <el-image class="leftTop" :src="require('@/assets/leftTop.png')" fit="scale-down" />
+    </div>
   </div>
 </template>
 
@@ -13,7 +17,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      currentRole: 'adminDashboard'
+      show: false
     }
   },
   computed: {
@@ -24,3 +28,27 @@ export default {
   created() {}
 }
 </script>
+<style scoped lang="scss">
+.homepageContainer {
+  width: 100%;
+  height: calc(100vh - 90px);
+  background: url(../../assets/welcome.png) no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.homepageContainer2 {
+  width: 100%;
+  height: calc(100vh - 90px);
+  position: relative;
+
+  .leftTop {
+    width: 500px;
+    height: 250px;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    z-index: 10;
+  }
+}
+</style>

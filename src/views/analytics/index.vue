@@ -276,7 +276,7 @@ export default {
       ],
       queryParams: {
         analysisType: 6,
-        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 15).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')],
+        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 30).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')],
         endDate: '',
         startDate: ''
       },
@@ -428,7 +428,20 @@ export default {
               text: 'Most Frequently Searched Routes'
             },
             xAxis: {
-              data: this.xData
+              data: this.xData,
+              axisLabel: {
+                interval: 0,
+                rotate: 15
+              }
+            },
+            tooltip: {
+              trigger: 'axis'
+              // axisPointer: {
+              //   type: 'cross',
+              //   label: {
+              //     backgroundColor: '#6a7985'
+              //   }
+              // }
             },
             yAxis: {},
             series: [
