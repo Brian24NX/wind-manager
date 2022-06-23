@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" @change="changesearch">
+            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" clearable @change="changesearch">
               <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
             <el-button type="danger" size="small" @click="uploaddialog = true">{{ $t('library.upload') }}</el-button>
@@ -254,11 +254,11 @@ export default {
       this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
       materialChange(this.editcateform)
       this.editcategorydialog = false
-      setTimeout(() => {      
+      setTimeout(() => {    
         this.editcateform.id = []
         this.editcateform.categoryId = ''
         this.checkedList = []
-      }, 1000);
+      }, 200)
       this.getlist()
     },
     // 获取种类列表
