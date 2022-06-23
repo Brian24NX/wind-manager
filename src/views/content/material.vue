@@ -241,7 +241,8 @@ export default {
     async savename() {
       const data = {
         id: this.editform.id,
-        name: this.editform.title
+        name: this.editform.title,
+        userId: JSON.parse(localStorage.getItem('userInfo')).id
       }
       await materialRename(data)
       this.editdialog = false
@@ -253,9 +254,11 @@ export default {
       this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
       materialChange(this.editcateform)
       this.editcategorydialog = false
-      this.editcateform.id = []
-      this.editcateform.categoryId = ''
-      this.checkedList = []
+      setTimeout(() => {      
+        this.editcateform.id = []
+        this.editcateform.categoryId = ''
+        this.checkedList = []
+      }, 1000);
       this.getlist()
     },
     // 获取种类列表
