@@ -3,7 +3,7 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.usertpye" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="changeType">
+          <el-select v-model="queryParams.analysisType" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="changeType">
             <el-option v-for="item in userTypeList" :key="item.value" :label="item.value" :value="item.key" />
           </el-select>
         </el-col>
@@ -42,7 +42,7 @@
         <div v-show="isshow" class="nodata"><span>暂无数据</span></div>
       </div>
       <div class="total">
-        <span class="total">Total followers: </span><span class="total">{{ total }}</span>
+        <span class="total">{{queryParams.analysisType === 10 ? 'Total visits:' : 'Total followers:'}}</span><span class="total">{{ total }}</span>
       </div>
     </div>
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
@@ -79,7 +79,7 @@ export default {
   components: {},
   data() {
     return {
-      queryParams: { usertpye: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 30).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
+      queryParams: { analysisType: 8, timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 30).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')] },
       userTypeList: [
         // { value: 8, label: 'Mini-Program Users' },
         // { value: 9, label: 'WeChat Official Account Followers' },
@@ -182,13 +182,10 @@ export default {
         this.xData = res.data.map((item) => {
           return item.analyDate
         })
-        if (!res.data.length) {
-          this.total = 0
-        } else {
-          for (let i = 0; i < this.yData.length; i++) {
-            const b = this.yData[i]
-            this.total += b
-          }
+        this.total = 0
+        for (let i = 0; i < this.yData.length; i++) {
+          const b = this.yData[i]
+          this.total += b
         }
         const option = {
           xAxis: {
