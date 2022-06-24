@@ -279,7 +279,6 @@ export default {
     },
     // 删除数据
     handleDel(id) {
-      console.log(id)
       this.$confirm(this.$t('faq.deltitle'), this.$t('message.delete'), {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),

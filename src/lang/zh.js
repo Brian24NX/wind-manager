@@ -442,7 +442,7 @@ export default {
     downloadtime: '数据时间',
     required: '时间必须选择'
   },
-  //确认框
+  // 确认框
   popconfirm: {
     text: '是否要删除此图片？',
     ture: '确认',

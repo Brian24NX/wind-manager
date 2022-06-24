@@ -35,9 +35,7 @@
           <div>
             <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
             <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
-            <el-popconfirm :title="$t('popconfirm.text')" :confirm-button-text="$t('popconfirm.ture')" :cancel-button-text="$t('popconfirm.false')" @onConfirm="handleDel(item)">
-            <el-button style="margin-left: 10px;" icon="el-icon-delete" slot="reference" />
-            </el-popconfirm>
+            <el-button style="margin-left: 10px;" icon="el-icon-delete" @click="handleDel(item)" />
           </div>
           <el-checkbox :label="item.id" @change="changeCheck">
             <span>{{ item.title }}</span>
@@ -205,8 +203,15 @@ export default {
     },
     // 全部清空
     async handleDelAll() {
-      materialDelete(this.checkedList)
-      this.getlist()
+      this.$confirm(this.$t('popconfirm.text'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          await materialDelete(this.checkedList)
+          this.getlist()
+        })
     },
     // 全选定义
     changeall() {
@@ -236,7 +241,7 @@ export default {
     },
     // 处理编辑
     handleEdit(row) {
-      this.editform = row
+      this.editform = JSON.parse(JSON.stringify(row))
       this.editdialog = true
     },
     // 修改名称
@@ -256,7 +261,7 @@ export default {
       this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
       materialChange(this.editcateform)
       this.editcategorydialog = false
-      setTimeout(() => {    
+      setTimeout(() => {
         this.editcateform.id = []
         this.editcateform.categoryId = ''
         this.checkedList = []
@@ -346,11 +351,18 @@ export default {
         })
     },
     // 删除资源库文件
-    async handleDel(row) {
-      const list = []
-      list.push(row.id)
-      await materialDelete(list)
-      this.getlist()
+    handleDel(row) {
+      this.$confirm(this.$t('popconfirm.text'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      })
+        .then(async() => {
+          const list = []
+          list.push(row.id)
+          await materialDelete(list)
+          this.getlist()
+        })
     },
     handPreview() {},
     handRemove() {},
