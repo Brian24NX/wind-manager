@@ -22,7 +22,7 @@ export default {
     faqManagement: 'FAQ管理',
     contactInformation: '联系信息',
     businessOperationalUpdate: '服务信息',
-    usefulTemplateAndLink: '模版链接',
+    usefulTemplateAndLink: '模版与链接',
     sanctionsAndCommodityList: '管制品',
     materialLibrary: '素材库',
     usergroup: '用户与用户组',

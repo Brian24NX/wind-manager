@@ -77,7 +77,7 @@ const articleRouter = {
   {
     path: '/userful',
     component: () => import('@/views/content/userful'),
-    name: 'Useful Template and Link',
+    name: 'Template and Link',
     meta: {
       title: 'usefulTemplateAndLink'
     }
