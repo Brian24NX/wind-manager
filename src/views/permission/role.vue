@@ -53,18 +53,18 @@
     <!--新增弹窗-->
     <el-dialog :title="$t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
+        <el-form-item :label="$t('userrole.name')" prop="name">
           <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
+        <el-form-item :label="$t('userrole.email')" prop="email">
           <el-input v-model="addform.email" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.email = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="id">
+        <el-form-item :label="$t('userrole.function')" prop="id">
           <el-select v-model="addform.id" :placeholder="$t('general.choose')" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == roleViewId" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
+        <el-form-item :label="$t('login.password')" prop="password">
           <el-input v-model="addform.password" type="password" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
@@ -76,13 +76,13 @@
     <!--查看和编辑角色-->
     <el-dialog :title="$t('userrole.viewedit')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="editform" :model="editform" :rules="editrules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
+        <el-form-item :label="$t('userrole.name')" prop="name">
           <el-input v-model="editform.name" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
+        <el-form-item :label="$t('userrole.email')" prop="email">
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="funid">
+        <el-form-item :label="$t('userrole.function')" prop="funid">
           <el-select v-model="editform.funid" placeholder="请选择" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="item.value == roleViewId" />
           </el-select>
@@ -99,13 +99,13 @@
     <!--新增定制化权限-->
     <el-dialog :title="$t('userrole.editpremission')" :visible.sync="premissiondialog" center>
       <el-form ref="premissionform" :model="premissionform">
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth" prop="function">
+        <el-form-item :label="$t('userrole.function')" prop="function">
           <el-input v-model="premissionform.function" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.description')" :label-width="formLabelWidth" prop="description">
+        <el-form-item :label="$t('userrole.description')" prop="description">
           <el-input v-model="premissionform.description" type="textarea" :row="2" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('userrole.permission')" :label-width="formLabelWidth" prop="permission">
+        <el-form-item :label="$t('userrole.permission')" prop="permission">
           <multi-check-list :data-list="dataList" :default-checked-keys="premissionform.permission" :invert="false" :is-check-all="false" @change="handlerDataCheck" />
         </el-form-item>
       </el-form>
@@ -180,8 +180,6 @@ export default {
       importdialog: false,
       editdialog: false,
       premissiondialog: false,
-      formLabelWidth: '130px',
-      formLabelWidth1: '100px',
       rules: {
         name: { required: true, message: this.$t('forgetForm.namerequired') },
         email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],

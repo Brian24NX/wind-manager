@@ -67,14 +67,14 @@
     </el-dialog>
     <!--新增角色和权限-->
     <el-dialog :title="premissionform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="1000px" top="20px">
-      <el-form ref="premissionform" :model="premissionform" :rules="premissionrules">
-        <el-form-item :label="$t('userrole.function')" label-width="100px" prop="funct">
+      <el-form ref="premissionform" :model="premissionform" label-position="top" :rules="premissionrules">
+        <el-form-item :label="$t('userrole.function')" prop="funct">
           <el-input v-model="premissionform.funct" :disabled="isEdit" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="premissionform.funct = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.description')" label-width="100px" prop="descri">
+        <el-form-item :label="$t('userrole.description')" prop="descri">
           <el-input v-model="premissionform.descri" type="textarea" :row="2" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="premissionform.descri = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.permission')" label-width="100px" prop="menuButtons">
+        <el-form-item :label="$t('userrole.permission')" prop="menuButtons">
           <multi-check-list ref="multiCheckList" :data-list="dataList" :default-checked-keys="menuButtons" :invert="false" :is-check-all="false" />
         </el-form-item>
       </el-form>
@@ -85,19 +85,19 @@
     </el-dialog>
     <!--新增用户-->
     <el-dialog :title="$t('userrole.newuser')" :visible.sync="addemployeedialog" center destroy-on-close :close-on-click-modal="false" width="550px">
-      <el-form ref="addemployeeform" :model="addemployeeform" :rules="rules">
-        <el-form-item :label="$t('userrole.name')" :label-width="formLabelWidth1" prop="name">
+      <el-form ref="addemployeeform" :model="addemployeeform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('userrole.name')" prop="name">
           <el-input v-model="addemployeeform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addemployeeform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.email')" :label-width="formLabelWidth1" prop="email">
+        <el-form-item :label="$t('userrole.email')" prop="email">
           <el-input v-model="addemployeeform.email" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addemployeeform.email = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userrole.function')" :label-width="formLabelWidth1" prop="function">
+        <el-form-item :label="$t('userrole.function')" prop="function">
           <el-select v-model="addemployeeform.function" placeholder="请选择" disabled style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('login.password')" :label-width="formLabelWidth1" prop="password">
+        <el-form-item :label="$t('login.password')" prop="password">
           <el-input v-model="addemployeeform.password" type="password" clearable autocomplete="off" @blur="addemployeeform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
@@ -158,8 +158,6 @@ export default {
       adddialog: false,
       addRoleBtnLoading: false,
       viewdialog: false,
-      formLabelWidth: '120px',
-      formLabelWidth1: '100px',
       queryParams: { function: '', roleViewId: JSON.parse(localStorage.getItem('role')).id },
       tabledata: [],
       userLoading: false,

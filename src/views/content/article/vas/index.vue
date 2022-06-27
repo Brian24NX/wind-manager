@@ -45,17 +45,17 @@
     </div>
     <!--添加vas弹窗-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="600px">
-      <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('vas.title')" :label-width="formLabelWidth" prop="title">
+      <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('vas.title')" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('vas.link')" :label-width="formLabelWidth" prop="link">
+        <el-form-item :label="$t('vas.link')" prop="link">
           <el-input v-model="addform.link" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.link = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('vas.publishdate')" :label-width="formLabelWidth" prop="publishdate">
+        <el-form-item :label="$t('vas.publishdate')" prop="publishdate">
           <el-date-picker v-model="addform.publishdate" type="date" :placeholder="$t('general.chooseDate')" style="width: 100%" clearable />
         </el-form-item>
-        <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover" :label-width="formLabelWidth">
+        <el-form-item :label="$t('addArticle.forntCover')" prop="frontCover">
           <el-upload
             ref="upload"
             class="avatar-uploader"
@@ -109,7 +109,6 @@ export default {
         publishdate: '',
         frontCover: ''
       },
-      formLabelWidth: '90px',
       // 添加弹窗
       adddialog: false,
       rules: {

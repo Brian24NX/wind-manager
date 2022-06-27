@@ -47,11 +47,11 @@
     </div>
     <!--新增编辑label-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
-      <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('label.labelname')" :label-width="formLabelWidth" prop="name">
+      <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('label.labelname')" prop="name">
           <el-input v-model="addform.name" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('label.description')" :label-width="formLabelWidth" prop="description">
+        <el-form-item :label="$t('label.description')" prop="description">
           <el-input
             v-model="addform.description"
             type="textarea"
@@ -62,7 +62,7 @@
             @blur="addform.description = $event.target.value.trim()"
           />
         </el-form-item>
-        <el-form-item :label="$t('label.companys')" :label-width="formLabelWidth" prop="companyId">
+        <el-form-item :label="$t('label.companys')" prop="companyId">
           <el-select v-model="addform.companyList" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
             <el-option v-for="item in companylist" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -164,7 +164,6 @@ export default {
       },
       // 暂存数据
       stagedata: [],
-      formLabelWidth: '120px',
       companylist: [],
       rules: {
         name: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }

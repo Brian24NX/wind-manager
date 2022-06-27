@@ -89,14 +89,14 @@
     </el-dialog>
     <!--添加通告-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="1000px" top="50px">
-      <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
+      <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('business.title')" prop="title">
           <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
+        <el-form-item :label="$t('business.content')" prop="content">
           <tinymce ref="editor" v-model="addform.content" :height="250" />
         </el-form-item>
-        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
+        <el-form-item :label="$t('business.uploadfile')" prop="uploadfile">
           <el-upload
             ref="upload"
             class="upload-demo"
@@ -113,7 +113,7 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="categoryId">
+        <el-form-item :label="$t('business.category')" prop="categoryId">
           <el-select v-model="addform.categoryId" :placeholder="$t('general.choose')">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -128,13 +128,13 @@
     <!--查看通告-->
     <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
       <el-form ref="addform" :model="detailform">
-        <el-form-item :label="$t('business.title')" :label-width="formLabelWidth" prop="title">
+        <el-form-item :label="$t('business.title')" prop="title">
           <el-input v-model="detailform.title" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('business.content')" :label-width="formLabelWidth" prop="content">
+        <el-form-item :label="$t('business.content')" prop="content">
           <div class="detailContent" v-html="detailform.content" />
         </el-form-item>
-        <el-form-item :label="$t('business.uploadfile')" :label-width="formLabelWidth" prop="uploadfile">
+        <el-form-item :label="$t('business.uploadfile')" prop="uploadfile">
           <el-upload
             ref="upload"
             disabled
@@ -152,7 +152,7 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item :label="$t('business.category')" :label-width="formLabelWidth" prop="categoryId">
+        <el-form-item :label="$t('business.category')" prop="categoryId">
           <el-select v-model="addform.categoryId" placeholder="请选择" disabled>
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
@@ -189,7 +189,6 @@ export default {
       deldialog: false,
       setdialog: false,
       fileList: [],
-      formLabelWidth: '90px',
       addform: {
         title: '',
         creator: '',

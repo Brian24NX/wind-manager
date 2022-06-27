@@ -48,23 +48,23 @@
     </div>
     <!--新增通告-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="950px" :close-on-click-modal="false" destroy-on-close top="50px">
-      <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
+      <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('sanctions.commodityzh')" prop="commodityCn">
           <el-input v-model="addform.commodityCn" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.commodityCn = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="commodityEn">
+        <el-form-item :label="$t('sanctions.commodityen')" prop="commodityEn">
           <el-input v-model="addform.commodityEn" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.commodityEn = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referenceNo">
+        <el-form-item :label="$t('sanctions.referencenumber')" prop="referenceNo">
           <el-input v-model="addform.referenceNo" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.referenceNo = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
+        <el-form-item :label="$t('sanctions.type')" prop="type">
           <el-input v-model="addform.type" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.type = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="remarkCn">
+        <el-form-item :label="$t('sanctions.remarkszh')" prop="remarkCn">
           <tinymce ref="editor1" v-model="addform.remarkCn" :height="250" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="remarkEn">
+        <el-form-item :label="$t('sanctions.remarksen')" prop="remarkEn">
           <tinymce ref="editor2" v-model="addform.remarkEn" :height="250" />
         </el-form-item>
       </el-form>
@@ -76,22 +76,22 @@
     <!---->
     <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="detailform" :model="detailform">
-        <el-form-item :label="$t('sanctions.commodityzh')" :label-width="formLabelWidth" prop="commodityCn">
+        <el-form-item :label="$t('sanctions.commodityzh')" prop="commodityCn">
           <el-input v-model="detailform.commodityCn" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.commodityen')" :label-width="formLabelWidth" prop="commodityEn">
+        <el-form-item :label="$t('sanctions.commodityen')" prop="commodityEn">
           <el-input v-model="detailform.commodityEn" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.referencenumber')" :label-width="formLabelWidth" prop="referenceNo">
+        <el-form-item :label="$t('sanctions.referencenumber')" prop="referenceNo">
           <el-input v-model="detailform.referenceNo" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.type')" :label-width="formLabelWidth" prop="type">
+        <el-form-item :label="$t('sanctions.type')" prop="type">
           <el-input v-model="detailform.type" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.remarkszh')" :label-width="formLabelWidth" prop="remarkCn">
+        <el-form-item :label="$t('sanctions.remarkszh')" prop="remarkCn">
           <div v-if="detailform.remarkCn" class="detailContent" v-html="detailform.remarkCn" />
         </el-form-item>
-        <el-form-item :label="$t('sanctions.remarksen')" :label-width="formLabelWidth" prop="remarkEn">
+        <el-form-item :label="$t('sanctions.remarksen')" prop="remarkEn">
           <div v-if="detailform.remarkEn" class="detailContent" v-html="detailform.remarkEn" />
         </el-form-item>
       </el-form>
@@ -136,7 +136,6 @@ export default {
       adddialog: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '110px',
       importdialog: false,
       addform: {
         id: '',

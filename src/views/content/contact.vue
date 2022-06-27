@@ -69,82 +69,82 @@
     <!--新增联系方式-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" width="700px" center destroy-on-close :close-on-click-modal="false">
       <el-row>
-        <el-form ref="addform" :model="addform" :rules="rules">
-          <el-row>
+        <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+          <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="$t('contact.region')" :label-width="formLabelWidth" prop="region">
+              <el-form-item :label="$t('contact.region')" prop="region">
                 <el-select v-model="addform.region" style="width: 100%" :placeholder="$t('general.choose')">
                   <el-option v-for="item in regionList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.office')" :label-width="formLabelWidth" prop="office">
+              <el-form-item :label="$t('contact.office')" prop="office">
                 <el-select v-model="addform.office" style="width: 100%" :placeholder="$t('general.choose')">
                   <el-option v-for="item in officeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="$t('contact.buinessscope')" :label-width="formLabelWidth" prop="buinessscope">
+              <el-form-item :label="$t('contact.buinessscope')" prop="buinessscope">
                 <el-select v-model="addform.buinessscope" style="width: 100%" :placeholder="$t('general.choose')">
                   <el-option v-for="item in buinessscopeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.dept')" :label-width="formLabelWidth" prop="dept">
+              <el-form-item :label="$t('contact.dept')" prop="dept">
                 <el-select v-model="addform.dept" style="width: 100%" :placeholder="$t('general.choose')">
                   <el-option v-for="item in deptList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="$t('contact.trade')" :label-width="formLabelWidth" prop="trade">
+              <el-form-item :label="$t('contact.trade')" prop="trade">
                 <el-select v-model="addform.trade" style="width: 100%" :placeholder="$t('general.choose')">
                   <el-option v-for="item in tradeList" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.accountname')" :label-width="formLabelWidth" prop="accountname">
+              <el-form-item :label="$t('contact.accountname')" prop="accountname">
                 <el-input v-model="addform.accountname" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.accountname = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="$t('contact.contactperson')" :label-width="formLabelWidth" prop="contactperson">
+              <el-form-item :label="$t('contact.contactperson')" prop="contactperson">
                 <el-input v-model="addform.contactperson" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.contactperson = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="$t('contact.phone')" :label-width="formLabelWidth" prop="phone">
+              <el-form-item :label="$t('contact.phone')" prop="phone">
                 <el-input v-model="addform.phone" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.phone = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item :label="$t('contact.email')" :label-width="formLabelWidth" prop="email">
+              <el-form-item :label="$t('contact.email')" prop="email">
                 <el-input v-model="addform.email" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.email = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <el-row :gutter="20">
             <el-col :span="24">
-              <el-form-item :label="$t('contact.dutydate')" :label-width="formLabelWidth" prop="dutydate">
+              <el-form-item :label="$t('contact.dutydate')" prop="dutydate">
                 <el-input v-model="addform.dutydate" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.dutydate = $event.target.value.trim()" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="0">
             <el-col :span="11">
-              <el-form-item :label="$t('contact.dutytime')" :label-width="formLabelWidth" prop="startTime">
+              <el-form-item :label="$t('contact.dutytime')" prop="startTime">
                 <el-time-select
                   v-model="addform.startTime"
                   style="width: 100%"
@@ -158,10 +158,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="2">
-              <div style="display: flex; width: 100%; justify-content: center; height: 36px; align-items: center">~</div>
+              <div style="display: flex; width: 100%; justify-content: center; height: 70px; align-items: flex-end">~</div>
             </el-col>
             <el-col :span="11">
-              <el-form-item prop="endTime">
+              <el-form-item :label="$t('contact.dutytime')" prop="endTime">
                 <el-time-select
                   v-model="addform.endTime"
                   style="width: 100%"
@@ -209,7 +209,6 @@ export default {
       loading: false,
       isAdd: false,
       isEdit: false,
-      formLabelWidth: '90px',
       officeList: [],
       tradeList: [],
       newofficeList: [],

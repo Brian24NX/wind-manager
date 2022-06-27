@@ -80,16 +80,16 @@
     </el-dialog>
     <!--添加通告-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="650px">
-      <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('userful.name')" :label-width="formLabelWidth" prop="name">
+      <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('userful.name')" prop="name">
           <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userful.category')" :label-width="formLabelWidth" prop="categoryId">
-          <el-select v-model="addform.categoryId" :placeholder="$t('general.choose')">
+        <el-form-item :label="$t('userful.category')" prop="categoryId">
+          <el-select v-model="addform.categoryId" style="width: 100%" :placeholder="$t('general.choose')">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('userful.type')" :label-width="formLabelWidth" prop="type">
+        <el-form-item :label="$t('userful.type')" prop="type">
           <el-radio-group v-model="addform.type">
             <el-radio
               v-for="item in typelist"
@@ -99,7 +99,7 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="addform.type==1" :label="$t('userful.uploadfile')" :label-width="formLabelWidth" prop="document">
+        <el-form-item v-show="addform.type==1" :label="$t('userful.uploadfile')" prop="document">
           <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
           <el-upload
             ref="upload"
@@ -115,10 +115,10 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-show="addform.type==2" :label="$t('userful.link')" :label-width="formLabelWidth" prop="document">
+        <el-form-item v-show="addform.type==2" :label="$t('userful.link')" prop="document">
           <el-input v-model="addform.document" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.document = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userful.reference')" :label-width="formLabelWidth" prop="internalReference">
+        <el-form-item :label="$t('userful.reference')" prop="internalReference">
           <el-input v-model="addform.internalReference" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.internalReference = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
@@ -179,7 +179,6 @@ export default {
       }, {
         label: 'Link', value: 2
       }],
-      formLabelWidth: '110px',
       rules: {
         name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
         categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },

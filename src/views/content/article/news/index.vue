@@ -50,19 +50,19 @@
     </div>
     <!--历史文章添加-->
     <el-dialog :title="historyform.id ? $t('general.edit') : $t('general.add')" :visible.sync="addhistorynewsdialog" center :close-on-click-modal="false" destroy-on-close width="600px">
-      <el-form ref="historyform" :model="historyform" :rules="rules">
-        <el-form-item :label="$t('newscenter.title')" :label-width="formLabelWidth" prop="title">
+      <el-form ref="historyform" :model="historyform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('newscenter.title')" prop="title">
           <el-input v-model="historyform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="historyform.title = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('newscenter.link')" :label-width="formLabelWidth" prop="link">
+        <el-form-item :label="$t('newscenter.link')" prop="link">
           <el-input v-model="historyform.link" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="historyform.link = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('newscenter.category')" :label-width="formLabelWidth" prop="category">
+        <el-form-item :label="$t('newscenter.category')" prop="category">
           <el-select v-model="historyform.categoryIds" style="width: 100%" multiple collapse-tags clearable :placeholder="$t('general.choose')">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('newscenter.publishdate')" :label-width="formLabelWidth" prop="publishdate">
+        <el-form-item :label="$t('newscenter.publishdate')" prop="publishdate">
           <el-date-picker v-model="historyform.publishdate" type="date" :placeholder="$t('general.chooseDate')" style="width: 100%" />
         </el-form-item>
       </el-form>
@@ -153,7 +153,6 @@ export default {
       importdialog: false,
       // 类别修改
       setdialog: false,
-      formLabelWidth: '90px',
       historyform: {
         title: '',
         link: '',

@@ -62,17 +62,17 @@
     </el-dialog>
     <!--创建新的faq-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="950px" destroy-on-close :close-on-click-modal="false" top="60px">
-      <el-form ref="addform" :model="addform" :rules="rules">
-        <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
+      <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('faq.question')" prop="question">
           <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.question = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
+        <el-form-item :label="$t('faq.answer')" prop="answer">
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
         </el-form-item>
-        <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
+        <el-form-item :label="$t('faq.keyword')" prop="faqKeywords">
           <el-input v-model="addform.faqKeywords" autocomplete="off" clearable :placeholder="$t('faq.input')" @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
+        <el-form-item :label="$t('faq.status')" prop="active">
           <el-radio-group v-model="addform.active">
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
@@ -87,16 +87,16 @@
     <!-- 详情 -->
     <el-dialog :title="$t('message.detail')" :visible.sync="isSelect" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="detailForm">
-        <el-form-item :label="$t('faq.question')" :label-width="formLabelWidth" prop="question">
+        <el-form-item :label="$t('faq.question')" prop="question">
           <el-input v-model="detailForm.question" disabled type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable />
         </el-form-item>
-        <el-form-item :label="$t('faq.answer')" :label-width="formLabelWidth" prop="answer">
+        <el-form-item :label="$t('faq.answer')" prop="answer">
           <div class="detailContent" v-html="detailForm.answer" />
         </el-form-item>
-        <el-form-item :label="$t('faq.keyword')" :label-width="formLabelWidth" prop="faqKeywords">
+        <el-form-item :label="$t('faq.keyword')" prop="faqKeywords">
           <el-input v-model="detailForm.faqKeywords" disabled autocomplete="off" />
         </el-form-item>
-        <el-form-item :label="$t('faq.status')" :label-width="formLabelWidth" prop="active">
+        <el-form-item :label="$t('faq.status')" prop="active">
           <el-radio-group v-model="detailForm.active" disabled>
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
@@ -107,7 +107,7 @@
     <!--编辑relations-->
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
-        <el-form-item :label="$t('faq.relatedquestion')" :label-width="formLabelWidth" prop="faqRelations">
+        <el-form-item :label="$t('faq.relatedquestion')" prop="faqRelations">
           <el-select v-model="relationsform.faqRelations" multiple clearable filterable style="width: 100%" placeholder="请选择">
             <el-option
               v-for="item in faqLists"
@@ -145,7 +145,6 @@ export default {
       adddialog: false,
       importdialog: false,
       relationsdialog: false,
-      formLabelWidth: '90px',
       addform: {
         id: '',
         question: '',
