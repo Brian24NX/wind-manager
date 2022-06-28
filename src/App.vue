@@ -46,6 +46,8 @@ body {
   border: 1px solid #dfe4ed;
   padding: 10px 20px;
   border-radius: 6px;
+  overflow: hidden;
+  line-height: 1.6;
 
   p {
     padding: 0;
