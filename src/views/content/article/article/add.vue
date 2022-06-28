@@ -150,11 +150,11 @@ export default {
       this.articleRules = {
         title: [
           { required: true, message: this.$t('addArticle.titletips'), trigger: 'blur' },
-          { min: 3, max: 100, message: this.$t('addArticle.titlelengthtips'), trigger: 'blur' }
+          { min: 2, max: 100, message: this.$t('addArticle.titlelengthtips'), trigger: 'blur' }
         ],
         creator: [
           { required: true, message: this.$t('addArticle.creatortips'), trigger: 'blur' },
-          { min: 3, max: 100, message: this.$t('addArticle.creatorlengthtips'), trigger: 'blur' }
+          { min: 2, max: 100, message: this.$t('addArticle.creatorlengthtips'), trigger: 'blur' }
         ],
         frontCover: [{ required: true, message: this.$t('addArticle.frontCovertips'), trigger: 'change' }],
         content: [{ required: true, message: this.$t('addArticle.contenttips'), trigger: 'blur' }],
