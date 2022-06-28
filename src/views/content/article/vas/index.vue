@@ -128,19 +128,26 @@ export default {
           publishdate: ''
         }
         this.loading = false
-      } else {
-        this.rules = {
-          title: { required: true, message: this.$t('vas.titletips'), trigger: 'blur' },
-          link: { required: true, message: this.$t('vas.linktips'), trigger: 'blur' },
-          publishdate: { required: true, message: this.$t('vas.publishdatetips'), trigger: 'change' }
-        }
-        setTimeout(() => {
-          this.$refs.addform.clearValidate()
-        }, 1)
       }
+    },
+    '$store.getters.language'() {
+      this.setRules()
     }
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        title: { required: true, message: this.$t('vas.titletips'), trigger: 'blur' },
+        link: { required: true, message: this.$t('vas.linktips'), trigger: 'blur' },
+        publishdate: { required: true, message: this.$t('vas.publishdatetips'), trigger: 'change' }
+      }
+      setTimeout(() => {
+        this.$refs.addform ? this.$refs.addform.clearValidate() : null
+      }, 1)
+    },
     // 查看
     handleDetail(id) {
       newsDetail(id).then(res => {

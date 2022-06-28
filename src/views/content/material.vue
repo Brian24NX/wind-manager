@@ -74,7 +74,7 @@
       </el-table>
     </el-dialog>
     <!--名称修改-->
-    <el-dialog :title="$t('message.update')" :visible.sync="editdialog" center :close-on-click-modal="false">
+    <el-dialog :title="$t('message.update')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="editform" :model="editform" :rules="rules">
         <el-form-item :label="$t('library.name')" :label-width="formLabelWidth" prop="title">
           <el-input v-model="editform.title" autocomplete="off" />
@@ -172,21 +172,35 @@ export default {
       }
     },
     editdialog(val) {
-      if (val) {
-        this.rules = {
-          title: { required: true, message: this.$t('library.titleRequire'), trigger: 'blur' }
+      if (!val) {
+        this.editform = {
+          id: '',
+          title: ''
         }
-        setTimeout(() => {
-          this.$refs.editform.clearValidate()
-        }, 1)
       }
+    },
+    '$store.getters.language'() {
+      this.setRules()
     }
   },
   created() {
     this.getcategoryList()
     this.getlist()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        title: { required: true, message: this.$t('library.titleRequire'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.editform ? this.$refs.editform.clearValidate() : null
+        })
+      }, 1)
+    },
     // 关闭获取list
     getMatlist() {
       this.uploaddialog = false

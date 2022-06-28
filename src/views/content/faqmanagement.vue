@@ -181,16 +181,10 @@ export default {
           this.$refs.editor.setContent('')
         }, 300)
         this.submitLoading = false
-      } else {
-        this.rules = {
-          question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
-          answer: { required: true, message: this.$t('faq.answertips'), trigger: 'blur' },
-          faqKeywords: { required: true, message: this.$t('faq.faqKeywords'), trigger: 'blur' }
-        }
-        setTimeout(() => {
-          this.$refs.addform.clearValidate()
-        }, 1)
       }
+    },
+    '$store.getters.language'() {
+      this.setRules()
     },
     relationsdialog(newValue) {
       if (!newValue) {
@@ -204,7 +198,22 @@ export default {
   created() {
     this.getFaqLists()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
+        answer: { required: true, message: this.$t('faq.answertips'), trigger: 'blur' },
+        faqKeywords: { required: true, message: this.$t('faq.faqKeywords'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.addform ? this.$refs.addform.clearValidate() : null
+        })
+      }, 1)
+    },
     getFaqLists() {
       faqList({
         pageNum: 1,

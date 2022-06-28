@@ -186,6 +186,9 @@ export default {
     }
   },
   watch: {
+    '$store.getters.language'() {
+      this.setRules()
+    },
     adddialog(val) {
       if (!val) {
         this.addform = {
@@ -198,16 +201,6 @@ export default {
         }
         this.fileList = []
         this.loading = false
-      } else {
-        this.rules = {
-          name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
-          categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
-          type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
-          document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
-        }
-        setTimeout(() => {
-          this.$refs.addform.clearValidate()
-        }, 1)
       }
     },
     setdialog(val) {
@@ -219,7 +212,23 @@ export default {
   created() {
     this.getcategoryList()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
+        categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
+        type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
+        document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.addform ? this.$refs.addform.clearValidate() : null
+        })
+      }, 1)
+    },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('YYYY-MM-DD')
     },

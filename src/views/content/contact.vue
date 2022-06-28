@@ -254,24 +254,10 @@ export default {
           active: 1
         }
         this.loading = false
-      } else {
-        this.rules = {
-          region: { required: true, message: this.$t('contact.regiontips'), trigger: 'change' },
-          office: { required: true, message: this.$t('contact.officetips'), trigger: 'change' },
-          dept: { required: true, message: this.$t('contact.depttips'), trigger: 'change' },
-          buinessscope: { required: true, message: this.$t('contact.buinessscopetips'), trigger: 'change' },
-          trade: { required: true, message: this.$t('contact.tradetips'), trigger: 'change' },
-          contactperson: { required: true, message: this.$t('contact.contactpersontips'), trigger: 'blur' },
-          phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'blur' },
-          dutydate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
-          startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
-          endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
-          email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
-        }
-        setTimeout(() => {
-          this.$refs.addform.clearValidate()
-        }, 1)
       }
+    },
+    '$store.getters.language'() {
+      this.setRules()
     }
   },
   created() {
@@ -281,7 +267,30 @@ export default {
     this.deparementList()
     this.buinesssList()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        region: { required: true, message: this.$t('contact.regiontips'), trigger: 'change' },
+        office: { required: true, message: this.$t('contact.officetips'), trigger: 'change' },
+        dept: { required: true, message: this.$t('contact.depttips'), trigger: 'change' },
+        buinessscope: { required: true, message: this.$t('contact.buinessscopetips'), trigger: 'change' },
+        trade: { required: true, message: this.$t('contact.tradetips'), trigger: 'change' },
+        contactperson: { required: true, message: this.$t('contact.contactpersontips'), trigger: 'blur' },
+        phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'blur' },
+        dutydate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
+        startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
+        endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
+        email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.addform ? this.$refs.addform.clearValidate() : null
+        })
+      }, 1)
+    },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('YYYY-MM-DD')
     },

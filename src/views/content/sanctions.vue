@@ -169,23 +169,32 @@ export default {
           this.$refs.editor2.setContent('')
         }, 200)
         this.loading = false
-      } else {
-        this.rules = {
-          commodityCn: { required: true, message: this.$t('sanctions.commodityzhtips'), trigger: 'blur' },
-          commodityEn: { required: true, message: this.$t('sanctions.commodityentips'), trigger: 'blur' },
-          remarkCn: { required: true, message: this.$t('sanctions.remarkszhtips'), trigger: 'blur' },
-          remarkEn: { required: true, message: this.$t('sanctions.remarksentips'), trigger: 'blur' }
-        }
-        setTimeout(() => {
-          this.$refs.addform.clearValidate()
-        }, 1)
       }
+    },
+    '$store.getters.language'() {
+      this.setRules()
     }
   },
   created() {
     this.getcategoryList()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        commodityCn: { required: true, message: this.$t('sanctions.commodityzhtips'), trigger: 'blur' },
+        commodityEn: { required: true, message: this.$t('sanctions.commodityentips'), trigger: 'blur' },
+        remarkCn: { required: true, message: this.$t('sanctions.remarkszhtips'), trigger: 'blur' },
+        remarkEn: { required: true, message: this.$t('sanctions.remarksentips'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.addform ? this.$refs.addform.clearValidate() : null
+        })
+      }, 1)
+    },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('YYYY-MM-DD')
     },

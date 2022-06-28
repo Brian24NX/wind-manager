@@ -204,6 +204,9 @@ export default {
     }
   },
   watch: {
+    '$store.getters.language'() {
+      this.setRules()
+    },
     adddialog(newValue) {
       if (!newValue) {
         this.addform = {
@@ -218,13 +221,6 @@ export default {
         }, 300)
         this.fileList = []
         this.submitLoading = false
-      } else {
-        this.rules = {
-          title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
-        }
-        setTimeout(() => {
-          this.$refs.addform.clearValidate()
-        }, 1)
       }
     },
     detaildialog(newValue) {
@@ -242,7 +238,20 @@ export default {
   created() {
     this.getcategoryList()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.addform ? this.$refs.addform.clearValidate() : null
+        })
+      }, 1)
+    },
     transactive(data) {
     // eslint-disable-next-line eqeqeq
       if (data.publish == 1) {

@@ -121,7 +121,33 @@ export default {
       fileList: [],
       isEdit: false,
       isAdd: false,
-      articleRules: {
+      articleRules: {},
+      uploadHeaders: { Authorization: getToken() },
+      loading: false
+    }
+  },
+  watch: {
+    '$store.getters.language'() {
+      this.setRules()
+    }
+  },
+  created() {
+    this.getcategoryList()
+    // 通过id判断是新增还是编辑
+    const id = this.$route.query.id
+    if (id) {
+      this.isEdit = true
+      this.getList(id)
+    } else {
+      this.isAdd = true
+    }
+  },
+  mounted() {
+    this.setRules()
+  },
+  methods: {
+    setRules() {
+      this.articleRules = {
         title: [
           { required: true, message: this.$t('addArticle.titletips'), trigger: 'blur' },
           { min: 3, max: 100, message: this.$t('addArticle.titlelengthtips'), trigger: 'blur' }
@@ -134,24 +160,13 @@ export default {
         content: [{ required: true, message: this.$t('addArticle.contenttips'), trigger: 'blur' }],
         publishIds: [{ required: true, message: this.$t('addArticle.publishIdstips'), trigger: 'change' }],
         publishDate: [{ required: true, message: this.$t('addArticle.publishDatetips'), trigger: 'change' }]
-      },
-      uploadHeaders: { Authorization: getToken() },
-      loading: false
-    }
-  },
-  created() {
-    this.getcategoryList()
-    // 通过id判断是新增还是编辑
-    const id = this.$route.query.id
-    console.log(id)
-    if (id) {
-      this.isEdit = true
-      this.getList(id)
-    } else {
-      this.isAdd = true
-    }
-  },
-  methods: {
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.articleForm.clearValidate()
+        })
+      }, 1)
+    },
     async getList(id) {
       const res = await newsDetail(id)
       res.data.schedule = res.data.schedule === 1

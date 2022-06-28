@@ -167,6 +167,9 @@ export default {
     }
   },
   watch: {
+    '$store.getters.language'() {
+      this.setRules()
+    },
     addhistorynewsdialog(val) {
       if (!val) {
         this.historyform = {
@@ -176,15 +179,6 @@ export default {
           publishdate: ''
         }
         this.loading = false
-      } else {
-        this.rules = {
-          title: { required: true, message: this.$t('newscenter.titletips'), trigger: 'blur' },
-          link: { required: true, message: this.$t('newscenter.linktips'), trigger: 'blur' },
-          publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
-        }
-        setTimeout(() => {
-          this.$refs.historyform.clearValidate()
-        }, 1)
       }
     },
     setdialog(val) {
@@ -196,7 +190,22 @@ export default {
   created() {
     this.getcategoryList()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.rules = {
+        title: { required: true, message: this.$t('newscenter.titletips'), trigger: 'blur' },
+        link: { required: true, message: this.$t('newscenter.linktips'), trigger: 'blur' },
+        publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.historyform ? this.$refs.historyform.clearValidate() : null
+        })
+      }, 1)
+    },
     // 查看
     handleDetail(id) {
       newsDetail(id).then(res => {
