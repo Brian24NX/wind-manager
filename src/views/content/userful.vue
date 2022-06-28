@@ -179,12 +179,7 @@ export default {
       }, {
         label: 'Link', value: 2
       }],
-      rules: {
-        name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
-        categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
-        // type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
-        document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
-      },
+      rules: {},
       tabledata: [],
       selectcolumn: [],
       loading: false
@@ -203,6 +198,16 @@ export default {
         }
         this.fileList = []
         this.loading = false
+      } else {
+        this.rules = {
+          name: { required: true, message: this.$t('userful.nametips'), trigger: 'blur' },
+          categoryId: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
+          type: { required: true, message: this.$t('userful.typetips'), trigger: 'change' },
+          document: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
       }
     },
     setdialog(val) {

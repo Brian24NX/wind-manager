@@ -165,9 +165,7 @@ export default {
       // 暂存数据
       stagedata: [],
       companylist: [],
-      rules: {
-        name: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
-      }
+      rules: {}
     }
   },
   watch: {
@@ -180,6 +178,13 @@ export default {
           companyList: []
         }
         this.submitLoading = false
+      } else {
+        this.rules = {
+          name: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
       }
     }
   },

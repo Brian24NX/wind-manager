@@ -111,11 +111,7 @@ export default {
       },
       // 添加弹窗
       adddialog: false,
-      rules: {
-        title: { required: true, message: this.$t('vas.titletips'), trigger: 'blur' },
-        link: { required: true, message: this.$t('vas.linktips'), trigger: 'blur' },
-        publishdate: { required: true, message: this.$t('vas.publishdatetips'), trigger: 'change' }
-      },
+      rules: {},
       loading: false,
       detailform: {},
       detailDialog: false,
@@ -132,6 +128,15 @@ export default {
           publishdate: ''
         }
         this.loading = false
+      } else {
+        this.rules = {
+          title: { required: true, message: this.$t('vas.titletips'), trigger: 'blur' },
+          link: { required: true, message: this.$t('vas.linktips'), trigger: 'blur' },
+          publishdate: { required: true, message: this.$t('vas.publishdatetips'), trigger: 'change' }
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
       }
     }
   },

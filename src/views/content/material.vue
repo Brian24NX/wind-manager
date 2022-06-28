@@ -159,9 +159,7 @@ export default {
         categoryId: ''
       },
       formLabelWidth: '130px',
-      rules: {
-        title: { required: true, message: 'title is required', trigger: 'blur' }
-      },
+      rules: {},
       checkedList: [],
       fileList: [],
       loading: false
@@ -171,6 +169,16 @@ export default {
     setdialog(val) {
       if (!val) {
         this.getcategoryList()
+      }
+    },
+    editdialog(val) {
+      if (val) {
+        this.rules = {
+          title: { required: true, message: this.$t('library.titleRequire'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.editform.clearValidate()
+        }, 1)
       }
     }
   },
@@ -246,15 +254,19 @@ export default {
     },
     // 修改名称
     async savename() {
-      const data = {
-        id: this.editform.id,
-        name: this.editform.title,
-        userId: JSON.parse(localStorage.getItem('userInfo')).id
-      }
-      await materialRename(data)
-      this.editdialog = false
-      this.editform = {}
-      this.getlist()
+      this.$refs.editform.validate(async valid => {
+        if (valid) {
+          const data = {
+            id: this.editform.id,
+            name: this.editform.title,
+            userId: JSON.parse(localStorage.getItem('userInfo')).id
+          }
+          await materialRename(data)
+          this.editdialog = false
+          this.editform = {}
+          this.getlist()
+        }
+      })
     },
     // 修改类别
     async savecate() {

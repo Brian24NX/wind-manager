@@ -159,11 +159,7 @@ export default {
         categoryIds: [],
         publishdate: ''
       },
-      rules: {
-        title: { required: true, message: this.$t('newscenter.titletips'), trigger: 'blur' },
-        link: { required: true, message: this.$t('newscenter.linktips'), trigger: 'blur' },
-        publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
-      },
+      rules: {},
       tabledata: [],
       loading: false,
       detailform: {},
@@ -180,6 +176,15 @@ export default {
           publishdate: ''
         }
         this.loading = false
+      } else {
+        this.rules = {
+          title: { required: true, message: this.$t('newscenter.titletips'), trigger: 'blur' },
+          link: { required: true, message: this.$t('newscenter.linktips'), trigger: 'blur' },
+          publishdate: { required: true, message: this.$t('newscenter.publishdatetips'), trigger: 'change' }
+        }
+        setTimeout(() => {
+          this.$refs.historyform.clearValidate()
+        }, 1)
       }
     },
     setdialog(val) {

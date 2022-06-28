@@ -198,9 +198,7 @@ export default {
       },
       tabledata: [],
       submitLoading: false,
-      rules: {
-        title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
-      },
+      rules: {},
       detailform: {},
       detaildialog: false
     }
@@ -220,6 +218,13 @@ export default {
         }, 300)
         this.fileList = []
         this.submitLoading = false
+      } else {
+        this.rules = {
+          title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
       }
     },
     detaildialog(newValue) {

@@ -72,12 +72,12 @@ export default {
     emailtips: 'email is Incorrect',
     oldPasswordtips: 'old password is required',
     newPasswordtips: 'new password is required',
-    passwordtips: 'password is required',
+    passwordtips: 'Mandatory',
     confirmpasswordtips: 'confirmpassword is required',
     verifycodetips: 'verifycode is required',
-    emailrequired: 'email is required',
-    namerequired: 'name is required',
-    functionrequired: 'function is required',
+    emailrequired: 'Mandatory',
+    namerequired: 'Mandatory',
+    functionrequired: 'Mandatory',
     changeTitle: 'Change Password'
   },
   // 登陆页面翻译
@@ -179,7 +179,8 @@ export default {
     upload: 'Upload',
     categorysetting: 'Category Setting',
     addcategory: 'Add A New Category',
-    name: 'Name'
+    name: 'Name',
+    titleRequire: 'Mandatory'
   },
   // 管制品
   sanctions: {
@@ -195,8 +196,10 @@ export default {
     newitem: 'Add A Commodity',
     editItem: 'Edit sanction',
     deltitle: 'Please confirm if you want to delete this commodity list?',
-    commodityzhtips: 'commodityCn is required',
-    commodityentips: 'commodityEn is required'
+    commodityzhtips: 'Mandatory',
+    commodityentips: 'Mandatory',
+    remarksentips: 'Mandatory',
+    remarkszhtips: 'Mandatory'
   },
   // 用户模版
   userful: {
@@ -287,10 +290,10 @@ export default {
     export: 'Export',
     detail: 'Detail',
     deltitle: 'Please confirm if you want to delete this FAQ?',
-    questiontips: 'question is required',
-    answertips: 'answer is required',
-    faqKeywords: 'To add more key words, please enter key words or phrases separated by a comma',
-    relatedquestiontips: 'relatedquestion is required',
+    questiontips: 'Mandatory',
+    answertips: 'Mandatory',
+    faqKeywords: 'Mandatory',
+    relatedquestiontips: 'Mandatory',
     input: 'Please enter, separate multiple keywords with,'
   },
   //  新闻中心
@@ -354,7 +357,7 @@ export default {
     emailtips: 'email is required',
     idtips: 'roleviewid is required',
     passwordtips: 'password is required',
-    functips: 'role and department is required',
+    functips: 'Mandatory',
     permissiontips: 'premission is required'
   },
   // 富文本
@@ -387,7 +390,7 @@ export default {
     id: 'No.',
     user: 'User',
     ecomaccount: 'eCommerce Account',
-    labelnametips: 'Label Name is required',
+    labelnametips: 'Mandatory',
     download: 'Download',
     companys: 'Companys',
     viewcompany: 'Look Company',
@@ -438,13 +441,13 @@ export default {
     downloadtime: 'Data',
     required: 'Mandatory'
   },
-  //确认框
+  // 确认框
   popconfirm: {
     text: 'Do you want to delete this picture ?',
     ture: 'ture',
     false: 'cancel'
   },
-  //提示
+  // 提示
   tips: {
     success: 'Switch Language Success',
     errorImg: 'The size of the uploaded image cannot exceed 2MB!',

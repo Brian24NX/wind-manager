@@ -147,12 +147,7 @@ export default {
         remarkEn: ''
       },
       loading: false,
-      rules: {
-        commodityCn: { required: true, message: this.$t('userful.categoryIdtips'), trigger: 'blur' },
-        commodityEn: { required: true, message: this.$t('userful.documenttips'), trigger: 'blur' },
-        remarkCn: { required: true, message: this.$t('userful.remarkszhtips'), trigger: 'blur' },
-        remarkEn: { required: true, message: this.$t('userful.remarksentips'), trigger: 'blur' }
-      },
+      rules: {},
       detailform: {},
       detaildialog: false
     }
@@ -174,6 +169,16 @@ export default {
           this.$refs.editor2.setContent('')
         }, 200)
         this.loading = false
+      } else {
+        this.rules = {
+          commodityCn: { required: true, message: this.$t('sanctions.commodityzhtips'), trigger: 'blur' },
+          commodityEn: { required: true, message: this.$t('sanctions.commodityentips'), trigger: 'blur' },
+          remarkCn: { required: true, message: this.$t('sanctions.remarkszhtips'), trigger: 'blur' },
+          remarkEn: { required: true, message: this.$t('sanctions.remarksentips'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
       }
     }
   },

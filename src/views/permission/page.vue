@@ -120,24 +120,6 @@ export default {
   name: 'PagePermission',
   components: { Pagination, MultiCheckList },
   data() {
-    const checkapssword = (rule, value, callback) => {
-      // eslint-disable-next-line no-unused-vars
-      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
-      if (!passwordreg.test(value)) {
-        callback(new Error(this.$t('forgetForm.requirerule')))
-      } else {
-        callback()
-      }
-    }
-    const checkemail = (rule, value, callback) => {
-      // eslint-disable-next-line no-unused-vars
-      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-      if (!email.test(value)) {
-        callback(new Error(this.$t('forgetForm.emailtips')))
-      } else {
-        callback()
-      }
-    }
     return {
       dataList: [],
       nameOrEmail: '',
@@ -149,10 +131,7 @@ export default {
         descri: '',
         funct: ''
       },
-      premissionrules: {
-        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
-        // menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
-      },
+      premissionrules: {},
       isEdit: false,
       addemployeedialog: false,
       adddialog: false,
@@ -170,12 +149,7 @@ export default {
         password: ''
       },
       options: [],
-      rules: {
-        name: { required: true, message: this.$t('forgetForm.namerequired') },
-        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
-        // function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
-        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
-      }
+      rules: {}
     }
   },
   watch: {
@@ -188,6 +162,34 @@ export default {
           password: ''
         }
         this.loading = false
+      } else {
+        const checkapssword = (rule, value, callback) => {
+          // eslint-disable-next-line no-unused-vars
+          const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+          if (!passwordreg.test(value)) {
+            callback(new Error(this.$t('forgetForm.requirerule')))
+          } else {
+            callback()
+          }
+        }
+        const checkemail = (rule, value, callback) => {
+          // eslint-disable-next-line no-unused-vars
+          const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+          if (!email.test(value)) {
+            callback(new Error(this.$t('forgetForm.emailtips')))
+          } else {
+            callback()
+          }
+        }
+        this.rules = {
+          name: { required: true, message: this.$t('forgetForm.namerequired') },
+          email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+          // function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+          password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
+        }
+        setTimeout(() => {
+          this.$refs.addemployeeform.clearValidate()
+        }, 1)
       }
     },
     adddialog(val) {
@@ -200,6 +202,14 @@ export default {
         }
         this.menuButtons = []
         this.isEdit = false
+      } else {
+        this.premissionrules = {
+          funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
+        // menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.premissionform.clearValidate()
+        }, 1)
       }
     }
   },

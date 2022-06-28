@@ -159,11 +159,7 @@ export default {
       },
       isSelect: false,
       isAdd: false,
-      rules: {
-        question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
-        answer: { required: true, message: this.$t('faq.answertips'), trigger: 'blur' },
-        faqKeywords: { required: true, message: this.$t('faq.faqKeywords'), trigger: 'blur' }
-      },
+      rules: {},
       relationsrules: {
         relatedquestion: { required: true, message: this.$t('faq.relatedquestiontips'), trigger: 'blur' }
       },
@@ -185,6 +181,15 @@ export default {
           this.$refs.editor.setContent('')
         }, 300)
         this.submitLoading = false
+      } else {
+        this.rules = {
+          question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
+          answer: { required: true, message: this.$t('faq.answertips'), trigger: 'blur' },
+          faqKeywords: { required: true, message: this.$t('faq.faqKeywords'), trigger: 'blur' }
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
       }
     },
     relationsdialog(newValue) {

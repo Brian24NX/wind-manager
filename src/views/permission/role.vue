@@ -131,24 +131,6 @@ export default {
     MultiCheckList
   },
   data() {
-    const checkapssword = (rule, value, callback) => {
-      // eslint-disable-next-line no-unused-vars
-      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
-      if (!passwordreg.test(value)) {
-        callback(new Error(this.$t('forgetForm.requirerule')))
-      } else {
-        callback()
-      }
-    }
-    const checkemail = (rule, value, callback) => {
-      // eslint-disable-next-line no-unused-vars
-      const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-      if (!email.test(value)) {
-        callback(new Error(this.$t('forgetForm.emailtips')))
-      } else {
-        callback()
-      }
-    }
     return {
       roleViewId: JSON.parse(localStorage.getItem('role')).id,
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
@@ -180,18 +162,64 @@ export default {
       importdialog: false,
       editdialog: false,
       premissiondialog: false,
-      rules: {
-        name: { required: true, message: this.$t('forgetForm.namerequired') },
-        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
-        id: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
-        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
-      },
-      editrules: {
-        funid: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' }
-      }
+      rules: {},
+      editrules: {}
     }
   },
   computed: {},
+  watch: {
+    adddialog(val) {
+      if (!val) {
+        this.addform = {
+          name: '',
+          email: '',
+          id: '',
+          password: ''
+        }
+        this.loading = false
+      } else {
+        const checkapssword = (rule, value, callback) => {
+          // eslint-disable-next-line no-unused-vars
+          const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+          if (!passwordreg.test(value)) {
+            callback(new Error(this.$t('forgetForm.requirerule')))
+          } else {
+            callback()
+          }
+        }
+        const checkemail = (rule, value, callback) => {
+          // eslint-disable-next-line no-unused-vars
+          const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+          if (!email.test(value)) {
+            callback(new Error(this.$t('forgetForm.emailtips')))
+          } else {
+            callback()
+          }
+        }
+        this.rules = {
+          name: { required: true, message: this.$t('forgetForm.namerequired') },
+          email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+          id: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+          password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
+        }
+        setTimeout(() => {
+          this.$refs.addform.clearValidate()
+        }, 1)
+      }
+    },
+    editdialog(val) {
+      if (val) {
+        this.editrules = {
+          name: { required: true, message: this.$t('forgetForm.namerequired') },
+          email: [{ required: true, message: this.$t('forgetForm.emailrequired') }],
+          funid: { required: true, message: this.$t('userrole.idtips'), trigger: 'change' }
+        }
+        setTimeout(() => {
+          this.$refs.editform.clearValidate()
+        }, 1)
+      }
+    }
+  },
   created() {
     this.roleList()
   },
@@ -239,7 +267,6 @@ export default {
     },
     // 新增操作
     submitadd(formName) {
-      console.log(this.addform.id)
       const role = [{
         id: this.addform.id
       }]
@@ -255,12 +282,6 @@ export default {
           await userAdd(data)
           this.adddialog = false
           this.$refs.pagination.refreshRequest()
-          this.addform = {
-            id: '',
-            name: '',
-            email: '',
-            funid: ''
-          }
         } else {
           return false
         }
@@ -269,12 +290,6 @@ export default {
     // 取消操作
     Cancle() {
       this.adddialog = false
-      this.addform = {
-        id: '',
-        name: '',
-        email: '',
-        funid: ''
-      }
     },
     // 取消编辑
     Cancleedit() {

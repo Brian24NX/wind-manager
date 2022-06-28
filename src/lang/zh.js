@@ -181,7 +181,8 @@ export default {
     upload: '上传',
     categorysetting: '添加分类',
     addcategory: '添加新闻类别',
-    name: '名称'
+    name: '名称',
+    titleRequire: '文件名称必填'
   },
   // 管制品
   sanctions: {
@@ -197,8 +198,10 @@ export default {
     newitem: '添加管制品',
     editItem: '编辑管制品',
     deltitle: '是否确认删除该管制品记录？',
-    commodityzhtips: '商品(中文)必填',
-    commodityentips: '商品(中文)必填'
+    commodityzhtips: '商品（中文）必填',
+    commodityentips: '商品（英文）必填',
+    remarksentips: '备注（英文）必填',
+    remarkszhtips: '备注（中文）必填'
   },
   // 用户模版
   userful: {
@@ -449,7 +452,7 @@ export default {
     ture: '确认',
     false: '取消'
   },
-  //提示
+  // 提示
   tips: {
     success: '切换语言成功',
     errorImg: '上传图片大小不能超过 2MB!',
