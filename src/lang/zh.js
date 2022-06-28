@@ -57,9 +57,9 @@ export default {
     safedetailthree: '在此页填入验证码并重设您的新密码。',
     sendcode: '发送验证码',
     cancel: '取消',
-    require: '请填写所有信息',
-    requiresix: '请填写至少6个字符',
-    requirerule: '密码必须为包含至少1个数字，1个大写字母和1个小写字母的6~20位。',
+    require: '请填写所有信息。',
+    requiresix: '请填写至少6个字符。',
+    requirerule: '密码必须为包含至少1个数字，1个大写字母和1个小写字母，长度至少6~20位。',
     verifycode: '验证码',
     password: '新密码',
     confirmpassword: '确认新密码',
@@ -179,7 +179,7 @@ export default {
     category: '更改类别',
     delete: '删除',
     upload: '上传',
-    categorysetting: '分类设置',
+    categorysetting: '添加分类',
     addcategory: '添加新闻类别',
     name: '名称'
   },
@@ -404,7 +404,8 @@ export default {
     title: '标题',
     publishdate: '发布日期',
     numberofviews: '浏览量',
-    numberofsendtoemail: '发送至邮箱数量'
+    numberofsendtoemail: '发送至邮箱数量',
+    numberoflikes: '喜欢的数量'
   },
   // 模版
   useful: {
@@ -447,5 +448,12 @@ export default {
     text: '是否要删除此图片？',
     ture: '确认',
     false: '取消'
+  },
+  //提示
+  tips: {
+    success: '切换语言成功',
+    errorImg: '上传图片大小不能超过 2MB!',
+    errortxt: '上传图片格式不正确，请选择 jpg、png、jpeg 或 gif 格式的图片!',
+    errornull: '上传图片名称不能包含空格或 #!'
   }
 }

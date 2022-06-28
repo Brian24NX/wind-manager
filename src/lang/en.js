@@ -59,7 +59,7 @@ export default {
     cancel: 'Cancel',
     require: 'All fields must be filled in.',
     requiresix: 'Please enter at least 6 characters.',
-    requirerule: 'The password must contain at least 6 to 20 characters including one digit, one uppercase letter, and one lowercase letter',
+    requirerule: 'The password must contain at least 6 to 20 characters including one digit, one uppercase letter, and one lowercase letter.',
     verifycode: 'Validation Code',
     oldPass: 'Old Password',
     password: 'New Password',
@@ -109,7 +109,7 @@ export default {
     input: 'Please input',
     startTime: 'Start Time',
     endTime: 'End Time',
-    chooseDate: 'Choose Date',
+    chooseDate: 'Choose a date',
     upload: 'Drag the file here, ',
     uploadTips: 'or click to upload',
     add: 'Add',
@@ -123,7 +123,7 @@ export default {
     category: 'Category',
     platform: 'Platform',
     status: 'Status',
-    actions: 'Actions',
+    actions: 'Action',
     deltitle: 'Please confirm if you want to delete this article?'
   },
   message: {
@@ -131,7 +131,7 @@ export default {
     detail: 'Detail',
     edit: 'Edit',
     delete: 'Delete',
-    publish: 'Published',
+    publish: 'Publish',
     unPublish: 'Withdraw',
     download: 'Template',
     save: 'Save',
@@ -150,20 +150,25 @@ export default {
     orginalArticleLink: 'Original Article Link',
     publishTo: 'Publish to',
     category: 'News Category',
-    schedulePublish: 'Schedule Publish',
+    schedulePublish: 'Schedule to Publish',
     scheduleTime: 'Schedule Publish Date',
     sendTo: 'Send to',
     save: 'Save',
     submit: 'Save and Publish',
     addnew: 'Add A New Article',
     titletips: 'title is required',
-    titlelengthtips: 'It is between 3 and 100 characters in length',
+    titlelengthtips: 'Length shall between 2 to 100 characters.',
     creatortips: 'creator is required',
-    creatorlengthtips: 'It is between 3 and 100 characters in length',
+    creatorlengthtips: 'Length shall between 2 to 100 characters.',
     frontCovertips: 'frontCover is required',
     contenttips: 'content is required',
-    publishIdstips: 'publishids is required',
+    publishIdstips: 'Mandatory',
     publishDatetips: 'publishdate is required'
+  },
+  publishTo: {
+    newsCenter: 'Publish to News Center',
+    CMACGM: 'Publish to CMA CGM+',
+    weChatAccount: 'Publish to WeChat Account'
   },
   // 素材库
   library: {
@@ -207,7 +212,7 @@ export default {
     export: 'Export',
     deltitle: 'Please confirm if you want to delete this document or link?',
     link: 'Link',
-    uploadfile: 'UploadFile',
+    uploadfile: 'Upload File',
     type: 'Type',
     nametips: 'name is required',
     categoryIdtips: 'categoryId is required',
@@ -230,7 +235,7 @@ export default {
     sendnotification: 'Send A Notification',
     deltitle: 'Please confirm if you want to delete this notification?',
     content: 'Content',
-    uploadfile: 'UploadFile',
+    uploadfile: 'Upload File',
     titletips: 'title is required'
   },
   contact: {
@@ -245,7 +250,7 @@ export default {
     dutydate: 'On Duty Date',
     dutytime: 'On Duty Time',
     phone: 'Phone No.',
-    email: 'Email Address',
+    email: 'Email',
     import: 'Import',
     createinfo: 'Create New Duty Info',
     deactive: 'Deactive',
@@ -327,10 +332,10 @@ export default {
   userrole: {
     keyword: 'Name / Function',
     name: 'Name',
-    email: 'Email Address',
+    email: 'Email',
     function: 'Function',
     status: 'Status',
-    viewedit: 'View and Edit Functions',
+    viewedit: 'View and Edit Function',
     active: 'Active',
     deactive: 'Deactive',
     import: 'Import',
@@ -355,7 +360,7 @@ export default {
   // 富文本
   tinymce: {
     title: 'Upload',
-    material: 'Material library',
+    material: 'Material Library',
     uploadBtn: 'Click upload',
     confirmBtn: 'Confirm',
     cancelBtn: 'Cancel',
@@ -395,7 +400,8 @@ export default {
     title: 'Title',
     publishdate: 'Publish Date',
     numberofviews: 'Number of Views',
-    numberofsendtoemail: 'Number of Send to Email'
+    numberofsendtoemail: 'Number of Send to Email',
+    numberoflikes: 'Number of Likes'
   },
   // 模版
   useful: {
@@ -429,7 +435,7 @@ export default {
     contact: 'Contact Us'
   },
   download: {
-    downloadtime: 'data time',
+    downloadtime: 'Data',
     required: 'time is required'
   },
   //确认框
@@ -437,5 +443,12 @@ export default {
     text: 'Do you want to delete this picture ?',
     ture: 'ture',
     false: 'cancel'
+  },
+  //提示
+  tips: {
+    success: 'Switch Language Success',
+    errorImg: 'The size of the uploaded image cannot exceed 2MB!',
+    errortxt: 'The upload image format is incorrect. Please select an image in JPG, PNG, JPEG or GIF format!',
+    errornull: 'The uploaded picture name cannot contain spaces or \!'
   }
 }

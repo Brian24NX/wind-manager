@@ -175,16 +175,16 @@ export default {
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
+        this.$message.error(this.$t('tips.errorImg'))
         return isLt2M
       }
       const fileName = file.name
-      if (fileName.indexOf('jpg') === -1 && fileName.indexOf('png') === -1 && fileName.indexOf('jpeg') === -1) {
-        this.$message.error('上传图片格式不正确，请选择 jpg、png 或 jpeg 格式的图片!')
+      if (fileName.indexOf('jpg') === -1 && fileName.indexOf('png') === -1 && fileName.indexOf('jpeg') === -1 && fileName.indexOf('gif') === -1) {
+        this.$message.error(this.$t('tips.errortxt'))
         return false
       }
       if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
-        this.$message.error('上传图片名称不能包含空格或 #!')
+        this.$message.error(this.$t('tips.errornull'))
         return false
       }
       return true

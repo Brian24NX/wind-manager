@@ -48,7 +48,7 @@
     </div>
     <div class="passwordfooter">
       <p class="inner">
-        © 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span>
+        © 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>
       </p>
     </div>
   </div>

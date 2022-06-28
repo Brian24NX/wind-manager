@@ -22,7 +22,7 @@
                   autocomplete="on"
                 />
               </el-form-item>
-              <el-form-item prop="password">
+              <el-form-item prop="password" style="margin-bottom: 30px">
                 <el-input
                   ref="password"
                   v-model="forgetForm.password"
@@ -48,7 +48,7 @@
           </div>
           <hr class="contentSeparqtor">
           <div class="rightcontent">
-            <h2>{{ $t('forgetForm.safe') }}</h2>
+            <h2 class="titles">{{ $t('forgetForm.safe') }}</h2>
             <ul class="checklist">
               <li>
                 <i class="icon left" aria-hidden="true">✅</i>
@@ -73,7 +73,7 @@
     </div>
     <div class="passwordfooter">
       <p class="inner">
-        © 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>| <span>4.3.3-4</span>
+        © 2022 CMA CGM | <a href="https://www.cma-cgm.com/legal-terms" target="new">{{ $t('forgetForm.terms') }}</a>
       </p>
     </div>
   </div>
@@ -155,7 +155,7 @@ export default {
 }
 .passwordcontainer {
   min-height: 100%;
-  width: 1200px;
+  width: 1180px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -177,6 +177,7 @@ export default {
 .passwordfooter {
   margin-top: 70px;
   color: #656565;
+  font-size: 12px;
 }
 .inner {
   padding: 8px 0 20px;
@@ -205,6 +206,11 @@ export default {
   width: 463px;
   padding-top: 10px;
 }
+.titles {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 15px 0;
+}
 .rightcontent {
   display: table-cell;
   width: 606px;
@@ -230,6 +236,7 @@ h2 {
 }
 .checklist {
   padding-left: 0;
+  font-size: 12px;
 }
 i {
   font-style: normal;

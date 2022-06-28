@@ -42,7 +42,7 @@
         <div v-show="isshow" class="nodata"><span>暂无数据</span></div>
       </div>
       <div class="total">
-        <span class="total">{{ queryParams.analysisType === 10 ? 'Total visits:' : 'Total followers:' }}</span><span class="total">{{ total }}</span>
+        <span class="total">{{ queryParams.analysisType === 10 ? 'Total visits: ' : 'Total followers: ' }}</span><span class="total">{{ total }}</span>
       </div>
     </div>
     <el-dialog :title="$t('label.download')" :visible.sync="downloaddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
@@ -187,6 +187,12 @@ export default {
           const b = this.yData[i]
           this.total += b
         }
+        const Thousands = (num = 0) => {
+          return num.toString().replace(/\d+/,function(n) {
+            return n.replace(/(\d)(?=(?:\d{3})+$)/g,'$1,');
+          });
+        }
+        this.total = Thousands(this.total)
         const option = {
           xAxis: {
             data: this.xData,

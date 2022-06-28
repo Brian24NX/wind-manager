@@ -66,7 +66,7 @@
           <el-table-column :label="$t('news.title')" prop="title" />
           <el-table-column align="center" :label="$t('news.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('news.numberofviews')" prop="views" align="center" />
-          <el-table-column align="center" :label="$t('news.numberoflinkes')" prop="likes" />
+          <el-table-column align="center" :label="$t('buiness.numberoflikes')" prop="likes" />
         </Pagination>
       </div>
       <!--CMA CGM+-->
@@ -75,7 +75,7 @@
           <el-table-column :label="$t('cma.title')" prop="title" />
           <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishDateStr" />
           <el-table-column :label="$t('cma.numberofviews')" prop="views" align="center" />
-          <el-table-column align="center" :label="$t('cma.numberoflinkes')" prop="likes" />
+          <el-table-column align="center" :label="$t('buiness.numberoflikes')" prop="likes" />
         </Pagination>
       </div>
       <!--转化分析-->
