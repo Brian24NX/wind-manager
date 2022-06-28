@@ -19,9 +19,10 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button v-permission="[47]" type="danger" size="small" @click="setdialog=true">{{ $t('userful.categoryset') }}</el-button>
+        <el-button v-permission="[47]" type="danger" size="small" @click="setCategory(6)">{{ $t('userful.categoryset1') }}</el-button>
+        <el-button v-permission="[47]" type="danger" size="small" @click="setCategory(3)">{{ $t('userful.categoryset2') }}</el-button>
         <el-button v-permission="[48]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button v-permission="[48]" type="danger" size="small" @click="importdialog=true">{{ $t('userful.import') }}</el-button>
+        <el-button v-permission="[48]" type="danger" size="small" @click="importdialog = true">{{ $t('userful.import') }}</el-button>
         <!-- <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>-->
         <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
@@ -43,7 +44,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
-            <el-button v-if="scope.row.type==1" v-permission="[49]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
+            <el-button v-if="scope.row.type == 1" v-permission="[49]" size="small" type="text" @click="download(scope.row.document)">{{ $t('userful.download') }}</el-button>
             <el-button v-permission="[51]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('userful.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -53,12 +54,20 @@
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
       <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
-        <el-table-column :label="$t('business.category')">
+        <el-table-column :label="$t('userful.categoryen')">
           <template scope="scope">
             <span v-if="scope.row.isSet">
               <el-input v-model="scope.row.category" size="mini" />
             </span>
             <span v-else>{{ scope.row.category }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('userful.categoryzh')">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input v-model="scope.row.categoryCn" size="mini" />
+            </span>
+            <span v-else>{{ scope.row.categoryCn }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('business.creator')" align="center">
@@ -84,23 +93,17 @@
         <el-form-item :label="$t('userful.name')" prop="name">
           <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('userful.category')" prop="categoryId">
-          <el-select v-model="addform.categoryId" style="width: 100%" :placeholder="$t('general.choose')">
-            <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
         <el-form-item :label="$t('userful.type')" prop="type">
-          <el-radio-group v-model="addform.type">
-            <el-radio
-              v-for="item in typelist"
-              :key="item.value"
-              :label="item.value"
-            >{{ item.label }}
-            </el-radio>
+          <el-radio-group v-model="addform.type" @change="changeType">
+            <el-radio v-for="item in typelist" :key="item.value" :label="item.value">{{ item.label }} </el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="addform.type==1" :label="$t('userful.uploadfile')" prop="document">
-          <!-- <el-date-picker type="date" placeholder="选择日期" v-model="historyform.publishdate" style="width: 100%"></el-date-picker>-->
+        <el-form-item :label="$t('userful.category')" prop="categoryId">
+          <el-select v-model="addform.categoryId" style="width: 100%" :placeholder="$t('general.choose')">
+            <el-option v-for="item in addform.type === 1 ? categoryList1 : categoryList2" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-show="addform.type == 1" :label="$t('userful.uploadfile')" prop="document">
           <el-upload
             ref="upload"
             class="upload-demo"
@@ -115,11 +118,18 @@
             <el-button slot="trigger" size="small" type="primary">{{ $t('userful.uploadfile') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item v-show="addform.type==2" :label="$t('userful.link')" prop="document">
+        <el-form-item v-show="addform.type == 2" :label="$t('userful.link')" prop="document">
           <el-input v-model="addform.document" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.document = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userful.reference')" prop="internalReference">
-          <el-input v-model="addform.internalReference" autocomplete="off" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }" clearable @blur="addform.internalReference = $event.target.value.trim()" />
+          <el-input
+            v-model="addform.internalReference"
+            autocomplete="off"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 5 }"
+            clearable
+            @blur="addform.internalReference = $event.target.value.trim()"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -132,11 +142,13 @@
     <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
-        <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
+        <div class="el-upload__text">
+          {{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em>
+        </div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="loading" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -174,15 +186,23 @@ export default {
       isAdd: false,
       adddialog: false,
       setdialog: false,
-      typelist: [{
-        label: 'Document', value: 1
-      }, {
-        label: 'Link', value: 2
-      }],
+      typelist: [
+        {
+          label: 'Document',
+          value: 1
+        },
+        {
+          label: 'Link',
+          value: 2
+        }
+      ],
       rules: {},
       tabledata: [],
+      linkCategory: [],
+      documentCategory: [],
       selectcolumn: [],
-      loading: false
+      loading: false,
+      categoryType: null
     }
   },
   watch: {
@@ -205,12 +225,14 @@ export default {
     },
     setdialog(val) {
       if (!val) {
-        this.getcategoryList()
+        this.getDocumentCategoryList()
+        this.getLinkCategoryList()
       }
     }
   },
   created() {
-    this.getcategoryList()
+    this.getDocumentCategoryList()
+    this.getLinkCategoryList()
   },
   mounted() {
     this.setRules()
@@ -228,6 +250,14 @@ export default {
           this.$refs.addform ? this.$refs.addform.clearValidate() : null
         })
       }, 1)
+    },
+    changeType() {
+      this.addform.categoryId = ''
+    },
+    setCategory(type) {
+      this.setdialog = true
+      this.categoryType = type
+      this.tabledata = type === 3 ? this.linkCategory : this.documentCategory
     },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('YYYY-MM-DD')
@@ -253,14 +283,23 @@ export default {
       this.search()
     },
     // 获取种类列表
-    async getcategoryList() {
+    async getLinkCategoryList() {
       const type = 3
       const res = await categoryList(type)
-      this.categoryList = transList(res.data)
-      res.data.map(i => {
+      this.categoryList1 = transList(res.data)
+      res.data.map((i) => {
         i.isSet = false
       })
-      this.tabledata = res.data
+      this.linkCategory = res.data
+    },
+    async getDocumentCategoryList() {
+      const type = 6
+      const res = await categoryList(type)
+      this.categoryList2 = transList(res.data)
+      res.data.map((i) => {
+        i.isSet = false
+      })
+      this.documentCategory = res.data
     },
     // 新增
     handleAdd() {
@@ -270,15 +309,20 @@ export default {
     // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
-      if (this.categoryList.findIndex(i => i.value === row.categoryId) === -1) {
+      if (this.addform.type === 1 && this.categoryList1.findIndex((i) => i.value === row.categoryId) === -1) {
+        this.addform.categoryId = ''
+      }
+      if (this.addform.type === 2 && this.categoryList2.findIndex((i) => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
       if (this.addform.type === 1) {
         if (row.document) {
-          this.fileList = [{
-            name: row.document.split('wind/')[1],
-            url: process.env.VUE_APP_FILE_BASE_API + row.document
-          }]
+          this.fileList = [
+            {
+              name: row.document.split('wind/')[1],
+              url: process.env.VUE_APP_FILE_BASE_API + row.document
+            }
+          ]
         }
       }
       this.isAdd = false
@@ -325,11 +369,10 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await templateDelete(id)
+        this.$refs.pagination.pageRequest()
       })
-        .then(async() => {
-          await templateDelete(id)
-          this.$refs.pagination.pageRequest()
-        })
     },
     // 搜索
     search() {
@@ -348,6 +391,7 @@ export default {
     // 添加种类
     createcategory() {
       const data = {
+        categoryEn: '',
         category: '',
         creator: '',
         isSet: true,
@@ -360,8 +404,9 @@ export default {
       const data = {
         id: row.id,
         category: row.category,
+        categoryCn: row.categoryCn,
         creator: row.creator,
-        type: 3,
+        type: this.categoryType,
         isSet: false
       }
       if (!data.category) {
@@ -389,16 +434,15 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
-      })
-        .then(async() => {
-          await categoryDel(id)
-          // 删除表格当前行
-          this.tabledata.map((i, index) => {
-            if (i.id === id) {
-              this.tabledata.splice(index, 1)
-            }
-          })
+      }).then(async() => {
+        await categoryDel(id)
+        // 删除表格当前行
+        this.tabledata.map((i, index) => {
+          if (i.id === id) {
+            this.tabledata.splice(index, 1)
+          }
         })
+      })
     },
     // 改变
     change(selections) {
@@ -409,7 +453,7 @@ export default {
         }
       } else {
         selections.map((i) => {
-        // eslint-disable-next-line eqeqeq
+          // eslint-disable-next-line eqeqeq
           if (i.type == 1) {
             this.selectcolumn.push(i.document)
           }
@@ -441,5 +485,4 @@ export default {
 }
 </script>
 <style scoped>
-
 </style>
