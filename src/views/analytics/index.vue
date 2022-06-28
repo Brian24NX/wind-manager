@@ -430,9 +430,12 @@ export default {
             },
             xAxis: {
               data: this.xData,
+              axisTick: {
+                alignWithLabel: true
+              },
               axisLabel: {
-                interval: 0,
-                rotate: 15
+                // interval: 0,
+                // rotate: 15
               }
             },
             tooltip: {

@@ -188,17 +188,20 @@ export default {
           this.total += b
         }
         const Thousands = (num = 0) => {
-          return num.toString().replace(/\d+/,function(n) {
-            return n.replace(/(\d)(?=(?:\d{3})+$)/g,'$1,');
-          });
+          return num.toString().replace(/\d+/, function(n) {
+            return n.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+          })
         }
         this.total = Thousands(this.total)
         const option = {
           xAxis: {
             data: this.xData,
+            axisTick: {
+              alignWithLabel: true
+            },
             axisLabel: {
-              interval: 0,
-              rotate: 15
+              // interval: 0
+              // rotate: -15
             }
           },
           color: ['#3B76E1'],
