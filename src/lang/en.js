@@ -23,7 +23,7 @@ export default {
     contactInformation: 'Contact Information Matrix',
     businessOperationalUpdate: 'Business and Operational Update',
     usefulTemplateAndLink: 'Useful Template and Link',
-    sanctionsAndCommodityList: 'Sanctions and Commodity List',
+    sanctionsAndCommodityList: 'Sanction and Commodity List',
     materialLibrary: 'Material Library',
     usergroup: 'User and User Group-CRM',
     programuser: 'Mini-program User',
@@ -156,14 +156,14 @@ export default {
     save: 'Save',
     submit: 'Save and Publish',
     addnew: 'Add A New Article',
-    titletips: 'title is required',
+    titletips: 'Mandatory',
     titlelengthtips: 'Length shall between 2 to 100 characters.',
-    creatortips: 'creator is required',
+    creatortips: 'Mandatory',
     creatorlengthtips: 'Length shall between 2 to 100 characters.',
-    frontCovertips: 'frontCover is required',
-    contenttips: 'content is required',
+    frontCovertips: 'Mandatory',
+    contenttips: 'Mandatory',
     publishIdstips: 'Mandatory',
-    publishDatetips: 'publishdate is required'
+    publishDatetips: 'Mandatory'
   },
   publishTo: {
     newsCenter: 'Publish to News Center',
@@ -192,7 +192,7 @@ export default {
     type: 'Type',
     import: 'Import',
     export: 'Export',
-    newitem: 'Add A sanction',
+    newitem: 'Add A Commodity',
     editItem: 'Edit sanction',
     deltitle: 'Please confirm if you want to delete this commodity list?',
     commodityzhtips: 'commodityCn is required',
@@ -214,10 +214,10 @@ export default {
     link: 'Link',
     uploadfile: 'Upload File',
     type: 'Type',
-    nametips: 'name is required',
-    categoryIdtips: 'categoryId is required',
-    typetips: 'type is required',
-    documenttips: 'document is required',
+    nametips: 'Mandatory',
+    categoryIdtips: 'Mandatory',
+    typetips: 'Mandatory',
+    documenttips: 'Mandatory',
     remarkszhtips: 'remarks(Chinese) is required',
     remarksentips: 'remarks(English) is required',
     download: 'Download'
@@ -236,7 +236,7 @@ export default {
     deltitle: 'Please confirm if you want to delete this notification?',
     content: 'Content',
     uploadfile: 'Upload File',
-    titletips: 'title is required'
+    titletips: 'Mandatory'
   },
   contact: {
     id: 'No.',
@@ -257,18 +257,18 @@ export default {
     active: 'Active',
     deltitle: 'Please confirm if you want to delete this Contact?',
     createtitle: 'Duty Info',
-    regiontips: 'region is required',
-    officetips: 'office is required',
-    depttips: 'dept is required',
-    buinessscopetips: 'buinessscope is required',
-    tradetips: 'trade is required',
-    contactpersontips: 'contactperson is required',
-    phonetips: 'phone is required',
-    dutydatetips: 'dutydate is required',
-    startTimetips: 'starttime is required',
-    endTimetips: 'endtime is required',
-    emailtips: 'email is required',
-    dutytimetips: 'dutytime is required'
+    regiontips: 'Mandatory',
+    officetips: 'Mandatory',
+    depttips: 'Mandatory',
+    buinessscopetips: 'Mandatory',
+    tradetips: 'Mandatory',
+    contactpersontips: 'Mandatory',
+    phonetips: 'Mandatory',
+    dutydatetips: 'Mandatory',
+    startTimetips: 'Mandatory',
+    endTimetips: 'Mandatory',
+    emailtips: 'Mandatory',
+    dutytimetips: 'Mandatory'
   },
   faq: {
     searchKeyword: 'Question / Keyword',
@@ -310,9 +310,9 @@ export default {
     categoryen: 'Category-EN',
     categoryzh: 'Category-ZH',
     creator: 'Creator',
-    titletips: 'title is required',
-    linktips: 'link is required',
-    publishdatetips: 'publishdate is required',
+    titletips: 'Mandatory',
+    linktips: 'Mandatory',
+    publishdatetips: 'Mandatory',
     categorytips: 'New input category items cannot be empty'
   },
   //  vas
@@ -324,9 +324,9 @@ export default {
     status: 'Status',
     deltitle: 'Please confirm if you want to delete this article?',
     addtitle: 'Add A CMA CGM+ Intro by Link',
-    titletips: 'title is required',
-    linktips: 'link is required',
-    publishdatetips: 'publishdate is required'
+    titletips: 'Mandatory',
+    linktips: 'Mandatory',
+    publishdatetips: 'Mandatory'
   },
   // 用户角色和权限
   userrole: {
@@ -436,7 +436,7 @@ export default {
   },
   download: {
     downloadtime: 'Data',
-    required: 'time is required'
+    required: 'Mandatory'
   },
   //确认框
   popconfirm: {

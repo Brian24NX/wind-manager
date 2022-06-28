@@ -36,7 +36,7 @@
         <el-table-column align="center" :label="$t('contact.region')" prop="regionName" width="120px" />
         <el-table-column :label="$t('contact.office')" prop="officeName" align="center" width="160px" />
         <el-table-column :label="$t('contact.dept')" prop="deptName" align="center" width="150px" />
-        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" width="120px" />
+        <el-table-column align="center" :label="$t('contact.buinessscope')" prop="businessName" width="160px" />
         <el-table-column align="center" :label="$t('contact.trade')" prop="tradeName" width="180px" />
         <el-table-column align="center" :label="$t('contact.accountname')" prop="accountName" />
         <el-table-column align="center" :label="$t('contact.contactperson')" prop="contactPerson" width="160px" />
