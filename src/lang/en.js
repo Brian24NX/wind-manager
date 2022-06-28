@@ -439,7 +439,7 @@ export default {
     contact: 'Contact Us'
   },
   download: {
-    downloadtime: 'Data',
+    downloadtime: 'Date',
     required: 'Mandatory'
   },
   // 确认框
