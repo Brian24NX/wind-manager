@@ -204,6 +204,8 @@ export default {
   // 用户模版
   userful: {
     name: 'Name for Document or Link',
+    categoryen: 'Category-EN',
+    categoryzh: 'Category-ZH',
     category: 'Category',
     document: 'Document/Link',
     reference: 'Internal Reference',
@@ -317,7 +319,7 @@ export default {
     titletips: 'Mandatory',
     linktips: 'Mandatory',
     publishdatetips: 'Mandatory',
-    categorytips: 'New input category items cannot be empty'
+    categorytips: 'Mandatory'
   },
   //  vas
   vas: {

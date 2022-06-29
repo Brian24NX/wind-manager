@@ -411,7 +411,7 @@ export default {
         isSet: false
       }
       if (!data.category) {
-        this.$message.error('类别不能为空')
+        this.$message.error(this.$t('userful.categoryIdtips'))
         return
       }
       if (row.categoryadd) {
