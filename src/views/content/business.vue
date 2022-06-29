@@ -127,7 +127,7 @@
     </el-dialog>
     <!--查看通告-->
     <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center destroy-on-close :close-on-click-modal="false" width="800px" top="50px">
-      <el-form ref="addform" :model="detailform">
+      <el-form ref="addform" label-position="top" :model="detailform">
         <el-form-item :label="$t('business.title')" prop="title">
           <el-input v-model="detailform.title" autocomplete="off" disabled />
         </el-form-item>

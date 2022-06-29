@@ -75,7 +75,7 @@
     </el-dialog>
     <!---->
     <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
-      <el-form ref="detailform" :model="detailform">
+      <el-form ref="detailform" label-position="top" :model="detailform">
         <el-form-item :label="$t('sanctions.commodityzh')" prop="commodityCn">
           <el-input v-model="detailform.commodityCn" autocomplete="off" disabled />
         </el-form-item>

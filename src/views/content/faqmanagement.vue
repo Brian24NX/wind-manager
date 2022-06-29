@@ -86,7 +86,7 @@
     </el-dialog>
     <!-- 详情 -->
     <el-dialog :title="$t('message.detail')" :visible.sync="isSelect" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
-      <el-form ref="addform" :model="detailForm">
+      <el-form ref="addform" label-position="top" :model="detailForm">
         <el-form-item :label="$t('faq.question')" prop="question">
           <el-input v-model="detailForm.question" disabled type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable />
         </el-form-item>

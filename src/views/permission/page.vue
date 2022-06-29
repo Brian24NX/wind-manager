@@ -98,7 +98,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('login.password')" prop="password">
-          <el-input v-model="addemployeeform.password" type="password" clearable autocomplete="off" @blur="addemployeeform.password = $event.target.value.trim()" />
+          <el-input v-model="addemployeeform.password" type="password" clearable autocomplete="new-password" @blur="addemployeeform.password = $event.target.value.trim()" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
