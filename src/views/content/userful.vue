@@ -100,7 +100,7 @@
         </el-form-item>
         <el-form-item :label="$t('userful.category')" prop="categoryId">
           <el-select v-model="addform.categoryId" style="width: 100%" :placeholder="$t('general.choose')">
-            <el-option v-for="item in addform.type === 1 ? categoryList1 : categoryList2" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option v-for="item in addform.type === 1 ? categoryList2 : categoryList1" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item v-show="addform.type == 1" :label="$t('userful.uploadfile')" prop="document">
@@ -171,7 +171,8 @@ export default {
     return {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: { keyWord: '' },
-      categoryList: [],
+      categoryList1: [],
+      categoryList2: [],
       categoryedit: false,
       importdialog: false,
       addform: {
@@ -309,10 +310,10 @@ export default {
     // 编辑
     handleEdit(row) {
       this.addform = JSON.parse(JSON.stringify(row))
-      if (this.addform.type === 1 && this.categoryList1.findIndex((i) => i.value === row.categoryId) === -1) {
+      if (this.addform.type === 1 && this.categoryList2.findIndex((i) => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
-      if (this.addform.type === 2 && this.categoryList2.findIndex((i) => i.value === row.categoryId) === -1) {
+      if (this.addform.type === 2 && this.categoryList1.findIndex((i) => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
       if (this.addform.type === 1) {

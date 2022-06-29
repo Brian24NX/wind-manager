@@ -43,8 +43,7 @@ export default {
   position: relative;
 
   .leftTop {
-    width: 500px;
-    height: 250px;
+    width: 20vw;
     position: absolute;
     top: 100px;
     left: 100px;
