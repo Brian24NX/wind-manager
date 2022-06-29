@@ -78,7 +78,8 @@ export default {
     namerequired: '用户名不能为空',
     functionrequired: '角色不能为空',
     oldPass: '旧密码',
-    changeTitle: '修改密码'
+    changeTitle: '修改密码',
+    submit: '提交'
   },
   // 登陆翻译
   login: {

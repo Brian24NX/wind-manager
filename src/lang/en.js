@@ -78,7 +78,8 @@ export default {
     emailrequired: 'Mandatory',
     namerequired: 'Mandatory',
     functionrequired: 'Mandatory',
-    changeTitle: 'Change Password'
+    changeTitle: 'Change Password',
+    submit: 'Submit'
   },
   // 登陆页面翻译
   login: {
