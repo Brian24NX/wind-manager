@@ -114,7 +114,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item :label="$t('business.category')" prop="categoryId">
-          <el-select v-model="addform.categoryId" :placeholder="$t('general.choose')">
+          <el-select v-model="addform.categoryId" :placeholder="$t('general.choose')" style="width: 400px;">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>

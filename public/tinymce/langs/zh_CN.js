@@ -1,4 +1,4 @@
-window.tinymce.addI18n('zh_CN',{
+tinymce.addI18n('zh_CN',{
   "Redo": "恢复",
   "Undo": "撤销",
   "Cut": "剪切",
@@ -50,13 +50,12 @@ window.tinymce.addI18n('zh_CN',{
   "Inline": "文本",
   "Blocks": "区块",
   "Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "当前为纯文本粘贴模式，再次点击可以回到普通粘贴模式。",
-  "Font Family": "字体",
+  "Fonts": "字体",
   "Font Sizes": "字号",
   "Class": "Class",
   "Browse for an image": "浏览图像",
   "OR": "或",
   "Drop an image here": "拖放一张图片文件至此",
-  "Material library": "素材库",
   "Upload": "上传",
   "Block": "块",
   "Align": "对齐",
@@ -415,4 +414,6 @@ window.tinymce.addI18n('zh_CN',{
   "Version": "版本",
   "Keyboard Navigation": "键盘导航",
   "Open popup menu for split buttons": "该组合键的作用是软回车（插入br）",
+  "Horizontal align": "水平对齐",
+  "Vertical align": "垂直对齐"
   });

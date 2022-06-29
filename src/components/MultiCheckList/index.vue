@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     dealDatas() {
-      console.log(this.defaultCheckedKeys)
+      // console.log(this.defaultCheckedKeys)
       this.loading = true
       const newList = JSON.parse(JSON.stringify(this.dataList))
       newList.forEach(item => {
@@ -93,13 +93,13 @@ export default {
           child.buttonFlag = length === child.children.length
           const length2 = item.children.filter(firstChild => firstChild.buttonFlag).length
           const length3 = item.children.filter(firstChild => firstChild.isIndeterminate).length
-          console.log(length, length2, length3)
+          // console.log(length, length2, length3)
           item.buttonFlag = length2 === item.children.length
           item.isIndeterminate = !!(((length2 || length3) && (length2 < item.children.length && length3 <= item.children.length)))
         })
       })
       this.newDataList = newList
-      console.log(this.newDataList)
+      // console.log(this.newDataList)
       this.loading = false
     },
     handlerChange($type, $row, $event, item, firstItem, secondItem) {
@@ -146,7 +146,7 @@ export default {
           }
           return prev + +check
         }, 0) // 统计选择的次数
-        console.log(checkCount, checkCount1)
+        // console.log(checkCount, checkCount1)
         this.$set(item, 'isIndeterminate', !!(((checkCount || checkCount1) && (checkCount < item.children.length && checkCount1 < item.children.length))))
         this.$set(item, 'buttonFlag', checkCount && checkCount === item.children.length)
       } else if ($type === 3) {
@@ -193,7 +193,7 @@ export default {
           }
           return prev + +check
         }, 0) // 统计选择的次数
-        console.log(checkCount0, checkCount1)
+        // console.log(checkCount0, checkCount1)
         this.$set(item, 'isIndeterminate', !!(((checkCount1 || checkCount0) && (checkCount1 < item.children.length && checkCount0 <= item.children.length))))
         this.$set(item, 'buttonFlag', !!(checkCount1 && checkCount1 === item.children.length))
       } else if ($type === 4) {
@@ -235,7 +235,7 @@ export default {
           }
           return prev + +check
         }, 0) // 统计选择的次数
-        console.log(checkCount2, checkCount3)
+        // console.log(checkCount2, checkCount3)
         if (checkCount3 === firstItem.children.length) {
           this.$set(firstItem, 'buttonFlag', true)
           this.$set(firstItem, 'isIndeterminate', false)
@@ -263,7 +263,7 @@ export default {
           }
           return prev + +check
         }, 0) // 统计选择的次数
-        console.log(checkCount0, checkCount1)
+        // console.log(checkCount0, checkCount1)
         this.$set(item, 'isIndeterminate', !!(((checkCount1 || checkCount0) && (checkCount1 < item.children.length && checkCount0 <= item.children.length))))
         this.$set(item, 'buttonFlag', !!(checkCount1 && checkCount1 === item.children.length))
       }

@@ -47,7 +47,7 @@ const actions = {
         menuArr.push(route.name)
         if (route.children) {
           route.children.forEach(item => {
-            if (item.name !== 'Article Managements') {
+            if (item.name !== 'Article Management') {
               if (item.children && item.children.findIndex(child => child.name === 'View') !== -1) {
                 menuArr.push(item.name)
               }

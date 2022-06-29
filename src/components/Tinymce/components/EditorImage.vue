@@ -1,7 +1,7 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{ background: color, borderColor: color}" icon="el-icon-upload" size="mini" type="primary" @click="materials">{{ $t('tinymce.material') }}</el-button>
-    <el-button :style="{ background: color, borderColor: color, marginLeft: '10px' }" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible = true"> {{ $t('tinymce.title') }} </el-button>
+    <el-button icon="el-icon-upload" size="mini" type="primary" @click="materials">{{ $t('tinymce.material') }}</el-button>
+    <el-button style="marginLeft: 10px" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible = true"> {{ $t('tinymce.title') }} </el-button>
     <el-dialog :title="$t('tinymce.title')" :visible.sync="dialogVisible" center width="800px" destroy-on-close append-to-body :modal-append-to-body="false">
       <el-upload
         :multiple="true"
