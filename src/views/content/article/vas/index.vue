@@ -155,9 +155,6 @@ export default {
         if (this.detailform.historyFlag) {
           window.open(this.detailform.originalLink)
         } else {
-          if (this.detailform.content) {
-            this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
-          }
           this.detailDialog = true
         }
       })

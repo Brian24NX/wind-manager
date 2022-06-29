@@ -70,4 +70,9 @@ body {
 .el-icon-search {
   cursor: pointer;
 }
+
+.wscnph {
+  max-width: 100%;
+  height: auto;
+}
 </style>

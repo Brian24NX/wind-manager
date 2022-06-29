@@ -346,9 +346,6 @@ export default {
     // 查看详情
     handleDetail(row) {
       this.detailform = JSON.parse(JSON.stringify(row))
-      if (this.detailform.content) {
-        this.detailform.content = this.detailform.content.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
-      }
       if (row.filepath) {
         this.fileList = [{
           name: row.filepath.split('wind/')[1],

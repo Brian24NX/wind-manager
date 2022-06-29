@@ -201,12 +201,6 @@ export default {
     // 处理详情
     handleDetail(row) {
       this.detailform = JSON.parse(JSON.stringify(row))
-      if (this.detailform.remarkCn) {
-        this.detailform.remarkCn = this.detailform.remarkCn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
-      }
-      if (this.detailform.remarkEn) {
-        this.detailform.remarkEn = this.detailform.remarkEn.replace(/\<img/gi, '<img style="max-width: 100%;height: auto;" ')
-      }
       this.detaildialog = true
     },
     // 下载模版
