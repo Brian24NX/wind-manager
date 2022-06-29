@@ -182,7 +182,7 @@ export default {
           // eslint-disable-next-line no-unused-vars
           const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
           if (!passwordreg.test(value)) {
-            callback(new Error(this.$t('forgetForm.requirerule')))
+            callback(new Error(this.$t('forgetForm.requirerules')))
           } else {
             callback()
           }
