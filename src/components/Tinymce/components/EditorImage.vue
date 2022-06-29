@@ -25,19 +25,25 @@
       </div>
     </el-dialog>
     <el-dialog :title="$t('tinymce.title')" :visible.sync="material" center width="1000px" destroy-on-close append-to-body :modal-append-to-body="false">
-      <div style="margin-left: -12px;">
-        <el-checkbox-group v-model="checkedList">
+      <el-row style="width: 100%;margin-bottom: 30px;" type="flex" justify="end">
+        <el-select v-model="categoryId" placeholder="请选择" style="margin-right: 20px" clearable @change="changesearch">
+          <el-option v-for="item in categoryLists" :key="item.id" :label="item.category" :value="item.id" />
+        </el-select>
+      </el-row>
+      <div v-loading="loading" style="min-height: 200px">
+        <el-checkbox-group v-if="librarylist.length" v-model="checkedList">
           <div class="listcontainer">
             <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
-              <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
+              <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" fit="scale-down" />
               <el-checkbox :label="item.id" @change="changeCheck">
                 <span style="text-overflow: ellipsis; white-space: break-spaces;">{{ item.title }}</span>
               </el-checkbox>
             </div>
           </div>
         </el-checkbox-group>
-        <Pagination v-show="total > 0" :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
+        <div v-if="!librarylist.length" style="width: 100%;height: 200px;display: flex;justify-content: center;align-items: center;font-size: 14px;color: #5e6d82;">{{ $t('tinymce.noMaterial') }}</div>
       </div>
+      <Pagination :total="total" :page="pageNum" :limit="pageSize" @pagination="changePagination" />
       <div style="display: flex; justify-content: center;">
         <el-button type="primary" @click="materialSubmit"> {{ $t('tinymce.confirmBtn') }} </el-button>
         <el-button @click="cancelBtn"> {{ $t('tinymce.cancelBtn') }} </el-button>
@@ -49,6 +55,7 @@
 <script>
 // import { getToken } from 'api/qiniu'
 import { materialList } from '@/api/material'
+import { categoryList } from '@/api/article'
 import Pagination from '@/components/Pagination2'
 import Cookies from 'js-cookie'
 
@@ -74,7 +81,10 @@ export default {
       total: 0,
       pageNum: 1,
       pageSize: 10,
-      fileList: []
+      fileList: [],
+      loading: true,
+      categoryId: '',
+      categoryLists: []
     }
   },
   watch: {
@@ -95,7 +105,6 @@ export default {
         this.$message('Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!')
         return
       }
-      console.log(arr, 777777)
       this.$emit('successCBK', arr)
       this.listObj = {}
       this.fileList = []
@@ -128,9 +137,8 @@ export default {
       const fileName = file.name
       this.listObj[fileName] = {}
       // 图片文件名有空格，不让上传
-      // eslint-disable-next-line eqeqeq
-      if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
-        this.$message.error('上传图片名称不能包含空格或 #!')
+      if (fileName.indexOf('#') > -1) {
+        this.$message.error('上传图片名称不能包含#')
         return false
       } else {
         return new Promise((resolve, reject) => {
@@ -155,13 +163,32 @@ export default {
     },
     materials() {
       this.material = true
+      this.getcategoryList()
+      this.getMaterialList()
+    },
+    changesearch(val) {
+      this.categoryId = val
+      this.getMaterialList()
+    },
+    // 获取种类列表
+    async getcategoryList() {
+      const type = 4
+      const res = await categoryList(type)
+      this.categoryLists = res.data
+    },
+    getMaterialList() {
       const data = {
         pageNum: this.pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        categoryId: this.categoryId
       }
+      this.loading = true
       materialList(data).then(res => {
         this.librarylist = res.data.list
         this.total = res.data.total
+        this.loading = false
+      }, () => {
+        this.loading = false
       })
     },
     changeCheck() {
@@ -181,6 +208,10 @@ export default {
     },
     materialSubmit() {
       const arr = Object.keys(this.materialObj).map((v) => this.materialObj[v])
+      if (!arr.length) {
+        this.$message.error(this.$t('tinymce.choose'))
+        return
+      }
       this.$emit('successCBK', arr)
       this.cancelBtn()
     },
@@ -203,22 +234,26 @@ export default {
 }
 
 .listcontainer {
-   overflow: hidden;
-  margin-right: -20px;
+  overflow: hidden;
+  // margin-right: -20px;
   margin-bottom: -40px;
   margin-top: 0;
 }
 
 .cardcontainer {
   float: left;
-  width: 190px;
+  width: calc((100% - 40px) / 5);
   height: 200px;
-  margin-right: 5px;
+  margin-right: 10px;
   margin-bottom: 20px;
 }
 
+.cardcontainer:nth-of-type(5n) {
+  margin-right: 0;
+}
+
 .imgsrc {
-  width: 190px;
+  width: 100%;
   height: 160px;
   margin-bottom: 10px;
 }

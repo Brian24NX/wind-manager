@@ -12,8 +12,8 @@
               <el-checkbox v-model="checked" style="margin-top: 10px" @change="changeall">{{ $t('library.allselect') }}</el-checkbox>
             </el-col>
             <el-col :span="10">
-              <el-button type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
-              <el-button type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
+              <el-button v-permission="[61]" type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleEditAllCate">{{ $t('library.category') }}</el-button>
+              <el-button v-permission="[61]" type="danger" size="small" :disabled="!checkedList.length ? true : false" plain @click="handleDelAll">{{ $t('library.delete') }}</el-button>
             </el-col>
           </el-row>
         </el-col>
@@ -22,8 +22,20 @@
             <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" clearable @change="changesearch">
               <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
-            <el-button type="danger" size="small" @click="uploaddialog = true">{{ $t('library.upload') }}</el-button>
-            <el-button type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
+            <el-upload
+              ref="upload"
+              v-permission="[61]"
+              class="upload-demo"
+              :show-file-list="false"
+              :headers="uploadHeaders"
+              action="/api/admin/uploadImgList"
+              :on-success="handleSuccess"
+              :before-upload="beforeUpload"
+              :limit="10"
+            >
+              <el-button type="danger">{{ $t('library.upload') }}</el-button>
+            </el-upload>
+            <el-button v-permission="[61]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -31,7 +43,7 @@
     <el-checkbox-group v-model="checkedList">
       <div class="listcontainer">
         <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
-          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" />
+          <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" fit="scale-down" />
           <div>
             <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
             <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
@@ -100,30 +112,31 @@
       </div>
     </el-dialog>
     <!--批量文件上传-->
-    <el-dialog :title="$t('library.upload')" :visible.sync="uploaddialog" center @close="getMatlist">
+    <!-- <el-dialog :title="$t('library.upload')" :visible.sync="uploaddialog" center @close="getMatlist">
       <el-upload
         ref="upload"
         class="upload-demo"
+        multiple
+        :show-file-list="false"
+        list-type="picture-card"
         :headers="uploadHeaders"
         action="/api/admin/uploadImgList"
         :on-preview="handPreview"
-        :on-remove="handRemove"
+        :on-remove="handleRemove"
         :on-success="handleSuccess"
+        :before-upload="beforeUpload"
         :file-list="fileList"
         :limit="10"
       >
-        <el-button slot="trigger" size="small" type="primary">{{ $t('business.uploadfile') }}</el-button>
-      </el-upload></el-dialog>
+        <i class="el-icon-plus" />
+      </el-upload></el-dialog> -->
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination2'
-// eslint-disable-next-line no-unused-vars
 import { materialList, materialDelete, materialChange, materialRename } from '@/api/material'
-// eslint-disable-next-line no-unused-vars
-import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
-// eslint-disable-next-line no-unused-vars
+import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article'
 import { transList } from '@/utils'
 import Cookies from 'js-cookie'
 import { getToken } from '@/utils/auth'
@@ -162,7 +175,8 @@ export default {
       rules: {},
       checkedList: [],
       fileList: [],
-      loading: false
+      loading: false,
+      listObj: {}
     }
   },
   watch: {
@@ -348,7 +362,7 @@ export default {
         isSet: false
       }
       if (!data.category) {
-        this.$message.error('类别不能为空')
+        this.$message.error(this.$t('userful.categoryIdtips'))
         return
       }
       if (row.categoryadd) {
@@ -390,9 +404,34 @@ export default {
           this.getlist()
         })
     },
-    handPreview() {},
-    handRemove() {},
-    handleSuccess() {}
+    handleSuccess() {
+      this.getMatlist()
+    },
+    beforeUpload(file) {
+      const _self = this
+      const _URL = window.URL || window.webkitURL
+      const fileName = file.name
+      this.listObj[fileName] = {}
+      // 图片文件名有空格，不让上传
+      if (fileName.indexOf('#') > -1) {
+        this.$message.error('上传图片名称不能包含#')
+        return false
+      } else {
+        return new Promise((resolve, reject) => {
+          if (file.type.indexOf('image') === -1) {
+            this.$message.error(this.$t('tinymce.uploadError'))
+            reject(file)
+            return
+          }
+          const img = new Image()
+          img.src = _URL.createObjectURL(file)
+          img.onload = function() {
+            _self.listObj[fileName] = { hasSuccess: false, uid: file.uid, width: this.width, height: this.height }
+          }
+          resolve(true)
+        })
+      }
+    }
   }
 }
 </script>
@@ -437,5 +476,9 @@ export default {
 }
 .table-cell {
   display: table-cell;
+}
+
+.upload-demo {
+  margin-right: 20px;
 }
 </style>

@@ -370,7 +370,9 @@ export default {
     uploadBtn: 'Click upload',
     confirmBtn: 'Confirm',
     cancelBtn: 'Cancel',
-    uploadError: 'Please upload image file!'
+    uploadError: 'Please upload image file',
+    choose: 'Please select the stock image',
+    noMaterial: 'No material'
   },
   // 小程序用户
   programuser: {

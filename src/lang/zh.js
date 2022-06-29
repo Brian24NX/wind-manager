@@ -374,7 +374,9 @@ export default {
     uploadBtn: '点击上传',
     confirmBtn: '确定',
     cancelBtn: '取消',
-    uploadError: '请上传图片'
+    uploadError: '请上传图片',
+    choose: '请选择素材库图片',
+    noMaterial: '暂无素材库图片'
   },
   // 小程序用户
   programuser: {
