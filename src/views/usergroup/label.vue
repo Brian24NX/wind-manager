@@ -26,7 +26,11 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/labelList" :request-params="queryParams" show-index>
         <el-table-column :label="$t('label.labelname')" prop="name" />
-        <el-table-column align="center" :label="$t('label.description')" prop="description" />
+        <el-table-column align="center" :label="$t('label.description')" prop="description">
+          <template scope="scope">
+            <span style="white-space: pre-line">{{ scope.row.description }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('label.companycategory')" prop="companys" align="center">
           <template scope="scope">
             <el-button v-permission="[65]" size="small" type="text" @click="viewcompany(scope.row.id)">{{ $t('label.viewcompany') }}({{ scope.row.companyCount || 0 }})</el-button>

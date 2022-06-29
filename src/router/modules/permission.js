@@ -15,7 +15,7 @@ const permissionRouter = {
   children: [
     {
       path: '/UserManagement',
-      component: () => import('@/views/permission/role'),
+      component: () => import('@/views/permission/user'),
       name: 'User Management',
       meta: {
         title: 'userManagement'
@@ -23,7 +23,7 @@ const permissionRouter = {
     },
     {
       path: '/RolePermission',
-      component: () => import('@/views/permission/page'),
+      component: () => import('@/views/permission/role'),
       name: 'Role and Permission',
       meta: {
         title: 'rolePermission'

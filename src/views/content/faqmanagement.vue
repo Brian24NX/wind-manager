@@ -27,7 +27,11 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('faq.id')" prop="id" width="120px" />
-        <el-table-column align="center" :label="$t('faq.question')" prop="question" />
+        <el-table-column align="center" :label="$t('faq.question')" prop="question">
+          <template scope="scope">
+            <span style="white-space: pre-line">{{ scope.row.question }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('faq.keyword')" prop="faqKeywords" />
         <el-table-column :label="$t('faq.relatedquestion')" prop="faqRelations" align="center">
           <template scope="scope">

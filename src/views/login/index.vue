@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login">
       <div class="loginleft">
-        <img :src="src" class="left25">
+        <img src="../../assets/logo.svg" class="left25">
       </div>
       <div class="loginright">
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
@@ -17,15 +17,7 @@
             <span class="svg-container">
               <svg-icon icon-class="email" />
             </span>
-            <el-input
-              ref="username"
-              v-model="loginForm.username"
-              :placeholder="$t('login.username')"
-              name="username(Email)"
-              type="text"
-              tabindex="1"
-              autocomplete="on"
-            />
+            <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username(Email)" type="text" tabindex="1" autocomplete="on" />
           </el-form-item>
 
           <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
@@ -52,7 +44,7 @@
             </el-form-item>
           </el-tooltip>
 
-          <el-button :loading="loading" type="danger" style="width:100%;margin-bottom:30px;margin-top:20px;" @click.native.prevent="handleLogin">
+          <el-button :loading="loading" type="danger" style="width: 100%; margin-bottom: 30px; margin-top: 20px" @click.native.prevent="handleLogin">
             {{ $t('login.logIn') }}
           </el-button>
           <router-link class="link" to="/forget/toemail">{{ $t('login.forgetpassword') }}</router-link>
@@ -132,7 +124,7 @@ export default {
   methods: {
     checkCapslock(e) {
       const { key } = e
-      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
+      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
     },
     showPwd() {
       if (this.passwordType === 'password') {
@@ -145,10 +137,11 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store
+            .dispatch('user/login', this.loginForm)
             .then(() => {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
@@ -175,9 +168,8 @@ export default {
 </script>
 
 <style lang="scss">
-
-$bg:#283443;
-$light_gray:#fff;
+$bg: #283443;
+$light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -188,8 +180,8 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
-   min-width:1200px;
-   margin:auto;
+  min-width: 1200px;
+  margin: auto;
   .el-input {
     display: inline-block;
     height: 47px;
@@ -218,19 +210,19 @@ $cursor: #fff;
     border-radius: 5px;
     color: #454545;
   }
-  .link{
-     background-color:transparent;
-     color:#2563d9;
-     margin-bottom:20px;
-     float:right;
+  .link {
+    background-color: transparent;
+    color: #2563d9;
+    margin-bottom: 20px;
+    float: right;
   }
 }
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
 
 .login-container {
   min-height: 100%;
@@ -241,25 +233,30 @@ $light_gray:#eee;
   justify-content: center;
   align-items: center;
 
-  .login{
+  .login {
     width: 1200px;
   }
-  .loginleft{
-      width:630px;
-      height:712px;
-      display:table-cell;
-      background:url('../../assets/bg.png') no-repeat;
-      .left25{
-        position:relative;
-        left:25px;
-        top:-100px;
-      }
+  .loginleft {
+    width: 630px;
+    height: 712px;
+    display: table-cell;
+    background: url('../../assets/bg.png') no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+
+    .left25 {
+      width: 309px;
+      height: 88px;
+      position: absolute;
+      left: 16px;
+      top: 30px;
+    }
   }
-  .loginright{
-      width:570px;
-      height:712px;
-      display:table-cell;
-      background-color:#04246A;
+  .loginright {
+    width: 570px;
+    height: 712px;
+    display: table-cell;
+    background-color: #04246a;
   }
   .login-form {
     position: relative;
@@ -269,14 +266,14 @@ $light_gray:#eee;
     margin: 0 auto;
     overflow: hidden;
   }
-    .set-language {
-      color: #fff;
-      position: absolute;
-      top: 13px;
-      font-size: 18px;
-      right: 0px;
-      cursor: pointer;
-    }
+  .set-language {
+    color: #fff;
+    position: absolute;
+    top: 13px;
+    font-size: 18px;
+    right: 0px;
+    cursor: pointer;
+  }
   .tips {
     font-size: 14px;
     color: #fff;
@@ -307,7 +304,6 @@ $light_gray:#eee;
       text-align: center;
       font-weight: bold;
     }
-
   }
 
   .show-pwd {
