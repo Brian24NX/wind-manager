@@ -3,12 +3,12 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.faqId" placeholder="请选择" clearable filterable style="width: 100%" @change="search">
+          <el-select v-model="queryParams.faqId" :placeholder="$t('general.choose')" clearable filterable style="width: 100%" @change="search">
             <el-option v-for="item in faqLists" :key="item.value" :label="item.question" :value="item.id" />
           </el-select>
         </el-col>
         <el-col :span="8">
-          <el-row :gutter="20" type="flex" justify="space-between">
+          <el-row :gutter="18" type="flex" justify="space-between">
             <el-col :span="20">
               <el-date-picker
                 v-model="queryParams.timeList"
@@ -26,7 +26,7 @@
                 @change="search"
               />
             </el-col>
-            <el-col :span="4">
+            <el-col :span="6">
               <el-row type="flex" justify="end">
                 <el-button v-permission="[74]" type="danger" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
               </el-row>
@@ -183,11 +183,11 @@ export default {
       pieData: [
         {
           value: 0,
-          name: '赞'
+          name: 'Thumbs Up'
         },
         {
           value: 0,
-          name: '踩'
+          name: 'Thumbs Down'
         }
       ],
       pieName: [],
@@ -260,7 +260,7 @@ export default {
         // 图例
         legend: {
           orient: 'vertical',
-          data: ['赞', '踩'],
+          data: ['Thumbs Up', 'Thumbs Down'],
           x: 'right',
           y: 'center'
         },
@@ -270,7 +270,7 @@ export default {
             type: 'bar', // 形状为柱状图
             data: this.yData,
             barWidth: '25px',
-            name: '赞', // legend属性
+            name: 'Thumbs Up', // legend属性
             label: {
               // 柱状图上方文本标签，默认展示数值信息
               show: true,
@@ -281,7 +281,7 @@ export default {
             type: 'bar', // 形状为柱状图
             data: this.taskDate,
             barWidth: '25px',
-            name: '踩', // legend属性
+            name: 'Thumbs Down', // legend属性
             label: {
               // 柱状图上方文本标签，默认展示数值信息
               show: true,
@@ -326,11 +326,11 @@ export default {
       this.pieData = [
         {
           value: this.total.likes,
-          name: '赞'
+          name: 'Thumbs Up'
         },
         {
           value: this.total.dislikes,
-          name: '踩'
+          name: 'Thumbs Down'
         }
       ]
       // 饼图
@@ -344,7 +344,7 @@ export default {
           orient: 'horizontal',
           x: 'center',
           y: 'bottom',
-          data: ['赞', '踩']
+          data: ['Thumbs Up', 'Thumbs Down']
         },
         series: [
           {

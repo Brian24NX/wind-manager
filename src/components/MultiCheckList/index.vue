@@ -271,7 +271,7 @@ export default {
     getCheckedKeys() {
       const length = this.newDataList.filter(item => (item.buttonFlag || item.isIndeterminate)).length
       if (!length) {
-        this.$message.error('请选择权限')
+        this.$message.error(this.$t('permission.required'))
         return []
       }
       return this.newDataList

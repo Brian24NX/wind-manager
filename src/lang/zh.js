@@ -102,6 +102,7 @@ export default {
     editPermission: '编辑权限',
     roles: '你的权限',
     switchRoles: '切换权限',
+    required: '请选择权限',
     tips: '在某些情况下，不适合使用 v-permission。例如：Element-UI 的 el-tab 或 el-table-column 以及其它动态渲染 dom 的场景。你只能通过手动设置 v-if 来实现。',
     delete: '删除',
     confirm: '确定',
@@ -416,7 +417,7 @@ export default {
     publishdate: '发布日期',
     numberofviews: '浏览量',
     numberofsendtoemail: '发送至邮箱数量',
-    numberoflikes: '喜欢的数量'
+    numberoflikes: '点赞量'
   },
   // 模版
   useful: {
@@ -448,6 +449,10 @@ export default {
     useful: '常用模版及链接',
     sanction: '管制品查询',
     contact: '联系我们'
+  },
+  analysis: {
+    noData: '暂无数据',
+    qidai: '功能升级中，敬请期待'
   },
   // 下载
   download: {

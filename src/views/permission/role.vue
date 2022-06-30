@@ -165,34 +165,6 @@ export default {
           password: ''
         }
         this.loading = false
-      } else {
-        const checkapssword = (rule, value, callback) => {
-          // eslint-disable-next-line no-unused-vars
-          const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
-          if (!passwordreg.test(value)) {
-            callback(new Error(this.$t('forgetForm.requirerules')))
-          } else {
-            callback()
-          }
-        }
-        const checkemail = (rule, value, callback) => {
-          // eslint-disable-next-line no-unused-vars
-          const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-          if (!email.test(value)) {
-            callback(new Error(this.$t('forgetForm.emailtips')))
-          } else {
-            callback()
-          }
-        }
-        this.rules = {
-          name: { required: true, message: this.$t('forgetForm.namerequired') },
-          email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
-          // function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
-          password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
-        }
-        setTimeout(() => {
-          this.$refs.addemployeeform.clearValidate()
-        }, 1)
       }
     },
     adddialog(val) {
@@ -221,12 +193,37 @@ export default {
   methods: {
     setRules() {
       this.premissionrules = {
-        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' },
-        menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
+        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
+        // menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
+      }
+      const checkapssword = (rule, value, callback) => {
+        // eslint-disable-next-line no-unused-vars
+        const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+        if (!passwordreg.test(value)) {
+          callback(new Error(this.$t('forgetForm.requirerules')))
+        } else {
+          callback()
+        }
+      }
+      const checkemail = (rule, value, callback) => {
+        // eslint-disable-next-line no-unused-vars
+        const email = /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+        if (!email.test(value)) {
+          callback(new Error(this.$t('forgetForm.emailtips')))
+        } else {
+          callback()
+        }
+      }
+      this.rules = {
+        name: { required: true, message: this.$t('forgetForm.namerequired') },
+        email: [{ required: true, message: this.$t('forgetForm.emailrequired') }, { validator: checkemail, trigger: blur }],
+        // function: { required: true, message: this.$t('forgetForm.functionrequired'), trigger: blur },
+        password: [{ required: true, message: this.$t('forgetForm.passwordtips') }, { trigger: blur, validator: checkapssword }]
       }
       setTimeout(() => {
         this.$nextTick(() => {
           this.$refs.premissionform ? this.$refs.premissionform.clearValidate() : null
+          this.$refs.addemployeeform ? this.$refs.addemployeeform.clearValidate() : null
         })
       }, 1)
     },

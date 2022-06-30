@@ -4,13 +4,13 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.analysisType" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="changeType">
+          <el-select v-model="queryParams.analysisType" :placeholder="$t('general.choose')" :clearable="false" filterable style="width: 100%" @change="changeType">
             <el-option v-for="item in userTypeList" :key="item.value" :label="item.value" :value="item.key" />
           </el-select>
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="space-between">
-            <el-col :span="20">
+            <el-col :span="18">
               <el-date-picker
                 v-model="queryParams.timeList"
                 size="small"
@@ -27,7 +27,7 @@
                 @change="search"
               />
             </el-col>
-            <el-col :span="4">
+            <el-col :span="6">
               <el-row type="flex" justify="end">
                 <el-button v-permission="[70]" type="danger" :disabled="queryParams.analysisType === 7" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
               </el-row>
@@ -41,7 +41,7 @@
       <!--Frequently searched routes-->
       <div v-if="queryParams.analysisType == 1">
         <div id="mychart" class="echart" :style="myChartStyle" />
-        <div v-show="isshow" class="nodata"><span>暂无数据</span></div>
+        <div v-show="isshow" class="nodata"><span>{{ $t('analysis.noData') }}}</span></div>
       </div>
       <!--Business & Operational Updates-->
       <div v-if="queryParams.analysisType == 2">
@@ -79,7 +79,7 @@
         </Pagination>
       </div>
       <!--转化分析-->
-      <div v-if="queryParams.analysisType == 7" style="width: 100%;height: 400px;text-align: center;line-height: 380px;font-size: 30px;">功能升级中，敬请期待</div>
+      <div v-if="queryParams.analysisType == 7" style="width: 100%;height: 400px;text-align: center;line-height: 380px;font-size: 30px;">{{ $t('analysis.qidai') }}</div>
     </div>
     <!--更多模版点击次数-->
     <div v-if="queryParams.analysisType == 6">
