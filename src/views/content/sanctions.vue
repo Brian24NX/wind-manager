@@ -24,8 +24,8 @@
     <!--内容模块-->
     <div class="tableContainer">
       <div class="operations">
-        <el-button v-permission="[54]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button v-permission="[54]" type="danger" size="small" @click="importdialog=true">{{ $t('sanctions.import') }}</el-button>
+        <!-- <el-button v-permission="[54]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button> -->
+        <el-button v-permission="[54]" type="danger" size="small" @click="importFile">{{ $t('sanctions.import') }}</el-button>
         <el-button v-permission="[55]" type="danger" size="small" @click="download">{{ $t('sanctions.export') }}</el-button>
         <el-button v-permission="[53]" type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>
@@ -97,37 +97,25 @@
       </el-form>
     </el-dialog>
     <!--导入模版-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
-      <el-upload class="upload-demo" drag action="/api/admin/sanctionCommodityImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
-        <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </el-upload>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" :loading="loading" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
-        <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
-      </div>
-    </el-dialog>
+    <CustomerImport ref="customerImport" download-url="import/Import Sanction List导入管制品.xlsx" import-url="/api/admin/sanctionCommodityImport" :table-colum="tableColum" />
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+import CustomerImport from '@/components/Import/import'
 import Tinymce from '@/components/Tinymce'
-// eslint-disable-next-line no-unused-vars
-import { categoryList } from '@/api/article.js'
-// eslint-disable-next-line no-unused-vars
-import { sanctionAdd, sanctionEdit, sanctionDel, sanctionActive, sanctionExport } from '@/api/sanction.js'
-// eslint-disable-next-line no-unused-vars
+import { categoryList } from '@/api/article'
+import { sanctionAdd, sanctionEdit, sanctionDel, sanctionActive, sanctionExport } from '@/api/sanction'
 import { transList } from '@/utils'
-import { getToken } from '@/utils/auth'
 export default {
   name: 'Senctions',
   components: {
     Pagination,
-    Tinymce
+    Tinymce,
+    CustomerImport
   },
   data() {
     return {
-      uploadHeaders: { 'Authorization': getToken() },
       queryParams: {
         referenceNo: '',
         keyword: ''
@@ -149,7 +137,24 @@ export default {
       loading: false,
       rules: {},
       detailform: {},
-      detaildialog: false
+      detaildialog: false,
+      tableColum: [{
+        prop: 'commodityCn',
+        label: 'commodityCn',
+        width: '200px'
+      }, {
+        prop: 'commodityEn',
+        label: 'commodityEn',
+        width: '200px'
+      }, {
+        prop: 'remarkCn',
+        label: 'remarkCn',
+        width: '200px'
+      }, {
+        prop: 'remarkEn',
+        label: 'remarkEn',
+        width: '200px'
+      }]
     }
   },
   watch: {
@@ -203,15 +208,10 @@ export default {
       this.detailform = JSON.parse(JSON.stringify(row))
       this.detaildialog = true
     },
-    // 下载模版
+    // 导出
     async download() {
       const res = await sanctionExport(this.queryParams)
       window.open(res.data)
-    },
-    // 提交导入
-    submitimport() {
-      this.importdialog = false
-      this.search()
     },
     // 取消
     Cancle() {
@@ -290,11 +290,10 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await sanctionDel(id)
+        this.$refs.pagination.pageRequest()
       })
-        .then(async() => {
-          await sanctionDel(id)
-          this.$refs.pagination.pageRequest()
-        })
     },
     // 管制品修改
     handleEdit(row) {
@@ -306,20 +305,11 @@ export default {
         this.$refs.editor2.setContent(row.remarkEn)
       }, 200)
     },
-    // 下载文件
-    downloadfile() {
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Sanction List导入管制品.xlsx')
-    },
-    // 处理完成
-    handleSuccess(res) {
-      // eslint-disable-next-line eqeqeq
-      if (res.code != 200) {
-        this.$message.error(res.message)
-      }
+    importFile() {
+      this.$refs.customerImport.importFile()
     }
   }
 }
 </script>
 <style scoped>
-
 </style>

@@ -454,6 +454,14 @@ export default {
     noData: '暂无数据',
     qidai: '功能升级中，敬请期待'
   },
+  import: {
+    import: '导入',
+    importRes: '导入结果',
+    tip1: '将文件拖到此处，或',
+    tip2: '点击上传',
+    tip3: '只能上传.xlsx/.xls文件，',
+    tip4: '下载模版'
+  },
   // 下载
   download: {
     downloadtime: '数据时间',

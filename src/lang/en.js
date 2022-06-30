@@ -450,6 +450,14 @@ export default {
     noData: 'Temporarily no data',
     qidai: 'Function coming soon, stay tuned'
   },
+  import: {
+    import: 'Import',
+    importRes: 'Import Result',
+    tip1: 'Drag the file here, ',
+    tip2: 'or click to upload',
+    tip3: 'Only. XLSX /. XLS files can be uploaded, ',
+    tip4: 'Template'
+  },
   download: {
     downloadtime: 'Date',
     required: 'Mandatory'

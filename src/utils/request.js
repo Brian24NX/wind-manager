@@ -62,12 +62,14 @@ service.interceptors.response.use(
         }, 3000)
         return Promise.reject(new Error(res.message || 'Error'))
       } else {
-        myMessage({
-          message: res.message || 'Error',
-          type: 'error',
-          duration: 5 * 1000
-        })
-        return Promise.reject(new Error(res.message || 'Error'))
+        if (res.code !== '501') {
+          myMessage({
+            message: res.message || 'Error',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
+        return Promise.reject(res)
       }
     } else {
       if (response.config.method !== 'get') {

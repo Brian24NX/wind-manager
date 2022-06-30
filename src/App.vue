@@ -75,4 +75,14 @@ body {
   max-width: 100%;
   height: auto;
 }
+
+.el-upload__tip {
+  text-align: center;
+  margin-top: 10px;
+
+  .downloads {
+    cursor: pointer;
+    color: #1890ff;
+  }
+}
 </style>
