@@ -79,7 +79,7 @@
         </Pagination>
       </div>
       <!--转化分析-->
-      <div v-if="queryParams.analysisType == 7" style="width: 100%;height: 400px;text-align: center;line-height: 380px;font-size: 30px;">功能升级中，敬请期待</div>
+      <div v-if="queryParams.analysisType == 7" style="width: 100%;height: 400px;text-align: center;line-height: 380px;font-size: 30px;">{{$t('most.function')}}</div>
     </div>
     <!--更多模版点击次数-->
     <div v-if="queryParams.analysisType == 6">
