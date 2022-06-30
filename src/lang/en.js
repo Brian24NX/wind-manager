@@ -401,8 +401,8 @@ export default {
     labelnametips: 'Mandatory',
     download: 'Download',
     companys: 'Companys',
-    viewcompany: 'Look Company',
-    viewuser: 'Look Company User',
+    viewcompany: 'View Company',
+    viewuser: 'View Company User',
     deltitle: 'Please confirm if you want to delete this label?',
     delUsertitle: 'Please confirm if you want to delete this company?'
   },

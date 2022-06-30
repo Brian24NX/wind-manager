@@ -83,7 +83,7 @@
           <el-input v-model="editform.email" autocomplete="off" disabled />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" prop="funid">
-          <el-select v-model="editform.funid" :disabled="editform.id === 1 || editform.id == userId || editform.funid == queryParams.roleViewId" placeholder="请选择" style="width: 100%">
+          <el-select v-model="editform.funid" :disabled="editform.id === 1 || editform.id == userId || currentRoleViewId == queryParams.roleViewId" placeholder="请选择" style="width: 100%">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="roleViewId !== 1 && item.value == roleViewId" />
           </el-select>
         </el-form-item>
@@ -133,6 +133,7 @@ export default {
   data() {
     return {
       roleViewId: JSON.parse(localStorage.getItem('role')).id,
+      currentRoleViewId: null,
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
       uploadHeaders: { 'Authorization': getToken() },
       dataList: [],
@@ -338,6 +339,7 @@ export default {
       this.editform.email = res.data.email
       this.editform.id = res.data.id
       this.editform.funid = res.data.roles[0].id
+      this.currentRoleViewId = res.data.roles[0].id
     },
     handlerDataCheck(parent, child) {
       // console.log(parent, child)
