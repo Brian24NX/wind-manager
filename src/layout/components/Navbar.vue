@@ -92,22 +92,6 @@ export default {
     // Search
   },
   data() {
-    const checkapssword = (rule, value, callback) => {
-      // eslint-disable-next-line no-unused-vars
-      const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
-      if (!passwordreg.test(value)) {
-        callback(new Error(this.$t('forgetForm.requirerules')))
-      } else {
-        callback()
-      }
-    }
-    const validatePass2 = (rule, value, callback) => {
-      if (value !== this.dataForm.newPassword) {
-        callback(new Error(this.$t('forgetForm.passwordconsistent')))
-      } else {
-        callback()
-      }
-    }
     return {
       userName: JSON.parse(localStorage.getItem('userInfo')).name,
       cgpwdVisible: false,
@@ -116,7 +100,39 @@ export default {
         newPassword: '',
         confirmPassword: ''
       },
-      dataFormRules: {
+      dataFormRules: {}
+    }
+  },
+  computed: {
+    ...mapGetters(['sidebar', 'avatar', 'device'])
+  },
+  watch: {
+    '$store.getters.language'() {
+      this.setRules()
+    }
+  },
+  mounted() {
+    this.setRules()
+  },
+  methods: {
+    setRules() {
+      const checkapssword = (rule, value, callback) => {
+      // eslint-disable-next-line no-unused-vars
+        const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
+        if (!passwordreg.test(value)) {
+          callback(new Error(this.$t('forgetForm.requirerules')))
+        } else {
+          callback()
+        }
+      }
+      const validatePass2 = (rule, value, callback) => {
+        if (value !== this.dataForm.newPassword) {
+          callback(new Error(this.$t('forgetForm.passwordconsistent')))
+        } else {
+          callback()
+        }
+      }
+      this.dataFormRules = {
         oldPassword: { required: true, message: this.$t('forgetForm.oldPasswordtips') },
         newPassword: [
           { required: true, message: this.$t('forgetForm.newPasswordtips') },
@@ -126,14 +142,13 @@ export default {
           { required: true, message: this.$t('forgetForm.confirmpasswordtips') },
           { trigger: blur, validator: validatePass2 }
         ]
-      },
-      formLabelWidth1: '100px'
-    }
-  },
-  computed: {
-    ...mapGetters(['sidebar', 'avatar', 'device'])
-  },
-  methods: {
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.dataForm ? this.$refs.dataForm.clearValidate() : null
+        })
+      }, 1)
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

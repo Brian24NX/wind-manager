@@ -9,7 +9,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="space-between">
-            <el-col :span="20">
+            <el-col :span="18">
               <el-date-picker
                 v-model="queryParams.timeList"
                 size="small"
@@ -26,7 +26,7 @@
                 @change="search"
               />
             </el-col>
-            <el-col :span="4">
+            <el-col :span="6">
               <el-row type="flex" justify="end">
                 <el-button v-permission="[72]" type="danger" :disabled="queryParams.analysisType === 6" size="small" @click="downloaddialog = true">{{ $t('label.download') }}</el-button>
               </el-row>

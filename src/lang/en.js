@@ -102,6 +102,7 @@ export default {
     editPermission: 'Edit',
     roles: 'Your roles',
     switchRoles: 'Switch roles',
+    required: 'Permission is required',
     tips: 'In some cases, using v-permission will have no effect. For example: Element-UI  el-tab or el-table-column and other scenes that dynamically render dom. You can only do this with v-if.',
     delete: 'Delete',
     confirm: 'Confirm',
@@ -445,6 +446,10 @@ export default {
     sanction: 'Sanction Check',
     contact: 'Contact Us',
     function: 'Function upgrade in progress, please look forward to'
+  },
+  analysis: {
+    noData: 'Temporarily no data',
+    qidai: 'Function coming soon, stay tuned'
   },
   download: {
     downloadtime: 'Date',

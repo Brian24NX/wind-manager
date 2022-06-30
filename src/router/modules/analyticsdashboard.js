@@ -13,7 +13,7 @@ const analyticsRouter = {
   children: [
     {
       path: '/UserAnalysis',
-      component: () => import('@/views/analytics/index'),
+      component: () => import('@/views/analytics/behavior'),
       name: 'User Behavior Analysis',
       meta: {
         title: 'behavioranalysis'
@@ -21,7 +21,7 @@ const analyticsRouter = {
     },
     {
       path: '/UserStatistics',
-      component: () => import('@/views/analytics/statistics'),
+      component: () => import('@/views/analytics/information'),
       name: 'User Statistics',
       meta: {
         title: 'userstatistics'
