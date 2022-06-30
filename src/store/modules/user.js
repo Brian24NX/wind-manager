@@ -9,7 +9,8 @@ const state = {
   introduction: '',
   roles: [],
   routes: [],
-  buttons: []
+  buttons: [],
+  rolePermissions: []
 }
 
 const mutations = {
@@ -33,6 +34,9 @@ const mutations = {
   },
   SET_BUTTONS: (state, buttons) => {
     state.buttons = buttons
+  },
+  SET_ROLE_PERMISSIONS: (state, rolePermissions) => {
+    state.rolePermissions = rolePermissions
   }
 }
 /**
@@ -78,7 +82,7 @@ const actions = {
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         localStorage.setItem('role', JSON.stringify(data.role))
-        localStorage.setItem('buttons', JSON.stringify(data.buttons))
+        // localStorage.setItem('buttons', JSON.stringify(data.buttons))
         localStorage.setItem('userInfo', JSON.stringify(data.user))
         // commit('SET_ROLES', data.role.funct)
         resolve()
@@ -100,10 +104,10 @@ const actions = {
         }
 
         const { menuButtons } = data
-
         if (!menuButtons || menuButtons.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
+        commit('SET_ROLE_PERMISSIONS', menuButtons)
         resolve(data)
       }).catch(error => {
         reject(error)

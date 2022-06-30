@@ -116,9 +116,8 @@
 <script>
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
-// eslint-disable-next-line no-unused-vars
-import { roleDel, ActiveUser, ActiveUserExport, roleDict, roleDetail, roleAdd, roleEdit, ActiveUserDel } from '@/api/role.js'
-import { userAdd } from '@/api/user.js'
+import { roleDel, ActiveUser, ActiveUserExport, roleDict, roleDetail, roleAdd, roleEdit, ActiveUserDel } from '@/api/role'
+import { userAdd } from '@/api/user'
 import { transroleList } from '@/utils/index'
 export default {
   name: 'PagePermission',
@@ -206,22 +205,31 @@ export default {
         }
         this.menuButtons = []
         this.isEdit = false
-      } else {
-        this.premissionrules = {
-          funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' },
-          menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
-        }
-        setTimeout(() => {
-          this.$refs.premissionform.clearValidate()
-        }, 1)
       }
+    },
+    '$store.getters.language'() {
+      this.setRules()
     }
   },
   created() {
     this.setRoleBtnList()
     this.roleList()
   },
+  mounted() {
+    this.setRules()
+  },
   methods: {
+    setRules() {
+      this.premissionrules = {
+        funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' },
+        menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.premissionform ? this.$refs.premissionform.clearValidate() : null
+        })
+      }, 1)
+    },
     //  启用状态
     transactive(data) {
     // eslint-disable-next-line eqeqeq
@@ -231,8 +239,23 @@ export default {
     },
     // 按钮初始化
     setRoleBtnList() {
-      this.dataList = JSON.parse(localStorage.getItem('buttons')) || []
-      this.dataList = this.dataList.filter(item => item.children.length)
+      this.dataList = this.$store.getters.role_permissions || []
+      // 多重数组去除children的length为0的元素
+      this.dataList = this.handelOption(this.handelOption(this.dataList))
+    },
+    //  递归删除children的值
+    handelOption(list) {
+      for (let index = list.length - 1; index >= 0; index--) {
+        const item = list[index]
+        if (item.children) {
+          if (!item.children.length) {
+            list.splice(index, 1)
+          } else {
+            this.handelOption(item.children)
+          }
+        }
+      }
+      return list
     },
     // 搜索
     search() {
