@@ -179,7 +179,7 @@ export default {
       xData: [], // 横坐标
       yData: [], // 点赞数据
       taskDate: [],
-      myChartStyle: { width: '100%', height: '300px' }, // 图表样式
+      myChartStyle: { width: '100%', height: '450px' }, // 图表样式
       pieData: [
         {
           value: 0,
