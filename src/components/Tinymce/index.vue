@@ -217,6 +217,7 @@ export default {
         importcss_append: false,
         toolbar_sticky: false,
         autosave_ask_before_unload: false,
+        convert_urls: false,
         init_instance_callback: editor => {
           if (_this.value) {
             editor.setContent(_this.value)
