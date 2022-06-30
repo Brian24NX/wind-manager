@@ -2,19 +2,18 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <el-image v-if="logo" :src="logo" class="sidebar-logo" fill="contain" />
-        <!--  <h1 v-else class="sidebar-title">{{ title }} </h1>-->
+        <el-image v-if="logo2" :src="logo2" class="sidebar-logo2" fit="scale-down" />
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <el-image v-if="logo" :src="logo" class="sidebar-logo" fill="contain" />
-        <!-- <h1 class="sidebar-title">{{ title }} </h1>-->
+        <el-image v-if="logo1" :src="logo1" class="sidebar-logo1" fit="scale-down" />
       </router-link>
     </transition>
   </div>
 </template>
 
 <script>
-import logo from '../../../assets/header.png'
+import logo1 from '../../../assets/header.png'
+import logo2 from '../../../assets/logo.png'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -26,7 +25,8 @@ export default {
   data() {
     return {
       title: 'Vue Element Admin',
-      logo: logo
+      logo1: logo1,
+      logo2: logo2
     }
   }
 }
@@ -55,8 +55,14 @@ export default {
     height: 100%;
     width: 100%;
 
-    & .sidebar-logo {
+    & .sidebar-logo1 {
       width: 150px;
+      height: 40px;
+      vertical-align: middle;
+    }
+
+    & .sidebar-logo2 {
+      width: 40px;
       height: 40px;
       vertical-align: middle;
     }
