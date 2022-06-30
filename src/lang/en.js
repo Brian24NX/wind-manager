@@ -444,7 +444,8 @@ export default {
     customer: 'Customer Advisory',
     useful: 'Useful Template & Link',
     sanction: 'Sanction Check',
-    contact: 'Contact Us'
+    contact: 'Contact Us',
+    function: 'Function upgrade in progress, please look forward to'
   },
   analysis: {
     noData: 'Temporarily no data',
@@ -473,6 +474,8 @@ export default {
     success: 'Switch Language Success',
     errorImg: 'The size of the uploaded image cannot exceed 2MB!',
     errortxt: 'The upload image format is incorrect. Please select an image in JPG, PNG, JPEG or GIF format!',
-    errornull: 'The uploaded picture name cannot contain spaces or \!'
+    errornull: 'The uploaded picture name cannot contain spaces or \!',
+    fabulous: 'Thumbs Up',
+    stepon: 'Thumbs Down'
   }
 }
