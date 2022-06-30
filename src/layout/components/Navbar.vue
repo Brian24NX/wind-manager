@@ -28,7 +28,7 @@
           <span style="position: relative; top: -5px"> {{ userName }}</span>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="changePassword">
+          <el-dropdown-item style="text-align: center;" @click.native="changePassword">
             {{ $t('navbar.changePass') }}
           </el-dropdown-item>
           <!--<router-link to="/">
@@ -44,20 +44,20 @@
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>-->
-          <el-dropdown-item @click.native="logout">
+          <el-dropdown-item style="text-align: center;" @click.native="logout">
             <span style="display: block">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-dialog :title="$t('forgetForm.changeTitle')" :visible.sync="cgpwdVisible" center destroy-on-close append-to-body :close-on-click-modal="false" width="550px">
-        <el-form ref="dataForm" :model="dataForm" label-width="100px" :rules="dataFormRules" label-position="right">
+        <el-form ref="dataForm" :model="dataForm" :rules="dataFormRules" label-position="top">
           <el-form-item :label="$t('forgetForm.oldPass')" prop="oldPassword">
             <el-input v-model="dataForm.oldPassword" type="password" auto-complete="off" show-password />
           </el-form-item>
-          <el-form-item :label="$t('forgetForm.password')" prop="newPassword" label-width="100px">
+          <el-form-item :label="$t('forgetForm.password')" prop="newPassword">
             <el-input v-model="dataForm.newPassword" type="password" auto-complete="off" show-password />
           </el-form-item>
-          <el-form-item :label="$t('forgetForm.confirmpassword')" prop="confirmPassword" label-width="100px">
+          <el-form-item :label="$t('forgetForm.confirmpassword')" prop="confirmPassword">
             <el-input v-model="dataForm.confirmPassword" type="password" auto-complete="off" show-password />
           </el-form-item>
         </el-form>

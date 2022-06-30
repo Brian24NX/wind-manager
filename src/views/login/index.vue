@@ -2,47 +2,37 @@
   <div class="login-container">
     <div class="login">
       <div class="loginleft">
-        <img src="../../assets/logo.svg" class="left25">
+        <el-image :src="require('../../assets/logo.svg')" class="left25" />
       </div>
       <div class="loginright">
-        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" label-position="left">
           <lang-select class="set-language" />
           <div class="title-container">
             <h3 class="title">
               {{ $t('login.title') }}
             </h3>
           </div>
-
           <el-form-item prop="username">
-            <span class="svg-container">
-              <svg-icon icon-class="email" />
-            </span>
-            <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username(Email)" type="text" tabindex="1" autocomplete="on" />
+            <el-input ref="username" v-model="loginForm.username" size="large" clearable :placeholder="$t('login.username')" name="username(Email)" type="text">
+              <svg-icon slot="prefix" icon-class="email" />
+            </el-input>
           </el-form-item>
-
-          <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-            <el-form-item prop="password">
-              <span class="svg-container">
-                <svg-icon icon-class="password" />
-              </span>
-              <el-input
-                :key="passwordType"
-                ref="password"
-                v-model="loginForm.password"
-                :type="passwordType"
-                :placeholder="$t('login.password')"
-                name="password"
-                tabindex="2"
-                autocomplete="on"
-                @keyup.native="checkCapslock"
-                @blur="capsTooltip = false"
-                @keyup.enter.native="handleLogin"
-              />
-              <span class="show-pwd" @click="showPwd">
-                <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-              </span>
-            </el-form-item>
-          </el-tooltip>
+          <el-form-item prop="password">
+            <el-input
+              ref="password"
+              v-model="loginForm.password"
+              size="large"
+              type="password"
+              clearable
+              show-password
+              :placeholder="$t('login.password')"
+              :minlength="6"
+              :maxlength="20"
+              @keyup.enter.native="handleLogin"
+            >
+              <svg-icon slot="prefix" icon-class="password" />
+            </el-input>
+          </el-form-item>
 
           <el-button :loading="loading" type="danger" style="width: 100%; margin-bottom: 30px; margin-top: 20px" @click.native.prevent="handleLogin">
             {{ $t('login.logIn') }}
@@ -70,7 +60,6 @@ export default {
       }
     }
     const checkapssword = (rule, value, callback) => {
-      // eslint-disable-next-line no-unused-vars
       const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
       if (!passwordreg.test(value)) {
         callback(new Error(this.$t('forgetForm.requirerule')))
@@ -88,10 +77,7 @@ export default {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: checkapssword }]
       },
-      passwordType: 'password',
-      capsTooltip: false,
       loading: false,
-      showDialog: false,
       redirect: undefined,
       otherQuery: {}
     }
@@ -108,34 +94,7 @@ export default {
       immediate: true
     }
   },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
-  },
-  mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
-    }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
-  },
   methods: {
-    checkCapslock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
-    },
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
@@ -172,44 +131,52 @@ $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $cursor;
-  }
-}
+// @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+//   .login-container .el-input input {
+//     color: $cursor;
+//   }
+// }
 
 /* reset element-ui css */
 .login-container {
   min-width: 1200px;
   margin: auto;
   .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
+    // display: inline-block;
+    // height: 47px;
+    width: 100%;
 
     input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
+      background-color: #e5eefe;
+      border-radius: 4px;
+      color: #4f575b;
+      border: 0;
     }
+
+    // input {
+    //   background: transparent;
+    //   border: 0px;
+    //   -webkit-appearance: none;
+    //   border-radius: 0px;
+    //   padding: 12px 5px 12px 15px;
+    //   color: $light_gray;
+    //   height: 47px;
+    //   caret-color: $cursor;
+
+    //   &:-webkit-autofill {
+    //     box-shadow: 0 0 0px 1000px $bg inset !important;
+    //     -webkit-text-fill-color: $cursor !important;
+    //     background-color: #04246a !important;
+    //   }
+    // }
   }
 
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
+  // .el-form-item {
+  //   border: 1px solid rgba(255, 255, 255, 0.1);
+  //   background: rgba(0, 0, 0, 0.1);
+  //   border-radius: 5px;
+  //   color: #454545;
+  // }
   .link {
     background-color: transparent;
     color: #2563d9;
@@ -265,6 +232,10 @@ $light_gray: #eee;
     padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+
+    input {
+      background-color: #fff;
+    }
   }
   .set-language {
     color: #fff;

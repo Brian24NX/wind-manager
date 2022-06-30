@@ -39,7 +39,7 @@ export default {
     github: 'Github',
     logOut: 'Log Out',
     profile: 'Profile',
-    changePass: 'Change Pass',
+    changePass: 'Change Password',
     theme: 'Theme',
     size: 'Global Size',
     delcatetitle: 'Please confirm if you want to delete this category?'
