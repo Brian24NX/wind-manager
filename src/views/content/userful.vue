@@ -21,8 +21,7 @@
       <div class="operations">
         <el-button v-permission="[47]" type="danger" size="small" @click="setCategory(6)">{{ $t('userful.categoryset1') }}</el-button>
         <el-button v-permission="[47]" type="danger" size="small" @click="setCategory(3)">{{ $t('userful.categoryset2') }}</el-button>
-        <el-button v-permission="[48]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button v-permission="[48]" type="danger" size="small" @click="importdialog = true">{{ $t('userful.import') }}</el-button>
+        <el-button v-permission="[48]" type="danger" size="small" @click="importFile">{{ $t('userful.import') }}</el-button>
         <!-- <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>-->
         <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
@@ -139,7 +138,8 @@
       </div>
     </el-dialog>
     <!--导入模版-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
+    <CustomerImport ref="customerImport" download-url="import/Import Useful Links导入常用链接.xlsx" import-url="/api/admin/usefulTemplateImport" :table-colum="tableColum" @success="search" />
+    <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/usefulTemplateImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">
@@ -150,22 +150,21 @@
         <el-button type="primary" :loading="loading" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
-// eslint-disable-next-line no-unused-vars
-import { templateAdd, templateEdit, templateDelete, usefulTemplateDownload } from '@/api/useful.js'
-// eslint-disable-next-line no-unused-vars
-import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
-// eslint-disable-next-line no-unused-vars
-import { getToken } from '@/utils/auth'
+import CustomerImport from '@/components/Import/import'
+import { templateAdd, templateEdit, templateDelete } from '@/api/useful'
+import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article'
 import { transList } from '@/utils'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'Useful',
   components: {
-    Pagination
+    Pagination,
+    CustomerImport
   },
   data() {
     return {
@@ -203,7 +202,24 @@ export default {
       documentCategory: [],
       selectcolumn: [],
       loading: false,
-      categoryType: null
+      categoryType: null,
+      tableColum: [{
+        prop: 'name',
+        label: 'name',
+        width: '200px'
+      }, {
+        prop: 'categoryName',
+        label: 'categoryName',
+        width: '200px'
+      }, {
+        prop: 'document',
+        label: 'Link',
+        width: '200px'
+      }, {
+        prop: 'internalReference',
+        label: 'internalReference',
+        width: '200px'
+      }]
     }
   },
   watch: {
@@ -277,11 +293,6 @@ export default {
     // 文件上传成功
     handleupSuccess(res) {
       this.addform.document = res.data.fileName
-    },
-    // 提交导入
-    submitimport() {
-      this.importdialog = false
-      this.search()
     },
     // 获取种类列表
     async getLinkCategoryList() {
@@ -379,11 +390,6 @@ export default {
     search() {
       this.$refs.pagination.refreshRequest()
     },
-    // 下载文档
-    downloadfile() {
-      // const res = await usefulTemplateDownload()
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Useful Links导入常用链接.xlsx')
-    },
     // 取消
     Cancle() {
       this.$refs.addform.resetFields()
@@ -472,15 +478,8 @@ export default {
       console.log(file, fileList)
       this.fileList = fileList
     },
-    // 成功
-    handleSuccess(response, file, fileList) {
-      // if (response.code === '200') {
-      //   this.fileList.push({ name: response.data.fileName, url: response.data.fileUrl })
-      //   this.addform.uploadfile = response.data.fileName
-      // } else {
-      //   this.$message.error(response.message)
-      //   this.fileList = []
-      // }
+    importFile() {
+      this.$refs.customerImport.importFile()
     }
   }
 }

@@ -20,8 +20,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button v-permission="[6]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button v-permission="[6]" type="danger" size="small" @click="importdialog = true">{{ $t('userrole.import') }}</el-button>
+        <el-button v-permission="[6]" type="danger" size="small" @click="importFile">{{ $t('userrole.import') }}</el-button>
         <el-button v-permission="[7]" type="danger" size="small" @click="exportlist">{{ $t('userrole.export') }}</el-button>
         <el-button v-permission="[3]" type="danger" size="small" @click="adddialog = true">{{ $t('userrole.newuser') }}</el-button>
       </div>
@@ -40,7 +39,8 @@
       </Pagination>
     </div>
     <!--文件上传弹窗-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
+    <CustomerImport ref="customerImport" download-url="import/Import New Users导入新用户.xlsx" import-url="/api/admin/userImport" :table-colum="tableColum" @success="search" />
+    <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/userImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
@@ -49,7 +49,7 @@
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--新增弹窗-->
     <el-dialog :title="$t('general.add')" :visible.sync="adddialog" center destroy-on-close :close-on-click-modal="false" width="550px">
       <el-form ref="addform" :model="addform" :rules="rules">
@@ -114,28 +114,24 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import i18n from '@/lang'
-// eslint-disable-next-line no-unused-vars
+import CustomerImport from '@/components/Import/import'
 import { userActive, userExport, userAdd, userEdit, getInfo } from '@/api/user.js'
 import { roleDict } from '@/api/role.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
-// eslint-disable-next-line no-unused-vars
 import { transroleList } from '@/utils/index'
-import { getToken } from '@/utils/auth'
 export default {
   name: 'Role',
   components: {
     Pagination,
-    MultiCheckList
+    MultiCheckList,
+    CustomerImport
   },
   data() {
     return {
       roleViewId: JSON.parse(localStorage.getItem('role')).id,
       currentRoleViewId: null,
       userId: JSON.parse(localStorage.getItem('userInfo')).id,
-      uploadHeaders: { 'Authorization': getToken() },
       dataList: [],
       queryParams: {
         nameOrFunction: '',
@@ -164,7 +160,24 @@ export default {
       editdialog: false,
       premissiondialog: false,
       rules: {},
-      editrules: {}
+      editrules: {},
+      tableColum: [{
+        prop: 'email',
+        label: 'email',
+        width: '300px'
+      }, {
+        prop: 'name',
+        label: 'name',
+        width: '300px'
+      }, {
+        prop: 'functions',
+        label: 'function',
+        width: '300px'
+      }, {
+        prop: 'status',
+        label: 'Status',
+        width: '300px'
+      }]
     }
   },
   computed: {},
@@ -347,21 +360,8 @@ export default {
     handlerDataCheck(parent, child) {
       // console.log(parent, child)
     },
-    // 下载文件
-    downloadfile() {
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import New Users导入新用户.xlsx')
-    },
-    // 处理成功
-    handleSuccess(res) {
-      // eslint-disable-next-line eqeqeq
-      if (res.code != 200) {
-        this.$message.error(res.message)
-      }
-    },
-    // 提交
-    submitimport() {
-      this.importdialog = false
-      this.search()
+    importFile() {
+      this.$refs.customerImport.importFile()
     },
     // 搜索
     search() {

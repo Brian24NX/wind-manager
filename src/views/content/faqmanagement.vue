@@ -21,8 +21,7 @@
     <!--内容条件-->
     <div class="tableContainer">
       <div class="operations">
-        <el-button v-permission="[32]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button v-permission="[32]" type="danger" size="small" @click="importdialog = true">{{ $t('faq.import') }}</el-button>
+        <el-button v-permission="[32]" type="danger" size="small" @click="importFile">{{ $t('faq.import') }}</el-button>
         <el-button v-permission="[31]" type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
@@ -54,7 +53,8 @@
       </Pagination>
     </div>
     <!--导入模版-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
+    <CustomerImport ref="customerImport" download-url="import/Import FAQs导入常见问题.xlsx" import-url="/api/admin/faqImport" :table-colum="tableColum" @success="search" />
+    <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/faqImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -63,7 +63,7 @@
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog=false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--创建新的faq-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="950px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
@@ -131,23 +131,21 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+import CustomerImport from '@/components/Import/import'
 import Tinymce from '@/components/Tinymce'
-// eslint-disable-next-line no-unused-vars
 import { faqList, faqAdd, faqDel, faqEdit, faqEditRelations, faqActive } from '@/api/faq'
-import { getToken } from '@/utils/auth'
 export default {
   name: 'FaqManagement',
   components: {
     Pagination,
-    Tinymce
+    Tinymce,
+    CustomerImport
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: { keyWord: '' },
       categoryList: [],
       adddialog: false,
-      importdialog: false,
       relationsdialog: false,
       addform: {
         id: '',
@@ -168,7 +166,20 @@ export default {
         relatedquestion: { required: true, message: this.$t('faq.relatedquestiontips'), trigger: 'blur' }
       },
       submitLoading: false,
-      faqLists: []
+      faqLists: [],
+      tableColum: [{
+        prop: 'question',
+        label: 'question',
+        width: '200px'
+      }, {
+        prop: 'faqKeywords',
+        label: 'faqKeywords',
+        width: '200px'
+      }, {
+        prop: 'answer',
+        label: 'answer',
+        width: '600px'
+      }]
     }
   },
   watch: {
@@ -231,11 +242,6 @@ export default {
     handleDetail(row) {
       this.isSelect = true
       this.detailForm = JSON.parse(JSON.stringify(row))
-    },
-    // 导入
-    submitimport() {
-      this.importdialog = false
-      this.search()
     },
     // 查询
     search() {
@@ -363,19 +369,10 @@ export default {
     Canclerelations() {
       this.relationsdialog = false
     },
-    // 下载文件
-    downloadfile() {
-      // const res = await faqTemplateDownload()
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import FAQs导入常见问题.xlsx')
-    },
     // 导出
     exporttemplate() {},
-    // 处理成功
-    handleSuccess(res) {
-      // eslint-disable-next-line eqeqeq
-      if (res.code != 200) {
-        this.$message.error(res.message)
-      }
+    importFile() {
+      this.$refs.customerImport.importFile()
     }
   }
 }

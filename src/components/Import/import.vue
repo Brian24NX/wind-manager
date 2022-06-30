@@ -28,11 +28,19 @@
             <span>{{ scope.$index + 1 }}</span>
           </template>
         </el-table-column>
-        <el-table-column v-for="(item, index) in tableColum" :key="index" :prop="item.prop" :label="item.label" :width="item.label" />
+        <template v-for="(item, index) in tableColum">
+          <el-table-column v-if="!item.isDate" :key="index" :prop="item.prop" :label="item.label" :width="item.width" />
+          <el-table-column v-if="item.isDate" :key="index" :prop="item.prop" :label="item.label" :width="item.width">
+            <template slot-scope="scope">
+              <span>{{ $moment(scope.row[item.prop]).format('YYYY-MM-DD') }}</span>
+            </template>
+          </el-table-column>
+        </template>
+
         <el-table-column prop="error" label="ERR_MSG" fixed="right" width="300">
           <template slot-scope="scope">
             <div v-if="scope.row.error">
-              <div v-for="(item, index) in (scope.row.error.substring(0, scope.row.error.length - 2).split(';'))" :key="index">{{ item }};</div>
+              <div v-for="(item, index) in (scope.row.error.substring(0, scope.row.error.length - 1).split(';'))" :key="index">{{ item }};</div>
             </div>
           </template>
         </el-table-column>
@@ -64,7 +72,7 @@ export default {
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken() },
+      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       importdialog: false,
       importResultDialog: false,
       loading: false,
@@ -102,6 +110,8 @@ export default {
           this.importResultDialog = true
           this.tableData = res.data
         }
+      } else {
+        this.$emit('success')
       }
     }
   }

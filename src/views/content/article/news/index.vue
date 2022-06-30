@@ -26,8 +26,7 @@
       <div class="operations">
         <el-button v-permission="[23]" type="danger" size="small" @click="setdialog = true">{{ $t('newscenter.categorysetting') }}</el-button>
         <el-button v-permission="[23]" type="danger" size="small" @click="exporttemplate">{{ $t('newscenter.export') }}</el-button>
-        <el-button v-permission="[23]" type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button v-permission="[23]" type="danger" size="small" @click="importdialog = true">{{ $t('newscenter.import') }}</el-button>
+        <el-button v-permission="[23]" type="danger" size="small" @click="importFile">{{ $t('newscenter.import') }}</el-button>
         <el-button v-permission="[23]" type="danger" size="small" @click="addhistorynewsdialog = true">{{ $t('newscenter.addhistoynews') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams">
@@ -72,7 +71,8 @@
       </div>
     </el-dialog>
     <!--文章导入-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
+    <CustomerImport ref="customerImport" download-url="import/Import Historical News 导入历史新闻.xlsx" import-url="/api/admin/miniNewsImport" :table-colum="tableColum" @success="search" />
+    <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/miniNewsImport" :limit="1" :headers="uploadHeaders">
         <i class="el-icon-upload" />
         <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
@@ -81,7 +81,7 @@
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--文章类型修改-->
     <el-dialog :title="$t('newscenter.categorysetting')" :visible.sync="setdialog" center destroy-on-close :close-on-click-modal="false" top="50px">
       <el-button size="small" type="danger" @click="createcategory">{{ $t('library.addcategory') }}</el-button>
@@ -126,20 +126,18 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination'
-// eslint-disable-next-line no-unused-vars
-import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter.js'
-// eslint-disable-next-line no-unused-vars
-import { categoryList, categoryAdd, categoryDel, categoryEdit, newsDetail } from '@/api/article.js'
+import CustomerImport from '@/components/Import/import'
+import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter'
+import { categoryList, categoryAdd, categoryDel, categoryEdit, newsDetail } from '@/api/article'
 import { transList } from '@/utils'
-import { getToken } from '@/utils/auth'
 export default {
   name: 'News',
   components: {
-    Pagination
+    Pagination,
+    CustomerImport
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken() },
       queryParams: {
         categoryIds: '',
         keyword: ''
@@ -149,8 +147,6 @@ export default {
       addhistorynewsdialog: false,
       // 删除新闻
       deldialog: false,
-      // 导入
-      importdialog: false,
       // 类别修改
       setdialog: false,
       historyform: {
@@ -163,7 +159,25 @@ export default {
       tabledata: [],
       loading: false,
       detailform: {},
-      detailDialog: false
+      detailDialog: false,
+      tableColum: [{
+        prop: 'Title',
+        label: 'title',
+        width: '200px'
+      }, {
+        prop: 'category',
+        label: 'category',
+        width: '200px'
+      }, {
+        prop: 'publishDate',
+        label: 'publishDate',
+        isDate: true,
+        width: '200px'
+      }, {
+        prop: 'originalLink',
+        label: 'originalLink',
+        width: '400px'
+      }]
     }
   },
   watch: {
@@ -224,10 +238,6 @@ export default {
       } else {
         return 'Draft'
       }
-    },
-    submitimport() {
-      this.importdialog = false
-      this.search()
     },
     reset() {
       this.queryParams = {
@@ -300,10 +310,6 @@ export default {
       const res = await newsExport(this.queryParams)
       window.open(res.data)
     },
-    // 下载模版
-    downloadfile() {
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Historical News 导入历史新闻.xlsx')
-    },
     // 取消
     Cancle() {
       this.$refs.historyform.resetFields()
@@ -364,6 +370,9 @@ export default {
           }
         })
       })
+    },
+    importFile() {
+      this.$refs.customerImport.importFile()
     }
   }
 }

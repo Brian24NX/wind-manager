@@ -28,8 +28,7 @@
     <!--table内容-->
     <div class="tableContainer">
       <div class="operations">
-        <el-button type="danger" size="small" @click="downloadfile">{{ $t('message.download') }}</el-button>
-        <el-button type="danger" size="small" @click="importdialog = true">{{ $t('contact.import') }}</el-button>
+        <el-button v-permission="[38]" type="danger" size="small" @click="importFile">{{ $t('contact.import') }}</el-button>
         <el-button v-permission="[38]" type="danger" size="small" @click="handleAdd">{{ $t('contact.createinfo') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/contactInfoList" :request-params="queryParams">
@@ -56,7 +55,8 @@
       </Pagination>
     </div>
     <!--导入模版-->
-    <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
+    <CustomerImport ref="customerImport" download-url="import/Import Contact Info Matrix导入联系人信息.xlsx" import-url="/api/admin/contactInfoImport" :table-colum="tableColum" @success="search" />
+    <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/contactInfoImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
         <i class="el-icon-upload" />
         <div class="el-upload__text">{{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em></div>
@@ -65,7 +65,7 @@
         <el-button type="primary" @click="submitimport">{{ $t('forgetForm.yes') }}</el-button>
         <el-button @click="importdialog = false">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
     <!--新增联系方式-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" width="700px" center destroy-on-close :close-on-click-modal="false">
       <el-row>
@@ -186,19 +186,17 @@
 </template>
 <script>
 import Pagination from '@/components/Pagination'
-// eslint-disable-next-line no-unused-vars
-import { dictItem, contactDel, contactActive, BusinessList, contactAdd, contactEdit, contactTemplateDownload, BusinessTypeList } from '@/api/contact.js'
-// eslint-disable-next-line no-unused-vars
-import { transdict, transoffice, transbuiness } from '@/utils'
-import { getToken } from '@/utils/auth'
+import CustomerImport from '@/components/Import/import'
+import { dictItem, contactDel, contactActive, contactAdd, contactEdit } from '@/api/contact.js'
+import { transdict } from '@/utils'
 export default {
   name: 'Contact',
   components: {
-    Pagination
+    Pagination,
+    CustomerImport
   },
   data() {
     return {
-      uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       queryParams: {
         office: '',
         trade: ''
@@ -231,7 +229,52 @@ export default {
         email: '',
         active: 1
       },
-      rules: {}
+      rules: {},
+      tableColum: [{
+        prop: 'regionName',
+        label: 'regionName',
+        width: '200px'
+      }, {
+        prop: 'officeName',
+        label: 'officeName',
+        width: '400px'
+      }, {
+        prop: 'deptName',
+        label: 'deptName',
+        width: '200px'
+      }, {
+        prop: 'businessName',
+        label: 'businessName',
+        width: '200px'
+      }, {
+        prop: 'tradeName',
+        label: 'tradeName',
+        width: '200px'
+      }, {
+        prop: 'accountName',
+        label: 'accountName',
+        width: '200px'
+      }, {
+        prop: 'contactPerson',
+        label: 'contactPerson',
+        width: '200px'
+      }, {
+        prop: 'dutyDate',
+        label: 'dutyDate',
+        width: '200px'
+      }, {
+        prop: 'dutyTime',
+        label: 'dutyTime',
+        width: '200px'
+      }, {
+        prop: 'phone',
+        label: 'phone',
+        width: '200px'
+      }, {
+        prop: 'email',
+        label: 'email',
+        width: '200px'
+      }]
     }
   },
   watch: {
@@ -430,17 +473,8 @@ export default {
         }
       })
     },
-    // 下载文件
-    downloadfile() {
-      // const res = await contactTemplateDownload()
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'import/Import Contact Info Matrix导入联系人信息.xlsx')
-    },
-    // 处理成功
-    handleSuccess(res) {
-      // eslint-disable-next-line eqeqeq
-      if (res.code != 200) {
-        this.$message.error(res.message)
-      }
+    importFile() {
+      this.$refs.customerImport.importFile()
     }
   }
 }
