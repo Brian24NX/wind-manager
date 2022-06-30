@@ -62,7 +62,7 @@ export default {
     const checkapssword = (rule, value, callback) => {
       const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
       if (!passwordreg.test(value)) {
-        callback(new Error(this.$t('forgetForm.requirerule')))
+        callback(new Error(this.$t('forgetForm.requirerules')))
       } else {
         callback()
       }

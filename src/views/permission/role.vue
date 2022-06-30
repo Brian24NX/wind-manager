@@ -171,7 +171,7 @@ export default {
           // eslint-disable-next-line no-unused-vars
           const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
           if (!passwordreg.test(value)) {
-            callback(new Error(this.$t('forgetForm.requirerule')))
+            callback(new Error(this.$t('forgetForm.requirerules')))
           } else {
             callback()
           }
@@ -208,8 +208,8 @@ export default {
         this.isEdit = false
       } else {
         this.premissionrules = {
-          funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
-        // menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
+          funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' },
+          menuButtons: { required: true, message: this.$t('userrole.permissiontips'), trigger: 'blur' }
         }
         setTimeout(() => {
           this.$refs.premissionform.clearValidate()

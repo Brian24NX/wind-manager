@@ -66,8 +66,8 @@
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" plain @click="cancel">取消</el-button>
-          <el-button plain @click="submit('forgetForm')">提交</el-button>
+          <el-button type="info" plain @click="cancel">{{ $t('forgetForm.cancel') }}</el-button>
+          <el-button plain @click="submit('forgetForm')">{{ $t('forgetForm.submit') }}</el-button>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default {
       // eslint-disable-next-line no-unused-vars
       const passwordreg = /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{6,20}$/
       if (!passwordreg.test(value)) {
-        callback(new Error(this.$t('forgetForm.requirerule')))
+        callback(new Error(this.$t('forgetForm.requirerules')))
       } else {
         callback()
       }
@@ -195,6 +195,7 @@ export default {
   margin-right: 5px;
 }
 .clearleft {
+  display: flex;
   background: #f5f5f5 none repeat scroll 0 0;
   padding: 15px;
 }
@@ -209,10 +210,13 @@ export default {
 .titles {
   font-size: 20px;
   font-weight: 500;
-  margin: 15px 0;
+  margin: 0 0;
 }
 .rightcontent {
-  display: table-cell;
+  // display: table-cell;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 606px;
   padding-left: 20px;
 }

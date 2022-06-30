@@ -25,7 +25,7 @@ const articleRouter = {
       component: () => import('@/views/content/article/article'),
       name: 'Article List',
       meta: {
-        title: 'articleManager'
+        title: 'articleManagers'
       }
     }, {
       path: '/addarticle',
