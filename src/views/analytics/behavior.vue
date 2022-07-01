@@ -47,7 +47,7 @@
       <div v-if="queryParams.analysisType == 2">
         <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('buiness.title')" prop="title" />
-          <el-table-column align="center" :label="$t('buiness.publishdate')" prop="publishDateStr" />
+          <el-table-column align="center" :label="$t('buiness.publishdate')" prop="publishDate" :formatter="formatDate" />
           <el-table-column :label="$t('buiness.numberofviews')" prop="views" align="center" />
           <el-table-column align="center" :label="$t('buiness.numberofsendtoemail')" prop="email" />
         </Pagination>
@@ -64,7 +64,7 @@
       <div v-if="queryParams.analysisType == 4">
         <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('news.title')" prop="title" />
-          <el-table-column align="center" :label="$t('news.publishdate')" prop="publishDateStr" />
+          <el-table-column align="center" :label="$t('news.publishdate')" prop="publishDate" :formatter="formatDate" />
           <el-table-column :label="$t('news.numberofviews')" prop="views" align="center" />
           <el-table-column align="center" :label="$t('buiness.numberoflikes')" prop="likes" />
         </Pagination>
@@ -73,7 +73,7 @@
       <div v-if="queryParams.analysisType == 5">
         <Pagination ref="pagination" uri="/api/admin/analysisPageList" :request-params="requestParams" :need-auto="false" show-index>
           <el-table-column :label="$t('cma.title')" prop="title" />
-          <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishDateStr" />
+          <el-table-column align="center" :label="$t('cma.publishdate')" prop="publishDate" :formatter="formatDate" />
           <el-table-column :label="$t('cma.numberofviews')" prop="views" align="center" />
           <el-table-column align="center" :label="$t('buiness.numberoflikes')" prop="likes" />
         </Pagination>
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination1'
+import Pagination from '@/components/Pagination'
 import { analysisList, dictItem, analysisExport } from '@/api/analysis'
 import * as echarts from 'echarts'
 export default {
@@ -361,6 +361,9 @@ export default {
     this.initEcharts()
   },
   methods: {
+    formatDate(row, column, cellValue, index) {
+      return this.$moment(cellValue).format('YYYY-MM-DD')
+    },
     // 查字典
     initdictItem() {
       const data = { dictName: 'dict_analysis_type' }
