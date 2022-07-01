@@ -4,7 +4,7 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.analysisType" :placeholder="$t('general.choose')" :clearable="false" filterable style="width: 100%" @change="changeType">
+          <el-select v-model="queryParams.analysisType" size="small" :placeholder="$t('general.choose')" :clearable="false" filterable style="width: 100%" @change="changeType">
             <el-option v-for="item in userTypeList" :key="item.value" :label="item.value" :value="item.key" />
           </el-select>
         </el-col>
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'
+import Pagination from '@/components/Pagination1'
 import { analysisList, dictItem, analysisExport } from '@/api/analysis'
 import * as echarts from 'echarts'
 export default {
@@ -341,7 +341,7 @@ export default {
       isshow: false,
       xData: [], // 横坐标
       yData: [], // 数据
-      myChartStyle: { width: '100%', height: '400px' } // 图表样式
+      myChartStyle: { width: '100%', height: '500px' } // 图表样式
     }
   },
   watch: {

@@ -5,7 +5,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-select v-model="queryParams.categoryIds" clearable filterable :placeholder="$t('article.category')" style="width: 100%" @change="search" @clear="search">
+              <el-select v-model="queryParams.categoryIds" size="small" clearable filterable :placeholder="$t('article.category')" style="width: 100%" @change="search">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>

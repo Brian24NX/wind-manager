@@ -7,6 +7,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('userful.name')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.type" size="small" :placeholder="$t('userful.type')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in typelist" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -27,7 +32,12 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
-        <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="150px" />
+        <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="230px" />
+        <el-table-column :label="$t('userful.type')" prop="type" width="120px" align="center">
+          <template scope="scope">
+            <span>{{ scope.row.type === 1 ? $t('userful.type1') : $t('userful.type2') }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('userful.document')" prop="document">
           <template scope="scope">
             <span v-if="scope.row.type === 2" style="white-space: pre-line">{{ scope.row.document }}</span>
@@ -39,7 +49,7 @@
             <span style="white-space: pre-line">{{ scope.row.internalReference }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="150px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="150px">
           <template scope="scope">
             <el-button v-permission="[50]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('userful.edit') }}</el-button>
@@ -169,7 +179,7 @@ export default {
   data() {
     return {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
-      queryParams: { keyWord: '' },
+      queryParams: { keyWord: '', type: '' },
       categoryList1: [],
       categoryList2: [],
       categoryedit: false,
@@ -188,11 +198,11 @@ export default {
       setdialog: false,
       typelist: [
         {
-          label: 'Document',
+          label: 'Document / 文档',
           value: 1
         },
         {
-          label: 'Link',
+          label: 'Link / 链接',
           value: 2
         }
       ],

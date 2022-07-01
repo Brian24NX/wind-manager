@@ -3,7 +3,7 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.faqId" :placeholder="$t('general.choose')" clearable filterable style="width: 100%" @change="search">
+          <el-select v-model="queryParams.faqId" size="small" :placeholder="$t('general.choose')" clearable filterable style="width: 100%" @change="search">
             <el-option v-for="item in faqLists" :key="item.value" :label="item.question" :value="item.id" />
           </el-select>
         </el-col>

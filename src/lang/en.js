@@ -207,7 +207,7 @@ export default {
   },
   // 用户模版
   userful: {
-    name: 'Name for Document or Link',
+    name: 'Name',
     categoryen: 'Category-EN',
     categoryzh: 'Category-ZH',
     category: 'Category',
@@ -224,6 +224,8 @@ export default {
     link: 'Link',
     uploadfile: 'Upload File',
     type: 'Type',
+    type1: 'Document',
+    type2: 'Link',
     nametips: 'Mandatory',
     categoryIdtips: 'Mandatory',
     typetips: 'Mandatory',

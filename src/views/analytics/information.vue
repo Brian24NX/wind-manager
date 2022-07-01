@@ -3,7 +3,7 @@
     <div class="searchContainer">
       <el-row style="width: 100%" type="flex" justify="space-between">
         <el-col :span="6">
-          <el-select v-model="queryParams.analysisType" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="changeType">
+          <el-select v-model="queryParams.analysisType" size="small" placeholder="请选择" :clearable="false" filterable style="width: 100%" @change="changeType">
             <el-option v-for="item in userTypeList" :key="item.value" :label="item.value" :value="item.key" />
           </el-select>
         </el-col>

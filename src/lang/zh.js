@@ -209,7 +209,7 @@ export default {
   },
   // 用户模版
   userful: {
-    name: '文档或链接',
+    name: '名称',
     categoryen: '种类英文',
     categoryzh: '种类中文',
     category: '类别',
@@ -225,6 +225,8 @@ export default {
     link: '链接',
     uploadfile: '选择文件',
     type: '类型',
+    type1: '文档',
+    type2: '链接',
     deltitle: '是否确认删除该模板或链接？',
     nametips: '文档或者链接必填',
     categoryIdtips: '类别必填',
