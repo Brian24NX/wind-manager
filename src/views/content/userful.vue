@@ -5,7 +5,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="8">
-              <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('userful.name')" clearable @clear="search" @keyup.enter.native="search" />
+              <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('userful.name')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
             <el-col :span="8">
               <el-select v-model="queryParams.type" size="small" :placeholder="$t('userful.type')" clearable filterable style="width: 100%" @change="search">
@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
-      queryParams: { keyWord: '', type: '' },
+      queryParams: { keyword: '', type: '' },
       categoryList1: [],
       categoryList2: [],
       categoryedit: false,
@@ -291,7 +291,7 @@ export default {
     },
     // 置空列表
     reset() {
-      this.queryParams = { keyWord: '' }
+      this.queryParams = { keyword: '', type: '' }
       setTimeout(() => {
         this.$refs.pagination.refreshRequest()
       }, 100)
