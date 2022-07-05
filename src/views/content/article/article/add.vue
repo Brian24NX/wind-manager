@@ -198,10 +198,10 @@ export default {
         this.$message.error(this.$t('tips.errortxt'))
         return false
       }
-      if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
-        this.$message.error(this.$t('tips.errornull'))
-        return false
-      }
+      // if (fileName.indexOf(' ') > -1 || fileName.indexOf('#') > -1) {
+      //   this.$message.error(this.$t('tips.errornull'))
+      //   return false
+      // }
       return true
     },
     saveForm(formName) {

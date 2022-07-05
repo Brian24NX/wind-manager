@@ -412,11 +412,6 @@ export default {
       const _URL = window.URL || window.webkitURL
       const fileName = file.name
       this.listObj[fileName] = {}
-      // 图片文件名有空格，不让上传
-      if (fileName.indexOf('#') > -1) {
-        this.$message.error('上传图片名称不能包含#')
-        return false
-      } else {
         return new Promise((resolve, reject) => {
           if (file.type.indexOf('image') === -1) {
             this.$message.error(this.$t('tinymce.uploadError'))
@@ -430,7 +425,6 @@ export default {
           }
           resolve(true)
         })
-      }
     }
   }
 }
