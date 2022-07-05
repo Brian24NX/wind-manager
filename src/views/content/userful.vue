@@ -291,7 +291,7 @@ export default {
     },
     // 置空列表
     reset() {
-      this.queryParams = { keyword: '' }
+      this.queryParams = { keyword: '', type: '' }
       setTimeout(() => {
         this.$refs.pagination.refreshRequest()
       }, 100)
