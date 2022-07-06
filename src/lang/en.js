@@ -476,7 +476,7 @@ export default {
     success: 'Switch Language Success',
     errorImg: 'The size of the uploaded image cannot exceed 2MB!',
     errortxt: 'The upload image format is incorrect. Please select an image in JPG, PNG, JPEG or GIF format!',
-    errornull: 'The uploaded picture name cannot contain spaces or \!',
+    errornull: 'The uploaded picture name cannot contain #!',
     fabulous: 'Thumbs Up',
     stepon: 'Thumbs Down'
   }

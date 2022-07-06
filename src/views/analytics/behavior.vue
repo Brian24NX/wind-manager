@@ -309,7 +309,7 @@ export default {
       formLabelWidth1: '100px',
       downloaddialog: false,
       downloadform: {
-        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
+        timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 29).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       },
       rules: {
         timeList: [{ required: true, message: this.$t('download.required'), trigger: 'change' }]
@@ -507,7 +507,7 @@ export default {
     },
     // 重置
     Cancle() {
-      this.downloadform.timeList = [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 365).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
+      this.downloadform.timeList = [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 29).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')]
       this.downloaddialog = false
     }
   }

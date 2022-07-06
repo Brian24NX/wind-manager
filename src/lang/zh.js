@@ -481,7 +481,7 @@ export default {
     success: '切换语言成功',
     errorImg: '上传图片大小不能超过 2MB!',
     errortxt: '上传图片格式不正确，请选择 jpg、png、jpeg 或 gif 格式的图片!',
-    errornull: '上传图片名称不能包含空格或 #!',
+    errornull: '上传图片名称不能包含#!',
     fabulous: '赞',
     stepon: '踩'
   }
