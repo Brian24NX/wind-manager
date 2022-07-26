@@ -47,7 +47,7 @@ export function faqActive(data) {
     params: data
   })
 }
-// faq模版下载
+// faq模板下载
 export function faqTemplateDownload() {
   return request({
     url: '/api/admin/faqTemplateDownload',

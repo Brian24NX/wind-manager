@@ -205,7 +205,7 @@ export default {
     remarksentips: 'Mandatory',
     remarkszhtips: 'Mandatory'
   },
-  // 用户模版
+  // 用户模板
   userful: {
     name: 'Name',
     categoryen: 'Category-EN',
@@ -417,7 +417,7 @@ export default {
     numberofsendtoemail: 'Number of Send to Email',
     numberoflikes: 'Number of Likes'
   },
-  // 模版
+  // 模板
   useful: {
     title: 'Title',
     numberofviews: 'Number of Views/Copies',

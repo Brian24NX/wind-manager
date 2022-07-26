@@ -23,7 +23,7 @@ export default {
     faqManagement: 'FAQ管理',
     contactInformation: '联系信息',
     businessOperationalUpdate: '服务信息',
-    usefulTemplateAndLink: '模版与链接',
+    usefulTemplateAndLink: '模板与链接',
     sanctionsAndCommodityList: '管制品',
     materialLibrary: '素材库',
     usergroup: '用户与用户组',
@@ -139,7 +139,7 @@ export default {
     delete: '删除',
     publish: '发布',
     unPublish: '撤回',
-    download: '下载模版',
+    download: '下载模板',
     save: '保存',
     search: '搜索',
     reset: '重置',
@@ -207,7 +207,7 @@ export default {
     remarksentips: '备注（英文）必填',
     remarkszhtips: '备注（中文）必填'
   },
-  // 用户模版
+  // 用户模板
   userful: {
     name: '名称',
     categoryen: '种类英文',
@@ -421,7 +421,7 @@ export default {
     numberofsendtoemail: '发送至邮箱数量',
     numberoflikes: '点赞量'
   },
-  // 模版
+  // 模板
   useful: {
     title: '标题',
     numberofviews: '浏览量',
@@ -448,7 +448,7 @@ export default {
     news: '新闻中心',
     online: '在线服务',
     customer: '客户公告',
-    useful: '常用模版及链接',
+    useful: '常用模板及链接',
     sanction: '管制品查询',
     contact: '联系我们',
     function: '功能升级中，敬请期待'
@@ -463,7 +463,7 @@ export default {
     tip1: '将文件拖到此处，或',
     tip2: '点击上传',
     tip3: '只能上传.xlsx/.xls文件，',
-    tip4: '下载模版'
+    tip4: '下载模板'
   },
   // 下载
   download: {

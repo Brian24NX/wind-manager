@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-// 添加模版
+// 添加模板
 export function templateAdd(data) {
   return request({
     url: '/api/admin/templateAdd',
@@ -7,7 +7,7 @@ export function templateAdd(data) {
     data
   })
 }
-// 修改模版
+// 修改模板
 export function templateEdit(data) {
   return request({
     url: '/api/admin/templateEdit',
@@ -15,7 +15,7 @@ export function templateEdit(data) {
     data
   })
 }
-// 删除模版
+// 删除模板
 export function templateDelete(id) {
   return request({
     url: '/api/admin/templateDelete',
@@ -23,7 +23,7 @@ export function templateDelete(id) {
     params: { id }
   })
 }
-// 模版下载
+// 模板下载
 export function usefulTemplateDownload() {
   return request({
     url: '/api/admin/usefulTemplateDownload',

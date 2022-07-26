@@ -81,7 +81,7 @@
       <!--转化分析-->
       <div v-if="queryParams.analysisType == 7" style="width: 100%;height: 400px;text-align: center;line-height: 380px;font-size: 30px;">{{ $t('analysis.qidai') }}</div>
     </div>
-    <!--更多模版点击次数-->
+    <!--更多模板点击次数-->
     <div v-if="queryParams.analysisType == 6">
       <el-row :gutter="20">
         <el-col :span="8">

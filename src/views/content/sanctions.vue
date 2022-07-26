@@ -96,7 +96,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <!--导入模版-->
+    <!--导入模板-->
     <CustomerImport ref="customerImport" download-url="import/Import Sanction List导入管制品.xlsx" import-url="/api/admin/sanctionCommodityImport" :table-colum="tableColum" @success="search" />
   </div>
 </template>

@@ -52,7 +52,7 @@
         </el-table-column>
       </Pagination>
     </div>
-    <!--导入模版-->
+    <!--导入模板-->
     <CustomerImport ref="customerImport" download-url="import/Import FAQs导入常见问题.xlsx" import-url="/api/admin/faqImport" :table-colum="tableColum" @success="search" />
     <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/faqImport" :limit="1" :headers="uploadHeaders" :on-success="handleSuccess" accept=".xlsx, .xls">

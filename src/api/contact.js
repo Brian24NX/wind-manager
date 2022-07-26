@@ -56,7 +56,7 @@ export function BusinessTypeList(data) {
     params: data
   })
 }
-// 获取联系信息模版
+// 获取联系信息模板
 export function contactTemplateDownload() {
   return request({
     url: '/api/admin/contactTemplateDownload',

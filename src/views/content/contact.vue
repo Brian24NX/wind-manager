@@ -54,7 +54,7 @@
         </el-table-column>
       </Pagination>
     </div>
-    <!--导入模版-->
+    <!--导入模板-->
     <CustomerImport ref="customerImport" download-url="import/Import Contact Info Matrix导入联系人信息.xlsx" import-url="/api/admin/contactInfoImport" :table-colum="tableColum" @success="search" />
     <!-- <el-dialog :title="$t('newscenter.import')" :visible.sync="importdialog" center destroy-on-close :close-on-click-modal="false" width="410px">
       <el-upload class="upload-demo" drag action="/api/admin/contactInfoImport" :limit="1" :on-success="handleSuccess" :headers="uploadHeaders" accept=".xlsx, .xls">
