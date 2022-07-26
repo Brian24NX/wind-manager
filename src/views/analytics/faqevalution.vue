@@ -162,7 +162,7 @@ export default {
         },
         disabledDate: (time) => {
           const timeOptionRange = this.downloadTimeOptionRange
-          const secondNum = 1000 * 60 * 60 * 24 * 30
+          const secondNum = 1000 * 60 * 60 * 24 * 365
           const times = new Date(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1)
           if (!timeOptionRange) {
             return time.getTime() > times
