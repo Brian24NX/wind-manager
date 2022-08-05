@@ -110,11 +110,11 @@ export default {
       articleForm: {
         id: '',
         title: '',
-        region: '',
-        type: '',
+        creator: '',
+        frontCover: '',
+        orginalArticleLink: '',
         publishIds: [],
         schedule: false,
-        frontCover: '',
         categoryIds: []
       },
       categoryList: [],

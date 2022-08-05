@@ -53,7 +53,7 @@
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="800px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
         <el-form-item :label="$t('label.labelname')" prop="name">
-          <el-input v-model="addform.name" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
+          <el-input v-model="addform.name" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.name = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('label.description')" prop="description">
           <el-input
@@ -191,177 +191,169 @@ export default {
   mounted() {
     this.setRules()
   },
-  methods: { setRules() {
-    this.rules = {
-      name: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
-    }
-    setTimeout(() => {
-      this.$nextTick(() => {
-        this.$refs.addform ? this.$refs.addform.clearValidate() : null
-      })
-    }, 1)
-  },
-  // 搜索
-  search() {
-    this.$refs.pagination.refreshRequest()
-  },
-  // 重置
-  reset() {
-    this.queryParams = {
-      company: '',
-      name: ''
-    }
-    setTimeout(() => {
+  methods: {
+    setRules() {
+      this.rules = {
+        name: { required: true, message: this.$t('label.labelnametips'), trigger: 'blur' }
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.addform ? this.$refs.addform.clearValidate() : null
+        })
+      }, 1)
+    },
+    // 搜索
+    search() {
       this.$refs.pagination.refreshRequest()
-    }, 100)
-  },
-  handleDel(id) {
-    this.$confirm(this.$t('label.deltitle'), this.$t('message.delete'), {
-      confirmButtonText: this.$t('forgetForm.yes'),
-      cancelButtonText: this.$t('forgetForm.cancel'),
-      type: 'warning'
-    }).then(async() => {
-      await labelDelete(id)
-      this.$refs.pagination.pageRequest()
-    })
-  },
-  // 提交表单
-  submitlabel(formName) {
-    this.$refs[formName].validate(async(valid) => {
-      // 提交表单
-      if (valid) {
-        // eslint-disable-next-line eqeqeq
-        if (this.addform.id == undefined) {
-          // 新增label
-          this.submitLoading = true
-          this.addform.companyList.forEach((item) => {
-            const data = { companyId: Number(item) }
-            this.stagedata.push(data)
-          })
-          this.addform.companyList = []
-          this.addform.companyList = this.stagedata
-          await labelAdd(this.addform)
-          this.submitLoading = false
-          this.adddialog = false
-          this.$refs.pagination.refreshRequest()
-        } else {
-          this.addform.companyList.forEach((item) => {
-            const data = { companyId: Number(item) }
-            this.stagedata.push(data)
-          })
-          this.addform.companyList = []
-          this.addform.companyList = this.stagedata
-          this.submitLoading = false
-          await labelEdit(this.addform)
-          this.addform.id = ''
-          this.addform.name = ''
-          this.addform.description = ''
-          this.addform.companyList = []
-          this.stagedata = []
-          this.submitLoading = false
-          this.adddialog = false
-          this.isEdit = false
-          this.$refs.pagination.refreshRequest()
+    },
+    // 重置
+    reset() {
+      this.queryParams = {
+        company: '',
+        name: ''
+      }
+      setTimeout(() => {
+        this.$refs.pagination.refreshRequest()
+      }, 100)
+    },
+    handleDel(id) {
+      this.$confirm(this.$t('label.deltitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      }).then(async() => {
+        await labelDelete(id)
+        this.$refs.pagination.pageRequest()
+      })
+    },
+    // 提交表单
+    submitlabel(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        // 提交表单
+        if (valid) {
+          // eslint-disable-next-line eqeqeq
+          if (this.addform.id == undefined) {
+            // 新增label
+            this.submitLoading = true
+            this.addform.companyList.forEach((item) => {
+              const data = { companyId: Number(item) }
+              this.stagedata.push(data)
+            })
+            this.addform.companyList = []
+            this.addform.companyList = this.stagedata
+            await labelAdd(this.addform)
+            this.submitLoading = false
+            this.adddialog = false
+            this.$refs.pagination.refreshRequest()
+          } else {
+            this.addform.companyList.forEach((item) => {
+              const data = { companyId: Number(item) }
+              this.stagedata.push(data)
+            })
+            this.addform.companyList = []
+            this.addform.companyList = this.stagedata
+            this.submitLoading = false
+            await labelEdit(this.addform)
+            this.stagedata = []
+            this.submitLoading = false
+            this.adddialog = false
+            this.isEdit = false
+            this.$refs.pagination.refreshRequest()
+          }
         }
-      }
-    })
-  },
-  // 取消表单
-  resetForm(formName) {
-    this.$refs[formName].resetFields()
-    this.adddialog = false
-    this.stagedata = []
-    this.addform.id = ''
-    this.addform.name = ''
-    this.addform.description = ''
-    this.addform.companyList = []
-  },
-  // 新增
-  async handleAdd() {
-    this.adddialog = true
-    this.addform = {}
-    const res = await labelAllCompanyList()
-    this.companylist = transcompany(res.data)
-  },
-  // 编辑
-  async handleEdit(row) {
-    this.stagedata = []
-    this.adddialog = true
-    this.isEdit = true
-    //    name: '',
-    // description: '',
-    // companyList: []
-    const labelres = await labelDetail(row.id)
-    this.addform.id = labelres.data.id
-    this.addform.name = labelres.data.name
-    this.addform.description = labelres.data.description
-    labelres.data.companyList.forEach((item) => {
-      this.stagedata.push(item.companyId)
-    })
-    this.addform.companyList = this.stagedata
-    this.stagedata = []
-    const res = await labelAllCompanyList()
-    this.companylist = transcompany(res.data)
-  },
-  // 查看启用列表
-  async viewuser(id) {
-    this.currentId = id
-    this.viewuserdialog = true
-    this.searchUser()
-  },
-  // 查询
-  async searchUser() {
-    const data = {
-      id: this.currentId,
-      name: this.name
-    }
-    this.userLoading = true
-    const res = await labelUserList(data)
-    this.userLoading = false
-    this.tabledata = res.data
-  },
-  // 查看启用列表
-  async viewcompany(id) {
-    this.currentId = id
-    this.viewCompanydialog = true
-    this.searchCompany()
-  },
-  // 查询
-  async searchCompany() {
-    const data = {
-      id: this.currentId,
-      name: this.name
-    }
-    this.userLoading = true
-    const res = await labelCompanyList(data)
-    this.userLoading = false
-    this.companydata = res.data
-  },
-  // 导出
-  async exportUser() {
-    const data = {
-      id: this.currentId,
-      name: this.name
-    }
-    const res = await labelUserExport(data)
-    window.open(res.data)
-  },
-  // 删除
-  async remove(row) {
-    this.$confirm(this.$t('label.delUsertitle'), this.$t('message.delete'), {
-      confirmButtonText: this.$t('forgetForm.yes'),
-      cancelButtonText: this.$t('forgetForm.cancel'),
-      type: 'warning'
-    }).then(async() => {
+      })
+    },
+    // 取消表单
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+      this.adddialog = false
+      this.stagedata = []
+    },
+    // 新增
+    async handleAdd() {
+      this.adddialog = true
+      const res = await labelAllCompanyList()
+      this.companylist = transcompany(res.data)
+    },
+    // 编辑
+    async handleEdit(row) {
+      this.stagedata = []
+      this.adddialog = true
+      this.isEdit = true
+      //    name: '',
+      // description: '',
+      // companyList: []
+      const labelres = await labelDetail(row.id)
+      this.addform.id = labelres.data.id
+      this.addform.name = labelres.data.name
+      this.addform.description = labelres.data.description
+      labelres.data.companyList.forEach((item) => {
+        this.stagedata.push(item.companyId)
+      })
+      this.addform.companyList = this.stagedata
+      this.stagedata = []
+      const res = await labelAllCompanyList()
+      this.companylist = transcompany(res.data)
+    },
+    // 查看启用列表
+    async viewuser(id) {
+      this.currentId = id
+      this.viewuserdialog = true
+      this.searchUser()
+    },
+    // 查询
+    async searchUser() {
       const data = {
-        companyId: Number(row.companyId),
-        labelId: this.currentId
+        id: this.currentId,
+        name: this.name
       }
-      await labelUserDelete(data)
+      this.userLoading = true
+      const res = await labelUserList(data)
+      this.userLoading = false
+      this.tabledata = res.data
+    },
+    // 查看启用列表
+    async viewcompany(id) {
+      this.currentId = id
+      this.viewCompanydialog = true
       this.searchCompany()
-      this.$refs.pagination.pageRequest()
-    })
-  }
+    },
+    // 查询
+    async searchCompany() {
+      const data = {
+        id: this.currentId,
+        name: this.name
+      }
+      this.userLoading = true
+      const res = await labelCompanyList(data)
+      this.userLoading = false
+      this.companydata = res.data
+    },
+    // 导出
+    async exportUser() {
+      const data = {
+        id: this.currentId,
+        name: this.name
+      }
+      const res = await labelUserExport(data)
+      window.open(res.data)
+    },
+    // 删除
+    remove(row) {
+      this.$confirm(this.$t('label.delUsertitle'), this.$t('message.delete'), {
+        confirmButtonText: this.$t('forgetForm.yes'),
+        cancelButtonText: this.$t('forgetForm.cancel'),
+        type: 'warning'
+      }).then(async() => {
+        const data = {
+          companyId: Number(row.companyId),
+          labelId: this.currentId
+        }
+        await labelUserDelete(data)
+        this.searchCompany()
+        this.$refs.pagination.pageRequest()
+      })
+    }
   }
 }
 </script>
