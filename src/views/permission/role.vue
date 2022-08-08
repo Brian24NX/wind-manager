@@ -177,6 +177,7 @@ export default {
         }
         this.menuButtons = []
         this.isEdit = false
+        this.addRoleBtnLoading = false
       }
     },
     '$store.getters.language'() {
@@ -282,30 +283,40 @@ export default {
     },
     // 提交新增角色
     submitaddRole() {
-      this.$refs.premissionform.validate(async valid => {
+      this.$refs.premissionform.validate(valid => {
         if (valid) {
           const menuButtons = this.$refs.multiCheckList.getCheckedKeys()
           if (!menuButtons.length) return
           this.addRoleBtnLoading = true
           if (this.premissionform.id) {
-            await roleEdit({
+            roleEdit({
               ...this.premissionform,
               ...{
                 menuButtons
               }
+            }).then(() => {
+              this.$refs.pagination.refreshRequest()
+              this.addRoleBtnLoading = false
+              this.adddialog = false
+              this.isEdit = false
+            }, () => {
+              this.addRoleBtnLoading = false
             })
           } else {
-            await roleAdd({
+            roleAdd({
               ...this.premissionform,
               ...{
                 menuButtons
               }
+            }).then(() => {
+              this.$refs.pagination.refreshRequest()
+              this.addRoleBtnLoading = false
+              this.adddialog = false
+              this.isEdit = false
+            }, () => {
+              this.addRoleBtnLoading = false
             })
           }
-          this.$refs.pagination.refreshRequest()
-          this.addRoleBtnLoading = false
-          this.adddialog = false
-          this.isEdit = false
         }
       })
     },
