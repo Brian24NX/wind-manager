@@ -24,8 +24,7 @@
         <el-button v-permission="[32]" type="danger" size="small" @click="importFile">{{ $t('faq.import') }}</el-button>
         <el-button v-permission="[31]" type="danger" size="small" @click="handleAdd">{{ $t('faq.createinfo') }}</el-button>
       </div>
-      <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('faq.id')" prop="id" width="120px" />
+      <Pagination ref="pagination" uri="/api/admin/getFaqList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('faq.question')" prop="question">
           <template scope="scope">
             <span style="white-space: pre-line">{{ scope.row.question }}</span>
