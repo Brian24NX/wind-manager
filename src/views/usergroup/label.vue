@@ -231,8 +231,8 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         // 提交表单
         if (valid) {
-          // eslint-disable-next-line eqeqeq
-          if (this.addform.id == undefined) {
+          this.stagedata = []
+          if (!this.addform.id) {
             // 新增label
             this.submitLoading = true
             this.addform.companyList.forEach((item) => {
