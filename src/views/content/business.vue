@@ -121,8 +121,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="submitLoading" @click="savebusiness(0)">{{ $t('message.save') }}</el-button>
-        <el-button type="primary" :loading="submitLoading" @click="savebusiness(1)">{{ $t('addArticle.submit') }}</el-button>
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="savebusiness(1)">{{ $t('addArticle.submit') }}</el-button>
       </div>
     </el-dialog>
     <!--查看通告-->

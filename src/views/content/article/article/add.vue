@@ -88,8 +88,8 @@
         <el-row type="flex" justify="end">
           <el-form-item>
             <el-button v-permission="[20]" type="danger" :loading="loading" @click="saveForm('articleForm')">{{ $t('addArticle.save') }}</el-button>
-            <el-button v-permission="[21]" type="danger" :loading="loading" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
             <el-button v-permission="[20]" type="danger" plain @click="resetForm('articleForm')">{{ $t('message.reset') }}</el-button>
+            <el-button v-permission="[21]" type="danger" :loading="loading" @click="submitForm('articleForm')">{{ $t('addArticle.submit') }}</el-button>
           </el-form-item>
         </el-row>
       </el-form>

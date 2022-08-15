@@ -160,7 +160,7 @@ export default {
     scheduleTime: '定时发布时间',
     sendTo: '发送到',
     save: '保存',
-    submit: '保存并发布',
+    submit: '发布',
     addnew: '添加新文章',
     titletips: '文章名称必填',
     titlelengthtips: '长度在 2 到 100 个字符',
