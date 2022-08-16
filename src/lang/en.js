@@ -349,6 +349,7 @@ export default {
     name: 'Name',
     email: 'Email',
     function: 'Function',
+    office: 'Office',
     status: 'Status',
     viewedit: 'View and Edit Function',
     active: 'Active',

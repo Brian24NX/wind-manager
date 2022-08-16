@@ -353,6 +353,7 @@ export default {
     name: '姓名',
     email: '邮箱地址',
     function: '角色与部门',
+    office: '办公室',
     status: '状态',
     viewedit: '查看并编辑角色',
     active: '启用',

@@ -33,6 +33,7 @@
         <el-table-column align="center" :label="$t('userrole.name')" prop="name" />
         <el-table-column align="center" :label="$t('userrole.email')" prop="email" />
         <el-table-column :label="$t('userrole.function')" prop="functions" />
+        <el-table-column :label="$t('userrole.office')" prop="office" />
         <el-table-column :label="$t('userrole.status')" prop="active" align="center" :formatter="transactive" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
@@ -69,6 +70,9 @@
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" :disabled="roleViewId !== 1 && item.value == roleViewId" />
           </el-select>
         </el-form-item>
+        <el-form-item :label="$t('userrole.office')" prop="office">
+          <el-input v-model="addform.office" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.office = $event.target.value.trim()" />
+        </el-form-item>
         <el-form-item :label="$t('login.password')" prop="password">
           <el-input v-model="addform.password" type="password" show-password autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.password = $event.target.value.trim()" />
         </el-form-item>
@@ -86,6 +90,9 @@
         </el-form-item>
         <el-form-item :label="$t('userrole.email')" prop="email">
           <el-input v-model="editform.email" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item :label="$t('userrole.office')" prop="office">
+          <el-input v-model="editform.office" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="editform.office = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('userrole.function')" prop="funid">
           <el-select v-model="editform.funid" :disabled="editform.id === 1 || editform.id == userId || currentRoleViewId == queryParams.roleViewId" placeholder="请选择" style="width: 100%">
@@ -148,6 +155,7 @@ export default {
         name: '',
         email: '',
         id: '',
+        office: '',
         password: ''
       },
       premissionform: {
@@ -159,6 +167,7 @@ export default {
         id: '',
         name: '',
         email: '',
+        office: '',
         funid: ''
       },
       options: [],
@@ -306,6 +315,7 @@ export default {
         email: this.addform.email,
         password: this.addform.password,
         name: this.addform.name,
+        office: this.addform.office,
         active: 1,
         roles: role
       }
@@ -341,6 +351,7 @@ export default {
       const data = {
         id: this.editform.id,
         email: this.editform.email,
+        office: this.editform.office,
         name: this.editform.name,
         active: 1,
         roles: role
@@ -368,6 +379,7 @@ export default {
       // console.log(res.data)
       this.editform.name = res.data.name
       this.editform.email = res.data.email
+      this.editform.office = res.data.office
       this.editform.id = res.data.id
       this.editform.funid = res.data.roles[0].id
       this.currentRoleViewId = res.data.roles[0].id
