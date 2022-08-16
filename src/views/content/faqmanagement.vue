@@ -8,6 +8,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('faq.searchKeyword')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.active" size="small" :placeholder="$t('faq.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in activeList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -75,12 +80,12 @@
         <el-form-item :label="$t('faq.keyword')" prop="faqKeywords">
           <el-input v-model="addform.faqKeywords" autocomplete="off" clearable :placeholder="$t('faq.input')" @blur="addform.faqKeywords = $event.target.value.trim()" />
         </el-form-item>
-        <el-form-item :label="$t('faq.status')" prop="active">
+        <!-- <el-form-item :label="$t('faq.status')" prop="active">
           <el-radio-group v-model="addform.active">
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
           </el-radio-group>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="submitLoading" @click="submitfaq">{{ $t('forgetForm.yes') }}</el-button>
@@ -131,6 +136,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 import CustomerImport from '@/components/Import/import'
+import { dictItem } from '@/api/system/dict/dict'
 import Tinymce from '@/components/Tinymce'
 import { faqList, faqAdd, faqDel, faqEdit, faqEditRelations, faqActive } from '@/api/faq'
 export default {
@@ -142,7 +148,8 @@ export default {
   },
   data() {
     return {
-      queryParams: { keyWord: '' },
+      queryParams: { keyWord: '', active: '' },
+      activeList: [],
       categoryList: [],
       adddialog: false,
       relationsdialog: false,
@@ -151,7 +158,7 @@ export default {
         question: '',
         answer: '',
         faqKeywords: '',
-        active: 1
+        active: 0
       },
       detailForm: {},
       relationsform: {
@@ -189,7 +196,7 @@ export default {
           question: '',
           answer: '',
           faqKeywords: '',
-          active: 1
+          active: 0
         }
         setTimeout(() => {
           this.$refs.editor.setContent('')
@@ -211,11 +218,18 @@ export default {
   },
   created() {
     this.getFaqLists()
+    this.getActivedList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getActivedList() {
+      dictItem('dict_active').then(res => {
+        console.log(res)
+        this.activeList = res.data
+      })
+    },
     setRules() {
       this.rules = {
         question: { required: true, message: this.$t('faq.questiontips'), trigger: 'blur' },
@@ -232,7 +246,8 @@ export default {
       faqList({
         pageNum: 1,
         pageSize: 9999,
-        keyWord: ''
+        keyWord: '',
+        active: '1'
       }).then(res => {
         this.faqLists = res.data.list
       })

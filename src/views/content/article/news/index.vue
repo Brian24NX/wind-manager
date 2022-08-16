@@ -12,6 +12,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('newscenter.title')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.publish" size="small" :placeholder="$t('article.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in publishList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -39,7 +44,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
-            <el-button v-if="scope.row.status === 'Unpublish'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
+            <el-button v-if="scope.row.status === 'Draft'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('message.publish') }}</el-button>
             <el-button v-if="scope.row.status === 'Published'" v-permission="[24]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('message.unPublish') }}</el-button>
             <!-- <el-button v-if="scope.row.status ==='Undeactive'" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>-->
             <el-button v-permission="[25]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
@@ -128,6 +133,7 @@
 import Pagination from '@/components/Pagination'
 import CustomerImport from '@/components/Import/import'
 import { newsDel, newsAdd, newsPublish, newsExport } from '@/api/newcenter'
+import { dictItem } from '@/api/system/dict/dict'
 import { categoryList, categoryAdd, categoryDel, categoryEdit, newsDetail } from '@/api/article'
 import { transList } from '@/utils'
 export default {
@@ -140,8 +146,10 @@ export default {
     return {
       queryParams: {
         categoryIds: '',
+        publish: '',
         keyword: ''
       },
+      publishList: [],
       categoryList: [],
       // 新增历史新闻
       addhistorynewsdialog: false,
@@ -203,11 +211,17 @@ export default {
   },
   created() {
     this.getcategoryList()
+    this.getPublishList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getPublishList() {
+      dictItem('dict_publish').then(res => {
+        this.publishList = res.data
+      })
+    },
     setRules() {
       this.rules = {
         title: { required: true, message: this.$t('newscenter.titletips'), trigger: 'blur' },

@@ -13,6 +13,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('business.title')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.publish" size="small" :placeholder="$t('business.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in publishList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -164,8 +169,9 @@
 <script>
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
-import { businessAdd, businessDel, businessPublish, businessEdit } from '@/api/business.js'
-import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article.js'
+import { businessAdd, businessDel, businessPublish, businessEdit } from '@/api/business'
+import { dictItem } from '@/api/system/dict/dict'
+import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article'
 import { transList } from '@/utils'
 import Cookies from 'js-cookie'
 export default {
@@ -180,8 +186,10 @@ export default {
       queryParams: {
         categoryId: '',
         keyWord: '',
+        publish: '',
         creator: ''
       },
+      publishList: [],
       categoryadd: false,
       isAdd: false,
       categoryList: [],
@@ -237,11 +245,17 @@ export default {
   },
   created() {
     this.getcategoryList()
+    this.getPublishList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getPublishList() {
+      dictItem('dict_publish').then(res => {
+        this.publishList = res.data
+      })
+    },
     setRules() {
       this.rules = {
         title: { required: true, message: this.$t('business.titletips'), trigger: 'blur' }
@@ -253,8 +267,7 @@ export default {
       }, 1)
     },
     transactive(data) {
-    // eslint-disable-next-line eqeqeq
-      if (data.publish == 1) {
+      if (data.publish === 1) {
         return 'Published'
       } else {
         return 'Draft'

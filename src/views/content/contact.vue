@@ -15,6 +15,11 @@
                 <el-option v-for="item in tradeList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.active" size="small" :placeholder="$t('userrole.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in activeList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -43,6 +48,7 @@
         <el-table-column align="center" :label="$t('contact.dutytime')" prop="dutyTime" width="160px" />
         <el-table-column align="center" :label="$t('contact.phone')" prop="phone" width="160px" />
         <el-table-column align="center" :label="$t('contact.email')" prop="email" width="180px" />
+        <el-table-column align="center" :label="$t('contact.status')" :formatter="transactive" prop="active" width="180px" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="120px">
           <template scope="scope">
@@ -199,8 +205,10 @@ export default {
     return {
       queryParams: {
         office: '',
-        trade: ''
+        trade: '',
+        active: ''
       },
+      activeList: [],
       categoryList: [],
       importdialog: false,
       adddialog: false,
@@ -309,11 +317,26 @@ export default {
     this.contradeList()
     this.deparementList()
     this.buinesssList()
+    this.getActivedList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getActivedList() {
+      dictItem('dict_active').then(res => {
+        console.log(res)
+        this.activeList = res.data
+      })
+    },
+    //  启用状态
+    transactive(data) {
+      if (data.active === 1) {
+        return 'Active'
+      } else {
+        return 'Deactive'
+      }
+    },
     setRules() {
       this.rules = {
         region: { required: true, message: this.$t('contact.regiontips'), trigger: 'change' },

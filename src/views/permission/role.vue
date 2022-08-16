@@ -7,6 +7,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.function" size="small" style="width: 100%" :placeholder="$t('userrole.function')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.active" size="small" :placeholder="$t('userrole.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in activeList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -117,6 +122,7 @@
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
 import { roleDel, ActiveUser, ActiveUserExport, roleDict, roleDetail, roleAdd, roleEdit, ActiveUserDel } from '@/api/role'
+import { dictItem } from '@/api/system/dict/dict'
 import { userAdd } from '@/api/user'
 import { transroleList } from '@/utils/index'
 export default {
@@ -128,6 +134,7 @@ export default {
       nameOrEmail: '',
       id: '',
       menuButtons: [],
+      activeList: [],
       premissionform: {
         id: null,
         roleViewId: JSON.parse(localStorage.getItem('role')).id,
@@ -140,7 +147,11 @@ export default {
       adddialog: false,
       addRoleBtnLoading: false,
       viewdialog: false,
-      queryParams: { function: '', roleViewId: JSON.parse(localStorage.getItem('role')).id },
+      queryParams: {
+        function: '',
+        active: '',
+        roleViewId: JSON.parse(localStorage.getItem('role')).id
+      },
       tabledata: [],
       userLoading: false,
       persontableData: [{ name: 'kelly', email: 'kelly@163.com' }, { name: 'kelly', email: 'kelly@163.com' }],
@@ -187,11 +198,18 @@ export default {
   created() {
     this.setRoleBtnList()
     this.roleList()
+    this.getActivedList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getActivedList() {
+      dictItem('dict_active').then(res => {
+        console.log(res)
+        this.activeList = res.data
+      })
+    },
     setRules() {
       this.premissionrules = {
         funct: { required: true, message: this.$t('userrole.functips'), trigger: 'blur' }
@@ -230,9 +248,10 @@ export default {
     },
     //  启用状态
     transactive(data) {
-    // eslint-disable-next-line eqeqeq
-      if (data.active == 1) {
+      if (data.active === 1) {
         return 'Active'
+      } else {
+        return 'Deactive'
       }
     },
     // 按钮初始化

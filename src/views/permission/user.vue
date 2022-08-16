@@ -8,6 +8,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.nameOrFunction" size="small" style="width: 100%" :placeholder="$t('userrole.keyword')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.active" size="small" :placeholder="$t('userrole.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in activeList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -115,7 +120,8 @@
 
 <script>
 import CustomerImport from '@/components/Import/import'
-import { userActive, userExport, userAdd, userEdit, getInfo } from '@/api/user.js'
+import { userActive, userExport, userAdd, userEdit, getInfo } from '@/api/user'
+import { dictItem } from '@/api/system/dict/dict'
 import { roleDict } from '@/api/role.js'
 import Pagination from '@/components/Pagination'
 import MultiCheckList from '@/components/MultiCheckList'
@@ -135,6 +141,7 @@ export default {
       dataList: [],
       queryParams: {
         nameOrFunction: '',
+        active: '',
         roleViewId: JSON.parse(localStorage.getItem('role')).id
       },
       addform: {
@@ -177,7 +184,8 @@ export default {
         prop: 'status',
         label: 'Status',
         width: '300px'
-      }]
+      }],
+      activeList: []
     }
   },
   computed: {},
@@ -199,11 +207,18 @@ export default {
   },
   created() {
     this.roleList()
+    this.getActivedList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getActivedList() {
+      dictItem('dict_active').then(res => {
+        console.log(res)
+        this.activeList = res.data
+      })
+    },
     setRules() {
       this.editrules = {
         name: { required: true, message: this.$t('forgetForm.namerequired') },

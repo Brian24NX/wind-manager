@@ -11,6 +11,11 @@
             <el-col :span="8">
               <el-input v-model="queryParams.referenceNo" size="small" style="width: 100%" :placeholder="$t('sanctions.referencenumber')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
+            <el-col :span="8">
+              <el-select v-model="queryParams.active" size="small" :placeholder="$t('sanctions.status')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in activeList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
         <el-col :span="8">
@@ -34,6 +39,7 @@
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
+        <el-table-column align="center" :label="$t('sanctions.status')" prop="active" :formatter="transactive" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
@@ -103,6 +109,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 import CustomerImport from '@/components/Import/import'
+import { dictItem } from '@/api/system/dict/dict'
 import Tinymce from '@/components/Tinymce'
 import { categoryList } from '@/api/article'
 import { sanctionAdd, sanctionEdit, sanctionDel, sanctionActive, sanctionExport } from '@/api/sanction'
@@ -118,8 +125,10 @@ export default {
     return {
       queryParams: {
         referenceNo: '',
+        active: '',
         keyword: ''
       },
+      activeList: [],
       categoryList: [],
       adddialog: false,
       isAdd: false,
@@ -182,11 +191,18 @@ export default {
   },
   created() {
     this.getcategoryList()
+    this.getActivedList()
   },
   mounted() {
     this.setRules()
   },
   methods: {
+    getActivedList() {
+      dictItem('dict_active').then(res => {
+        console.log(res)
+        this.activeList = res.data
+      })
+    },
     setRules() {
       this.rules = {
         commodityCn: { required: true, message: this.$t('sanctions.commodityzhtips'), trigger: 'blur' },
@@ -199,6 +215,14 @@ export default {
           this.$refs.addform ? this.$refs.addform.clearValidate() : null
         })
       }, 1)
+    },
+    //  启用状态
+    transactive(data) {
+      if (data.active === 1) {
+        return 'Active'
+      } else {
+        return 'Deactive'
+      }
     },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('YYYY-MM-DD')
