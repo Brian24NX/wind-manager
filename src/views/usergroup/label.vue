@@ -67,7 +67,7 @@
           />
         </el-form-item>
         <el-form-item :label="$t('label.companys')" prop="companyId">
-          <el-select v-model="addform.companyList" multiple collapse-tags filterable clearable style="width: 100%" placeholder="请选择">
+          <el-select v-model="addform.companyList" multiple collapse-tags filterable clearable style="width: 100%" :placeholder="$t('general.choose')">
             <el-option v-for="item in companylist" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>

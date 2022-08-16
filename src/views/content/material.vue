@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="8">
           <el-row :gutter="20" type="flex" justify="end">
-            <el-select v-model="query.categoryId" placeholder="请选择" style="margin-right: 20px" clearable @change="changesearch">
+            <el-select v-model="query.categoryId" :placeholder="$t('general.choose')" size="small" style="margin-right: 20px" clearable @change="changesearch">
               <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
             <el-upload
@@ -33,7 +33,7 @@
               :before-upload="beforeUpload"
               :limit="10"
             >
-              <el-button type="danger">{{ $t('library.upload') }}</el-button>
+              <el-button type="danger" size="small">{{ $t('library.upload') }}</el-button>
             </el-upload>
             <el-button v-permission="[61]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
           </el-row>

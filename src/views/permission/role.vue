@@ -45,7 +45,7 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="15">
-              <el-input v-model="nameOrEmail" size="small" style="width: 100%" placeholder="请输入姓名或邮箱地址" clearable @clear="viewuser(id)" />
+              <el-input v-model="nameOrEmail" size="small" style="width: 100%" :placeholder="$t('permission.user')" clearable @clear="viewuser(id)" />
             </el-col>
           </el-row>
         </el-col>

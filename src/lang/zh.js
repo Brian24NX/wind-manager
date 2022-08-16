@@ -98,6 +98,7 @@ export default {
   },
   // 权限页面翻译
   permission: {
+    user: '姓名或邮箱地址',
     addRole: '新增角色',
     editPermission: '编辑权限',
     roles: '你的权限',
@@ -307,7 +308,7 @@ export default {
     answertips: '答案必填',
     faqKeywords: '关键字必填',
     relatedquestiontips: '关联问题必填',
-    input: '请输入，多个关键词用,隔开'
+    input: '如包含多个关键词，请用逗号隔开'
   },
   //  新闻中心
   newscenter: {
