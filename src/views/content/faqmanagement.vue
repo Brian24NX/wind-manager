@@ -42,14 +42,14 @@
             <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="100px" />
+        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="150px" />
         <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
-            <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
+            <el-button v-if="scope.row.active !== 1" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.active !== 1" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
             <el-button v-permission="[35]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
@@ -104,19 +104,19 @@
         <el-form-item :label="$t('faq.keyword')" prop="faqKeywords">
           <el-input v-model="detailForm.faqKeywords" disabled autocomplete="off" />
         </el-form-item>
-        <el-form-item :label="$t('faq.status')" prop="active">
+        <!-- <el-form-item :label="$t('faq.status')" prop="active">
           <el-radio-group v-model="detailForm.active" disabled>
             <el-radio :label="1">{{ $t('contact.active') }}</el-radio>
             <el-radio :label="0">{{ $t('contact.deactive') }}</el-radio>
           </el-radio-group>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-dialog>
     <!--编辑relations-->
     <el-dialog :title="$t('route.faqManagement')" :visible.sync="relationsdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
         <el-form-item :label="$t('faq.relatedquestion')" prop="faqRelations">
-          <el-select v-model="relationsform.faqRelations" multiple clearable filterable style="width: 100%" placeholder="请选择">
+          <el-select v-model="relationsform.faqRelations" multiple clearable filterable style="width: 100%" :placeholder="$t('general.choose')">
             <el-option
               v-for="item in faqLists"
               :key="item.value"
@@ -158,7 +158,7 @@ export default {
         question: '',
         answer: '',
         faqKeywords: '',
-        active: 0
+        active: 2 // 0: 禁用 1: 启用  2: 待审核
       },
       detailForm: {},
       relationsform: {
@@ -196,7 +196,7 @@ export default {
           question: '',
           answer: '',
           faqKeywords: '',
-          active: 0
+          active: 2
         }
         setTimeout(() => {
           this.$refs.editor.setContent('')
@@ -227,7 +227,8 @@ export default {
     getActivedList() {
       dictItem('dict_active').then(res => {
         console.log(res)
-        this.activeList = res.data
+        const arr = [{ key: 2, value: 'Waiting for Approval', valueCn: '待审核' }]
+        this.activeList = arr.concat(res.data)
       })
     },
     setRules() {
@@ -273,11 +274,12 @@ export default {
     },
     // 激活启用
     transactive(data) {
-      // eslint-disable-next-line eqeqeq
-      if (data.active == 1) {
+      if (data.active === 1) {
         return 'Active'
-      } else {
+      } else if (data.active === 0) {
         return 'Deactive'
+      } else {
+        return 'Waiting for Approval'
       }
     },
     // 提交faq
@@ -339,6 +341,7 @@ export default {
       this.isAdd = false
       this.adddialog = true
       this.addform = JSON.parse(JSON.stringify(row))
+      this.addform.active = 2
       setTimeout(() => {
         this.$refs.editor.setContent(row.answer)
       }, 300)
