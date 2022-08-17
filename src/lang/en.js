@@ -244,6 +244,7 @@ export default {
     creator: 'Creator',
     updatetime: 'Updated Time',
     status: 'Status',
+    topFlag: 'Top Status',
     buinessupdate: 'Business Update',
     categoryset: 'Category Setting',
     sendnotification: 'Send A Notification',

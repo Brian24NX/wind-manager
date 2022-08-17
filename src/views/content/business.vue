@@ -3,24 +3,29 @@
     <!--搜索输入-->
     <div class="searchContainer">
       <el-row style="width: 100%">
-        <el-col :span="16">
+        <el-col :span="20">
           <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="6">
               <el-select v-model="queryParams.categoryId" size="small" :placeholder="$t('business.category')" clearable filterable style="width: 100%" @change="search">
                 <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-input v-model="queryParams.keyWord" size="small" style="width: 100%" :placeholder="$t('business.title')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-select v-model="queryParams.publish" size="small" :placeholder="$t('business.status')" clearable filterable style="width: 100%" @change="search">
                 <el-option v-for="item in publishList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
               </el-select>
             </el-col>
+            <el-col :span="6">
+              <el-select v-model="queryParams.topFlag" size="small" :placeholder="$t('business.topFlag')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in topFlagList" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+            </el-col>
           </el-row>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('message.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="reset">{{ $t('message.reset') }}</el-button>
@@ -43,6 +48,18 @@
         </el-table-column>
         <el-table-column :label="$t('business.creator')" prop="creator" align="center" width="150px" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="150px" />
+        <el-table-column align="center" :label="$t('business.topFlag')" prop="topFlag" width="120px">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.topFlag"
+              :active-value="1"
+              :inactive-value="0"
+              active-color="#e10202"
+              inactive-color="#C0CCDA"
+              @change="changeTopFlag(scope.row)"
+            />
+          </template>
+        </el-table-column>
         <el-table-column align="center" :label="$t('business.status')" prop="publish" :formatter="transactive" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
@@ -169,7 +186,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 import Tinymce from '@/components/Tinymce'
-import { businessAdd, businessDel, businessPublish, businessEdit } from '@/api/business'
+import { businessAdd, businessDel, businessPublish, businessEdit, businessTopFlag } from '@/api/business'
 import { dictItem } from '@/api/system/dict/dict'
 import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article'
 import { transList } from '@/utils'
@@ -187,9 +204,17 @@ export default {
         categoryId: '',
         keyWord: '',
         publish: '',
-        creator: ''
+        creator: '',
+        topFlag: ''
       },
       publishList: [],
+      topFlagList: [{
+        value: 1,
+        label: 'YES / 是'
+      }, {
+        value: 0,
+        label: 'NO / 否'
+      }],
       categoryadd: false,
       isAdd: false,
       categoryList: [],
@@ -254,6 +279,15 @@ export default {
     getPublishList() {
       dictItem('dict_publish').then(res => {
         this.publishList = res.data
+      })
+    },
+    changeTopFlag(row) {
+      businessTopFlag({
+        id: row.id,
+        topFlag: row.topFlag,
+        userId: JSON.parse(localStorage.getItem('userInfo')).id
+      }).then(() => {}, () => {
+        row.topFlag = row.topFlag === 1 ? 0 : 1
       })
     },
     setRules() {

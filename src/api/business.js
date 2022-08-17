@@ -23,6 +23,14 @@ export function businessEdit(data) {
     data
   })
 }
+// business修改
+export function businessTopFlag(params) {
+  return request({
+    url: '/api/admin/businiessOpentionalTopFlag',
+    method: 'get',
+    params
+  })
+}
 // business发布
 export function businessPublish(data) {
   return request({

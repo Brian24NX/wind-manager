@@ -246,6 +246,7 @@ export default {
     creator: '创建人',
     updatetime: '更新时间',
     status: '状态',
+    topFlag: '置顶状态',
     buinessupdate: '业务更新',
     categoryset: '类别设置',
     sendnotification: '添加服务信息',

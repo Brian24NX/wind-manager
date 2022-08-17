@@ -141,10 +141,32 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-form-item :label="$t('contact.dutydate')" prop="dutydate">
-                <el-input v-model="addform.dutydate" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.dutydate = $event.target.value.trim()" />
+          <el-row :gutter="0">
+            <el-col :span="11">
+              <el-form-item :label="$t('contact.dutydate')" prop="dutyStartDate">
+                <el-select v-model="addform.dutyStartDate" style="width: 100%;" clearable :placeholder="$t('general.choose')">
+                  <el-option
+                    v-for="item in weekList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div style="display: flex; width: 100%; justify-content: center; height: 70px; align-items: flex-end">~</div>
+            </el-col>
+            <el-col :span="11">
+              <el-form-item :label="$t('contact.dutydate')" prop="dutyEndDate">
+                <el-select v-model="addform.dutyEndDate" style="width: 100%;" clearable :placeholder="$t('general.choose')">
+                  <el-option
+                    v-for="item in weekList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -230,13 +252,36 @@ export default {
         trade: '',
         accountname: '',
         contactperson: '',
-        dutydate: '',
+        dutyStartDate: '',
+        dutyEndDate: '',
         startTime: '',
         endTime: '',
         phone: '',
         email: '',
         active: 1
       },
+      weekList: [{
+        value: 'Monday',
+        label: 'Monday'
+      }, {
+        value: 'Tuesday',
+        label: 'Tuesday'
+      }, {
+        value: 'Wednesday',
+        label: 'Wednesday'
+      }, {
+        value: 'Thursday',
+        label: 'Thursday'
+      }, {
+        value: 'Friday',
+        label: 'Friday'
+      }, {
+        value: 'Saturday',
+        label: 'Saturday'
+      }, {
+        value: 'Sunday',
+        label: 'Sunday'
+      }],
       rules: {},
       tableColum: [{
         prop: 'regionName',
@@ -297,7 +342,8 @@ export default {
           trade: '',
           accountname: '',
           contactperson: '',
-          dutydate: '',
+          dutyStartDate: '',
+          dutyEndDate: '',
           startTime: '',
           endTime: '',
           phone: '',
@@ -346,7 +392,8 @@ export default {
         trade: { required: true, message: this.$t('contact.tradetips'), trigger: 'change' },
         contactperson: { required: true, message: this.$t('contact.contactpersontips'), trigger: 'blur' },
         phone: { required: true, message: this.$t('contact.phonetips'), trigger: 'blur' },
-        dutydate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
+        dutyStartDate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
+        dutyEndDate: { required: true, message: this.$t('contact.dutydatetips'), trigger: 'change' },
         startTime: { required: true, message: this.$t('contact.startTimetips'), trigger: 'change' },
         endTime: { required: true, message: this.$t('contact.endTimetips'), trigger: 'change' },
         email: { required: true, message: this.$t('contact.emailtips'), trigger: 'blur' }
@@ -415,8 +462,10 @@ export default {
     },
     // 编辑
     handleEdit(row) {
-      const startTime = row.dutyTime.split('-')[0]
-      const endTime = row.dutyTime.split('-')[1]
+      const startTime = row.dutyTime.split(' - ')[0]
+      const endTime = row.dutyTime.split(' - ')[1]
+      const dutyStartDate = row.dutyDate.split(' - ')[0]
+      const dutyEndDate = row.dutyDate.split(' - ')[1]
       this.isEdit = true
       this.isAdd = false
       this.adddialog = true
@@ -430,7 +479,8 @@ export default {
       this.addform.buinessscope = row.businessType
       this.addform.phone = row.phone
       this.addform.dept = row.department
-      this.addform.dutydate = row.dutyDate
+      this.addform.dutyStartDate = dutyStartDate
+      this.addform.dutyEndDate = dutyEndDate
       this.addform.startTime = startTime
       this.addform.endTime = endTime
       this.addform.active = row.active
@@ -470,8 +520,8 @@ export default {
         businessType: this.addform.buinessscope,
         phone: this.addform.phone,
         department: this.addform.dept,
-        dutyDate: this.addform.dutydate,
-        dutyTime: this.addform.startTime + '-' + this.addform.endTime
+        dutyDate: this.addform.dutyStartDate + ' - ' + this.addform.dutyEndDate,
+        dutyTime: this.addform.startTime + ' - ' + this.addform.endTime
       }
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
