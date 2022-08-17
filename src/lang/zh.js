@@ -120,7 +120,8 @@ export default {
     upload: '将文件拖到此处，',
     uploadTips: '或点击上传',
     add: '新增',
-    edit: '编辑'
+    edit: '编辑',
+    noData: '暂无数据'
   },
   // 文章相关
   article: {

@@ -92,6 +92,14 @@
             <span v-else>{{ scope.row.categoryCn }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('userful.sort')" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input-number v-model="scope.row.sort" style="width: 100%;" :min="1" />
+            </span>
+            <span v-else>{{ scope.row.sort }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('business.creator')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
@@ -227,6 +235,7 @@ export default {
         creator: '',
         content: '',
         uploadfile: '',
+        topFlag: 0,
         categoryId: ''
       },
       tabledata: [],
@@ -247,6 +256,7 @@ export default {
           creator: '',
           content: '',
           uploadfile: '',
+          topFlag: 0,
           categoryId: ''
         }
         setTimeout(() => {
@@ -346,6 +356,7 @@ export default {
             content: this.addform.content,
             filepath: this.addform.uploadfile,
             categoryId: this.addform.categoryId,
+            topFlag: this.addform.topFlag,
             publish: publish
           }
           if (this.isAdd) {
@@ -433,6 +444,7 @@ export default {
       const data = {
         category: '',
         categoryCn: '',
+        sort: 1,
         creator: '',
         isSet: true,
         categoryadd: true
@@ -447,6 +459,7 @@ export default {
         id: row.id,
         category: row.category,
         categoryCn: row.categoryCn,
+        sort: row.sort,
         creator: row.creator,
         type: 2,
         isSet: false

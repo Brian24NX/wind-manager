@@ -118,7 +118,8 @@ export default {
     upload: 'Drag the file here, ',
     uploadTips: 'or click to upload',
     add: 'Add',
-    edit: 'Edit'
+    edit: 'Edit',
+    noData: 'no Data'
   },
   // 文章相关
   article: {
@@ -409,7 +410,7 @@ export default {
     ecomaccount: 'eCommerce Account',
     labelnametips: 'Mandatory',
     download: 'Download',
-    companys: 'Companys',
+    companys: 'Companies',
     viewcompany: 'View Company',
     viewuser: 'View Company User',
     deltitle: 'Please confirm if you want to delete this label?',

@@ -107,6 +107,14 @@
             <span v-else>{{ scope.row.categoryCn }}</span>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('userful.sort')" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input-number v-model="scope.row.sort" style="width: 100%;" :min="1" />
+            </span>
+            <span v-else>{{ scope.row.sort }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('newscenter.creator')" prop="creator" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
@@ -335,6 +343,7 @@ export default {
         id: '',
         category: '',
         categoryCn: '',
+        sort: 1,
         creator: '',
         isSet: true,
         categoryadd: true
@@ -351,6 +360,7 @@ export default {
           id: row.id,
           category: row.category,
           categoryCn: row.categoryCn,
+          sort: row.sort,
           creator: row.creator,
           type: 1,
           isSet: false

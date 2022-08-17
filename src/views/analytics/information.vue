@@ -39,7 +39,7 @@
       <!--echart图表-->
       <div class="chart-container">
         <div id="mychart" class="echart" :style="myChartStyle" />
-        <div v-show="isshow" class="nodata"><span>暂无数据</span></div>
+        <div v-show="isshow" class="nodata"><span>{{ $t('general.noData') }}</span></div>
       </div>
       <div class="total">
         <span class="total">{{ queryParams.analysisType === 10 ? 'Total visits: ' : 'Total followers: ' }}</span><span class="total">{{ total }}</span>

@@ -98,7 +98,7 @@
           <template scope="scope">{{ scope.$index + 1 }}</template>
         </el-table-column>
         <el-table-column align="center" :label="$t('label.companyname')" prop="company" />
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="60px">
+        <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="100px">
           <template scope="scope">
             <el-button size="small" type="text" class="danger" @click="remove(scope.row)">{{ $t('userrole.remove') }}</el-button>
           </template>
