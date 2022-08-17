@@ -221,6 +221,7 @@ export default {
     delete: '删除',
     categoryset1: '文档类别设置',
     categoryset2: '链接类别设置',
+    sort: '排序',
     import: '导入',
     additem: '添加文档或链接',
     export: '导出',

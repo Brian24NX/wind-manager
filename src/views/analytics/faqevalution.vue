@@ -207,6 +207,7 @@ export default {
       faqList({
         pageNum: 1,
         pageSize: 9999,
+        active: 1,
         keyWord: ''
       }).then(res => {
         this.faqLists = res.data.list

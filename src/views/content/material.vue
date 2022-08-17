@@ -86,9 +86,9 @@
       </el-table>
     </el-dialog>
     <!--名称修改-->
-    <el-dialog :title="$t('message.update')" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false">
+    <el-dialog :title="$t('message.update')" width="500px" :visible.sync="editdialog" center destroy-on-close :close-on-click-modal="false">
       <el-form ref="editform" :model="editform" :rules="rules">
-        <el-form-item :label="$t('library.name')" :label-width="formLabelWidth" prop="title">
+        <el-form-item :label="$t('library.name')" prop="title">
           <el-input v-model="editform.title" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -98,10 +98,10 @@
       </div>
     </el-dialog>
     <!--类别修改-->
-    <el-dialog :title="$t('message.update')" :visible.sync="editcategorydialog" center :close-on-click-modal="false">
+    <el-dialog :title="$t('message.update')" width="500px" :visible.sync="editcategorydialog" center :close-on-click-modal="false">
       <el-form ref="editcateform" :model="editcateform">
-        <el-form-item :label="$t('library.category')" :label-width="formLabelWidth" prop="categoryId">
-          <el-select v-model="editcateform.categoryId" placeholder="请选择" style="margin-right: 20px">
+        <el-form-item :label="$t('library.category')" prop="categoryId">
+          <el-select v-model="editcateform.categoryIds" multiple :placeholder="$t('general.choose')" style="width: 100%;">
             <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -147,10 +147,10 @@ export default {
     return {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       cookies: Cookies.get('Admin-Token'),
-      filePath: process.env.VUE_APP_FILE_BASE_API,
+      filePath: process.env.VUE_APP_FILE_BASE_API + 'wind/',
       // 全选参数
       query: {
-        category: ''
+        categoryId: ''
       },
       checked: false,
       setdialog: false,
@@ -168,10 +168,9 @@ export default {
         title: ''
       },
       editcateform: {
-        id: [],
-        categoryId: ''
+        ids: [],
+        categoryIds: []
       },
-      formLabelWidth: '130px',
       rules: {},
       checkedList: [],
       fileList: [],
@@ -222,11 +221,13 @@ export default {
     },
     // 种类变化搜索
     changesearch() {
+      this.checkedList = []
+      this.checked = false
       this.getlist()
     },
     // 编辑
     handleEditAllCate() {
-      this.editcateform.id = this.checkedList
+      this.editcateform.ids = this.checkedList
       this.editcategorydialog = true
     },
     // 改变选中
@@ -260,19 +261,18 @@ export default {
     },
     // 编辑种类弹窗
     Canclecate() {
-      this.editcateform.id = []
-      this.editcateform.categoryId = ''
+      this.editcateform.ids = []
+      this.editcateform.categoryIds = []
       this.editcategorydialog = false
     },
     // 取消
     Cancle() {
-      this.editform = {}
       this.editdialog = false
     },
     // 种类编辑
     handleEditCate(row) {
-      this.editcateform.id.push(row.id)
-      this.editcateform.categoryId = row.categoryId
+      this.editcateform.ids.push(row.id)
+      this.editcateform.categoryIds = []
       this.editcategorydialog = true
     },
     // 处理编辑
@@ -291,7 +291,6 @@ export default {
           }
           await materialRename(data)
           this.editdialog = false
-          this.editform = {}
           this.getlist()
         }
       })
@@ -299,11 +298,12 @@ export default {
     // 修改类别
     async savecate() {
       this.editcateform.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-      materialChange(this.editcateform)
+      console.log(this.editcateform)
+      await materialChange(this.editcateform)
       this.editcategorydialog = false
       setTimeout(() => {
-        this.editcateform.id = []
-        this.editcateform.categoryId = ''
+        this.editcateform.ids = []
+        this.editcateform.categoryIds = []
         this.checkedList = []
       }, 200)
       this.getlist()

@@ -63,7 +63,7 @@
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
       <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
       <el-table :data="tabledata" style="width: 100%">
-        <el-table-column :label="$t('userful.categoryen')">
+        <el-table-column :label="$t('userful.categoryen')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
               <el-input v-model="scope.row.category" size="mini" />
@@ -71,12 +71,20 @@
             <span v-else>{{ scope.row.category }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('userful.categoryzh')">
+        <el-table-column :label="$t('userful.categoryzh')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
               <el-input v-model="scope.row.categoryCn" size="mini" />
             </span>
             <span v-else>{{ scope.row.categoryCn }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('userful.sort')" align="center">
+          <template scope="scope">
+            <span v-if="scope.row.isSet">
+              <el-input-number v-model="scope.row.sort" style="width: 100%;" :min="1" />
+            </span>
+            <span v-else>{{ scope.row.sort }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="$t('business.creator')" align="center">
@@ -87,7 +95,7 @@
             <span v-else>{{ scope.row.creator }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('article.actions')" align="center" fixed="right">
+        <el-table-column :label="$t('article.actions')" align="center" width="120px" fixed="right">
           <template scope="scope">
             <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
@@ -411,6 +419,7 @@ export default {
         categoryEn: '',
         category: '',
         creator: '',
+        sort: 1,
         isSet: true,
         categoryadd: true
       }
@@ -423,6 +432,7 @@ export default {
         category: row.category,
         categoryCn: row.categoryCn,
         creator: row.creator,
+        sort: row.sort,
         type: this.categoryType,
         isSet: false
       }

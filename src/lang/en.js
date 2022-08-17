@@ -219,6 +219,7 @@ export default {
     delete: 'Delete',
     categoryset1: 'Document Category Setting',
     categoryset2: 'Link Category Setting',
+    sort: 'Sort',
     import: 'Import',
     additem: 'Add A New Document or Link',
     export: 'Export',

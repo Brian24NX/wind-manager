@@ -74,7 +74,7 @@ export default {
       dialogVisible: false,
       cookies: Cookies.get('Admin-Token'),
       listObj: {},
-      filePath: process.env.VUE_APP_FILE_BASE_API,
+      filePath: process.env.VUE_APP_FILE_BASE_API + 'wind/',
       checkedList: [],
       librarylist: [],
       materialObj: [],
@@ -200,7 +200,7 @@ export default {
       }
       var obj = []
       for (let i = 0; i < list.length; i++) {
-        var Url = process.env.VUE_APP_FILE_BASE_API + list[i][0].filePath
+        var Url = this.filePath + list[i][0].filePath
         var data = { hasSuccess: true, url: Url, uid: list[i][0].id }
         obj.push(data)
       }

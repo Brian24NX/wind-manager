@@ -276,7 +276,7 @@ export default {
         { createUser: 0, updateUser: 0, statisti: 8, num: 0 }
       ],
       queryParams: {
-        analysisType: 6,
+        analysisType: 1,
         timeList: [this.$moment(new Date().getTime() - 3600 * 1000 * 24 * 30).format('YYYY-MM-DD 00:00:00'), this.$moment(new Date()).format('YYYY-MM-DD 23:59:59')],
         endDate: '',
         startDate: ''
