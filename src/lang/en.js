@@ -119,7 +119,7 @@ export default {
     uploadTips: 'or click to upload',
     add: 'Add',
     edit: 'Edit',
-    noData: 'no Data'
+    noData: 'No Data'
   },
   // 文章相关
   article: {

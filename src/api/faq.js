@@ -39,6 +39,14 @@ export function faqEditRelations(data) {
     data
   })
 }
+// faq详情
+export function faqDetail(params) {
+  return request({
+    url: '/api/admin/getFaqById',
+    method: 'get',
+    params
+  })
+}
 // faq激活和不激活
 export function faqActive(data) {
   return request({

@@ -138,7 +138,7 @@ import Pagination from '@/components/Pagination'
 import CustomerImport from '@/components/Import/import'
 import { dictItem } from '@/api/system/dict/dict'
 import Tinymce from '@/components/Tinymce'
-import { faqList, faqAdd, faqDel, faqEdit, faqEditRelations, faqActive } from '@/api/faq'
+import { faqList, faqAdd, faqDel, faqEdit, faqDetail, faqEditRelations, faqActive } from '@/api/faq'
 export default {
   name: 'FaqManagement',
   components: {
@@ -256,7 +256,11 @@ export default {
     // 处理详情
     handleDetail(row) {
       this.isSelect = true
-      this.detailForm = JSON.parse(JSON.stringify(row))
+      faqDetail({
+        questionId: row.id
+      }).then(res => {
+        this.detailForm = res.data
+      })
     },
     // 查询
     search() {
@@ -340,11 +344,15 @@ export default {
     handleEdit(row) {
       this.isAdd = false
       this.adddialog = true
-      this.addform = JSON.parse(JSON.stringify(row))
-      this.addform.active = 2
-      setTimeout(() => {
-        this.$refs.editor.setContent(row.answer)
-      }, 300)
+      faqDetail({
+        questionId: row.id
+      }).then(res => {
+        this.addform = res.data
+        this.addform.active = 2
+        setTimeout(() => {
+          this.$refs.editor.setContent(res.data.answer)
+        }, 300)
+      })
     },
     // 新增状态
     handleAdd() {

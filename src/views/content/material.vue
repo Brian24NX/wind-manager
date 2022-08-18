@@ -33,7 +33,7 @@
               :before-upload="beforeUpload"
               :limit="10"
             >
-              <el-button type="danger" size="small">{{ $t('library.upload') }}</el-button>
+              <el-button v-permission="[61]" type="danger" size="small">{{ $t('library.upload') }}</el-button>
             </el-upload>
             <el-button v-permission="[61]" type="danger" size="small" @click="setdialog = true">{{ $t('business.categoryset') }}</el-button>
           </el-row>
@@ -44,7 +44,7 @@
       <div class="listcontainer">
         <div v-for="(item, index) in librarylist" :key="index" class="cardcontainer">
           <el-image :src="filePath + item.filePath" mode="aspectFit" lazy :preview-src-list="[filePath + item.filePath]" class="imgsrc" fit="scale-down" />
-          <div>
+          <div v-permission="[61]">
             <el-button class="table-cell" icon="el-icon-edit" @click="handleEdit(item)" />
             <el-button class="table-cell" icon="el-icon-guide" @click="handleEditCate(item)" />
             <el-button style="margin-left: 10px;" icon="el-icon-delete" @click="handleDel(item)" />

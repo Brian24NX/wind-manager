@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" size="small" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
+          <el-button size="small" plain @click="cancel"> {{ $t('forgetForm.cancel') }}</el-button>
           <el-button type="primary" size="small" @click="submit('forgetForm')">{{ $t('forgetForm.sendcode') }}</el-button>
         </div>
       </div>

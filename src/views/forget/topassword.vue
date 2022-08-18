@@ -15,6 +15,7 @@
                 <el-input
                   ref="verifycode"
                   v-model="forgetForm.verifycode"
+                  size="small"
                   type="text"
                   :placeholder="$t('forgetForm.verifycode')"
                   name="verifycode"
@@ -22,10 +23,11 @@
                   autocomplete="on"
                 />
               </el-form-item>
-              <el-form-item prop="password" style="margin-bottom: 30px">
+              <el-form-item prop="password">
                 <el-input
                   ref="password"
                   v-model="forgetForm.password"
+                  size="small"
                   type="password"
                   :placeholder="$t('forgetForm.password')"
                   name="password"
@@ -33,10 +35,11 @@
                   autocomplete="on"
                 />
               </el-form-item>
-              <el-form-item prop="confirmpassword">
+              <el-form-item prop="confirmpassword" style="margin-bottom: 0;">
                 <el-input
                   ref="confirmpassword"
                   v-model="forgetForm.confirmpassword"
+                  size="small"
                   type="password"
                   :placeholder="$t('forgetForm.confirmpassword')"
                   name="confirmpassword"
@@ -66,8 +69,8 @@
           </div>
         </div>
         <div class="clearright">
-          <el-button type="info" plain @click="cancel">{{ $t('forgetForm.cancel') }}</el-button>
-          <el-button plain @click="submit('forgetForm')">{{ $t('forgetForm.submit') }}</el-button>
+          <el-button size="small" plain @click="cancel">{{ $t('forgetForm.cancel') }}</el-button>
+          <el-button type="primary" size="small" @click="submit('forgetForm')">{{ $t('forgetForm.submit') }}</el-button>
         </div>
       </div>
     </div>
@@ -168,7 +171,7 @@ export default {
 }
 
 .passwordheader {
-  margin-top: 20px;
+  margin: 20px 0 10px;
   image {
     width: 79px;
     height: 48px;
@@ -210,7 +213,7 @@ export default {
 .titles {
   font-size: 20px;
   font-weight: 500;
-  margin: 0 0;
+  margin: 0 0 15px;
 }
 .rightcontent {
   // display: table-cell;
@@ -241,6 +244,7 @@ h2 {
 .checklist {
   padding-left: 0;
   font-size: 12px;
+  margin: 0;
 }
 i {
   font-style: normal;
