@@ -97,6 +97,14 @@ const articleRouter = {
     meta: {
       title: 'materialLibrary'
     }
+  },
+  {
+    path: '/video',
+    component: () => import('@/views/content/videoMaterial'),
+    name: 'Video Library',
+    meta: {
+      title: 'videoLibrary'
+    }
   }]
 }
 

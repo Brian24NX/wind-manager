@@ -26,6 +26,7 @@ export default {
     usefulTemplateAndLink: 'Template and Link',
     sanctionsAndCommodityList: 'Sanction and Commodity List',
     materialLibrary: 'Material Library',
+    videoLibrary: 'Video Library',
     usergroup: 'User and User Group-CRM',
     programuser: 'Mini-program User',
     labelManagement: 'Label Management',

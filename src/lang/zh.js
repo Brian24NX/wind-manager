@@ -26,6 +26,7 @@ export default {
     usefulTemplateAndLink: '模板与链接',
     sanctionsAndCommodityList: '管制品',
     materialLibrary: '素材库',
+    videoLibrary: '视频库',
     usergroup: '用户与用户组',
     programuser: '小程序用户',
     labelManagement: '标签管理',
