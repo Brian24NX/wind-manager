@@ -29,7 +29,7 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button v-permission="[76]" type="danger" size="small" @click="adddialog = true">{{ $t('vas.addarticlelink') }}</el-button>
+        <el-button v-permission="[76]" type="danger" size="small" @click="adddialog = true">{{ $t('video.add') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/videoLibraryList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('article.thumb')" width="120">
@@ -39,7 +39,7 @@
         </el-table-column>
         <el-table-column align="center" :label="$t('vas.title')" prop="title" />
         <el-table-column :label="$t('vas.publishdate')" prop="publishDate" :formatter="formatDate" />
-        <el-table-column :label="$t('vas.link')" prop="linkUrl" align="center" />
+        <el-table-column :label="$t('video.link')" prop="linkUrl" align="center" />
         <el-table-column align="center" :label="$t('vas.status')" prop="publish" :formatter="transactive" />
         <el-table-column align="center" :label="$t('business.topFlag')" prop="topFlag" width="120px">
           <template slot-scope="scope">
@@ -64,7 +64,28 @@
           <el-input v-model="addform.title" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.title = $event.target.value.trim()" />
         </el-form-item>
         <el-form-item :label="$t('vas.link')" prop="linkUrl">
-          <el-input v-model="addform.linkUrl" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.linkUrl = $event.target.value.trim()" />
+          <!-- <el-input v-model="addform.linkUrl" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.linkUrl = $event.target.value.trim()" /> -->
+          <el-upload
+            ref="upload2"
+            class="avatar-uploader"
+            drag
+            action="/api/admin/uploadVideo"
+            :limit="1"
+            :headers="uploadHeaders"
+            :show-file-list="false"
+            :on-progress="handleProgress"
+            :on-success="handleVideoSuccess"
+            :before-upload="beforeVideoUpload"
+          >
+            <video v-if="addform.linkUrl && !isUpload" style="width: 100%;height: 100%;" :src="addform.linkUrl" />
+            <div v-if="!addform.linkUrl && isUpload" class="progressContainer"><el-progress type="circle" :percentage="percentage" /></div>
+            <template v-if="!addform.linkUrl && !isUpload">
+              <i class="el-icon-upload" />
+              <div class="el-upload__text">
+                {{ $t('general.upload') }}<em>{{ $t('general.uploadTips') }}</em>
+              </div>
+            </template>
+          </el-upload>
         </el-form-item>
         <el-form-item :label="$t('vas.publishdate')" prop="publishdate">
           <el-date-picker v-model="addform.publishdate" type="date" :placeholder="$t('general.chooseDate')" style="width: 100%" clearable />
@@ -78,7 +99,6 @@
             :limit="1"
             :headers="uploadHeaders"
             :show-file-list="false"
-            :on-progress="handleProgress"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
@@ -138,6 +158,8 @@ export default {
       adddialog: false,
       rules: {},
       loading: false,
+      isUpload: false,
+      percentage: 0,
       uploadHeaders: { Authorization: getToken() }
     }
   },
@@ -151,6 +173,8 @@ export default {
           frontCover: '',
           publishdate: ''
         }
+        this.isUpload = false
+        this.percentage = 0
         this.loading = false
       }
     },
@@ -233,6 +257,8 @@ export default {
         publishdate: data.publishDate,
         frontCover: data.frontCover
       }
+      this.isUpload = false
+      this.percentage = 0
       this.adddialog = true
     },
     changeTopFlag(row) {
@@ -244,7 +270,15 @@ export default {
       })
     },
     handleProgress(event, file, fileList) {
-      console.log(event)
+      const percent = event.percent
+      this.isUpload = true
+      this.percentage = parseInt(percent)
+    },
+    handleVideoSuccess(res, file) {
+      this.addform.linkUrl = res.data.fileUrl
+      this.isUpload = false
+      this.percentage = 0
+      this.$refs.upload2.clearFiles()
     },
     handleAvatarSuccess(res, file) {
       this.addform.frontCover = res.data.fileUrl
@@ -265,6 +299,28 @@ export default {
         this.$message.error(this.$t('tips.errornull'))
         return false
       }
+      return true
+    },
+    beforeVideoUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 50
+      if (!isLt2M) {
+        this.$message.error(this.$t('tips.errorImg'))
+        return isLt2M
+      }
+      const fileName = file.name
+      const fileType = file.name.split('.')[file.name.split('.').length - 1].toLocaleLowerCase()
+      var right_type = ['avi', 'wmv', 'mpg', 'mpeg', 'mov', 'rm', 'ram', 'swf', 'flv', 'mp4', 'mp3', 'wma', 'avi', 'rm', 'rmvb', 'flv', 'mpg', 'mkv']
+      console.log(fileType)
+      if (right_type.indexOf(fileType) === -1) {
+        this.$message.error(this.$t('tips.errortxt'))
+        return false
+      }
+      if (fileName.indexOf('#') > -1) {
+        this.$message.error(this.$t('tips.errornull'))
+        return false
+      }
+      this.addform.linkUrl = ''
+      this.percentage = 0
       return true
     },
     // 新增
@@ -310,5 +366,13 @@ export default {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.progressContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

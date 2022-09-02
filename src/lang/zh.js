@@ -478,6 +478,10 @@ export default {
     downloadtime: '数据时间',
     required: '时间必须选择'
   },
+  video: {
+    add: '新增视频',
+    link: '视频链接'
+  },
   // 确认框
   popconfirm: {
     text: '是否要删除此图片？',

@@ -473,6 +473,10 @@ export default {
     downloadtime: 'Date',
     required: 'Mandatory'
   },
+  video: {
+    add: 'add Video',
+    link: 'video link'
+  },
   // 确认框
   popconfirm: {
     text: 'Do you want to delete this picture ?',
