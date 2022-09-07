@@ -191,10 +191,11 @@ export default {
   },
   // 管制品
   sanctions: {
-    keyword: 'Commodity',
-    commodityzh: 'Commodity (Chinese)',
-    commodityen: 'Commodity (English)',
+    keyword: 'Name',
+    commodityzh: 'Name (Chinese)',
+    commodityen: 'Name (English)',
     referencenumber: 'Reference Number',
+    category: 'Category',
     remarkszh: 'Remark(s) Chinese',
     remarksen: 'Remark(s) English',
     type: 'Type',

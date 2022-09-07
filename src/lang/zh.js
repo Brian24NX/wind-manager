@@ -193,12 +193,13 @@ export default {
   },
   // 管制品
   sanctions: {
-    keyword: '商品名称',
-    commodityzh: '商品（中文）',
-    commodityen: '商品（英文）',
+    keyword: '名称',
+    commodityzh: '名称（中文）',
+    commodityen: '名称（英文）',
     referencenumber: '编码',
     remarkszh: '中文备注',
     remarksen: '英文备注',
+    category: '类别',
     type: '类型',
     status: '状态',
     import: '导入',
@@ -206,8 +207,8 @@ export default {
     newitem: '添加管制品',
     editItem: '编辑管制品',
     deltitle: '是否确认删除该管制品记录？',
-    commodityzhtips: '商品（中文）必填',
-    commodityentips: '商品（英文）必填',
+    commodityzhtips: '名称（中文）必填',
+    commodityentips: '名称（英文）必填',
     remarksentips: '备注（英文）必填',
     remarkszhtips: '备注（中文）必填'
   },

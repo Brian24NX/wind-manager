@@ -35,12 +35,13 @@
         <el-button v-permission="[53]" type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
+        <el-table-column align="center" :label="$t('sanctions.category')" prop="category" :formatter="transCategory" width="130px" />
         <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityCn" />
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
         <el-table-column align="center" :label="$t('sanctions.type')" prop="type" />
-        <el-table-column align="center" :label="$t('sanctions.status')" prop="active" :formatter="transactive" />
-        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />
+        <el-table-column align="center" :label="$t('sanctions.status')" prop="active" :formatter="transactive" width="80px" />
+        <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
@@ -55,6 +56,11 @@
     <!--新增通告-->
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="950px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
+        <el-form-item :label="$t('sanctions.category')" prop="category">
+          <el-radio-group v-model="addform.category">
+            <el-radio v-for="item in typelist" :key="item.value" :label="item.value">{{ item.label }} </el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item :label="$t('sanctions.commodityzh')" prop="commodityCn">
           <el-input v-model="addform.commodityCn" autocomplete="off" clearable :placeholder="$t('general.input')" @blur="addform.commodityCn = $event.target.value.trim()" />
         </el-form-item>
@@ -79,9 +85,14 @@
         <el-button @click="Cancle">{{ $t('forgetForm.cancel') }}</el-button>
       </div>
     </el-dialog>
-    <!---->
+    <!--详情-->
     <el-dialog :title="$t('message.detail')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
       <el-form ref="detailform" label-position="top" :model="detailform">
+        <el-form-item :label="$t('sanctions.category')" prop="category">
+          <el-radio-group v-model="detailform.category" disabled>
+            <el-radio v-for="item in typelist" :key="item.value" :label="item.value">{{ item.label }} </el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item :label="$t('sanctions.commodityzh')" prop="commodityCn">
           <el-input v-model="detailform.commodityCn" autocomplete="off" disabled />
         </el-form-item>
@@ -138,6 +149,7 @@ export default {
         id: '',
         commodityCn: '',
         commodityEn: '',
+        category: 1,
         referenceNo: '',
         type: '',
         remarkCn: '',
@@ -163,6 +175,13 @@ export default {
         prop: 'remarkEn',
         label: 'remarkEn',
         width: '200px'
+      }],
+      typelist: [{
+        label: 'Commodity',
+        value: 1
+      }, {
+        label: 'Country/Region',
+        value: 2
       }]
     }
   },
@@ -173,6 +192,7 @@ export default {
           id: '',
           commodityCn: '',
           commodityEn: '',
+          category: 1,
           referenceNo: '',
           type: '',
           remarkCn: '',
@@ -222,6 +242,15 @@ export default {
         return 'Active'
       } else {
         return 'Deactive'
+      }
+    },
+    transCategory(data) {
+      if (data.category === 1) {
+        return 'Commodity'
+      } else if (data.category === 2) {
+        return 'Country/Region'
+      } else {
+        return '-'
       }
     },
     formatDate(row, column, cellValue, index) {
@@ -277,6 +306,7 @@ export default {
             commodityCn: this.addform.commodityCn,
             commodityEn: this.addform.commodityEn,
             referenceNo: this.addform.referenceNo,
+            category: this.addform.category,
             type: this.addform.type,
             remarkCn: this.addform.remarkCn,
             remarkEn: this.addform.remarkEn,

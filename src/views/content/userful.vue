@@ -364,6 +364,7 @@ export default {
         this.addform = {
           name: '',
           categoryId: '',
+          categorySubId: '',
           type: 1,
           document: '',
           internalReference: '',
@@ -482,6 +483,7 @@ export default {
           ]
         }
       }
+      console.log(this.addform)
       this.isAdd = false
       this.adddialog = true
     },
