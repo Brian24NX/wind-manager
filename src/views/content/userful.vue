@@ -24,15 +24,19 @@
     </div>
     <div class="tableContainer">
       <div class="operations">
-        <el-button v-permission="[47]" type="danger" size="small" @click="setCategory(6)">{{ $t('userful.categoryset1') }}</el-button>
-        <el-button v-permission="[47]" type="danger" size="small" @click="setCategory(3)">{{ $t('userful.categoryset2') }}</el-button>
+        <el-button v-permission="[47]" type="danger" size="small" @click="setDocumentCategory()">{{ $t('userful.categoryset1') }}</el-button>
+        <el-button v-permission="[47]" type="danger" size="small" @click="setLinkCategory()">{{ $t('userful.categoryset2') }}</el-button>
         <el-button v-permission="[48]" type="danger" size="small" @click="importFile">{{ $t('userful.import') }}</el-button>
-        <!-- <el-button v-permission="[49]" type="danger" size="small" @click="download">{{ $t('userful.export') }}</el-button>-->
         <el-button v-permission="[46]" type="danger" size="small" @click="handleAdd">{{ $t('userful.additem') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/templateList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('userful.name')" prop="name" />
         <el-table-column :label="$t('userful.category')" prop="categoryName" align="center" width="230px" />
+        <el-table-column :label="$t('userful.categoryTwo')" prop="categorySubName" align="center" width="230px">
+          <template scope="scope">
+            <span>{{ scope.row.categorySubName || '-' }}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('userful.type')" prop="type" width="120px" align="center">
           <template scope="scope">
             <span>{{ scope.row.type === 1 ? $t('userful.type1') : $t('userful.type2') }}</span>
@@ -59,10 +63,102 @@
         </el-table-column>
       </Pagination>
     </div>
-    <!--类别设置-->
+    <!--文档类别设置-->
     <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog" center :close-on-click-modal="false">
+      <el-button size="small" type="danger" style="margin-bottom: 20px" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
+      <el-tabs v-model="tabCategory" type="border-card" @tab-click="handleClick">
+        <el-tab-pane :label="$t('userful.category')" name="firstCategory">
+          <el-table :data="documentCategory" style="width: 100%">
+            <el-table-column :label="$t('userful.categoryen')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input v-model="scope.row.category" size="mini" />
+                </span>
+                <span v-else>{{ scope.row.category }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('userful.categoryzh')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input v-model="scope.row.categoryCn" size="mini" />
+                </span>
+                <span v-else>{{ scope.row.categoryCn }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('userful.sort')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input-number v-model="scope.row.sort" style="width: 100%" :min="1" />
+                </span>
+                <span v-else>{{ scope.row.sort }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('business.creator')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input v-model="scope.row.creator" size="mini" />
+                </span>
+                <span v-else>{{ scope.row.creator }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('article.actions')" align="center" width="120px" fixed="right">
+              <template scope="scope">
+                <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+                <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+                <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane :label="$t('userful.categoryTwo')" name="secondCategory">
+          <el-table :data="documentSecondCategory" style="width: 100%">
+            <el-table-column :label="$t('userful.categoryen')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input v-model="scope.row.category" size="mini" />
+                </span>
+                <span v-else>{{ scope.row.category }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('userful.categoryzh')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input v-model="scope.row.categoryCn" size="mini" />
+                </span>
+                <span v-else>{{ scope.row.categoryCn }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('userful.sort')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input-number v-model="scope.row.sort" style="width: 100%" :min="1" />
+                </span>
+                <span v-else>{{ scope.row.sort }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('business.creator')" align="center">
+              <template scope="scope">
+                <span v-if="scope.row.isSet">
+                  <el-input v-model="scope.row.creator" size="mini" />
+                </span>
+                <span v-else>{{ scope.row.creator }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column :label="$t('article.actions')" align="center" width="120px">
+              <template scope="scope">
+                <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
+                <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
+                <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Delete(scope.row.id)">{{ $t('message.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
+    <!--链接类别设置-->
+    <el-dialog :title="$t('business.categoryset')" :visible.sync="setdialog2" center :close-on-click-modal="false">
       <el-button size="small" type="danger" @click="createcategory">{{ $t('library.categorysetting') }}</el-button>
-      <el-table :data="tabledata" style="width: 100%">
+      <el-table :data="linkCategory" style="width: 100%">
         <el-table-column :label="$t('userful.categoryen')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
@@ -82,7 +178,7 @@
         <el-table-column :label="$t('userful.sort')" align="center">
           <template scope="scope">
             <span v-if="scope.row.isSet">
-              <el-input-number v-model="scope.row.sort" style="width: 100%;" :min="1" />
+              <el-input-number v-model="scope.row.sort" style="width: 100%" :min="1" />
             </span>
             <span v-else>{{ scope.row.sort }}</span>
           </template>
@@ -95,7 +191,7 @@
             <span v-else>{{ scope.row.creator }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('article.actions')" align="center" width="120px" fixed="right">
+        <el-table-column :label="$t('article.actions')" align="center" width="120px">
           <template scope="scope">
             <el-button v-if="scope.row.isSet" size="small" type="text" @click="Save(scope.row)">{{ $t('message.save') }}</el-button>
             <el-button v-if="!scope.row.isSet" size="small" type="text" @click="Edit(scope.row)">{{ $t('message.edit') }}</el-button>
@@ -118,6 +214,16 @@
         <el-form-item :label="$t('userful.category')" prop="categoryId">
           <el-select v-model="addform.categoryId" style="width: 100%" :placeholder="$t('general.choose')">
             <el-option v-for="item in addform.type === 1 ? categoryList2 : categoryList1" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          v-if="addform.type === 1"
+          :label="$t('userful.categoryTwo')"
+          prop="categorySubId"
+          :rules="addform.type === 1 ? [{ required: true, message: $t('userful.categoryIdtips'), trigger: 'blur' }] : ''"
+        >
+          <el-select v-model="addform.categorySubId" style="width: 100%" :placeholder="$t('general.choose')">
+            <el-option v-for="item in categoryList3" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item v-show="addform.type == 1" :label="$t('userful.uploadfile')" prop="document">
@@ -190,11 +296,13 @@ export default {
       queryParams: { keyword: '', type: '' },
       categoryList1: [],
       categoryList2: [],
+      categoryList3: [],
       categoryedit: false,
       importdialog: false,
       addform: {
         name: '',
         categoryId: '',
+        categorySubId: '',
         type: 1,
         document: '',
         internalReference: '',
@@ -215,29 +323,36 @@ export default {
         }
       ],
       rules: {},
-      tabledata: [],
       linkCategory: [],
       documentCategory: [],
+      documentSecondCategory: [],
       selectcolumn: [],
       loading: false,
       categoryType: null,
-      tableColum: [{
-        prop: 'name',
-        label: 'name',
-        width: '200px'
-      }, {
-        prop: 'categoryName',
-        label: 'categoryName',
-        width: '200px'
-      }, {
-        prop: 'document',
-        label: 'Link',
-        width: '200px'
-      }, {
-        prop: 'internalReference',
-        label: 'internalReference',
-        width: '200px'
-      }]
+      tableColum: [
+        {
+          prop: 'name',
+          label: 'name',
+          width: '200px'
+        },
+        {
+          prop: 'categoryName',
+          label: 'categoryName',
+          width: '200px'
+        },
+        {
+          prop: 'document',
+          label: 'Link',
+          width: '200px'
+        },
+        {
+          prop: 'internalReference',
+          label: 'internalReference',
+          width: '200px'
+        }
+      ],
+      tabCategory: 'firstCategory',
+      setdialog2: false
     }
   },
   watch: {
@@ -257,16 +372,11 @@ export default {
         this.fileList = []
         this.loading = false
       }
-    },
-    setdialog(val) {
-      if (!val) {
-        this.getDocumentCategoryList()
-        this.getLinkCategoryList()
-      }
     }
   },
   created() {
     this.getDocumentCategoryList()
+    this.getDocumentSecondCategoryList()
     this.getLinkCategoryList()
   },
   mounted() {
@@ -288,11 +398,16 @@ export default {
     },
     changeType() {
       this.addform.categoryId = ''
+      this.addform.categorySubId = ''
     },
-    setCategory(type) {
+    setLinkCategory() {
+      this.setdialog2 = true
+      this.categoryType = 3
+    },
+    setDocumentCategory() {
       this.setdialog = true
-      this.categoryType = type
-      this.tabledata = type === 3 ? this.linkCategory : this.documentCategory
+      this.categoryType = 6
+      this.tabCategory = 'firstCategory'
     },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('YYYY-MM-DD')
@@ -331,6 +446,15 @@ export default {
       })
       this.documentCategory = res.data
     },
+    async getDocumentSecondCategoryList() {
+      const type = 7
+      const res = await categoryList(type)
+      this.categoryList3 = transList(res.data)
+      res.data.map((i) => {
+        i.isSet = false
+      })
+      this.documentSecondCategory = res.data
+    },
     // 新增
     handleAdd() {
       this.isAdd = true
@@ -342,6 +466,9 @@ export default {
       if (this.addform.type === 1 && this.categoryList2.findIndex((i) => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
+      if (this.addform.type === 1 && this.categoryList3.findIndex((i) => i.value === row.categorySubId) === -1) {
+        this.addform.categorySubId = ''
+      }
       if (this.addform.type === 2 && this.categoryList1.findIndex((i) => i.value === row.categoryId) === -1) {
         this.addform.categoryId = ''
       }
@@ -349,8 +476,8 @@ export default {
         if (row.document) {
           this.fileList = [
             {
-              name: row.document.split('wind/')[1],
-              url: process.env.VUE_APP_FILE_BASE_API + row.document
+              name: row.document,
+              url: process.env.VUE_APP_FILE_BASE_API + 'wind/' + row.document
             }
           ]
         }
@@ -363,6 +490,7 @@ export default {
         name: this.addform.name,
         type: this.addform.type,
         categoryId: this.addform.categoryId,
+        categorySubId: this.addform.categorySubId,
         internalReference: this.addform.internalReference,
         document: this.addform.document,
         id: this.addform.id
@@ -413,6 +541,17 @@ export default {
       this.$refs.addform.resetFields()
       this.adddialog = false
     },
+    handleClick(e) {
+      // 打印
+      const name = e.name
+      if (name === 'firstCategory') {
+        this.categoryType = 6
+        this.getDocumentCategoryList()
+      } else if (name === 'secondCategory') {
+        this.categoryType = 7
+        this.getDocumentSecondCategoryList()
+      }
+    },
     // 添加种类
     createcategory() {
       const data = {
@@ -423,7 +562,13 @@ export default {
         isSet: true,
         categoryadd: true
       }
-      this.tabledata.push(data)
+      if (this.categoryType === 6) {
+        this.documentCategory.push(data)
+      } else if (this.categoryType === 7) {
+        this.documentSecondCategory.push(data)
+      } else if (this.categoryType === 3) {
+        this.linkCategory.push(data)
+      }
     },
     // 添加种类
     async Save(row) {
@@ -440,14 +585,16 @@ export default {
         this.$message.error(this.$t('userful.categoryIdtips'))
         return
       }
-      if (row.categoryadd) {
-        const res = await categoryAdd(data)
-        data.id = res.data
-        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
-      } else {
-        await categoryEdit(data)
-        this.$set(this.tabledata, this.tabledata.indexOf(row), data)
-        this.categoryedit = false
+      const res = row.categoryadd ? await categoryAdd(data) : await categoryEdit(data)
+      if (res.code === '200') {
+        console.log(this.categoryType)
+        if (this.categoryType === 6) {
+          this.getDocumentCategoryList()
+        } else if (this.categoryType === 7) {
+          this.getDocumentSecondCategoryList()
+        } else if (this.categoryType === 3) {
+          this.getLinkCategoryList()
+        }
       }
     },
     // 编辑种类
@@ -463,12 +610,13 @@ export default {
         type: 'warning'
       }).then(async() => {
         await categoryDel(id)
-        // 删除表格当前行
-        this.tabledata.map((i, index) => {
-          if (i.id === id) {
-            this.tabledata.splice(index, 1)
-          }
-        })
+        if (this.categoryType === 6) {
+          this.getDocumentCategoryList()
+        } else if (this.categoryType === 7) {
+          this.getDocumentSecondCategoryList()
+        } else if (this.categoryType === 3) {
+          this.getLinkCategoryList()
+        }
       })
     },
     // 改变
