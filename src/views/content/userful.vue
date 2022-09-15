@@ -639,7 +639,7 @@ export default {
     },
     // 下载
     download(url) {
-      window.open(process.env.VUE_APP_FILE_BASE_API + url)
+      window.open(process.env.VUE_APP_FILE_BASE_API + 'wind/' + url)
     },
     // 预览
     handPreview() {},
