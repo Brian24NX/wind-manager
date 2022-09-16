@@ -200,7 +200,7 @@ export default {
     remarkszh: '中文备注',
     remarksen: '英文备注',
     category: '类别',
-    type: '类型',
+    type: '种类',
     status: '状态',
     import: '导入',
     export: '导出',

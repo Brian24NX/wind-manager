@@ -35,7 +35,7 @@
         <el-button v-permission="[53]" type="danger" size="small" @click="handleAdd">{{ $t('sanctions.newitem') }}</el-button>
       </div>
       <Pagination ref="pagination" uri="/api/admin/sanctionCommodityList" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('sanctions.category')" prop="category" :formatter="transCategory" width="130px" />
+        <el-table-column align="center" :label="$t('sanctions.category')" prop="category" width="130px" />
         <el-table-column align="center" :label="$t('sanctions.commodityzh')" prop="commodityCn" />
         <el-table-column :label="$t('sanctions.commodityen')" prop="commodityEn" />
         <el-table-column :label="$t('sanctions.referencenumber')" prop="referenceNo" align="center" />
@@ -149,7 +149,7 @@ export default {
         id: '',
         commodityCn: '',
         commodityEn: '',
-        category: 1,
+        category: 'Commodity',
         referenceNo: '',
         type: '',
         remarkCn: '',
@@ -178,10 +178,10 @@ export default {
       }],
       typelist: [{
         label: 'Commodity',
-        value: 1
+        value: 'Commodity'
       }, {
         label: 'Country/Region',
-        value: 2
+        value: 'Country/Region'
       }]
     }
   },
@@ -192,7 +192,7 @@ export default {
           id: '',
           commodityCn: '',
           commodityEn: '',
-          category: 1,
+          category: 'Commodity',
           referenceNo: '',
           type: '',
           remarkCn: '',
@@ -242,15 +242,6 @@ export default {
         return 'Active'
       } else {
         return 'Deactive'
-      }
-    },
-    transCategory(data) {
-      if (data.category === 1) {
-        return 'Commodity'
-      } else if (data.category === 2) {
-        return 'Country/Region'
-      } else {
-        return '-'
       }
     },
     formatDate(row, column, cellValue, index) {
