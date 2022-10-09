@@ -287,7 +287,7 @@ export default {
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
-        this.$message.error(this.$t('tips.errorImg'))
+        this.$message.error(this.$t('tips.errorVideo'))
         return isLt2M
       }
       const fileName = file.name

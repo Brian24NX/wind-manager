@@ -424,7 +424,7 @@ export default {
             return item.num
           })
           this.xData = res.data.map((item) => {
-            return item.loading + ' - ' + item.discharge
+            return item.loading.toLocaleUpperCase() + ' - ' + item.discharge.toLocaleUpperCase()
           })
           // 基本柱状图
           const option = {
