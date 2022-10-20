@@ -252,7 +252,7 @@ export default {
     topFlag: 'Top Status',
     buinessupdate: 'Business Update',
     categoryset: 'Category Setting',
-    sendnotification: 'Send A Notification',
+    sendnotification: 'Create A Notification',
     deltitle: 'Please confirm if you want to delete this notification?',
     content: 'Content',
     uploadfile: 'Upload File',
