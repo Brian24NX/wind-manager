@@ -206,9 +206,12 @@ export default {
         toolbar_mode: 'wrap',
         elementpath: false,
         language_url: '/tinymce/langs/zh_CN.js',
-        menubar: 'edit insert view format table tools',
-        plugins: 'preview searchreplace autolink directionality visualblocks visualchars link table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists emoticons autosave autoresize',
-        toolbar: 'undo redo cut copy paste pastetext styleselect formatselect fontselect fontsizeselect lineheight forecolor backcolor bold italic underline strikethrough link anchor alignleft aligncenter alignright alignjustify outdent indent bullist numlist blockquote subscript superscript removeformat table charmap emoticons hr pagebreak insertdatetime preview',
+        menubar: 'edit insert format table tools',
+        menu: {
+          edit: { title: 'Edit', items: 'undo redo | selectall' }
+        },
+        plugins: 'preview searchreplace autolink directionality visualblocks visualchars link table charmap hr nonbreaking insertdatetime advlist lists emoticons autosave autoresize',
+        toolbar: 'undo redo styleselect formatselect fontselect fontsizeselect lineheight forecolor backcolor bold italic underline strikethrough link alignleft aligncenter alignright alignjustify outdent indent bullist numlist blockquote subscript superscript removeformat table charmap emoticons hr insertdatetime preview',
         height: 600, // 编辑器高度
         min_height: 600,
         max_height: 600,

@@ -103,11 +103,19 @@ export default {
   padding: 0 10px !important;
   padding-left: 30px !important;
   span {
-      word-break: break-word;
-      width: 100%;
-      display: inline-block;
-      white-space: normal;
-      line-height: normal;
-    }
+    word-break: break-word;
+    width: 100%;
+    display: inline-block;
+    white-space: normal;
+    line-height: normal;
+  }
+}
+
+.submenu-title-noDropdown > span {
+  word-break: break-word;
+  width: 100%;
+  display: inline-block;
+  white-space: normal;
+  line-height: normal;
 }
 </style>
