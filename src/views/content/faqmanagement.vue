@@ -42,15 +42,31 @@
             <el-button v-permission="[31]" size="small" type="text" icon="el-icon-search" @click="editrelations(scope.row)" />
           </template>
         </el-table-column>
-        <el-table-column align="center" :label="$t('faq.status')" prop="active" :formatter="transactive" width="150px" />
+        <el-table-column align="center" :label="$t('faq.status')" prop="active" width="150px">
+          <template scope="scope">
+            {{ transactive(scope.row) }}
+            <el-tooltip :ref="`popover-${scope.$index}`" class="item" effect="dark" :content="scope.row.checkRemark" placement="top">
+              <i v-show="scope.row.active === 3" style="color: #e10202;" class="el-icon-question" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column align="center" :label="$t('faq.creator')" prop="creator" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" width="120px" />
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('message.detail') }}</el-button>
             <el-button v-if="scope.row.active !== 1" v-permission="[31]" size="small" type="text" @click="handleEdit(scope.row)">{{ $t('message.edit') }}</el-button>
-            <el-button v-if="scope.row.active !== 1" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
+            <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
+            <!-- <el-button v-if="scope.row.active === 2" slot="reference" v-permission="[34]" size="small" type="text" @click="handleCheckStatus(scope.row)">{{ $t('faq.check') }}</el-button> -->
+            <el-popover v-if="scope.row.active === 2" :ref="`popover-${scope.$index}`" placement="top" width="200">
+              <el-input v-model="checkRemark" type="textarea" resize="none" :rows="3" :placeholder="$t('faq.refuseRemark')" />
+              <div style="text-align: right; margin: 0">
+                <el-button size="mini" type="text" @click="handleCheckStatus(scope.row, 3)">{{ $t('faq.refuse') }}</el-button>
+                <el-button type="text" size="mini" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.pass') }}</el-button>
+              </div>
+              <el-button slot="reference" style="margin: 0 10px;" size="small" type="text">{{ $t('faq.check') }}</el-button>
+            </el-popover>
             <el-button v-permission="[35]" size="small" type="text" class="danger" @click="handleDel(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -72,7 +88,14 @@
     <el-dialog :title="addform.id ? $t('general.edit') : $t('general.add')" :visible.sync="adddialog" center width="950px" destroy-on-close :close-on-click-modal="false" top="60px">
       <el-form ref="addform" :model="addform" label-position="top" :rules="rules">
         <el-form-item :label="$t('faq.question')" prop="question">
-          <el-input v-model="addform.question" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" clearable :placeholder="$t('general.input')" @blur="addform.question = $event.target.value.trim()" />
+          <el-input
+            v-model="addform.question"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 4 }"
+            clearable
+            :placeholder="$t('general.input')"
+            @blur="addform.question = $event.target.value.trim()"
+          />
         </el-form-item>
         <el-form-item :label="$t('faq.answer')" prop="answer">
           <tinymce ref="editor" v-model="addform.answer" :height="350" />
@@ -117,12 +140,7 @@
       <el-form ref="relationsform" :model="relationsform" :rules="relationsrules">
         <el-form-item :label="$t('faq.relatedquestion')" prop="faqRelations">
           <el-select v-model="relationsform.faqRelations" multiple clearable filterable style="width: 100%" :placeholder="$t('general.choose')">
-            <el-option
-              v-for="item in faqLists"
-              :key="item.value"
-              :label="item.question"
-              :value="item.id"
-            />
+            <el-option v-for="item in faqLists" :key="item.value" :label="item.question" :value="item.id" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -165,6 +183,7 @@ export default {
         id: '',
         faqRelations: []
       },
+      checkRemark: '',
       isSelect: false,
       isAdd: false,
       rules: {},
@@ -173,19 +192,23 @@ export default {
       },
       submitLoading: false,
       faqLists: [],
-      tableColum: [{
-        prop: 'question',
-        label: 'question',
-        width: '200px'
-      }, {
-        prop: 'faqKeywords',
-        label: 'faqKeywords',
-        width: '200px'
-      }, {
-        prop: 'answer',
-        label: 'answer',
-        width: '600px'
-      }]
+      tableColum: [
+        {
+          prop: 'question',
+          label: 'question',
+          width: '200px'
+        },
+        {
+          prop: 'faqKeywords',
+          label: 'faqKeywords',
+          width: '200px'
+        },
+        {
+          prop: 'answer',
+          label: 'answer',
+          width: '600px'
+        }
+      ]
     }
   },
   watch: {
@@ -225,9 +248,9 @@ export default {
   },
   methods: {
     getActivedList() {
-      dictItem('dict_active').then(res => {
+      dictItem('dict_active').then((res) => {
         console.log(res)
-        const arr = [{ key: 2, value: 'Waiting for Approval', valueCn: '待审核' }]
+        const arr = [{ key: 2, value: 'Waiting for Approval', valueCn: '待审核' }, { key: 3, value: 'Be rejected', valueCn: '被驳回' }]
         this.activeList = arr.concat(res.data)
       })
     },
@@ -249,7 +272,7 @@ export default {
         pageSize: 9999,
         keyWord: '',
         active: '1'
-      }).then(res => {
+      }).then((res) => {
         this.faqLists = res.data.list
       })
     },
@@ -258,7 +281,7 @@ export default {
       this.isSelect = true
       faqDetail({
         questionId: row.id
-      }).then(res => {
+      }).then((res) => {
         this.detailForm = res.data
       })
     },
@@ -282,8 +305,10 @@ export default {
         return 'Active'
       } else if (data.active === 0) {
         return 'Deactive'
-      } else {
+      } else if (data.active === 2) {
         return 'Waiting for Approval'
+      } else if (data.active === 3) {
+        return 'Be Rejected'
       }
     },
     // 提交faq
@@ -299,14 +324,14 @@ export default {
           }
           if (this.isAdd) {
             data.createUser = JSON.parse(localStorage.getItem('userInfo')).id
-            faqAdd(data).then(res => {
+            faqAdd(data).then((res) => {
               this.Cancle()
               this.$refs.pagination.pageRequest()
               this.getFaqLists()
             })
           } else {
             data.updateUser = JSON.parse(localStorage.getItem('userInfo')).id
-            faqEdit(data).then(res => {
+            faqEdit(data).then((res) => {
               this.Cancle()
               this.$refs.pagination.pageRequest()
               this.getFaqLists()
@@ -323,30 +348,41 @@ export default {
         confirmButtonText: this.$t('forgetForm.yes'),
         cancelButtonText: this.$t('forgetForm.cancel'),
         type: 'warning'
+      }).then(async() => {
+        await faqDel(id)
+        this.$refs.pagination.pageRequest()
+        this.getFaqLists()
       })
-        .then(async() => {
-          await faqDel(id)
-          this.$refs.pagination.pageRequest()
-          this.getFaqLists()
-        })
+    },
+    // 审核
+    async handleCheckStatus(row, active) {
+      const data = {
+        id: row.id,
+        active: active,
+        checkRemark: this.checkRemark || null
+      }
+      await faqActive(data)
+      this.checkRemark = ''
+      this.$refs.pagination.pageRequest()
     },
     // 状态改变
     async handleUpdateStatus(row, active) {
       const data = {
         id: row.id,
-        active: active,
-        userId: JSON.parse(localStorage.getItem('userInfo')).id
+        active: active
       }
       await faqActive(data)
+      this.checkRemark = ''
       this.$refs.pagination.pageRequest()
     },
-    // 编辑状态
+    // 编辑
     handleEdit(row) {
       this.isAdd = false
       this.adddialog = true
       faqDetail({
         questionId: row.id
-      }).then(res => {
+      }).then((res) => {
+        this.checkRemark = ''
         this.addform = res.data
         this.addform.active = 2
         setTimeout(() => {
@@ -354,7 +390,7 @@ export default {
         }, 300)
       })
     },
-    // 新增状态
+    // 新增
     handleAdd() {
       this.isAdd = true
       this.adddialog = true
