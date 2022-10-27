@@ -51,8 +51,8 @@ export function faqDetail(params) {
 export function faqActive(data) {
   return request({
     url: '/api/admin/faqActive',
-    method: 'get',
-    params: data
+    method: 'post',
+    data
   })
 }
 // faq模板下载

@@ -59,8 +59,8 @@
             <el-button v-if="scope.row.active === 0" v-permission="[33]" size="small" type="text" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.active') }}</el-button>
             <el-button v-if="scope.row.active === 1" v-permission="[34]" size="small" type="text" @click="handleUpdateStatus(scope.row, 0)">{{ $t('faq.deactive') }}</el-button>
             <!-- <el-button v-if="scope.row.active === 2" slot="reference" v-permission="[34]" size="small" type="text" @click="handleCheckStatus(scope.row)">{{ $t('faq.check') }}</el-button> -->
-            <el-popover v-if="scope.row.active === 2" :ref="`popover-${scope.$index}`" placement="top" width="200">
-              <el-input v-model="checkRemark" type="textarea" resize="none" :rows="3" :placeholder="$t('faq.refuseRemark')" />
+            <el-popover v-if="scope.row.active === 2" :ref="`popover-${scope.$index}`" placement="top-end" :offset="-50" width="300">
+              <el-input v-model="checkRemark" type="textarea" :maxlength="250" resize="none" :rows="3" :placeholder="$t('faq.refuseRemark')" />
               <div style="text-align: right; margin: 0">
                 <el-button size="mini" type="text" @click="handleCheckStatus(scope.row, 3)">{{ $t('faq.refuse') }}</el-button>
                 <el-button type="text" size="mini" @click="handleUpdateStatus(scope.row, 1)">{{ $t('faq.pass') }}</el-button>
@@ -359,7 +359,7 @@ export default {
       const data = {
         id: row.id,
         active: active,
-        checkRemark: this.checkRemark || null
+        checkRemark: this.checkRemark || ''
       }
       await faqActive(data)
       this.checkRemark = ''
