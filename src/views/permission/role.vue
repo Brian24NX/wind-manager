@@ -37,7 +37,7 @@
         <el-table-column :label="$t('article.actions')" align="center" fixed="right" width="200px">
           <template scope="scope">
             <el-button v-permission="[10]" size="small" type="text" class="danger" @click="viewuser(scope.row.id)">{{ $t('userrole.viewuser') }}</el-button>
-            <el-button v-permission="[11]" size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
+            <el-button v-show="scope.row.id !== premissionform.roleViewId" v-permission="[11]" size="small" type="text" class="danger" @click="handleEdit(scope.row)">{{ $t('userrole.editpremission') }}</el-button>
             <el-button v-show="scope.row.id !== premissionform.roleViewId" v-permission="[12]" size="small" type="text" class="danger" @click="handleAddEmployee(scope.row)">{{ $t('userrole.addemployee') }}</el-button>
             <el-button v-show="scope.row.id !== premissionform.roleViewId" v-permission="[13]" size="small" type="text" class="danger" @click="delFunction(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>

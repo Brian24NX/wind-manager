@@ -422,7 +422,7 @@ export default {
     },
     // 文档处理
     transdocument(document) {
-      return process.env.VUE_APP_FILE_BASE_API + document
+      return process.env.VUE_APP_FILE_BASE_API + 'wind/' + document
     },
     // 文件上传成功
     handleupSuccess(res) {
