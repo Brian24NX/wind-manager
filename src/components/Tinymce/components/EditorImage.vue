@@ -74,7 +74,7 @@ export default {
       dialogVisible: false,
       cookies: Cookies.get('Admin-Token'),
       listObj: {},
-      filePath: process.env.VUE_APP_FILE_BASE_API + 'wind/',
+      filePath: location.origin + process.env.VUE_APP_FILE_BASE_API + 'wind/',
       checkedList: [],
       librarylist: [],
       materialObj: [],

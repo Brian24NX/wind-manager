@@ -407,7 +407,7 @@ export default {
       if (row.filepath) {
         this.fileList = [{
           name: row.filepath.split('wind/')[1],
-          url: process.env.VUE_APP_FILE_BASE_API + row.filepath
+          url: location.origin + process.env.VUE_APP_FILE_BASE_API + row.filepath
         }]
       }
       this.detaildialog = true
@@ -421,7 +421,7 @@ export default {
       if (row.filepath) {
         this.fileList = [{
           name: row.filepath.split('wind/')[1],
-          url: process.env.VUE_APP_FILE_BASE_API + row.filepath
+          url: location.origin + process.env.VUE_APP_FILE_BASE_API + row.filepath
         }]
       }
       this.adddialog = true

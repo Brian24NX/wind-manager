@@ -422,7 +422,7 @@ export default {
     },
     // 文档处理
     transdocument(document) {
-      return process.env.VUE_APP_FILE_BASE_API + 'wind/' + document
+      return location.origin + process.env.VUE_APP_FILE_BASE_API + 'wind/' + document
     },
     // 文件上传成功
     handleupSuccess(res) {
@@ -478,7 +478,7 @@ export default {
           this.fileList = [
             {
               name: row.document,
-              url: process.env.VUE_APP_FILE_BASE_API + 'wind/' + row.document
+              url: location.origin + process.env.VUE_APP_FILE_BASE_API + 'wind/' + row.document
             }
           ]
         }
@@ -639,7 +639,7 @@ export default {
     },
     // 下载
     download(url) {
-      window.open(process.env.VUE_APP_FILE_BASE_API + 'wind/' + url)
+      window.open(location.origin + process.env.VUE_APP_FILE_BASE_API + 'wind/' + url)
     },
     // 预览
     handPreview() {},

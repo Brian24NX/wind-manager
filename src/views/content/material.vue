@@ -147,7 +147,7 @@ export default {
     return {
       uploadHeaders: { Authorization: getToken(), userId: JSON.parse(localStorage.getItem('userInfo')).id },
       cookies: Cookies.get('Admin-Token'),
-      filePath: process.env.VUE_APP_FILE_BASE_API + 'wind/',
+      filePath: location.origin + process.env.VUE_APP_FILE_BASE_API + 'wind/',
       // 全选参数
       query: {
         categoryId: ''

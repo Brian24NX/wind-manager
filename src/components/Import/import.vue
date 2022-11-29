@@ -87,7 +87,7 @@ export default {
   methods: {
     // 下载文件
     downloadfile() {
-      window.open(process.env.VUE_APP_FILE_BASE_API + this.downloadUrl)
+      window.open(location.origin + process.env.VUE_APP_FILE_BASE_API + this.downloadUrl)
     },
     importFile() {
       this.importdialog = true
