@@ -13,7 +13,7 @@
               <el-input v-model="queryParams.keyword" size="small" style="width: 100%" :placeholder="$t('article.title')" clearable @clear="submit" @keyup.enter.native="submit" />
             </el-col>
             <el-col :span="8">
-              <el-select v-model="queryParams.publish" size="small" :placeholder="$t('article.status')" clearable filterable style="width: 100%" @change="submit">
+              <el-select v-model="queryParams.publish" size="small" :placeholder="$t('article.status')" filterable style="width: 100%" @change="submit">
                 <el-option v-for="item in publishList" :key="item.key" :label="item.value + ' / ' + item.valueCn" :value="item.key" />
               </el-select>
             </el-col>
@@ -46,9 +46,9 @@
         <el-table-column :label="$t('article.actions')" align="center" width="200" fixed="right">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row.id)">{{ $t('message.detail') }}</el-button>
-            <el-button v-if="scope.row.status === 'Draft' && scope.row.historyFlag !== 1" v-permission="[16]" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
+            <el-button v-if="scope.row.status === 'Unpublish' && scope.row.historyFlag !== 1" v-permission="[16]" size="small" type="text" @click="handleEdit(scope.row.id)">{{ $t('message.edit') }}</el-button>
             <el-button v-if="scope.row.status === 'Published'" v-permission="[17]" size="small" type="text" @click="handleUpdateStatus(scope.row,0)">{{ $t('message.unPublish') }}</el-button>
-            <el-button v-if="scope.row.status === 'Draft'" v-permission="[17]" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('message.publish') }}</el-button>
+            <el-button v-if="scope.row.status === 'Unpublish'" v-permission="[17]" size="small" type="text" @click="handleUpdateStatus(scope.row,1)">{{ $t('message.publish') }}</el-button>
             <el-button v-permission="[18]" size="small" type="text" class="danger" @click="handleDelete(scope.row.id)">{{ $t('message.delete') }}</el-button>
           </template>
         </el-table-column>
@@ -73,7 +73,7 @@ export default {
     return {
       queryParams: {
         categoryIds: '',
-        publish: '',
+        publish: -1,
         keyword: ''
       },
       publishList: [],
@@ -89,6 +89,11 @@ export default {
   methods: {
     getPublishList() {
       dictItem('dict_publish').then(res => {
+        res.data.unshift({
+          key: -1,
+          value: 'All',
+          valueCn: '全部'
+        })
         this.publishList = res.data
       })
     },
