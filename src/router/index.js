@@ -11,6 +11,7 @@ import articleRouter from './modules/article'
 import permissionRouter from './modules/permission'
 import usergroupRouter from './modules/usergroup'
 import analyticsRouter from './modules/analyticsdashboard'
+import notificationRouter from './modules/notification'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -104,7 +105,8 @@ export const asyncRoutes = [
   permissionRouter,
   articleRouter,
   usergroupRouter,
-  analyticsRouter
+  analyticsRouter,
+  notificationRouter
 ]
 
 const createRouter = () => new Router({

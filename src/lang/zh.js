@@ -33,7 +33,8 @@ export default {
     analyticsdashboard: '分析看板',
     behavioranalysis: '用户行为分析',
     userstatistics: '用户数据分析',
-    faqevluation: 'FAQ评估'
+    faqevluation: 'FAQ评估',
+    notification: '通知消息'
   },
   // navbar翻译
   navbar: {
@@ -190,6 +191,24 @@ export default {
     addcategory: '添加新闻类别',
     name: '名称',
     titleRequire: '文件名称必填'
+  },
+  // 通知
+  notification: {
+    type: '类型',
+    account: 'eCommerce账号',
+    phone: '手机号',
+    shipRef: '订单号',
+    time: '发送时间',
+    status: '发送状态',
+    userName: '用户名',
+    content: '内容',
+    search: '搜索',
+    reset: '重置',
+    detail: '详情',
+    typeLabel: '通知类型',
+    searchLabel: 'eCommerce账号',
+    startDate: '开始日期',
+    endDate: '结束日期'
   },
   // 管制品
   sanctions: {

@@ -33,7 +33,8 @@ export default {
     analyticsdashboard: 'Analytics Dashboard',
     behavioranalysis: 'User Behavior Analysis',
     userstatistics: 'User Statistics',
-    faqevluation: 'FAQ Evaluation'
+    faqevluation: 'FAQ Evaluation',
+    notification: 'Notification Record'
   },
   // navbar翻译
   navbar: {
@@ -188,6 +189,23 @@ export default {
     addcategory: 'Add A New Category',
     name: 'Name',
     titleRequire: 'Mandatory'
+  },
+  notification: {
+    type: 'Type',
+    account: 'eCommerce Account',
+    phone: 'Phone Number',
+    shipRef: 'Shipment Ref.',
+    time: 'Sent Time',
+    status: 'Sent Status',
+    userName: 'User Name',
+    content: 'Content',
+    search: 'Search',
+    reset: 'Reset',
+    detail: 'Detail',
+    typeLabel: 'Notification Type',
+    searchLabel: 'eCommerce Account',
+    startDate: 'Start Date',
+    endDate: 'End Date'
   },
   // 管制品
   sanctions: {
