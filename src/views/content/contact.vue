@@ -178,7 +178,7 @@
                   style="width: 100%"
                   :placeholder="$t('general.startTime')"
                   :picker-options="{
-                    start: '09:00',
+                    start: '06:00',
                     step: '00:15',
                     end: '12:00',
                   }"
@@ -197,7 +197,7 @@
                   :picker-options="{
                     start: '12:00',
                     step: '00:15',
-                    end: '20:00',
+                    end: '23:00',
                   }"
                 />
               </el-form-item>
