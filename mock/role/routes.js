@@ -123,7 +123,7 @@ const asyncRoutes = [
     },
     {
       path: 'operationLog',
-      component: 'views/content/operationLog'
+      component: 'views/content/operationLog',
       name: 'Operation Log',
       meta: {
         title: 'operationLog'
