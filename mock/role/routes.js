@@ -122,6 +122,14 @@ const asyncRoutes = [
       }
     },
     {
+      path: 'operationLog',
+      component: 'views/content/operationLog'
+      name: 'Operation Log',
+      meta: {
+        title: 'operationLog'
+      }
+    },
+    {
       path: 'userful',
       component: 'views/content/userful',
       name: 'Useful Template and Link',

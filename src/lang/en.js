@@ -34,7 +34,8 @@ export default {
     behavioranalysis: 'User Behavior Analysis',
     userstatistics: 'User Statistics',
     faqevluation: 'FAQ Evaluation',
-    notification: 'Notification Record'
+    notification: 'Notification Record',
+    operationLog: 'Operation Log'
   },
   // navbar翻译
   navbar: {
@@ -206,6 +207,28 @@ export default {
     searchLabel: 'eCommerce Account',
     startDate: 'Start Date',
     endDate: 'End Date'
+  },
+  operationLog: {
+    type: 'Type',
+    account: 'eCommerce Account',
+    phone: 'Phone Number',
+    shipRef: 'Shipment Ref.',
+    time: 'Sent Time',
+    status: 'Sent Status',
+    userName: 'User Name',
+    content: 'Content',
+    search: 'Search',
+    reset: 'Reset',
+    detail: 'Detail',
+    typeLabel: 'Notification Type',
+    searchLabel: 'eCommerce Account',
+    startDate: 'Start Date',
+    endDate: 'End Date',
+    bookRef: 'Booking Ref',
+    quotationRef: 'Quotation Ref',
+    operationType: 'Operation Type',
+    lastUpdateTime: 'Last Updated Time',
+    company: 'Company'
   },
   // 管制品
   sanctions: {

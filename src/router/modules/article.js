@@ -75,6 +75,14 @@ const articleRouter = {
     }
   },
   {
+    path: '/operationLog',
+    component: () => import('@/views/content/operationLog'),
+    name: 'OperationLog Management',
+    meta: {
+      title: 'Operation Log'
+    }
+  },
+  {
     path: '/userful',
     component: () => import('@/views/content/userful'),
     name: 'Template and Link',
@@ -105,7 +113,8 @@ const articleRouter = {
     meta: {
       title: 'videoLibrary'
     }
-  }]
+  }
+  ]
 }
 
 export default articleRouter

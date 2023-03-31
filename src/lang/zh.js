@@ -34,7 +34,8 @@ export default {
     behavioranalysis: '用户行为分析',
     userstatistics: '用户数据分析',
     faqevluation: 'FAQ评估',
-    notification: '通知消息'
+    notification: '通知消息',
+    operationLog: '操作日志'
   },
   // navbar翻译
   navbar: {
@@ -209,6 +210,28 @@ export default {
     searchLabel: 'eCommerce账号',
     startDate: '开始日期',
     endDate: '结束日期'
+  },
+  operationLog: {
+    type: '类型',
+    account: 'eCommerce账号',
+    phone: '手机号',
+    shipRef: '订单号',
+    time: '发送时间',
+    status: '发送状态',
+    userName: '用户名',
+    content: '内容',
+    search: '搜索',
+    reset: '重置',
+    detail: '详情',
+    typeLabel: '通知类型',
+    searchLabel: 'eCommerce账号',
+    startDate: '开始日期',
+    endDate: '结束日期',
+    bookRef: '预定信息',
+    quotationRef: '报价信息',
+    operationType: '操作种类',
+    lastUpdateTime: '最后一次更新时间',
+    company: '公司'
   },
   // 管制品
   sanctions: {
