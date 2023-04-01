@@ -6,26 +6,38 @@
         <el-col :span="16">
           <el-row :gutter="20">
             <el-col :span="7">
-              <el-select v-model="queryParams.stype" size="small" :placeholder="$t('operationLog.operationType')" clearable filterable style="width: 100%" @change="search">
-                <el-option v-for="item in notifyTypeList" :key="item" :label="item" :value="item" />
+              <el-select v-model="queryParams.operationType" size="small" :placeholder="$t('operationLog.operationType')" clearable filterable style="width: 100%" @change="search">
+                <el-option v-for="item in operationTypeList" :key="item" :label="item" :value="item" />
               </el-select>
             </el-col>
-            <el-col :span="7">
-              <el-input v-model="queryParams.username" size="small" style="width: 100%" :placeholder="$t('operationLog.lastUpdateTime')" clearable @clear="search" @keyup.enter.native="search" />
+            <el-col :span="10">
+              <el-date-picker
+                v-model="queryParams.startDate"
+                type="daterange"
+                range-separator="~"
+                :start-placeholder="$t('operationLog.startDate')"
+                :end-placeholder="$t('operationLog.endDate')"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :default-time="['00:00:00', '23:59:59']"
+                clearable
+                @change="changeDate"
+                @clear="search"
+                @keyup.enter.native="search"
+              />
             </el-col>
             <el-col :span="7">
-              <el-input v-model="queryParams.searchStr" size="small" style="width: 100%" :placeholder="$t('operationLog.userName')" clearable @clear="search" @keyup.enter.native="search" />
+              <el-input v-model="queryParams.nickname" size="small" style="width: 100%" :placeholder="$t('operationLog.userName')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="7">
-              <el-input v-model="queryParams.searchStr" size="small" style="width: 100%" :placeholder="$t('operationLog.company')" clearable @clear="search" @keyup.enter.native="search" />
+              <el-input v-model="queryParams.company" size="small" style="width: 100%" :placeholder="$t('operationLog.company')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
             <el-col :span="7">
-              <el-input v-model="queryParams.shipmentRef" size="small" style="width: 100%" :placeholder="$t('operationLog.searchLabel')" clearable @clear="search" @keyup.enter.native="search" />
+              <el-input v-model="queryParams.account" size="small" style="width: 100%" :placeholder="$t('operationLog.searchLabel')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
             <el-col :span="7">
-              <el-input v-model="queryParams.shipmentRef" size="small" style="width: 100%" :placeholder="$t('operationLog.quotationRef')" clearable @clear="search" @keyup.enter.native="search" />
+              <el-input v-model="queryParams.shipmentRef" size="small" style="width: 100%" :placeholder="$t('operationLog.bookRef')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>
@@ -41,42 +53,28 @@
     </div>
     <!--内容模块-->
     <div class="tableContainer">
-      <Pagination ref="pagination" uri="/api/admin/notify/list" :request-params="queryParams" :show-index="false">
-        <el-table-column align="center" :label="$t('operationLog.account')" prop="stype" min-width="200px" />
-        <el-table-column align="center" :label="$t('operationLog.phone')" prop="account" min-width="200px" />
-        <el-table-column align="center" :label="$t('operationLog.userName')" prop="username" width="180px" />
-        <el-table-column :label="$t('operationLog.company')" prop="shipmentRef" align="center" min-width="200px" />
-        <el-table-column align="center" :label="$t('operationLog.lastUpdateTime')" prop="status" :formatter="transactive" />
-        <el-table-column align="center" :label="$t('operationLog.quotationRef')" prop="sendTime" :formatter="formatDate" min-width="120px" />
-        <el-table-column :label="$t('operationLog.bookRef')" align="center" fixed="right" width="180px">
-          <template scope="scope">
-            <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('operationLog.detail') }}</el-button>
-          </template>
-        </el-table-column>
+      <!-- <div class="operations">
+        <el-button v-permission="[55]" type="danger" size="small" @click="download">{{ $t('operationLog.export') }}</el-button>
+      </div> -->
+      <Pagination ref="pagination" uri="/api/admin/operation/list" :request-params="queryParams" :show-index="false">
+        <el-table-column align="center" :label="$t('operationLog.account')" prop="account" min-width="200px" />
+        <el-table-column align="center" :label="$t('operationLog.userName')" prop="nickname" width="180px" />
+        <el-table-column align="center" :label="$t('operationLog.company')" prop="company" min-width="200px" />
+        <el-table-column align="center" :label="$t('operationLog.operationType')" prop="operationType" width="180px" />
+        <el-table-column align="center" :label="$t('operationLog.lastUpdateTime')" prop="operationTime" :formatter="formatDate" min-width="120px" />
+        <el-table-column align="center" :label="$t('operationLog.bookRef')" prop="shipmentRef" fixed="right" width="180px" />
       </Pagination>
     </div>
-    <!--详情-->
-    <el-dialog :title="$t('notification.content')" :visible.sync="detaildialog" center width="800px" :close-on-click-modal="false" destroy-on-close top="50px">
-      <el-form ref="detailform" label-position="top" :model="detailform">
-        <div class="detailContent boxStyle">
-          <div class="mainTitle">{{ this.detailTitle }}</div>
-          <div class="contentText">{{ this.detailContent }}</div>
-          <div v-for="(item, index) in this.otherKey" :key="index" class="otherText">
-            {{ item }}
-          </div>
-        </div>
-      </el-form>
-    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
-import { notifyTypeList, notifyStatusList, notifyDetail } from '@/api/operationLog'
+import { operationTypeList, operationLogExport } from '@/api/operationLog'
 // import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article'
 // import { transList } from '@/utils'
 // import Cookies from 'js-cookie'
 export default {
-  name: 'Notification',
+  name: 'OperationLog',
   components: {
     Pagination
   },
@@ -87,12 +85,15 @@ export default {
         startDate: '',
         endDate: '',
         status: null,
-        stype: '',
-        username: '',
-        shipmentRef: ''
+        nickname: '',
+        shipmentRef: '',
+        operationType: '',
+        operationTime: '',
+        company: '',
+        account: ''
       },
       statusList: [],
-      notifyTypeList: [],
+      operationTypeList: [],
       timeList: [],
       loading: false,
       rules: {},
@@ -105,7 +106,7 @@ export default {
   },
   watch: {},
   created() {
-    this.getnotifyTypeList()
+    this.getoperationTypeList()
     this.getStatusList()
   },
   mounted() {},
@@ -115,21 +116,13 @@ export default {
         this.statusList = res.data
       })
     },
-    //  状态
-    transactive(data) {
-      if (data.status === 1) {
-        return 'Succeed / 成功'
-      } else {
-        return 'Failed / 失败'
-      }
-    },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('yyyy-MM-DD HH:mm:ss')
     },
     changeDate(val) {
       this.queryParams.startDate = val ? val[0] : undefined
       this.queryParams.endDate = val ? val[1] : undefined
-      this.timeList = val
+      this.operationTime = val
       this.search()
     },
     // 处理详情
@@ -157,9 +150,12 @@ export default {
         startDate: '',
         endDate: '',
         status: null,
-        stype: '',
-        username: '',
+        nickname: '',
         shipmentRef: '',
+        operationType: '',
+        operationTime: '',
+        company: '',
+        account: '',
         timeList: []
       }
       this.changeDate([])
@@ -168,9 +164,14 @@ export default {
       }, 100)
     },
     // 获取种类列表
-    async getnotifyTypeList() {
-      const res = await notifyTypeList()
-      this.notifyTypeList = res.data
+    async getoperationTypeList() {
+      const res = await operationTypeList()
+      this.operationTypeList = res.data
+    },
+    // 导出
+    async download() {
+      const res = await operationLogExport()(this.queryParams)
+      window.open(res.data)
     }
   }
 }

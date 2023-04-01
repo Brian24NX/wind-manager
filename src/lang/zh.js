@@ -231,7 +231,8 @@ export default {
     quotationRef: '报价信息',
     operationType: '操作种类',
     lastUpdateTime: '最后一次更新时间',
-    company: '公司'
+    company: '公司',
+    export: '导出日志'
   },
   // 管制品
   sanctions: {

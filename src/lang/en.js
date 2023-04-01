@@ -228,7 +228,8 @@ export default {
     quotationRef: 'Quotation Ref',
     operationType: 'Operation Type',
     lastUpdateTime: 'Last Updated Time',
-    company: 'Company'
+    company: 'Company',
+    export: 'Export'
   },
   // 管制品
   sanctions: {

@@ -1,26 +1,17 @@
 import request from '@/utils/request'
 
-// 获取通知类型列表
-export function notifyTypeList() {
+// 获取操作日志下拉菜单
+export function operationTypeList() {
   return request({
-    url: '/api/admin/notify/typeList',
+    url: '/api/admin/operation/oprationNameList',
     method: 'get'
   })
 }
 
-// 获取通知状态列表
-export function notifyStatusList() {
+// 获取操作日志导出
+export function operationLogExport() {
   return request({
-    url: '/api/admin/notify/statusList',
+    url: '/api/admin/operation/logExport',
     method: 'get'
-  })
-}
-
-// 获取通知详情
-export function notifyDetail(id) {
-  return request({
-    url: '/api/admin/notify/info',
-    method: 'get',
-    params: id
   })
 }
