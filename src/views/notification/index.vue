@@ -56,8 +56,8 @@
         <el-table-column align="center" :label="$t('notification.account')" prop="account" min-width="200px" />
         <el-table-column align="center" :label="$t('notification.userName')" prop="username" width="180px" />
         <el-table-column :label="$t('notification.shipRef')" prop="shipmentRef" align="center" min-width="200px" />
-        <el-table-column align="center" :label="$t('notification.status')" prop="status" :formatter="transactive" />
-        <el-table-column align="center" :label="$t('notification.time')" prop="sendTime" :formatter="formatDate" min-width="120px" />
+        <el-table-column align="center" :label="$t('notification.status')" prop="status" :formatter="transactive" min-width="120px" />
+        <el-table-column align="center" :label="$t('notification.time')" prop="sendTime" :formatter="formatDate" min-width="155px" />
         <el-table-column :label="$t('notification.content')" align="center" fixed="right" width="180px">
           <template scope="scope">
             <el-button size="small" type="text" @click="handleDetail(scope.row)">{{ $t('notification.detail') }}</el-button>
@@ -147,12 +147,21 @@ export default {
       notifyDetail({
         id: parseInt(row.id)
       }).then((res) => {
-        this.detailform = res.data
-        const { title, content, ...rest } = res.data
-        this.detailTitle = title
-        this.detailContent = content
-        const keyList = Object.values(rest)
-        this.otherKey = keyList.filter((i) => !i.includes('null'))
+        const dataSet = res.data
+        this.detailform = dataSet
+        this.detailTitle = dataSet.title
+        this.detailContent = dataSet.content
+
+        delete dataSet.title
+        delete dataSet.content
+        const keySet = Object.keys(dataSet).sort()
+        const valueSet = []
+        keySet.forEach((item) => {
+          if (!dataSet[item].includes('null')) {
+            valueSet.push(dataSet[item])
+          }
+        })
+        this.otherKey = valueSet
       })
       this.detaildialog = true
     },
