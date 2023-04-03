@@ -16,7 +16,6 @@
             <el-col :span="10">
               <el-date-picker
                 v-model="timeList"
-                :clearable="true"
                 type="daterange"
                 range-separator="~"
                 :start-placeholder="$t('notification.startDate')"

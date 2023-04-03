@@ -74,15 +74,14 @@ const articleRouter = {
       title: 'businessOperationalUpdate'
     }
   },
-  // 暂时不上
-  // {
-  //   path: '/operationLog',
-  //   component: () => import('@/views/content/operationLog'),
-  //   name: 'OperationLog Management',
-  //   meta: {
-  //     title: 'Operation Log'
-  //   }
-  // },
+  {
+    path: '/operationLog',
+    component: () => import('@/views/content/operationLog'),
+    name: 'OperationLog Management',
+    meta: {
+      title: 'operationLog'
+    }
+  },
   {
     path: '/userful',
     component: () => import('@/views/content/userful'),
