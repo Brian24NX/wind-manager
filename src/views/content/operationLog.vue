@@ -41,10 +41,8 @@
         </el-col>
         <el-col :span="4">
           <el-row :gutter="20" type="flex" justify="end">
-            <div class="buttonBox">
-              <el-button type="danger" size="small" @click="search">{{ $t('operationLog.search') }}</el-button>
-              <el-button type="danger" size="small" plain @click="reset">{{ $t('operationLog.reset') }}</el-button>
-            </div>
+            <el-button type="danger" size="small" @click="search">{{ $t('operationLog.search') }}</el-button>
+            <el-button type="danger" size="small" plain @click="reset">{{ $t('operationLog.reset') }}</el-button>
           </el-row>
         </el-col>
       </el-row>
@@ -57,10 +55,15 @@
       <Pagination ref="pagination" uri="/api/admin/operation/list" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('operationLog.account')" prop="account" min-width="200px" />
         <el-table-column align="center" :label="$t('operationLog.userName')" prop="nickname" width="180px" />
-        <el-table-column align="center" :label="$t('operationLog.company')" prop="company" min-width="200px" />
+        <el-table-column align="center" :label="$t('operationLog.company')" prop="company" min-width="300px" />
         <el-table-column align="center" :label="$t('operationLog.operationType')" prop="operationType" width="180px" />
-        <el-table-column align="center" :label="$t('operationLog.lastUpdateTime')" prop="operationTime" :formatter="formatDate" min-width="120px" />
-        <el-table-column align="center" :label="$t('operationLog.quotationRef')" prop="shipmentRef" fixed="right" width="180px" />
+        <el-table-column align="center" :label="$t('operationLog.lastUpdateTime')" prop="operationTime" :formatter="formatDate" min-width="155px" />
+        <el-table-column align="center" :label="$t('operationLog.quotationRef')" prop="shipmentRef" fixed="right" width="180px">
+          <template slot-scope="{row}">
+            <!-- {{ scope.raw.shipmentRef ? scope.raw.shipmentRef : '-' }}  -->
+            {{ row.shipmentRef||'-' }}
+          </template>
+        </el-table-column>
       </Pagination>
     </div>
   </div>
@@ -68,9 +71,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 import { operationTypeList, operationLogExport } from '@/api/operationLog'
-// import { categoryList, categoryAdd, categoryDel, categoryEdit } from '@/api/article'
-// import { transList } from '@/utils'
-// import Cookies from 'js-cookie'
+
 export default {
   name: 'OperationLog',
   components: {

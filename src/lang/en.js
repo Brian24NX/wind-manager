@@ -225,8 +225,8 @@ export default {
     startDate: 'Start Date',
     endDate: 'End Date',
     bookRef: 'Booking Ref',
-    quotationRef: 'Quotation Ref',
-    operationType: 'Operation Type',
+    quotationRef: 'Quotation Ref.',
+    operationType: 'Operation Name',
     lastUpdateTime: 'Last Updated Time',
     company: 'Company',
     export: 'Export'
