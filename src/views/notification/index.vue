@@ -3,17 +3,17 @@
     <!--查询模块-->
     <div class="searchContainer">
       <el-row style="width: 100%">
-        <el-col :span="16">
+        <el-col :span="20">
           <el-row :gutter="20">
-            <el-col :span="7">
+            <el-col :span="8">
               <el-select v-model="queryParams.stype" size="small" :placeholder="$t('notification.typeLabel')" clearable filterable style="width: 100%" @change="search">
                 <el-option v-for="item in notifyTypeList" :key="item" :label="item" :value="item" />
               </el-select>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               <el-input v-model="queryParams.username" size="small" style="width: 100%" :placeholder="$t('notification.userName')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
-            <el-col :span="10">
+            <el-col :span="8">
               <el-date-picker
                 v-model="timeList"
                 type="daterange"
@@ -27,20 +27,20 @@
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <el-col :span="7">
+            <el-col :span="8">
               <el-select v-model="queryParams.status" size="small" :placeholder="$t('notification.status')" clearable filterable style="width: 100%" @change="search">
                 <el-option v-for="(item, index) in statusList" :key="index" :label="item" :value="index" />
               </el-select>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               <el-input v-model="queryParams.searchStr" size="small" style="width: 100%" :placeholder="$t('notification.searchLabel')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               <el-input v-model="queryParams.shipmentRef" size="small" style="width: 100%" :placeholder="$t('notification.shipRef')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-row :gutter="20" type="flex" justify="end">
             <el-button type="danger" size="small" @click="search">{{ $t('notification.search') }}</el-button>
             <el-button type="danger" size="small" plain @click="reset">{{ $t('notification.reset') }}</el-button>
@@ -196,6 +196,9 @@ export default {
 }
 </script>
 <style scoped>
+.el-date-editor.el-range-editor.el-input__inner.el-date-editor--daterange.el-range-editor--medium {
+  width: 100%;
+}
 .el-row {
   margin-bottom: 20px;
 }

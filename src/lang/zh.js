@@ -228,7 +228,7 @@ export default {
     startDate: '开始日期',
     endDate: '结束日期',
     bookRef: '预定信息',
-    quotationRef: '报价信息',
+    quotationRef: '报价单号',
     operationType: '操作种类',
     lastUpdateTime: '最后一次更新时间',
     company: '公司',

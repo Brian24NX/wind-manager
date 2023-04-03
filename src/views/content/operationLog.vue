@@ -3,45 +3,43 @@
     <!--查询模块-->
     <div class="searchContainer">
       <el-row style="width: 100%">
-        <el-col :span="16">
+        <el-col :span="20">
           <el-row :gutter="20">
-            <el-col :span="7">
+            <el-col :span="8">
               <el-select v-model="queryParams.operationType" size="small" :placeholder="$t('operationLog.operationType')" clearable filterable style="width: 100%" @change="search">
                 <el-option v-for="item in operationTypeList" :key="item" :label="item" :value="item" />
               </el-select>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="8">
+              <el-input v-model="queryParams.nickname" size="small" style="width: 100%" :placeholder="$t('operationLog.userName')" clearable @clear="search" @keyup.enter.native="search" />
+            </el-col>
+            <el-col :span="8">
               <el-date-picker
-                v-model="queryParams.startDate"
+                v-model="timeList"
                 type="daterange"
                 range-separator="~"
                 :start-placeholder="$t('operationLog.startDate')"
                 :end-placeholder="$t('operationLog.endDate')"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 :default-time="['00:00:00', '23:59:59']"
-                clearable
+                :clearable="true"
                 @change="changeDate"
-                @clear="search"
-                @keyup.enter.native="search"
               />
-            </el-col>
-            <el-col :span="7">
-              <el-input v-model="queryParams.nickname" size="small" style="width: 100%" :placeholder="$t('operationLog.userName')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <el-col :span="7">
+            <el-col :span="8">
               <el-input v-model="queryParams.company" size="small" style="width: 100%" :placeholder="$t('operationLog.company')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               <el-input v-model="queryParams.account" size="small" style="width: 100%" :placeholder="$t('operationLog.searchLabel')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
-            <el-col :span="7">
-              <el-input v-model="queryParams.shipmentRef" size="small" style="width: 100%" :placeholder="$t('operationLog.bookRef')" clearable @clear="search" @keyup.enter.native="search" />
+            <el-col :span="8">
+              <el-input v-model="queryParams.shipmentRef" size="small" style="width: 100%" :placeholder="$t('operationLog.quotationRef')" clearable @clear="search" @keyup.enter.native="search" />
             </el-col>
           </el-row>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-row :gutter="20" type="flex" justify="end">
             <div class="buttonBox">
               <el-button type="danger" size="small" @click="search">{{ $t('operationLog.search') }}</el-button>
@@ -62,7 +60,7 @@
         <el-table-column align="center" :label="$t('operationLog.company')" prop="company" min-width="200px" />
         <el-table-column align="center" :label="$t('operationLog.operationType')" prop="operationType" width="180px" />
         <el-table-column align="center" :label="$t('operationLog.lastUpdateTime')" prop="operationTime" :formatter="formatDate" min-width="120px" />
-        <el-table-column align="center" :label="$t('operationLog.bookRef')" prop="shipmentRef" fixed="right" width="180px" />
+        <el-table-column align="center" :label="$t('operationLog.quotationRef')" prop="shipmentRef" fixed="right" width="180px" />
       </Pagination>
     </div>
   </div>
@@ -122,7 +120,7 @@ export default {
     changeDate(val) {
       this.queryParams.startDate = val ? val[0] : undefined
       this.queryParams.endDate = val ? val[1] : undefined
-      this.operationTime = val
+      this.timeList = val
       this.search()
     },
     // 处理详情
@@ -177,11 +175,14 @@ export default {
 }
 </script>
 <style scoped>
+.el-date-editor.el-range-editor.el-input__inner.el-date-editor--daterange.el-range-editor--medium {
+  width: 100%;
+}
 .el-row {
   margin-bottom: 20px;
 }
 .buttonBox {
-  margin-top: 50px;
+  margin-top: 55px;
 }
 .boxStyle {
   margin: 20px;
