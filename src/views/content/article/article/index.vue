@@ -39,7 +39,11 @@
         </el-table-column>
         <el-table-column :label="$t('article.title')" prop="title" />
         <el-table-column :label="$t('article.date')" prop="publishDate" align="center" :formatter="formatDate" />
-        <el-table-column align="center" :label="$t('article.category')" prop="category" />
+        <el-table-column align="center" :label="$t('article.category')" prop="category">
+          <template slot-scope="{row}">
+            <div v-html="row.category" />
+          </template>
+        </el-table-column>
         <el-table-column align="center" :label="$t('article.platform')" prop="publishTos" />
         <el-table-column align="center" :label="$t('article.status')" prop="publish" :formatter="transactive" />
         <el-table-column align="center" :label="$t('message.createTime')" prop="createTime" :formatter="formatDate" />

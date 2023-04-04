@@ -106,15 +106,9 @@ export default {
   watch: {},
   created() {
     this.getoperationTypeList()
-    this.getStatusList()
   },
   mounted() {},
   methods: {
-    getStatusList() {
-      notifyStatusList().then((res) => {
-        this.statusList = res.data
-      })
-    },
     formatDate(row, column, cellValue, index) {
       return this.$moment(cellValue).format('yyyy-MM-DD HH:mm:ss')
     },
@@ -123,20 +117,6 @@ export default {
       this.queryParams.endDate = val ? val[1] : undefined
       this.timeList = val
       this.search()
-    },
-    // 处理详情
-    handleDetail(row) {
-      notifyDetail({
-        id: parseInt(row.id)
-      }).then((res) => {
-        this.detailform = res.data
-        const { title, content, ...rest } = res.data
-        this.detailTitle = title
-        this.detailContent = content
-        const keyList = Object.values(rest)
-        this.otherKey = keyList.filter((i) => !i.includes('null'))
-      })
-      this.detaildialog = true
     },
     // 查询
     search() {

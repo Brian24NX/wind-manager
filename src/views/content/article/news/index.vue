@@ -36,7 +36,11 @@
       </div>
       <Pagination ref="pagination" uri="/api/admin/miniNewsList" :request-params="queryParams">
         <el-table-column align="center" :label="$t('newscenter.title')" prop="title" />
-        <el-table-column align="center" :label="$t('newscenter.category')" prop="category" />
+        <el-table-column align="center" :label="$t('newscenter.category')" prop="category">
+          <template slot-scope="{row}">
+            <div v-html="row.category" />
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('newscenter.publishdate')" prop="publishDate" :formatter="formatDate" />
         <el-table-column :label="$t('newscenter.link')" prop="originalLink" align="center" />
         <el-table-column align="center" :label="$t('newscenter.status')" prop="publish" :formatter="transactive" />
@@ -225,6 +229,11 @@ export default {
     this.setRules()
   },
   methods: {
+    // 解码实体字符(and)
+    // formatName(row, column, value) {
+    //   return value.replace(/&amp;/g, '&')
+    // },
+
     getPublishList() {
       dictItem('dict_publish').then(res => {
         res.data.unshift({
