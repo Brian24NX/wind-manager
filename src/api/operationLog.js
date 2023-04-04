@@ -9,9 +9,10 @@ export function operationTypeList() {
 }
 
 // 获取操作日志导出
-export function operationLogExport() {
+export function operationLogExport(data) {
   return request({
     url: '/api/admin/operation/logExport',
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }

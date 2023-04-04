@@ -49,9 +49,9 @@
     </div>
     <!--内容模块-->
     <div class="tableContainer">
-      <!-- <div class="operations">
+      <div class="operations">
         <el-button v-permission="[55]" type="danger" size="small" @click="download">{{ $t('operationLog.export') }}</el-button>
-      </div> -->
+      </div>
       <Pagination ref="pagination" uri="/api/admin/operation/list" :request-params="queryParams" :show-index="false">
         <el-table-column align="center" :label="$t('operationLog.account')" prop="account" min-width="200px" />
         <el-table-column align="center" :label="$t('operationLog.userName')" prop="nickname" width="180px" />
@@ -149,7 +149,7 @@ export default {
     },
     // 导出
     async download() {
-      const res = await operationLogExport()(this.queryParams)
+      const res = await operationLogExport(this.queryParams)
       window.open(res.data)
     }
   }
